@@ -1,0 +1,215 @@
+# file tree系
+
+[[plugins]]
+repo = 'scrooloose/nerdtree'
+hook_add = '''
+  command! NT NERDTreeToggle
+  let NERDTreeShowHidden=1
+  let NERDTreeWinSize=25
+  " もとのOは使わないようにする(window移動につかうので)
+  " let g:NERDTreeMapOpenRecursively='Q'
+  nnoremap <F1> :NT<CR>
+'''
+
+[[plugins]]
+repo = 'Xuyuanp/nerdtree-git-plugin'
+
+# 補完系
+
+[[plugins]]
+repo = 'ujihisa/neco-look'
+
+[[plugins]] # 閉じ括弧補間
+repo = 'cohama/lexima.vim'
+
+# 操作系
+
+[[plugins]]
+repo = 'tpope/vim-surround'
+
+[[plugins]] # 選択箇所をyankで置き換え
+repo = 'kana/vim-operator-replace'
+hook_add = '''
+  " replace operater
+  nmap R <Plug>(operator-replace)
+'''
+
+[[plugins]] # kana/vim-operator-replace用
+repo = 'kana/vim-operator-user'
+
+[[plugins]]
+repo = 'scrooloose/nerdcommenter'
+hook_add = '''
+  " コメントアウト時にスペース1個
+  let g:NERDSpaceDelims=1
+  let g:NERDDefaultAlign = 'left'
+  " Ctrl + スラッシュでエスケープ
+  vmap <C-c> <Leader>c<space>
+'''
+
+# 表示系
+
+[[plugins]]
+repo = 'itchyny/lightline.vim'
+
+[[plugins]] # 余分な空白を赤く
+repo = 'bronson/vim-trailing-whitespace'
+hook_add = '''
+  " unite vim でも機能するのを止める
+  let g:extra_whitespace_ignored_filetypes = ['unite']
+'''
+
+# その他
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+
+[[plugins]]
+repo = 'simeji/winresizer'
+hook_add = '''
+  " ctrl+eでのリサイズのサイズ
+  let g:winresizer_vert_resize = 5
+'''
+
+# 便利機能
+
+[[plugins]] # rubyやperl風正規表現(インクリメンタルサーチはできない)
+repo = 'othree/eregex.vim'
+hook_add = '''
+  let g:eregex_default_enable = 0
+  " lerder / で切り替え
+  nnoremap <leader>/ :call eregex#toggle()<CR>
+'''
+
+[[plugins]] # カーソル下の単語を移動するたびにハイライトする
+repo = 'osyo-manga/vim-brightest'
+hook_add = '''
+  let g:brightest#highlight = { "group" : "BrightestUnderline" }
+  let g:brightest#pattern = '\k\+'
+'''
+
+[[plugins]] # https://github.com/ap/vim-buftabline/blob/master/doc/buftabline.txt
+repo = 'ap/vim-buftabline'
+hook_add = '''
+  let g:buftabline_separators = 1 " |の仕切りを付ける
+  let g:buftabline_indicators = 1 " 編集中は+マークがつく
+  let g:buftabline_numbers = 2    " 左から番号ふる
+  nmap <D-1> <Plug>BufTabLine.Go(1) " command N で移動
+  nmap <D-2> <Plug>BufTabLine.Go(2)
+  nmap <D-3> <Plug>BufTabLine.Go(3)
+  nmap <D-4> <Plug>BufTabLine.Go(4)
+  nmap <D-5> <Plug>BufTabLine.Go(5)
+  nmap <D-6> <Plug>BufTabLine.Go(6)
+  nmap <D-7> <Plug>BufTabLine.Go(7)
+  nmap <D-8> <Plug>BufTabLine.Go(8)
+  nmap <D-9> <Plug>BufTabLine.Go(-1) " chrome風
+'''
+
+[[plugins]] # 検索結果数カウント
+repo = 'henrik/vim-indexed-search'
+hook_add = '''
+  let g:indexed_search_dont_move = 1 " 検索時に1個下に動かないようになる
+  let g:indexed_search_numbered_only = 1 " 検索カウントを簡素な表示に
+  let g:indexed_search_shortmess = 1 " 検索カウントを簡素な表示に
+'''
+
+[[plugins]] # tag 一覧
+repo = 'majutsushi/tagbar'
+hook_add = '''
+  nmap <F2> :TagbarToggle<CR>
+  let g:tagbar_left = 1
+  let g:tagbar_width = 30
+'''
+
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+
+# 言語系
+
+## Ruby
+
+[[plugins]]
+repo = 'ngmy/vim-rubocop'
+hook_add = '''
+  let g:vimrubocop_config = '~/.rubocop.yml'
+'''
+
+[[plugins]]
+repo = 'dense-analysis/ale'
+hook_add = '''
+  let g:ale_fixers = {
+  \   'ruby': ['rubocop'],
+  \}
+'''
+
+[[plugins]]
+repo = 'tpope/vim-endwise'
+
+[[plugins]]
+repo = 'tpope/vim-rails'
+
+## Crystal
+
+[[plugins]]
+repo = 'rhysd/vim-crystal'
+
+
+## markdown
+
+[[plugins]]
+repo = 'plasticboy/vim-markdown'
+hook_add = '''
+  " markdwonの折りたたみ無効化
+  set nofoldenable
+  let g:vim_markdown_folding_disabled = 1
+  " markdown書くようの設定
+  autocmd BufNewFile,BufRead *.md inoremap <Tab> <Esc>>>A
+  autocmd BufNewFile,BufRead *.md inoremap <S-Tab> <Esc><<A
+  let g:vim_markdown_conceal = 0
+'''
+
+## LaTeX
+
+[[plugins]]
+repo = 'lervag/vimtex'
+hook_add = '''
+  " pdflatexをコンパイル
+  let g:latex_latexmk_options = '-pdf'
+'''
+
+## HTML
+
+[[plugins]] # htmlショートカットで書くやつ
+repo = 'mattn/emmet-vim'
+
+## TOML
+
+[[plugins]]
+repo = 'cespare/vim-toml'
+
+## CSV
+[[plugins]]
+repo = 'mechatroner/rainbow_csv'
+
+# その他
+
+[[plugins]]
+repo = 'kshenoy/vim-signature'
+hook_add = '''
+  let g:SignatureMap = { 'Leader' : "m", 'PlaceNextMark' : "", 'ToggleMarkAtLine' : "mm", 'PurgeMarksAtLine' : "", 'DeleteMark' : "", 'PurgeMarks' : "", 'PurgeMarkers' : "", 'GotoNextLineAlpha' : "", 'GotoPrevLineAlpha' : "", 'GotoNextSpotAlpha' : "", 'GotoPrevSpotAlpha' : "", 'GotoNextLineByPos' : "", 'GotoPrevLineByPos' : "", 'GotoNextSpotByPos' : "", 'GotoPrevSpotByPos' : "", 'GotoNextMarker' : "", 'GotoPrevMarker' : "", 'GotoNextMarkerAny' : "", 'GotoPrevMarkerAny' : "", 'ListBufferMarks' : "", 'ListBufferMarkers' : "" }
+  let g:SignatureIncludeMarks = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  nnoremap <F3> <esc>:SignatureListGlobalMarks<CR>
+'''
+
+[[plugins]] # vim-markに必要
+repo = 'inkarkat/vim-ingo-library'
+
+[[plugins]]
+repo = 'inkarkat/vim-mark'
+hook_add = '''
+  let g:mw_no_mappings = 1
+  let g:mwDefaultHighlightingPalette = 'extended'
+  nmap <F4> <Plug>MarkSet
+  vmap <F4> <Plug>MarkSet
+  nnoremap <F4><Esc> :MarkClear<CR>
+'''
+

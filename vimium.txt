@@ -1,0 +1,41 @@
+# map X Marks.activateCreateMode swap
+# map Y Marks.activateGotoMode swap
+
+# Insert your preferred key mappings here.
+unmap u
+unmap d
+map <c-l> nextTab
+map <c-h> previousTab
+map <c-u> scrollPageUp
+map <c-d> scrollPageDown
+
+unmap <c-e>
+unmap <c-y>
+unmap o
+unmap O
+unmap H
+unmap L
+
+unmap P
+unmap p
+unmap J
+unmap K
+unmap gt
+unmap gT
+unmap ^
+unmap g0
+unmap g$
+unmap <a-b>
+unmap <a-m>
+
+unmap T
+unmap gf
+unmap gF
+unmap gi
+unmap <c-s>
+unmap W
+unmap B
+unmap b
+
+map > moveTabRight
+map < moveTabLeft
