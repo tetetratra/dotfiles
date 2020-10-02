@@ -1,3 +1,20 @@
+# color
+[[plugins]]
+repo = 'cocopon/iceberg.vim'
+hook_add = '''
+  if has("gui_running") " macvim
+    colorscheme iceberg
+  endif
+'''
+
+[[plugins]]
+repo = 'w0ng/vim-hybrid'
+hook_add = '''
+  if has("nvim") " neovim
+    colorscheme hybrid
+  endif
+'''
+
 # file tree系
 
 [[plugins]]
