@@ -23,8 +23,7 @@ hook_add = '''
   command! NT NERDTreeToggle
   let NERDTreeShowHidden=1
   let NERDTreeWinSize=25
-  " もとのOは使わないようにする(window移動につかうので)
-  " let g:NERDTreeMapOpenRecursively='Q'
+  let g:NERDTreeMapMenu='m'
   nnoremap <F1> :NT<CR>
 '''
 
@@ -127,6 +126,14 @@ hook_add = '''
   let g:indexed_search_dont_move = 1 " 検索時に1個下に動かないようになる
   let g:indexed_search_numbered_only = 1 " 検索カウントを簡素な表示に
   let g:indexed_search_shortmess = 1 " 検索カウントを簡素な表示に
+  " function! s:VSetSearch()
+  "   " 参考 https://github.com/nelstrom/vim-visual-star-search/blob/master/plugin/visual-star-search.vim
+  "   let temp = @s
+  "   norm! gv"sy
+  "   let @/ = '\V' . substitute(escape(@s, '/' . '\'), '\n', '\\n', 'g')
+  "   let @s = temp
+  " endfunction
+  " xnoremap * :<C-u>call <SID>VSetSearch()<CR>/<C-R>=@/<CR><CR>N
 '''
 
 [[plugins]] # tag 一覧
@@ -134,11 +141,14 @@ repo = 'majutsushi/tagbar'
 hook_add = '''
   nmap <F2> :TagbarToggle<CR>
   let g:tagbar_left = 1
-  let g:tagbar_width = 30
+  let g:tagbar_width = 25
 '''
 
 [[plugins]]
 repo = 'tpope/vim-fugitive'
+
+# [[plugins]]
+# repo = 'airblade/vim-gitgutter'
 
 # 言語系
 
@@ -152,10 +162,10 @@ hook_add = '''
 
 [[plugins]]
 repo = 'dense-analysis/ale'
+# :ALEFix で自動整形
 hook_add = '''
-  let g:ale_fixers = {
-  \   'ruby': ['rubocop'],
-  \}
+  let g:ale_enabled = 0
+  let g:ale_fixers = { 'ruby': ['rubocop'] }
 '''
 
 [[plugins]]
@@ -179,8 +189,8 @@ hook_add = '''
   set nofoldenable
   let g:vim_markdown_folding_disabled = 1
   " markdown書くようの設定
-  autocmd BufNewFile,BufRead *.md inoremap <Tab> <Esc>>>A
-  autocmd BufNewFile,BufRead *.md inoremap <S-Tab> <Esc><<A
+  autocmd FileType markdown inoremap <Tab> <Esc>>>A
+  autocmd FileType markdown inoremap <S-Tab> <Esc><<A
   let g:vim_markdown_conceal = 0
 '''
 
@@ -212,9 +222,18 @@ repo = 'mechatroner/rainbow_csv'
 [[plugins]]
 repo = 'kshenoy/vim-signature'
 hook_add = '''
-  let g:SignatureMap = { 'Leader' : "m", 'PlaceNextMark' : "", 'ToggleMarkAtLine' : "mm", 'PurgeMarksAtLine' : "", 'DeleteMark' : "", 'PurgeMarks' : "", 'PurgeMarkers' : "", 'GotoNextLineAlpha' : "", 'GotoPrevLineAlpha' : "", 'GotoNextSpotAlpha' : "", 'GotoPrevSpotAlpha' : "", 'GotoNextLineByPos' : "", 'GotoPrevLineByPos' : "", 'GotoNextSpotByPos' : "", 'GotoPrevSpotByPos' : "", 'GotoNextMarker' : "", 'GotoPrevMarker' : "", 'GotoNextMarkerAny' : "", 'GotoPrevMarkerAny' : "", 'ListBufferMarks' : "", 'ListBufferMarkers' : "" }
+  let g:SignatureMap = { 'Leader' : "m", 'PlaceNextMark' : "", 'ToggleMarkAtLine' : "M", 'PurgeMarksAtLine' : "", 'DeleteMark' : "", 'PurgeMarks' : "", 'PurgeMarkers' : "", 'GotoNextLineAlpha' : "", 'GotoPrevLineAlpha' : "", 'GotoNextSpotAlpha' : "", 'GotoPrevSpotAlpha' : "", 'GotoNextLineByPos' : "", 'GotoPrevLineByPos' : "", 'GotoNextSpotByPos' : "", 'GotoPrevSpotByPos' : "", 'GotoNextMarker' : "", 'GotoPrevMarker' : "", 'GotoNextMarkerAny' : "", 'GotoPrevMarkerAny' : "", 'ListBufferMarks' : "", 'ListBufferMarkers' : "" }
   let g:SignatureIncludeMarks = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-  nnoremap <F3> <esc>:SignatureListGlobalMarks<CR>
+  function! SignatureListToggle()
+    let match_list = filter(split(execute('ls'), '\v\n'), 'match(v:val, "Location") != -1')
+    if len(match_list) == 0 " no match
+      SignatureListGlobalMarks
+    else
+      let buf_num = match(match_list[0], '\d')
+      execute(buf_num . 'bd')
+    endif
+  endfunction
+  nnoremap <F3> <esc>:call SignatureListToggle()<CR>
 '''
 
 [[plugins]] # vim-markに必要
@@ -227,6 +246,6 @@ hook_add = '''
   let g:mwDefaultHighlightingPalette = 'extended'
   nmap <F4> <Plug>MarkSet
   vmap <F4> <Plug>MarkSet
-  nnoremap <F4><Esc> :MarkClear<CR>
+  nnoremap <F4><Esc> :MarkClear<CR>:echo 'all colored text cleared'<CR>
 '''
 

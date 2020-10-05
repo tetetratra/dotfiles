@@ -20,6 +20,3 @@ path = ~/.gitconfig-private
 [includeIf "gitdir:~/Private/"]
 path = ~/.gitconfig-private
 
-[includeIf "gitdir:~/Rooter/"]
-  path = ~/.gitconfig-work
-

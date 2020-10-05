@@ -7,19 +7,15 @@ filetype plugin indent on
 syntax on
 set virtualedit=block " vim の矩形選択で文字が無くても右へ進める
 set showcmd
-set wildmenu " コマンドモードでのタブでのファイル名補完
 set number
 set cursorline
 set smartindent
 set visualbell
-set showmatch
-set wildmode=list:longest
 set list listchars=tab:>-
 set ambiwidth=double " ①みたいな記号を全角で表示
 set expandtab
 set tabstop=2
 set shiftwidth=2
-set backspace=indent,eol,start
 set incsearch
 set hlsearch " 検索結果をハイライト
 set title
@@ -30,9 +26,9 @@ set matchpairs& matchpairs+=<:> " 対応括弧に<と>のペアを追加
 set showmatch " 対応括弧をハイライト表示する
 set nowrap
 set wildmenu " コマンドラインモードで<Tab>キーによるファイル名補完を有効にする
+set wildmode=list:full
 set smartcase " 小文字のみで検索したときに大文字小文字を無視する
 set wildignorecase
-set wildmode=list,full
 set whichwrap=b,s,h,l,<,>,[,] " 行頭行末の左右移動で行をまたぐようにする
 set backspace=indent,eol,start " Backspaceの影響範囲に制限を設けないようにする
 let g:tex_conceal = '' " texの数式を特殊文字に置き換えるのをしない
@@ -116,11 +112,13 @@ vnoremap <silent> p p`]
 " === comand系 ===
 cnoremap <C-e> <End>
 cnoremap <C-a> <Home>
+cnoremap <C-h> <Left>
+cnoremap <C-l> <Right>
 " === そのた ===
 " <F1> => nerdtree toggle
 " <F2> => tag list
 " <F3> => marks
-" <F4> => color mark
+noremap  <F4> <nop>
 noremap  <F5> zm
 noremap  <F6> zr
 noremap  <F7> <nop>
@@ -135,16 +133,10 @@ highlight Normal ctermbg=none
 highlight NonText ctermbg=none
 highlight Folded ctermbg=none
 highlight EndOfBuffer ctermbg=none
-autocmd ColorScheme * highlight Visual ctermbg=242
-highlight Comment ctermfg=245
-" 補完の色
-hi Pmenu ctermbg=234 ctermfg=105
-hi PmenuSel ctermbg=234 ctermfg=45
-" タブの色とか
-hi TabLineSel ctermfg=White ctermbg=25
-hi TabLine ctermfg=White ctermbg=235
-hi TabLineFill ctermfg=242
-" 何故か下の方で設定しないと反映されない
+highlight Visual ctermbg=242
 highlight Visual guibg=#006080
-autocmd ColorScheme * highlight Visual guibg=#006080
+highlight Comment ctermfg=245
+highlight Pmenu ctermbg=234 ctermfg=105
+highlight PmenuSel ctermbg=234 ctermfg=45
+highlight Search guibg=darkcyan guifg=cyan
 
