@@ -16,6 +16,7 @@ set ambiwidth=double " ①みたいな記号を全角で表示
 set expandtab
 set tabstop=2
 set shiftwidth=2
+autocmd FileType c setlocal sw=4 sts=4 ts=4 et
 set incsearch
 set hlsearch " 検索結果をハイライト
 set title

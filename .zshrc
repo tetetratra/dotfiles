@@ -222,7 +222,7 @@ export PATH=/usr/local/bin:$PATH
 export PATH="$HOME/.cargo/bin:$PATH"
 
 alias mvim='/Applications/MacVim.app/Contents/bin/mvim'
-alias mvimr="mvim --remote-silent"
+# alias mvimr="mvim --remote-silent"
 alias nvimr=nvr
 
 # pyenv用

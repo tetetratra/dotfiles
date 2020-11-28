@@ -1,11 +1,12 @@
 [alias]
-  c = "commit -am'update'"
+  c = commit
   s = status
   l = log --pretty=fuller --graph --date=short --decorate=full
   pl = pull
   ps = push
   br = branch
   co = checkout
+  amend = commit --amend
 [core]
   editor = vim
   quotepath = false  # git 日本語ファイル名をエスケープせずに表示
@@ -15,6 +16,8 @@
 
 path = ~/.gitconfig-proxy
 
+[includeIf "gitdir:~/r/"]
+path = ~/.gitconfig-private
 [includeIf "gitdir:~/Programming/"]
 path = ~/.gitconfig-private
 [includeIf "gitdir:~/Private/"]

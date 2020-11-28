@@ -12,7 +12,7 @@ endfunc
 noremap <D-u> :<C-u>call Trance()<CR>
 
 set blur=0
-set guifont=SFMono-Regular:h16
+set guifont=SFMono-Regular:h20
 
 "右スクロールバーなし
 set guioptions-=r

@@ -103,6 +103,25 @@ hook_add = '''
   let g:brightest#pattern = '\k\+'
 '''
 
+[[plugins]] # file_name:123 のように行数指定でファイルを開ける
+repo = 'bogado/file-line'
+
+[[plugins]] # カーソル下の単語をハイライト
+repo = 't9md/vim-quickhl'
+# https://secret-garden.hatenablog.com/
+hook_add = '''
+  " スペース + m でカーソル下の単語をハイライトする
+  nmap <Space>m <Plug>(quickhl-manual-this)
+  " 選択したテキストをハイライトする
+  xmap <Space>m <Plug>(quickhl-manual-this)
+  " スペース + m ですべてのハイライトを無効にする
+  nmap <Space>M <Plug>(quickhl-manual-reset)
+  " operator として定義しておく
+  " mi( でカッコの中をハイライトする等
+  nmap m <Plug>(operator-quickhl-manual-this-motion)
+  vmap m <Plug>(operator-quickhl-manual-this-motion)
+'''
+
 [[plugins]] # https://github.com/ap/vim-buftabline/blob/master/doc/buftabline.txt
 repo = 'ap/vim-buftabline'
 hook_add = '''
@@ -126,14 +145,14 @@ hook_add = '''
   let g:indexed_search_dont_move = 1 " 検索時に1個下に動かないようになる
   let g:indexed_search_numbered_only = 1 " 検索カウントを簡素な表示に
   let g:indexed_search_shortmess = 1 " 検索カウントを簡素な表示に
-  " function! s:VSetSearch()
-  "   " 参考 https://github.com/nelstrom/vim-visual-star-search/blob/master/plugin/visual-star-search.vim
-  "   let temp = @s
-  "   norm! gv"sy
-  "   let @/ = '\V' . substitute(escape(@s, '/' . '\'), '\n', '\\n', 'g')
-  "   let @s = temp
-  " endfunction
-  " xnoremap * :<C-u>call <SID>VSetSearch()<CR>/<C-R>=@/<CR><CR>N
+  function! s:VSetSearch()
+    " 参考 https://github.com/nelstrom/vim-visual-star-search/blob/master/plugin/visual-star-search.vim
+    let temp = @s
+    norm! gv"sy
+    let @/ = '\V' . substitute(escape(@s, '/' . '\'), '\n', '\\n', 'g')
+    let @s = temp
+  endfunction
+  xnoremap * :<C-u>call <SID>VSetSearch()<CR>/<C-R>=@/<CR><CR>N
 '''
 
 [[plugins]] # tag 一覧
@@ -207,6 +226,12 @@ hook_add = '''
 
 [[plugins]] # htmlショートカットで書くやつ
 repo = 'mattn/emmet-vim'
+# (タグ Ctrl y ,) で<タグ></タグ>になる
+# html:5 でhtml5のテンプレート
+# ul>li*3 でリスト3つ
+# テキストはdiv{}のように
+# visualで囲った後に使うと、タグでそれを囲める
+# 詳しくは: https://raw.githubusercontent.com/mattn/emmet-vim/master/TUTORIAL
 
 ## TOML
 
