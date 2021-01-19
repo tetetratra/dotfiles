@@ -12,14 +12,14 @@
   quotepath = false  # git 日本語ファイル名をエスケープせずに表示
   excludesfile = ~/.gitignore
 [status] # git status 追跡されていないファイルはすべて表示
-	showUntrackedFiles = all
+  showUntrackedFiles = all
 
 path = ~/.gitconfig-proxy
 
 [includeIf "gitdir:~/r/"]
-path = ~/.gitconfig-private
+  path = ~/.gitconfig-private
 [includeIf "gitdir:~/Programming/"]
-path = ~/.gitconfig-private
+  path = ~/.gitconfig-private
 [includeIf "gitdir:~/Private/"]
-path = ~/.gitconfig-private
+  path = ~/.gitconfig-private
 
