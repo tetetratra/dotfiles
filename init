@@ -23,7 +23,6 @@ if ! test -d ~/bin; then
   echo "please set PATH to ~/bin"
 fi
 
-ln -sf $PWD/bin/tmux_status_bar ~/bin/tmux_status_bar
 ln -sf $PWD/bin/set_uec_git_proxy ~/bin/set_uec_git_proxy
 ln -sf $PWD/bin/unset_uec_git_proxy ~/bin/unset_uec_git_proxy
 
