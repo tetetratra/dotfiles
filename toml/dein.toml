@@ -1,4 +1,5 @@
 # color
+
 [[plugins]]
 repo = 'cocopon/iceberg.vim'
 hook_add = '''
@@ -15,25 +16,57 @@ hook_add = '''
   endif
 '''
 
-# file tree系
+# denite
+
+# deniteが動く条件
+# - echo has("python3") が 1 であること
+#   - 多分vimのビルド時に決まる
+# - pyx print(sys.version) で出る python の pip3 に pynvim が入っていること
+#   - 無ければpip install pynvim をする
+# - neovim以外の場合は 'roxma/nvim-yarp' と 'roxma/vim-hug-neovim-rpc' が必要
+
+[[plugins]]
+repo = 'Shougo/denite.nvim'
+hook_add = '''
+  let g:python3_host_prog = '/usr/local/bin/python3.9'
+
+  autocmd FileType denite call s:denite_my_settings()
+  function! s:denite_my_settings() abort
+    nnoremap <silent><buffer><expr> <CR>    denite#do_map('do_action')
+    nnoremap <silent><buffer><expr> d       denite#do_map('do_action', 'delete')
+    nnoremap <silent><buffer><expr> i       denite#do_map('open_filter_buffer')
+    nnoremap <silent><buffer><expr> <Space> denite#do_map('toggle_select').'j'
+  endfunction
+  nmap <F2> <esc>:Denite buffer<CR>
+  nmap <F3> <esc>:Denite mark<CR>
+  nmap <F4> <esc>:Denite outline<CR>
+  nmap <F5> <esc>:Denite jump<CR>
+'''
+
+[[plugins]]
+repo = 'roxma/nvim-yarp'
+
+[[plugins]]
+repo = 'roxma/vim-hug-neovim-rpc'
+
+# ファイル系
 
 [[plugins]]
 repo = 'scrooloose/nerdtree'
 hook_add = '''
-  command! NT NERDTreeToggle
   let NERDTreeShowHidden=1
   let NERDTreeWinSize=25
   let g:NERDTreeMapMenu='m'
-  nnoremap <F1> :NT<CR>
+  nnoremap <F1> :NERDTreeToggle<CR>
 '''
 
 [[plugins]]
 repo = 'Xuyuanp/nerdtree-git-plugin'
 
-# 補完系
+[[plugins]] # file_name:123 のように行数指定でファイルを開ける
+repo = 'bogado/file-line'
 
-[[plugins]]
-repo = 'ujihisa/neco-look'
+# 補完系
 
 [[plugins]] # 閉じ括弧補間
 repo = 'cohama/lexima.vim'
@@ -50,8 +83,14 @@ hook_add = '''
   nmap R <Plug>(operator-replace)
 '''
 
-[[plugins]] # kana/vim-operator-replace用
+[[plugins]] # kana/vim-operator-replaceが依存している
 repo = 'kana/vim-operator-user'
+
+[[plugins]] # CamelCase <=> snake_case
+repo = 'tyru/operator-camelize.vim'
+hook_add = '''
+  vmap C <Plug>(operator-camelize-toggle)
+'''
 
 [[plugins]]
 repo = 'scrooloose/nerdcommenter'
@@ -75,25 +114,11 @@ hook_add = '''
   let g:extra_whitespace_ignored_filetypes = ['unite']
 '''
 
-# その他
-[[plugins]]
-repo = 'tpope/vim-fugitive'
-
 [[plugins]]
 repo = 'simeji/winresizer'
 hook_add = '''
   " ctrl+eでのリサイズのサイズ
   let g:winresizer_vert_resize = 5
-'''
-
-# 便利機能
-
-[[plugins]] # rubyやperl風正規表現(インクリメンタルサーチはできない)
-repo = 'othree/eregex.vim'
-hook_add = '''
-  let g:eregex_default_enable = 0
-  " lerder / で切り替え
-  nnoremap <leader>/ :call eregex#toggle()<CR>
 '''
 
 [[plugins]] # カーソル下の単語を移動するたびにハイライトする
@@ -103,40 +128,16 @@ hook_add = '''
   let g:brightest#pattern = '\k\+'
 '''
 
-[[plugins]] # file_name:123 のように行数指定でファイルを開ける
-repo = 'bogado/file-line'
+# 検索・置換系
 
-[[plugins]] # カーソル下の単語をハイライト
-repo = 't9md/vim-quickhl'
-# https://secret-garden.hatenablog.com/
+[[plugins]] # rubyやperl風正規表現(インクリメンタルサーチはできない)
+repo = 'othree/eregex.vim'
+# "/" will use :M/ to search. ",/" will use the original "/".
 hook_add = '''
-  " スペース + m でカーソル下の単語をハイライトする
-  nmap <Space>m <Plug>(quickhl-manual-this)
-  " 選択したテキストをハイライトする
-  xmap <Space>m <Plug>(quickhl-manual-this)
-  " スペース + m ですべてのハイライトを無効にする
-  nmap <Space>M <Plug>(quickhl-manual-reset)
-  " operator として定義しておく
-  " mi( でカッコの中をハイライトする等
-  nmap m <Plug>(operator-quickhl-manual-this-motion)
-  vmap m <Plug>(operator-quickhl-manual-this-motion)
-'''
-
-[[plugins]] # https://github.com/ap/vim-buftabline/blob/master/doc/buftabline.txt
-repo = 'ap/vim-buftabline'
-hook_add = '''
-  let g:buftabline_separators = 1 " |の仕切りを付ける
-  let g:buftabline_indicators = 1 " 編集中は+マークがつく
-  let g:buftabline_numbers = 2    " 左から番号ふる
-  nmap <D-1> <Plug>BufTabLine.Go(1) " command N で移動
-  nmap <D-2> <Plug>BufTabLine.Go(2)
-  nmap <D-3> <Plug>BufTabLine.Go(3)
-  nmap <D-4> <Plug>BufTabLine.Go(4)
-  nmap <D-5> <Plug>BufTabLine.Go(5)
-  nmap <D-6> <Plug>BufTabLine.Go(6)
-  nmap <D-7> <Plug>BufTabLine.Go(7)
-  nmap <D-8> <Plug>BufTabLine.Go(8)
-  nmap <D-9> <Plug>BufTabLine.Go(-1) " chrome風
+  nnoremap / :M/
+  nnoremap ? :M?
+  nnoremap ,/ /
+  nnoremap ,? /
 '''
 
 [[plugins]] # 検索結果数カウント
@@ -155,19 +156,55 @@ hook_add = '''
   xnoremap * :<C-u>call <SID>VSetSearch()<CR>/<C-R>=@/<CR><CR>N
 '''
 
-[[plugins]] # tag 一覧
-repo = 'majutsushi/tagbar'
+# バッファ系
+
+[[plugins]] # https://github.com/ap/vim-buftabline/blob/master/doc/buftabline.txt
+repo = 'ap/vim-buftabline'
 hook_add = '''
-  nmap <F2> :TagbarToggle<CR>
-  let g:tagbar_left = 1
-  let g:tagbar_width = 25
+  let g:buftabline_separators = 1 " |の仕切りを付ける
+  let g:buftabline_indicators = 1 " 編集中は+マークがつく
+  let g:buftabline_numbers = 2    " 左から番号ふる
+  nmap <D-1> <Plug>BufTabLine.Go(1) " command N で移動
+  nmap <D-2> <Plug>BufTabLine.Go(2)
+  nmap <D-3> <Plug>BufTabLine.Go(3)
+  nmap <D-4> <Plug>BufTabLine.Go(4)
+  nmap <D-5> <Plug>BufTabLine.Go(5)
+  nmap <D-6> <Plug>BufTabLine.Go(6)
+  nmap <D-7> <Plug>BufTabLine.Go(7)
+  nmap <D-8> <Plug>BufTabLine.Go(8)
+  nmap <D-9> <Plug>BufTabLine.Go(-1) " chrome風
 '''
 
+# mark系
+
 [[plugins]]
+repo = 'kshenoy/vim-signature'
+hook_add = '''
+  let g:SignatureMap = { 'Leader' : "m", 'PlaceNextMark' : "", 'ToggleMarkAtLine' : "<Space>m", 'PurgeMarksAtLine' : "", 'DeleteMark' : "", 'PurgeMarks' : "", 'PurgeMarkers' : "", 'GotoNextLineAlpha' : "", 'GotoPrevLineAlpha' : "", 'GotoNextSpotAlpha' : "", 'GotoPrevSpotAlpha' : "", 'GotoNextLineByPos' : "", 'GotoPrevLineByPos' : "", 'GotoNextSpotByPos' : "", 'GotoPrevSpotByPos' : "", 'GotoNextMarker' : "", 'GotoPrevMarker' : "", 'GotoNextMarkerAny' : "", 'GotoPrevMarkerAny' : "", 'ListBufferMarks' : "", 'ListBufferMarkers' : "" }
+  let g:SignatureIncludeMarks = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+'''
+
+[[plugins]] # コードに色付け(markとは別物) https://secret-garden.hatenablog.com/
+repo = 't9md/vim-quickhl'
+hook_add = '''
+  nmap <Space>c <Plug>(quickhl-manual-this)
+  xmap <Space>c <Plug>(quickhl-manual-this)
+  nmap <Space>C <Plug>(quickhl-manual-reset)
+'''
+
+# Git系
+
+[[plugins]] # gitコマンドをvimから使う
 repo = 'tpope/vim-fugitive'
 
-# [[plugins]]
-# repo = 'airblade/vim-gitgutter'
+[[plugins]] # gitのdiffを左端に表示
+repo = 'airblade/vim-gitgutter'
+hook_add = '''
+  let g:gitgutter_git_executable = '/usr/local/bin/git'
+'''
+
+[[plugins]] # gitのviewer. :Agit, :AgitFile
+repo = 'cohama/agit.vim'
 
 # 言語系
 
@@ -197,7 +234,6 @@ repo = 'tpope/vim-rails'
 
 [[plugins]]
 repo = 'rhysd/vim-crystal'
-
 
 ## markdown
 
@@ -243,34 +279,4 @@ repo = 'cespare/vim-toml'
 repo = 'mechatroner/rainbow_csv'
 
 # その他
-
-[[plugins]]
-repo = 'kshenoy/vim-signature'
-hook_add = '''
-  let g:SignatureMap = { 'Leader' : "m", 'PlaceNextMark' : "", 'ToggleMarkAtLine' : "M", 'PurgeMarksAtLine' : "", 'DeleteMark' : "", 'PurgeMarks' : "", 'PurgeMarkers' : "", 'GotoNextLineAlpha' : "", 'GotoPrevLineAlpha' : "", 'GotoNextSpotAlpha' : "", 'GotoPrevSpotAlpha' : "", 'GotoNextLineByPos' : "", 'GotoPrevLineByPos' : "", 'GotoNextSpotByPos' : "", 'GotoPrevSpotByPos' : "", 'GotoNextMarker' : "", 'GotoPrevMarker' : "", 'GotoNextMarkerAny' : "", 'GotoPrevMarkerAny' : "", 'ListBufferMarks' : "", 'ListBufferMarkers' : "" }
-  let g:SignatureIncludeMarks = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-  function! SignatureListToggle()
-    let match_list = filter(split(execute('ls'), '\v\n'), 'match(v:val, "Location") != -1')
-    if len(match_list) == 0 " no match
-      SignatureListGlobalMarks
-    else
-      let buf_num = match(match_list[0], '\d')
-      execute(buf_num . 'bd')
-    endif
-  endfunction
-  nnoremap <F3> <esc>:call SignatureListToggle()<CR>
-'''
-
-[[plugins]] # vim-markに必要
-repo = 'inkarkat/vim-ingo-library'
-
-[[plugins]]
-repo = 'inkarkat/vim-mark'
-hook_add = '''
-  let g:mw_no_mappings = 1
-  let g:mwDefaultHighlightingPalette = 'extended'
-  nmap <F4> <Plug>MarkSet
-  vmap <F4> <Plug>MarkSet
-  nnoremap <F4><Esc> :MarkClear<CR>:echo 'all colored text cleared'<CR>
-'''
 

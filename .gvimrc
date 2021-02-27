@@ -1,18 +1,25 @@
-let g:istrance = 1
+let g:trance_level = 0
+let g:trance_level_up = 33
 set transparency=0
 func! Trance()
-  if g:istrance == 1
-    set transparency=20
-    let g:istrance = 0
-  else
+  if g:trance_level == 0
+    set transparency=33
+    let g:trance_level = 1
+  elseif g:trance_level == 1
+    set transparency=66
+    let g:trance_level = 2
+  elseif g:trance_level == 2
+    set transparency=100
+    let g:trance_level = 3
+  elseif g:trance_level == 3
     set transparency=0
-    let g:istrance = 1
+    let g:trance_level = 0
   endif
 endfunc
 noremap <D-u> :<C-u>call Trance()<CR>
 
 set blur=0
-set guifont=SFMono-Regular:h20
+set guifont=Monaco:h16
 
 "右スクロールバーなし
 set guioptions-=r
@@ -39,5 +46,4 @@ function! FontSizeMinus ()
 endfunction
 nmap <D--> :call FontSizeMinus()<CR>
 nmap <D-+> :call FontSizePlus()<CR>
-nmap <D-0> :set guifont=SFMono-Regular:h16<CR>
-
+nmap <D-0> :set guifont=Monaco:h16<CR>
