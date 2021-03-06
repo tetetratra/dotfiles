@@ -21,6 +21,8 @@ hook_add = '''
 # deniteが動く条件
 # - echo has("python3") が 1 であること
 #   - 多分vimのビルド時に決まる
+#   - brewでインストールしたら大丈夫そう? アプリをそのままもってくるとだめそう
+#     - brew --cask でインストールすべし (better touch toolで使えるようにするため)
 # - pyx print(sys.version) で出る python の pip3 に pynvim が入っていること
 #   - 無ければpip install pynvim をする
 # - neovim以外の場合は 'roxma/nvim-yarp' と 'roxma/vim-hug-neovim-rpc' が必要
@@ -41,6 +43,13 @@ hook_add = '''
   nmap <F3> <esc>:Denite mark<CR>
   nmap <F4> <esc>:Denite outline<CR>
   nmap <F5> <esc>:Denite jump<CR>
+'''
+
+# neovim以外の場合は 'roxma/nvim-yarp' と 'roxma/vim-hug-neovim-rpc' が必要
+[[plugins]]
+repo = 'Shougo/deoplete.nvim'
+hook_add = '''
+  let g:deoplete#enable_at_startup = 1
 '''
 
 [[plugins]]
@@ -89,7 +98,8 @@ repo = 'kana/vim-operator-user'
 [[plugins]] # CamelCase <=> snake_case
 repo = 'tyru/operator-camelize.vim'
 hook_add = '''
-  vmap C <Plug>(operator-camelize-toggle)
+  nmap <Space>s <Plug>(operator-camelize-toggle)
+  vmap <Space>s <Plug>(operator-camelize-toggle)
 '''
 
 [[plugins]]
@@ -134,10 +144,10 @@ hook_add = '''
 repo = 'othree/eregex.vim'
 # "/" will use :M/ to search. ",/" will use the original "/".
 hook_add = '''
-  nnoremap / :M/
-  nnoremap ? :M?
-  nnoremap ,/ /
-  nnoremap ,? /
+  nnoremap r/ :M/
+  nnoremap r? :M?
+  nnoremap / /\v
+  nnoremap ? ?\v
 '''
 
 [[plugins]] # 検索結果数カウント
@@ -187,9 +197,9 @@ hook_add = '''
 [[plugins]] # コードに色付け(markとは別物) https://secret-garden.hatenablog.com/
 repo = 't9md/vim-quickhl'
 hook_add = '''
-  nmap <Space>c <Plug>(quickhl-manual-this)
-  xmap <Space>c <Plug>(quickhl-manual-this)
-  nmap <Space>C <Plug>(quickhl-manual-reset)
+  nmap <Space>h <Plug>(quickhl-manual-this)
+  xmap <Space>h <Plug>(quickhl-manual-this)
+  nmap <Space>H <Plug>(quickhl-manual-reset)
 '''
 
 # Git系

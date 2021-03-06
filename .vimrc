@@ -23,7 +23,7 @@ if has("gui_running") || has('nvim')
   if dein#check_install()
     call dein#install()
   endif
-  call dein#add('glacambre/firenvim', { 'hook_post_update': { _ -> firenvim#install(0) } })
+  " call dein#add('glacambre/firenvim', { 'hook_post_update': { _ -> firenvim#install(0) } })
 endif
 
 let rawvim = !(has("gui_running") || has('nvim'))
@@ -166,6 +166,8 @@ set hidden
 
 " === window系 ===
 noremap <Space>e <C-w>w
+noremap <Space>r <C-w>W
+noremap <S-Space> <C-w>w
 noremap <F7> <C-w>K<CR>
 noremap <F8> <C-w>x<CR>
 noremap <F9> <C-w>H<CR>
