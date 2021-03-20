@@ -23,3 +23,10 @@ path = ~/.gitconfig-proxy
 [includeIf "gitdir:~/Private/"]
   path = ~/.gitconfig-private
 
+[user]
+  name = tetetratra
+  email = kurutoga.kingyo@gmail.com
+[init]
+  defaultBranch = main
+[pull]
+  rebase = false
