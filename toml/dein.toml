@@ -116,6 +116,22 @@ hook_add = '''
 
 [[plugins]]
 repo = 'itchyny/lightline.vim'
+# https://github.com/itchyny/lightline.vim/issues/293#issuecomment-373710096
+hook_add = '''
+  let g:lightline = {
+        \ 'component_function': {
+        \   'filename': 'LightlineFilename',
+        \ }
+        \ }
+  function! LightlineFilename()
+    let root = fnamemodify(get(b:, 'git_dir'), ':h')
+    let path = expand('%:p')
+    if path[:len(root)-1] ==# root
+      return path[len(root)+1:]
+    endif
+    return expand('%')
+  endfunction
+'''
 
 [[plugins]] # 余分な空白を赤く
 repo = 'bronson/vim-trailing-whitespace'
@@ -239,6 +255,14 @@ repo = 'tpope/vim-endwise'
 
 [[plugins]]
 repo = 'tpope/vim-rails'
+
+## javascript
+[[plugins]]
+repo = 'maxmellon/vim-jsx-pretty'
+hook_add = '''
+  let g:vim_jsx_pretty_colorful_config = 1
+  let g:vim_jsx_pretty_highlight_close_tag = 1
+'''
 
 ## Crystal
 
