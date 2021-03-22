@@ -158,11 +158,23 @@ nnoremap cp :let @+ = expand("%")<CR>
 nnoremap cpp :let @+ = expand("%:p")<CR>
 
 " === buffer系 ===
-" buffer移動
-nnoremap <silent> <C-h> :bprev<CR>
-nnoremap <silent> <C-l> :bnext<CR>
 " 保存してなくてもバッファ切り替えOK
 set hidden
+
+" === tab系 ===
+" tab移動
+nnoremap <silent> <C-h> :tabprevious<CR>
+nnoremap <silent> <C-l> :tabnext<CR>
+nmap <D-1> <esc>1gt<CR>
+nmap <D-2> <esc>2gt<CR>
+nmap <D-3> <esc>3gt<CR>
+nmap <D-4> <esc>4gt<CR>
+nmap <D-5> <esc>5gt<CR>
+nmap <D-6> <esc>6gt<CR>
+nmap <D-7> <esc>7gt<CR>
+nmap <D-8> <esc>8gt<CR>
+nmap <D-9> <esc>:tablast<CR>
+set showtabline=2
 
 " === window系 ===
 noremap <Space>e <C-w>w
