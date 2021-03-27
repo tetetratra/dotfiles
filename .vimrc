@@ -150,7 +150,8 @@ nnoremap s <Nop>
 nnoremap <silent> p p`]
 " <Space>wを押してファイルを保存
 nnoremap <Space>w :w<CR>
-nnoremap <Space>q :bd<CR>
+nnoremap <Space>q :q<CR>
+" nnoremap <Space>q :bd<CR>
 " 候補が複数ある場合は一覧表示
 nnoremap <C-]> g<C-]>
 " full path をyank
@@ -165,6 +166,10 @@ set hidden
 " tab移動
 nnoremap <silent> <C-h> :tabprevious<CR>
 nnoremap <silent> <C-l> :tabnext<CR>
+nnoremap <lt> :-tabm<CR>
+nnoremap >    :+tabm<CR>
+nnoremap yt :tab split<CR>
+
 nmap <D-1> <esc>1gt<CR>
 nmap <D-2> <esc>2gt<CR>
 nmap <D-3> <esc>3gt<CR>
