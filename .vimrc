@@ -72,7 +72,7 @@ set showmatch
 set nowrap
 " コマンドラインモードで<Tab>キーによるファイル名補完を有効にする
 set wildmenu
-set wildmode=list:full
+set wildmode=list:longest,list:full
 " 小文字のみで検索したときに大文字小文字を無視する
 set smartcase
 set wildignorecase
