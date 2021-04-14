@@ -3,18 +3,18 @@
 [[plugins]]
 repo = 'cocopon/iceberg.vim'
 hook_add = '''
-  if has("gui_running") " macvim
+  if has("gui_running") || has("nvim")
     colorscheme iceberg
   endif
 '''
 
-[[plugins]]
-repo = 'w0ng/vim-hybrid'
-hook_add = '''
-  if has("nvim") " neovim
-    colorscheme hybrid
-  endif
-'''
+# [[plugins]]
+# repo = 'w0ng/vim-hybrid'
+# hook_add = '''
+#   if has("nvim") " neovim
+#     colorscheme hybrid
+#   endif
+# '''
 
 # denite
 
@@ -50,17 +50,17 @@ hook_add = '''
 '''
 
 # neovim以外の場合は 'roxma/nvim-yarp' と 'roxma/vim-hug-neovim-rpc' が必要
-[[plugins]]
-repo = 'Shougo/deoplete.nvim'
-hook_add = '''
-  let g:deoplete#enable_at_startup = 1
-'''
+# [[plugins]]
+# repo = 'Shougo/deoplete.nvim'
+# hook_add = '''
+#   let g:deoplete#enable_at_startup = 1
+# '''
 
-[[plugins]]
-repo = 'roxma/nvim-yarp'
+# [[plugins]]
+# repo = 'roxma/nvim-yarp'
 
-[[plugins]]
-repo = 'roxma/vim-hug-neovim-rpc'
+# [[plugins]]
+# repo = 'roxma/vim-hug-neovim-rpc'
 
 # ファイル系
 
@@ -220,12 +220,12 @@ repo = 'cohama/agit.vim'
 # 言語系
 
 ## LSP
-[[plugins]]
-repo ='prabirshrestha/vim-lsp'
-[[plugins]]
-repo = 'mattn/vim-lsp-settings'
-[[plugins]]
-repo = 'lighttiger2505/deoplete-vim-lsp'
+# [[plugins]]
+# repo ='prabirshrestha/vim-lsp'
+# [[plugins]]
+# repo = 'mattn/vim-lsp-settings'
+# [[plugins]]
+# repo = 'lighttiger2505/deoplete-vim-lsp'
 
 ## Ruby
 
