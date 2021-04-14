@@ -10,7 +10,7 @@ alias o='open'
 alias ber='bundle exec ruby'
 alias be='bundle exec'
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
-alias rm='rmtrash'
+alias rm='trash'
 alias mvim='/Applications/MacVim.app/Contents/bin/mvim'
 
 ### 鍵 ###
