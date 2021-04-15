@@ -1,6 +1,6 @@
+" deinの初回インストール時はシェルスクリプトの実行が必要 https://github.com/Shougo/dein.vim
 if has("gui_running") || has('nvim')
   " deinが読み込まれない時は、:call dein#recache_runtimepath() をしてみよう
-  set nocompatible
   " Required:
   set runtimepath+=$HOME/.cache/dein/repos/github.com/Shougo/dein.vim
   " Required:
@@ -16,14 +16,10 @@ if has("gui_running") || has('nvim')
     call dein#end()
     call dein#save_state()
   endif
-  " Required:
-  filetype plugin indent on
-  syntax enable
-  " If you want to install not installed plugins on startup.
-  if dein#check_install()
+
+  if dein#check_install() " install not installed plugins on startup.
     call dein#install()
   endif
-  " call dein#add('glacambre/firenvim', { 'hook_post_update': { _ -> firenvim#install(0) } })
 endif
 
 let rawvim = !(has("gui_running") || has('nvim'))
@@ -41,6 +37,7 @@ lang en_US.UTF-8
 " yankとmacのクリップボードを共有
 set clipboard=unnamed
 filetype plugin indent on
+syntax enable
 syntax on
 " vim の矩形選択で文字が無くても右へ進める
 set virtualedit=block

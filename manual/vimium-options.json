@@ -44,6 +44,10 @@
     {
       "pattern": "https?://docs.google.com/spreadsheets/*",
       "passKeys": ""
+    },
+    {
+      "pattern": "https?://cloudlatex.io/*",
+      "passKeys": ""
     }
   ],
   "filterLinkHints": false,
