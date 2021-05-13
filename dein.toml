@@ -305,5 +305,9 @@ repo = 'cespare/vim-toml'
 [[plugins]]
 repo = 'mechatroner/rainbow_csv'
 
+## processing
+[[plugins]]
+repo = 'sophacles/vim-processing'
+
 # その他
 
