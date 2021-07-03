@@ -43,24 +43,24 @@ hook_add = '''
     nnoremap <silent><buffer><expr> q       denite#do_map('quit')
     nnoremap <silent><buffer><expr> <Space> denite#do_map('toggle_select').'j'
   endfunction
-  nmap <F2> <esc>:Denite buffer<CR>
-  nmap <F3> <esc>:Denite mark<CR>
-  nmap <F4> <esc>:Denite outline<CR>
-  nmap <F5> <esc>:Denite jump<CR>
+  nmap <F2> <esc>:Denite file/rec<CR>
+  nmap <F3> <esc>:Denite buffer<CR>
+  nmap <F4> <esc>:Denite mark<CR>
+  nmap <F5> <esc>:Denite outline<CR>
 '''
 
 # neovim以外の場合は 'roxma/nvim-yarp' と 'roxma/vim-hug-neovim-rpc' が必要
-# [[plugins]]
-# repo = 'Shougo/deoplete.nvim'
-# hook_add = '''
-#   let g:deoplete#enable_at_startup = 1
-# '''
+[[plugins]]
+repo = 'Shougo/deoplete.nvim'
+hook_add = '''
+  let g:deoplete#enable_at_startup = 1
+'''
 
-# [[plugins]]
-# repo = 'roxma/nvim-yarp'
+[[plugins]]
+repo = 'roxma/nvim-yarp'
 
-# [[plugins]]
-# repo = 'roxma/vim-hug-neovim-rpc'
+[[plugins]]
+repo = 'roxma/vim-hug-neovim-rpc'
 
 # ファイル系
 

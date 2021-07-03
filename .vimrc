@@ -154,6 +154,11 @@ nnoremap <C-]> g<C-]>
 " full path をyank
 nnoremap cp :let @+ = expand("%")<CR>
 nnoremap cpp :let @+ = expand("%:p")<CR>
+if has("gui_running")
+  " tmux時のnvim用
+  nnoremap O <C-o>
+endif
+
 
 " === buffer系 ===
 " 保存してなくてもバッファ切り替えOK

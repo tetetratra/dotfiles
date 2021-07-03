@@ -8,14 +8,6 @@ func! Trance()
   elseif g:trance_level == 1
     set transparency=0
     let g:trance_level = 0
-  "   set transparency=66
-  "   let g:trance_level = 2
-  " elseif g:trance_level == 2
-  "   set transparency=100
-  "   let g:trance_level = 3
-  " elseif g:trance_level == 3
-  "   set transparency=0
-  "   let g:trance_level = 0
   endif
 endfunc
 noremap <D-u> :<C-u>call Trance()<CR>
