@@ -43,10 +43,22 @@ hook_add = '''
     nnoremap <silent><buffer><expr> q       denite#do_map('quit')
     nnoremap <silent><buffer><expr> <Space> denite#do_map('toggle_select').'j'
   endfunction
-  nmap <F2> <esc>:Denite file/rec<CR>
-  nmap <F3> <esc>:Denite buffer<CR>
-  nmap <F4> <esc>:Denite mark<CR>
-  nmap <F5> <esc>:Denite outline<CR>
+  nmap <F2> <esc>:Denite file/rec -match-highlight<CR>
+  " https://github.com/Shougo/denite.nvim/blob/master/doc/denite.txt#L2083
+  nmap <F3> <esc>:Denite -start-filter grep:::! -match-highlight<CR>
+  nmap <F4> <esc>:Denite buffer -match-highlight<CR>
+  nmap <F5> <esc>:Denite mark -match-highlight<CR>
+  nmap <F6> <esc>:Denite outline -match-highlight<CR>
+
+  " ripgrepを使う https://github.com/Shougo/denite.nvim/blob/master/doc/denite.txt#L2083
+  call denite#custom#var('grep', {
+  \ 'command': ['rg'],
+  \ 'default_opts': ['-i', '--vimgrep', '--no-heading'],
+  \ 'recursive_opts': [],
+  \ 'pattern_opt': ['--regexp'],
+  \ 'separator': ['--'],
+  \ 'final_opts': [],
+  \ })
 '''
 
 # neovim以外の場合は 'roxma/nvim-yarp' と 'roxma/vim-hug-neovim-rpc' が必要

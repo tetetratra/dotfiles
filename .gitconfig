@@ -1,12 +1,13 @@
 [alias]
-  c = commit
+  c = "commit -am'update'"
   s = status
-  l = log --pretty=fuller --graph --date=short --decorate=full
+  ss = status --short
+  sss = "!f() { git status --short | awk '{ print $2 }' | tr '\n' ' '; }; f"
+  l = log --pretty=fuller --graph --date=short --decorate=full --stat
   pl = pull
   ps = push
   br = branch
   co = checkout
-  amend = commit --amend
 [core]
   editor = vim
   quotepath = false  # git 日本語ファイル名をエスケープせずに表示

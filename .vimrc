@@ -158,6 +158,7 @@ if has("gui_running")
   " tmux時のnvim用
   nnoremap O <C-o>
 endif
+nnoremap t :tabnew<CR>
 
 
 " === buffer系 ===
@@ -199,6 +200,8 @@ vnoremap <silent> y y`]
 vnoremap <silent> p p`]
 
 " === comand系 ===
+cabbrev t tabnew
+cabbrev g Ggrep
 cnoremap <C-e> <End>
 cnoremap <C-a> <Home>
 cnoremap <C-h> <Left>
