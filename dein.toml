@@ -106,6 +106,8 @@ repo = 'kana/vim-operator-replace'
 hook_add = '''
   " replace operater
   nmap R <Plug>(operator-replace)
+  vmap R <Plug>(operator-replace)
+  nmap _ Raw
 '''
 
 [[plugins]] # kana/vim-operator-replaceが依存している
@@ -232,28 +234,14 @@ repo = 'cohama/agit.vim'
 # 言語系
 
 ## LSP
-# [[plugins]]
-# repo ='prabirshrestha/vim-lsp'
-# [[plugins]]
-# repo = 'mattn/vim-lsp-settings'
-# [[plugins]]
-# repo = 'lighttiger2505/deoplete-vim-lsp'
+[[plugins]]
+repo ='prabirshrestha/vim-lsp'
+[[plugins]]
+repo = 'mattn/vim-lsp-settings'
+[[plugins]]
+repo = 'lighttiger2505/deoplete-vim-lsp'
 
 ## Ruby
-
-[[plugins]]
-repo = 'ngmy/vim-rubocop'
-hook_add = '''
-  let g:vimrubocop_config = '~/.rubocop.yml'
-'''
-
-[[plugins]]
-repo = 'dense-analysis/ale'
-# :ALEFix で自動整形
-hook_add = '''
-  let g:ale_enabled = 0
-  let g:ale_fixers = { 'ruby': ['rubocop'] }
-'''
 
 [[plugins]]
 repo = 'tpope/vim-endwise'
@@ -262,6 +250,7 @@ repo = 'tpope/vim-endwise'
 repo = 'tpope/vim-rails'
 
 ## javascript
+
 [[plugins]]
 repo = 'maxmellon/vim-jsx-pretty'
 hook_add = '''

@@ -86,6 +86,8 @@ if rawvim " vim以外ではeregexの正規表現を使うので
   nnoremap / /\v
   nnoremap ? ?\v
 endif
+" visualモードで選択範囲を検索 https://vim-jp.org/vimdoc-ja/visual.html#visual-search
+vmap * y/<C-R>"<CR>
 " grep検索の実行後にQuickFix Listを表示する
 autocmd QuickFixCmdPost *grep* cwindow
 nnoremap J :cnext<CR>
