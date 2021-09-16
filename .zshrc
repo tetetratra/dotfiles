@@ -13,7 +13,7 @@ alias be='bundle exec'
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 alias rm='trash'
 alias mvim='/Applications/MacVim.app/Contents/bin/mvim'
-alias dc='docker-compose'
+alias dc='docker compose'
 alias d='docker'
 
 ### 鍵 ###
