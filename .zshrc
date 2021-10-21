@@ -66,3 +66,21 @@ export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
 # brew install 時にupdateを自動でしない (手動で定期的にbrew updateする必要あり)
 export HOMEBREW_NO_AUTO_UPDATE=1
 
+### key bind ###
+
+bindkey -v # vim like
+bindkey -M viins '^A' beginning-of-line
+bindkey -M viins '^E' end-of-line
+bindkey -M viins '^N' down-line-or-history
+bindkey -M viins '^P' up-line-or-history
+bindkey -M viins '^R' history-incremental-pattern-search-backward
+bindkey -M viins 'jj' vi-cmd-mode
+bindkey -M viins "^[[3~" backward-delete-char
+
+function vi-yank-xclip { # https://stackoverflow.com/questions/61466461/yank-in-visual-vim-mode-in-zsh-does-not-copy-to-clipboard-in-ordert-to-paste-w
+  zle vi-yank
+  echo "$CUTBUFFER" | tr -d "\n" | pbcopy -i
+}
+zle -N vi-yank-xclip
+bindkey -M vicmd 'y' vi-yank-xclip
+
