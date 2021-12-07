@@ -31,3 +31,5 @@ path = ~/.gitconfig-proxy
   defaultBranch = main
 [pull]
   rebase = false
+[push]
+  default = current
