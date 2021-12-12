@@ -190,9 +190,9 @@ set showtabline=2
 noremap <Space>e <C-w>w
 noremap <Space>r <C-w>W
 noremap <S-Space> <C-w>w
-noremap <F7> <C-w>K<CR>
-noremap <F8> <C-w>x<CR>
-noremap <F9> <C-w>H<CR>
+noremap <Space>7 <C-w>K<CR>
+noremap <Space>8 <C-w>x<CR>
+noremap <Space>9 <C-w>H<CR>
 
 " === visual系 ===
 " visualでラストの改行はデフォルトでは含めないようにする
@@ -209,19 +209,9 @@ cnoremap <C-a> <Home>
 cnoremap <C-h> <Left>
 cnoremap <C-l> <Right>
 
-" === Function key系 ===
-" <F1> : nerdtree
-" <F2> : buffer list (denite)
-" <F3> : mark list (denite)
-" <F4> : ctags list (denite)
-" <F5> : jump list (denite)
-" <F6> : 未定
-" <F7> : window h
-" <F8> : window swap
-" <F9> : window v
-noremap <F10> <esc>:set wrap!<CR>
-noremap <F11> zm
-noremap <F12> zr
+noremap <Space>10 <esc>:set wrap!<CR>
+noremap <Space>11 zm
+noremap <Space>12 zr
 
 " == color ==
 highlight Normal ctermbg=none

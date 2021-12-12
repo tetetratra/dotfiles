@@ -43,12 +43,13 @@ hook_add = '''
     nnoremap <silent><buffer><expr> q       denite#do_map('quit')
     nnoremap <silent><buffer><expr> <Space> denite#do_map('toggle_select').'j'
   endfunction
-  nmap <F2> <esc>:Denite file/rec -match-highlight<CR>
+
+  nmap <Space>2 <esc>:Denite file/rec -match-highlight<CR>
   " https://github.com/Shougo/denite.nvim/blob/master/doc/denite.txt#L2083
-  nmap <F3> <esc>:Denite -start-filter grep:::! -match-highlight<CR>
-  nmap <F4> <esc>:Denite buffer -match-highlight<CR>
-  nmap <F5> <esc>:Denite mark -match-highlight<CR>
-  nmap <F6> <esc>:Denite outline -match-highlight<CR>
+  nmap <Space>3 <esc>:Denite -start-filter grep:::! -match-highlight<CR>
+  nmap <Space>4 <esc>:Denite buffer -match-highlight<CR>
+  nmap <Space>5 <esc>:Denite mark -match-highlight<CR>
+  nmap <Space>6 <esc>:Denite outline -match-highlight<CR>
 
   " ripgrepを使う https://github.com/Shougo/denite.nvim/blob/master/doc/denite.txt#L2083
   call denite#custom#var('grep', {
@@ -82,7 +83,7 @@ hook_add = '''
   let NERDTreeShowHidden=1
   let NERDTreeWinSize=25
   let g:NERDTreeMapMenu='m'
-  nnoremap <F1> :NERDTreeToggle<CR>
+  nmap <Space>1 :NERDTreeToggle<CR>
 '''
 
 [[plugins]]
