@@ -209,10 +209,6 @@ cnoremap <C-a> <Home>
 cnoremap <C-h> <Left>
 cnoremap <C-l> <Right>
 
-noremap <Space>10 <esc>:set wrap!<CR>
-noremap <Space>11 zm
-noremap <Space>12 zr
-
 " == color ==
 highlight Normal ctermbg=none
 highlight NonText ctermbg=none
