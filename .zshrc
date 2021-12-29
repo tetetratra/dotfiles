@@ -84,3 +84,5 @@ function vi-yank-xclip { # https://stackoverflow.com/questions/61466461/yank-in-
 zle -N vi-yank-xclip
 bindkey -M vicmd 'y' vi-yank-xclip
 
+disable r
+export PATH="$HOME/bin:$PATH"

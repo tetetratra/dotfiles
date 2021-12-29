@@ -26,4 +26,6 @@ ln -sf $PWD/.vimrc ~/.vimrc
 ln -sf $PWD/.gvimrc ~/.gvimrc
 ln -sf $PWD/.ctags ~/.ctags
 ln -sf $PWD/.my.cnf ~/.my.cnf
+
+ln -sf $PWD/bin ~/bin
 ```

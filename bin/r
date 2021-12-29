@@ -1,0 +1,12 @@
+#!/usr/bin/ruby
+
+mapper, reducer = ARGV
+STDIN.each_line.lazy.map do |line|
+  line.chomp.instance_eval(mapper)
+end.then do |lines|
+  if reducer
+    lines.instance_eval(reducer).then(&method(:Array)).to_enum
+  else
+    lines
+  end
+end.each(&method(:puts))
