@@ -1,8 +1,0 @@
-#! /bin/bash
-
-cat <<EOS > ~/.gitconfig-proxy
-[http]
-	proxy = ""
-[https]
-	proxy = ""
-EOS

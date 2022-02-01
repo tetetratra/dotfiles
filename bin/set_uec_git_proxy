@@ -1,8 +1,0 @@
-#! /bin/bash
-
-cat <<EOS > ~/.gitconfig-proxy
-[http]
-	proxy = proxy.uec.ac.jp:8080
-[https]
-	proxy = proxy.uec.ac.jp:8080
-EOS

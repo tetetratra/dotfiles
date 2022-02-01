@@ -1,5 +1,6 @@
 #!/usr/bin/ruby
 
 cmd = ARGV.first
-puts STDIN.read.instance_eval(cmd)
+src = STDIN.tty? ? '' : STDIN.read
+puts src.instance_eval(cmd)
 
