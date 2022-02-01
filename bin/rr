@@ -1,0 +1,5 @@
+#!/usr/bin/ruby
+
+cmd = ARGV.first
+puts STDIN.read.instance_eval(cmd)
+
