@@ -15,18 +15,10 @@
 [status] # git status 追跡されていないファイルはすべて表示
   showUntrackedFiles = all
 
-path = ~/.gitconfig-proxy
-
-[includeIf "gitdir:~/r/"]
-  path = ~/.gitconfig-private
-[includeIf "gitdir:~/Programming/"]
-  path = ~/.gitconfig-private
-[includeIf "gitdir:~/Private/"]
-  path = ~/.gitconfig-private
-
 [user]
   name = tetetratra
   email = 44367208+tetetratra@users.noreply.github.com
+
 [init]
   defaultBranch = main
 [pull]
