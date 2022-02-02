@@ -8,6 +8,7 @@
   ps = push
   br = branch
   co = checkout
+  d = "diff master..HEAD"
 [core]
   editor = vim
   quotepath = false  # git 日本語ファイル名をエスケープせずに表示
@@ -25,3 +26,11 @@
   rebase = false
 [push]
   default = current
+
+[branch "master"] # masterにいるときのgit pullではorigin masterをpullするようにする
+	remote = origin
+	merge = refs/heads/master
+[branch "develop"] # 同develop
+	remote = origin
+  merge = refs/heads/develop
+
