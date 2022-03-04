@@ -246,13 +246,17 @@ repo = 'cohama/agit.vim'
 ## LSP
 [[plugins]]
 repo = 'prabirshrestha/vim-lsp'
+# LspDocumentFormat, LspRename とかも便利そう
 hook_add = '''
   nmap <Space><Space> <esc>:LspHover<CR>
   nmap <Space>]       <esc>:LspDefinition<CR>
   nmap <Space>[       <esc>:LspReference<CR>
+  nmap D              <esc>:LspDocumentDiagnostics<CR>
 '''
+
 [[plugins]]
 repo = 'mattn/vim-lsp-settings'
+
 [[plugins]]
 repo = 'lighttiger2505/deoplete-vim-lsp'
 
