@@ -1,3 +1,5 @@
+set background=dark
+
 let g:trance_level = 0
 set transparency=0
 func! Trance()
@@ -9,18 +11,18 @@ func! Trance()
     let g:trance_level = 0
   endif
 endfunc
-noremap <D-u> :<C-u>call Trance()<CR>
+noremap <D-u> :call Trance()<CR>
 
-let g:bg_color = 0
+let g:bg_color = -1
 autocmd BufEnter *
 \ if g:bg_color == 0 |
-\   highlight Normal guibg=#100000 |
-\ elseif g:bg_color == 1 |
-\   highlight Normal guibg=#151500 |
-\ elseif g:bg_color == 2 |
 \   highlight Normal guibg=#000010 |
-\ elseif g:bg_color == 3 |
+\ elseif g:bg_color == 1 |
 \   highlight Normal guibg=#001000 |
+\ elseif g:bg_color == 2 |
+\   highlight Normal guibg=#100000 |
+\ elseif g:bg_color == 3 |
+\   highlight Normal guibg=#151500 |
 \ endif
 func! BgColorChange()
   if g:bg_color == 3
@@ -28,9 +30,10 @@ func! BgColorChange()
   else
     let g:bg_color += 1
   endif
-  :e %
+  :tabnew
+  :bd
 endfunc
-noremap <D-y> :<C-y>call BgColorChange()<CR>
+noremap <D-y> :call BgColorChange()<CR>
 
 set blur=0
 set guifont=Monaco:h16
