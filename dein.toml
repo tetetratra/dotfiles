@@ -44,12 +44,13 @@ hook_add = '''
     nnoremap <silent><buffer><expr> <Space> denite#do_map('toggle_select').'j'
   endfunction
 
-  nmap <Space>2 <esc>:Denite file/rec -match-highlight<CR>
   " https://github.com/Shougo/denite.nvim/blob/master/doc/denite.txt#L2083
-  nmap <Space>3 <esc>:Denite -start-filter grep:::! -match-highlight<CR>
-  nmap <Space>4 <esc>:Denite buffer -match-highlight<CR>
-  nmap <Space>5 <esc>:Denite mark -match-highlight<CR>
-  nmap <Space>6 <esc>:Denite outline -match-highlight<CR>
+  nmap <Space>2       <esc>:Denite file/rec -match-highlight<CR>
+  nmap <Space>3       <esc>:Denite -start-filter grep:::! -match-highlight<CR>
+  nmap <Space>4       <esc>:Denite buffer -match-highlight<CR>
+  nmap <Space>5       <esc>:Denite mark -match-highlight<CR>
+  nmap <Space>6       <esc>:Denite outline -match-highlight<CR>
+  nmap <Space><Space> <esc>:Denite -resume<CR>
 
   " ripgrepを使う https://github.com/Shougo/denite.nvim/blob/master/doc/denite.txt#L2083
   call denite#custom#var('grep', {
@@ -83,7 +84,7 @@ hook_add = '''
   let NERDTreeShowHidden=1
   let NERDTreeWinSize=25
   let g:NERDTreeMapMenu='m'
-  nmap <Space>1 :NERDTreeToggle<CR>
+  nnoremap <space>1 :NERDTreeToggle<CR>
 '''
 
 [[plugins]]
@@ -107,7 +108,6 @@ repo = 'kana/vim-operator-replace'
 hook_add = '''
   " replace operater
   nmap R <Plug>(operator-replace)
-  vmap R <Plug>(operator-replace)
   nmap _ Raw
 '''
 
@@ -191,6 +191,14 @@ hook_add = '''
   let g:indexed_search_dont_move = 1 " 検索時に1個下に動かないようになる
   let g:indexed_search_numbered_only = 1 " 検索カウントを簡素な表示に
   let g:indexed_search_shortmess = 1 " 検索カウントを簡素な表示に
+  " function! s:VSetSearch()
+  "   " 参考 https://github.com/nelstrom/vim-visual-star-search/blob/master/plugin/visual-star-search.vim
+  "   let temp = @s
+  "   norm! gv"sy
+  "   let @/ = '\V' . substitute(escape(@s, '/' . '\'), '\n', '\\n', 'g')
+  "   let @s = temp
+  " endfunction
+  " xnoremap * :<C-u>call <SID>VSetSearch()<CR>/<C-R>=@/<CR><CR>N
 '''
 
 # mark系
@@ -198,7 +206,7 @@ hook_add = '''
 [[plugins]]
 repo = 'kshenoy/vim-signature'
 hook_add = '''
-  let g:SignatureMap = { 'Leader' : "m", 'PlaceNextMark' : "", 'ToggleMarkAtLine' : "<Space>m", 'PurgeMarksAtLine' : "", 'DeleteMark' : "", 'PurgeMarks' : "<Space>M", 'PurgeMarkers' : "", 'GotoNextLineAlpha' : "", 'GotoPrevLineAlpha' : "", 'GotoNextSpotAlpha' : "", 'GotoPrevSpotAlpha' : "", 'GotoNextLineByPos' : "", 'GotoPrevLineByPos' : "", 'GotoNextSpotByPos' : "", 'GotoPrevSpotByPos' : "", 'GotoNextMarker' : "", 'GotoPrevMarker' : "", 'GotoNextMarkerAny' : "", 'GotoPrevMarkerAny' : "", 'ListBufferMarks' : "", 'ListBufferMarkers' : "" }
+  let g:SignatureMap = { 'Leader' : "m", 'PlaceNextMark' : "", 'ToggleMarkAtLine' : "<Space>m", 'PurgeMarksAtLine' : "", 'DeleteMark' : "", 'PurgeMarks' : "", 'PurgeMarkers' : "", 'GotoNextLineAlpha' : "", 'GotoPrevLineAlpha' : "", 'GotoNextSpotAlpha' : "", 'GotoPrevSpotAlpha' : "", 'GotoNextLineByPos' : "", 'GotoPrevLineByPos' : "", 'GotoNextSpotByPos' : "", 'GotoPrevSpotByPos' : "", 'GotoNextMarker' : "", 'GotoPrevMarker' : "", 'GotoNextMarkerAny' : "", 'GotoPrevMarkerAny' : "", 'ListBufferMarks' : "", 'ListBufferMarkers' : "" }
   let g:SignatureIncludeMarks = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
   nmap <Space>M :delmarks A-Z<CR>
 '''
@@ -215,6 +223,14 @@ hook_add = '''
 
 [[plugins]] # gitコマンドをvimから使う
 repo = 'tpope/vim-fugitive'
+hook_add = '''
+  cabbrev g Ggrep
+  cabbrev b GBrowse
+  cabbrev l Git log --follow -p %
+'''
+
+[[plugins]] # vim-fugitiveのgithubサポート用
+repo = 'tpope/vim-rhubarb'
 
 [[plugins]] # gitのdiffを左端に表示
 repo = 'airblade/vim-gitgutter'
@@ -230,14 +246,6 @@ repo = 'cohama/agit.vim'
 ## LSP
 [[plugins]]
 repo ='prabirshrestha/vim-lsp'
-hook_add = '''
-  " let g:lsp_diagnostics_echo_cursor = 1
-  " let g:lsp_diagnostics_float_cursor = 1
-  let g:lsp_diagnostics_virtual_text_enabled = 0 " https://zenn.dev/hhatto/articles/38cc31b301ede3
-  nmap <space>t :LspTypeDefinition<CR>
-  nmap <space>r :LspReferences<CR>
-  nmap <space>i :LspHover<CR>
-'''
 [[plugins]]
 repo = 'mattn/vim-lsp-settings'
 [[plugins]]
@@ -250,6 +258,9 @@ repo = 'tpope/vim-endwise'
 
 [[plugins]]
 repo = 'tpope/vim-rails'
+
+[[plugins]] # heredocのsytax-highlight
+repo = 'joker1007/vim-ruby-heredoc-syntax'
 
 ## javascript
 
@@ -264,6 +275,11 @@ hook_add = '''
 
 [[plugins]]
 repo = 'rhysd/vim-crystal'
+
+## slim
+
+[[plugins]]
+repo = 'slim-template/vim-slim'
 
 ## markdown
 
@@ -307,10 +323,6 @@ repo = 'cespare/vim-toml'
 ## CSV
 [[plugins]]
 repo = 'mechatroner/rainbow_csv'
-
-## processing
-[[plugins]]
-repo = 'sophacles/vim-processing'
 
 # その他
 
