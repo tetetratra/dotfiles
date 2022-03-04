@@ -13,19 +13,28 @@ func! Trance()
 endfunc
 noremap <D-u> :call Trance()<CR>
 
-let g:bg_color = -1
+let g:bg_color = 0
+highlight Normal guibg=#000000
 autocmd BufEnter *
 \ if g:bg_color == 0 |
-\   highlight Normal guibg=#000010 |
+\   highlight Normal guibg=#000000 |
 \ elseif g:bg_color == 1 |
-\   highlight Normal guibg=#001000 |
+\   highlight Normal guibg=#000015 |
 \ elseif g:bg_color == 2 |
-\   highlight Normal guibg=#100000 |
+\   highlight Normal guibg=#001500 |
 \ elseif g:bg_color == 3 |
+\   highlight Normal guibg=#150000 |
+\ elseif g:bg_color == 4 |
 \   highlight Normal guibg=#151500 |
+\ elseif g:bg_color == 5 |
+\   highlight Normal guibg=#150015 |
+\ elseif g:bg_color == 6 |
+\   highlight Normal guibg=#001515 |
+\ elseif g:bg_color == 7 |
+\   highlight Normal guibg=#151515 |
 \ endif
 func! BgColorChange()
-  if g:bg_color == 3
+  if g:bg_color == 7
     let g:bg_color = 0
   else
     let g:bg_color += 1
