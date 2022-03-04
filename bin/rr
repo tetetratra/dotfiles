@@ -1,6 +1,27 @@
 #!/usr/bin/ruby
 
-cmd = ARGV.first
-src = STDIN.tty? ? '' : STDIN.read
-puts src.instance_eval(cmd)
+_ = ''
+__ = ' '
+
+class String
+  def to_camel
+    self.gsub(/_[a-z0-9]|^[a-z]/) { |s| s.gsub('_', '').upcase }
+  end
+
+  def to_snake
+    self.gsub(/[A-Z0-9]/) { |s| '_' + s.downcase }.gsub(/^_/, '')
+  end
+end
+
+cmd = ARGV[0]
+lines = STDIN.tty? ? [''] : STDIN.read.lines
+out = lines.map do |line|
+  line.instance_eval(cmd)
+end
+
+if fold = ARGV[1]
+  puts out.instance_eval(fold)
+else
+  puts out
+end
 
