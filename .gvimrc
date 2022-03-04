@@ -1,16 +1,36 @@
 let g:trance_level = 0
-let g:trance_level_up = 33
 set transparency=0
 func! Trance()
   if g:trance_level == 0
-    set transparency=33
+    set transparency=20
     let g:trance_level = 1
-  elseif g:trance_level == 1
+  else
     set transparency=0
     let g:trance_level = 0
   endif
 endfunc
 noremap <D-u> :<C-u>call Trance()<CR>
+
+let g:bg_color = 0
+autocmd BufEnter *
+\ if g:bg_color == 0 |
+\   highlight Normal guibg=#100000 |
+\ elseif g:bg_color == 1 |
+\   highlight Normal guibg=#151500 |
+\ elseif g:bg_color == 2 |
+\   highlight Normal guibg=#000010 |
+\ elseif g:bg_color == 3 |
+\   highlight Normal guibg=#001000 |
+\ endif
+func! BgColorChange()
+  if g:bg_color == 3
+    let g:bg_color = 0
+  else
+    let g:bg_color += 1
+  endif
+  :e %
+endfunc
+noremap <D-y> :<C-y>call BgColorChange()<CR>
 
 set blur=0
 set guifont=Monaco:h16
