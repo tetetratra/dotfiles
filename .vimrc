@@ -156,7 +156,7 @@ nnoremap <C-]> g<C-]>
 " full path をyank
 nnoremap cp :let @+ = expand("%")<CR>
 nnoremap cpp :let @+ = expand("%:p")<CR>
-if has("gui_running")
+if has("nvim")
   " tmux時のnvim用
   nnoremap O <C-o>
 endif
@@ -203,7 +203,7 @@ vnoremap <silent> p p`]
 
 " === comand系 ===
 cabbrev t tabnew
-cabbrev g Ggrep
+
 cnoremap <C-e> <End>
 cnoremap <C-a> <Home>
 cnoremap <C-h> <Left>
