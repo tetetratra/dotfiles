@@ -13,6 +13,12 @@ class String
   end
 end
 
+class Enumerator
+  def w(&b)
+    self.each { |e| e.instance_eval(&b) }
+  end
+end
+
 cmd = ARGV[0]
 lines = STDIN.tty? ? [''] : STDIN.read.lines
 out = lines.map do |line|
