@@ -59,6 +59,9 @@ export PATH=$PATH:$HOME/.nodebrew/current/bin
 export GOPATH="$HOME/go"
 export PATH="$HOME/go/bin:$PATH"
 
+# rust (rustup-init)
+source $HOME/.cargo/env
+
 ### brew ###
 
 # brewで入れた方をmac内蔵より優先度高く探す
