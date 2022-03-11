@@ -3,7 +3,8 @@
 - `vimium-options.json`
   - オプションの一番下のBackupから取れる
 - `Brewfile`
-  - `brew bundle`で置き換える
+  - Brewfileがあるディレクトリで`brew bundle`をしてインストール
+  - ` brew bundle dump`でBrewfileをダンプする
 
 
 ```bash
