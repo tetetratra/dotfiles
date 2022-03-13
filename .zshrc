@@ -7,7 +7,6 @@ alias scselect='/usr/sbin/scselect'
 alias p='pbpaste'
 alias c='pbcopy'
 alias o='open'
-alias nnn='tr "\n" " "'
 alias ber='bundle exec ruby'
 alias be='bundle exec'
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
@@ -67,9 +66,6 @@ source $HOME/.cargo/env
 # brewで入れた方をmac内蔵より優先度高く探す
 export PATH=/usr/local/bin:$PATH
 export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
-
-# brew install 時にupdateを自動でしない (手動で定期的にbrew updateする必要あり)
-export HOMEBREW_NO_AUTO_UPDATE=1
 
 ### key bind ###
 
