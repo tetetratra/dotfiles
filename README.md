@@ -57,20 +57,20 @@ defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool
 defaults write com.apple.terminal StringEncodings -array 4
 
 networksetup -setdnsservers Wi-Fi 2001:4860:4860::8844 2001:4860:4860::8888 8.8.4.4 8.8.8.8
+```
 
+- ここでmacを再起動
 
+```bash
 xcode-select --install
 
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-brew bundle --file ./manual/Brewfile
+cd ~/p/dotfiles && brew bundle --file ./manual/Brewfile
 
 mas install 1429033973 # RunCat
 mas install 931571202 # QuickShade
 
-ln -sf $PWD/.irbrc ~/.irbrc
-ln -sf $PWD/.pryrc ~/.pryrc
-ln -sf $PWD/.rubocop.yml ~/.rubocop.yml
 ln -sf $PWD/.tmux.conf ~/.tmux.conf
 ln -sf $PWD/.zshrc ~/.zshrc
 ln -sf $PWD/.gitignore ~/.gitignore
@@ -80,11 +80,15 @@ ln -sf $PWD/dein.toml ~/.config/nvim/dein/toml/dein.toml
 ln -sf $PWD/.vimrc ~/.vimrc
 ln -sf $PWD/.gvimrc ~/.gvimrc
 ln -sf $PWD/.ctags ~/.ctags
-ln -sf $PWD/.my.cnf ~/.my.cnf
 
 ln -sf $PWD/bin ~/bin
 
+rbenv install 3.1.0
+rbenv global 3.1.0
 ```
+
+- `iterm.json`をインポート
+- `Default.bttpreset`をインポート
 
 
 ## 手動で更新するもの
@@ -93,4 +97,6 @@ ln -sf $PWD/bin ~/bin
   - オプションの一番下のBackupから取れる
 - `Brewfile`
   - ` brew bundle dump`でBrewfileをダンプする
+- `Default.bttpreset`
+- `iterm.json`
 
