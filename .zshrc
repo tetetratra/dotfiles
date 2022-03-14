@@ -18,7 +18,9 @@ alias dcr='(){  docker-compose run --rm $1 $2   -c "/bin/bash --rcfile <(echo \"
 alias dcrb='(){ docker-compose run --rm $1 bash -c "/bin/bash --rcfile <(echo \"alias r=ruby; alias be=\\\"bundle exec\\\"; alias l=\\\"ls -al\\\"; alias ll=\\\"ls -al\\\"; \")" }'
 
 ### 鍵 ###
-source ~/.export_keys.sh
+if [ -e ~/.export_keys.sh ]; then
+  source ~/.export_keys.sh
+fi
 
 ### zsh ###
 
@@ -44,12 +46,16 @@ prompt pure
 ### 言語 ###
 
 # rbenv
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
+if which rbenv > /dev/null; then
+  export PATH="$HOME/.rbenv/bin:$PATH"
+  eval "$(rbenv init -)"
+fi
 
 # pyenv
-export PATH="$HOME/.pyenv/shims:$PATH"
-eval "$(pyenv init -)"
+if which pyenv > /dev/null; then
+  export PATH="$HOME/.pyenv/shims:$PATH"
+  eval "$(pyenv init -)"
+fi
 
 # npm https://qiita.com/PolarBear/items/62c0416492810b7ecf7c
 export PATH=$PATH:$HOME/.nodebrew/current/bin
@@ -59,7 +65,9 @@ export GOPATH="$HOME/go"
 export PATH="$HOME/go/bin:$PATH"
 
 # rust (rustup-init)
-source $HOME/.cargo/env
+if [ -e $HOME/.cargo/env ]; then
+  source $HOME/.cargo/env
+fi
 
 ### brew ###
 
