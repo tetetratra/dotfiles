@@ -80,6 +80,7 @@ ln -sf $PWD/dein.toml ~/.config/nvim/dein/toml/dein.toml
 ln -sf $PWD/.vimrc ~/.vimrc
 ln -sf $PWD/.gvimrc ~/.gvimrc
 ln -sf $PWD/.ctags ~/.ctags
+ln -sf $PWD/.solargraph.yml ~/.solargraph.yml
 
 ln -sf $PWD/bin ~/bin
 
