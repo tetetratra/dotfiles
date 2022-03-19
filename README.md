@@ -3,7 +3,7 @@
 defaults write -globalDomain _HIHideMenuBar -bool true
 
 defaults write -g com.apple.trackpad.scaling -int 3
-defaults write -g com.apple.trackpad.scrolling -int 1 # 大きすぎ
+defaults write -g com.apple.trackpad.scrolling -int 0.5
 defaults write -g com.apple.mouse.scaling 5
 defaults write -g com.apple.scrollwheel.scaling 5
 
@@ -110,4 +110,10 @@ rbenv global 3.1.0
   - ` brew bundle dump`でBrewfileをダンプする
 - `Default.bttpreset`
 - `iterm.json`
+- google日本語入力を利用するようにする
+  - 設定を変更
+  - 辞書を登録
+
+
+
 
