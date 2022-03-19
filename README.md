@@ -96,14 +96,18 @@ ln -sf $PWD/.solargraph.yml ~/.solargraph.yml
 mkdir ~/bin
 ln -sf $PWD/bin ~/bin
 
-rbenv install 3.1.0
+rbenv install 3.1.0 # よしなに
 rbenv global 3.1.0
+
+pyenv install 3.10.3 # よしなに
+rbenv global 3.10.3
 ```
 
 - `iterm.json`をインポート
   - preferences -> profiles -> other actions -> import
 - `Default.bttpreset`をインポート
-
+- deinのインストール
+  - `.vimrc`参照
 
 ## 手動で更新するもの
 
