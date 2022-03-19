@@ -3,7 +3,7 @@
 defaults write -globalDomain _HIHideMenuBar -bool true
 
 defaults write -g com.apple.trackpad.scaling -int 3
-defaults write -g com.apple.trackpad.scrolling -int 0.5
+defaults write -g com.apple.trackpad.scrolling -int 1
 defaults write -g com.apple.mouse.scaling 5
 defaults write -g com.apple.scrollwheel.scaling 5
 
