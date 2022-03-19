@@ -85,6 +85,7 @@ ln -sf $PWD/.tmux.conf ~/.tmux.conf
 ln -sf $PWD/.zshrc ~/.zshrc
 ln -sf $PWD/.gitignore ~/.gitignore
 ln -sf $PWD/.gitconfig ~/.gitconfig
+mkdir -p ~/.config/nvim
 ln -sf $PWD/init.vim ~/.config/nvim/init.vim
 ln -sf $PWD/dein.toml ~/.config/nvim/dein/toml/dein.toml
 ln -sf $PWD/.vimrc ~/.vimrc
@@ -92,6 +93,7 @@ ln -sf $PWD/.gvimrc ~/.gvimrc
 ln -sf $PWD/.ctags ~/.ctags
 ln -sf $PWD/.solargraph.yml ~/.solargraph.yml
 
+mkdir ~/bin
 ln -sf $PWD/bin ~/bin
 
 rbenv install 3.1.0
