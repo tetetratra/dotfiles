@@ -7,6 +7,9 @@ defaults write -g com.apple.trackpad.scrolling -int 1 # 大きすぎ
 defaults write -g com.apple.mouse.scaling 5
 defaults write -g com.apple.scrollwheel.scaling 5
 
+defaults write com.apple.keyboard.fnState -boolean true
+defaults write -g AppleKeyboardUIMode -int 3
+
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
 defaults -currentHost write -g com.apple.mouse.tapBehavior -bool true
