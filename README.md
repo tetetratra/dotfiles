@@ -2,8 +2,14 @@
 ```bash
 defaults write -globalDomain _HIHideMenuBar -bool true
 
+defaults write -g com.apple.trackpad.scaling -int 3
+defaults write -g com.apple.trackpad.scrolling -int 1
 defaults write -g com.apple.mouse.scaling 5
 defaults write -g com.apple.scrollwheel.scaling 5
+
+defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+defaults -currentHost write -g com.apple.mouse.tapBehavior -bool true
 
 defaults write com.apple.finder FXPreferredViewStyle clmv
 defaults write com.apple.finder AppleShowAllFiles -boolean true
