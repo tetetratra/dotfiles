@@ -1,7 +1,5 @@
 
 ```bash
-mkdir ~/p && cd p && git clone git@github.com:tetetratra/dotfiles.git && cd dotfiles
-
 defaults write -globalDomain _HIHideMenuBar -bool true
 
 defaults write -g com.apple.mouse.scaling 5
@@ -60,11 +58,14 @@ networksetup -setdnsservers Wi-Fi 2001:4860:4860::8844 2001:4860:4860::8888 8.8.
 ```
 
 - ここでmacを再起動
+- sshの設定をする
 
 ```bash
 xcode-select --install
 
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+mkdir ~/p && cd p && git clone git@github.com:tetetratra/dotfiles.git && cd dotfiles
 
 cd ~/p/dotfiles && brew bundle --file ./manual/Brewfile
 
