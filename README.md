@@ -110,6 +110,7 @@ rbenv global 3.1.0
   - ` brew bundle dump`でBrewfileをダンプする
 - `Default.bttpreset`
 - `iterm.json`
+  - preferences -> profiles -> other actions -> import
 - google日本語入力を利用するようにする
   - 設定を変更
   - 辞書を登録
