@@ -1,4 +1,6 @@
 {
+"Profiles": [
+{
   "Use Non-ASCII Font" : true,
   "Tags" : [
 
@@ -20,15 +22,23 @@
     "Blue Component" : 0.85098040103912354
   },
   "Normal Font" : "Monaco 14",
-  "Ansi 3 Color" : {
-    "Green Component" : 0.66274511814117432,
-    "Red Component" : 0.94509804248809814,
-    "Blue Component" : 0.47058823704719543
+  "Ansi 2 Color" : {
+    "Green Component" : 0.61960786581039429,
+    "Red Component" : 0.44705882668495178,
+    "Blue Component" : 0.48627451062202454
   },
-  "Transparency" : 0.22228743654822336,
+  "Ansi 4 Color" : {
+    "Green Component" : 0.66274511814117432,
+    "Red Component" : 0.54509806632995605,
+    "Blue Component" : 0.83137255907058716
+  },
   "Rows" : 30,
   "Default Bookmark" : "No",
-  "Right Option Key Sends" : 2,
+  "Ansi 5 Color" : {
+    "Green Component" : 0.60392159223556519,
+    "Red Component" : 0.67450982332229614,
+    "Blue Component" : 0.85882353782653809
+  },
   "Cursor Guide Color" : {
     "Red Component" : 0.70213186740875244,
     "Color Space" : "sRGB",
@@ -60,7 +70,7 @@
     "Red Component" : 0.78039216995239258,
     "Blue Component" : 0.78823530673980713
   },
-  "Working Directory" : "\/Users\/kondodaichi",
+  "Working Directory" : "\/Users\/tetetratra",
   "Blinking Cursor" : false,
   "Disable Window Resizing" : true,
   "Sync Title" : false,
@@ -278,7 +288,7 @@
       "Text" : "[1;2P"
     }
   },
-  "Window Type" : 0,
+  "Window Type" : 12,
   "Blur Radius" : 0.31817893401015229,
   "Cursor Type" : 2,
   "Background Image Location" : "",
@@ -321,29 +331,25 @@
     "Red Component" : 0,
     "Blue Component" : 0
   },
-  "Guid" : "9856769B-E790-4D7A-9D66-4F53D1FA64FF",
-  "Horizontal Spacing" : 1,
-  "Ansi 2 Color" : {
-    "Green Component" : 0.61960786581039429,
-    "Red Component" : 0.44705882668495178,
-    "Blue Component" : 0.48627451062202454
-  },
-  "Ansi 4 Color" : {
-    "Green Component" : 0.66274511814117432,
-    "Red Component" : 0.54509806632995605,
-    "Blue Component" : 0.83137255907058716
-  },
-  "Ansi 5 Color" : {
-    "Green Component" : 0.60392159223556519,
-    "Red Component" : 0.67450982332229614,
-    "Blue Component" : 0.85882353782653809
-  },
+  "Transparency" : 0.22228743654822336,
+  "Custom Directory" : "No",
   "Link Color" : {
     "Red Component" : 0,
     "Color Space" : "sRGB",
     "Blue Component" : 0.73423302173614502,
     "Alpha Component" : 1,
     "Green Component" : 0.35916060209274292
+  },
+  "Ansi 1 Color" : {
+    "Green Component" : 0.47450980544090271,
+    "Red Component" : 0.87450981140136719,
+    "Blue Component" : 0.48627451062202454
+  },
+  "Guid" : "9856769B-E790-4D7A-9D66-4F53D1FA64FF",
+  "Ansi 3 Color" : {
+    "Green Component" : 0.66274511814117432,
+    "Red Component" : 0.94509804248809814,
+    "Blue Component" : 0.47058823704719543
   },
   "Ansi 7 Color" : {
     "Green Component" : 0.73333334922790527,
@@ -360,10 +366,8 @@
     "Red Component" : 1,
     "Blue Component" : 0.3333333432674408
   },
-  "Ansi 1 Color" : {
-    "Green Component" : 0.47450980544090271,
-    "Red Component" : 0.87450981140136719,
-    "Blue Component" : 0.48627451062202454
-  },
-  "Custom Directory" : "No"
+  "Horizontal Spacing" : 1,
+  "Right Option Key Sends" : 2
+}
+]
 }
