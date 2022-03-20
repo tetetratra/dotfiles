@@ -109,6 +109,7 @@ pip install pynvim
 - `Default.bttpreset`をインポート
 - deinのインストール
   - `.vimrc`参照
+- dein.tomlのコメントに従って、macvimが使っているpythonにpynvimを入れる
 - システム環境設定
   - アクセシビリティ -> トラックパッド -> ダブルタップで選択
   - キーボード

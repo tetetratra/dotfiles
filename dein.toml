@@ -25,6 +25,7 @@ hook_add = '''
 #   - brewでインストールしたら大丈夫そう? アプリをそのままもってくるとだめそう
 #     - brew --cask でインストールすべし (better touch toolで使えるようにするため)
 # - pyx print(sys.version) で出る python の pip3 に pynvim が入っていること
+#   - pyx print(sys.path) で場所はわかる
 #   - 無ければ pip install pynvim をする
 # - neovim以外の場合は 'roxma/nvim-yarp' と 'roxma/vim-hug-neovim-rpc' が必要
 
