@@ -1,0 +1,3 @@
+#!/bin/sh
+
+pmset -g rawbatt | grep % | awk '{print $4}' | tr -d "%;"
