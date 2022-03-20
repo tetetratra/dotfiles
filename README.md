@@ -89,7 +89,6 @@ mkdir -p ~/.config/nvim/dein/toml
 ln -sf $PWD/init.vim ~/.config/nvim/init.vim
 ln -sf $PWD/dein.toml ~/.config/nvim/dein/toml/dein.toml
 ln -sf $PWD/.vimrc ~/.vimrc
-ln -sf $PWD/.gvimrc ~/.gvimrc
 ln -sf $PWD/.ctags ~/.ctags
 ln -sf $PWD/.solargraph.yml ~/.solargraph.yml
 
@@ -109,7 +108,12 @@ pip install pynvim
 - `Default.bttpreset`をインポート
 - deinのインストール
   - `.vimrc`参照
-- 設定 -> アクセシビリティ -> トラックパッド -> ダブルタップで選択
+- システム環境設定
+  - -> アクセシビリティ -> トラックパッド -> ダブルタップで選択
+  - -> キーボード
+    - すべてOFFにする
+    - スクリーンショット, spotlightはONにする
+    - -> ショートカット -> キーボード -> 次のウィンドウを操作対象とする [ctrl スペース]
 
 ## 手動で更新するもの
 
@@ -117,7 +121,8 @@ pip install pynvim
   - オプションの一番下のBackupから取れる
 - `Brewfile`
   - ` brew bundle dump`でBrewfileをダンプする
-- `Default.bttpreset`
+- `MyConfig.bttpreset`
+  - プリセット -> ハイライトしたものをエクスポート -> [only trigger]
 - `iterm.json`
   - preferences -> profiles -> other actions -> export as json -> all
 - google日本語入力を利用するようにする
