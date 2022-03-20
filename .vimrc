@@ -1,6 +1,6 @@
 " deinの初回インストール時はシェルスクリプトの実行が必要 https://github.com/Shougo/dein.vim
 " 時々 :call dein#update()　でアップデートしよう
-if has('nvim')
+if has("gui_running") || has('nvim')
   " deinが読み込まれない時は、:call dein#recache_runtimepath() をしてみよう
   " Required:
   set runtimepath+=$HOME/.cache/dein/repos/github.com/Shougo/dein.vim
@@ -23,7 +23,7 @@ if has('nvim')
   endif
 endif
 
-let rawvim = !has('nvim')
+let rawvim = !(has("gui_running") || has('nvim'))
 if rawvim
   colorscheme desert
 endif

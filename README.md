@@ -89,6 +89,7 @@ mkdir -p ~/.config/nvim/dein/toml
 ln -sf $PWD/init.vim ~/.config/nvim/init.vim
 ln -sf $PWD/dein.toml ~/.config/nvim/dein/toml/dein.toml
 ln -sf $PWD/.vimrc ~/.vimrc
+ln -sf $PWD/.gvimrc ~/.gvimrc
 ln -sf $PWD/.ctags ~/.ctags
 ln -sf $PWD/.solargraph.yml ~/.solargraph.yml
 
@@ -124,8 +125,7 @@ pip install pynvim
   - オプションの一番下のBackupから取れる
 - `Brewfile`
   - ` brew bundle dump`でBrewfileをダンプする
-- `MyConfig.bttpreset`
-  - プリセット -> ハイライトしたものをエクスポート -> [only trigger]
+- `Default.bttpreset`
 - `iterm.json`
   - preferences -> profiles -> other actions -> export as json -> all
 - google日本語入力を利用するようにする

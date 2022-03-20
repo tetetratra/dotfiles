@@ -8,6 +8,14 @@ hook_add = '''
   endif
 '''
 
+# [[plugins]]
+# repo = 'w0ng/vim-hybrid'
+# hook_add = '''
+#   if has("nvim") " neovim
+#     colorscheme hybrid
+#   endif
+# '''
+
 # denite
 
 # deniteが動く条件
@@ -17,8 +25,8 @@ hook_add = '''
 #   - brewでインストールしたら大丈夫そう? アプリをそのままもってくるとだめそう
 #     - brew --cask でインストールすべし (better touch toolで使えるようにするため)
 # - pyx print(sys.version) で出る python の pip3 に pynvim が入っていること
-#   - 場所を知るには pyx print(sys.path)
 #   - 無ければ pip install pynvim をする
+# - neovim以外の場合は 'roxma/nvim-yarp' と 'roxma/vim-hug-neovim-rpc' が必要
 
 [[plugins]]
 repo = 'Shougo/denite.nvim'
@@ -62,6 +70,12 @@ repo = 'Shougo/deoplete.nvim'
 hook_add = '''
   let g:deoplete#enable_at_startup = 1
 '''
+
+[[plugins]]
+repo = 'roxma/nvim-yarp'
+
+[[plugins]]
+repo = 'roxma/vim-hug-neovim-rpc'
 
 # ファイル系
 
