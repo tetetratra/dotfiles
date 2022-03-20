@@ -100,7 +100,8 @@ rbenv install 3.1.0 # よしなに
 rbenv global 3.1.0
 
 pyenv install 3.10.3 # よしなに
-rbenv global 3.10.3
+pyenv global 3.10.3
+pip install pynvim
 ```
 
 - `iterm.json`をインポート
