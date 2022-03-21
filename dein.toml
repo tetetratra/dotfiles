@@ -250,6 +250,11 @@ repo = 'cohama/agit.vim'
 repo = 'prabirshrestha/vim-lsp'
 # LspDocumentFormat, LspRename とかも便利そう
 hook_add = '''
+  let g:lsp_settings = {
+  \  'solargraph': { 'disabled': 1 },
+  \  'typeprof': { 'disabled': 1 }
+  \}
+
   nmap <Space><Space> <esc>:LspHover<CR>
   nmap <Space>]       <esc>:LspDefinition<CR>
   nmap <Space>[       <esc>:LspReference<CR>
