@@ -1,3 +1,14 @@
+## 手動で更新するもの
+
+- `vimium-options.json`
+  - オプションの一番下のBackupから取れる
+- `Brewfile`
+  - ` brew bundle dump`でBrewfileをダンプする
+- `Default.bttpreset`
+- `iterm.json`
+  - preferences -> profiles -> other actions -> export as json -> all
+
+## macのクリーンインストール後に行うこと
 
 ```bash
 defaults write -globalDomain _HIHideMenuBar -bool true
@@ -119,20 +130,7 @@ pip install pynvim
       - スクリーンショット, spotlightはONにする
       - キーボード -> 次のウィンドウを操作対象とする [ctrl スペース]
     - 音声入力 -> ショートカットキーをOFFにする
-
-## 手動で更新するもの
-
-- `vimium-options.json`
-  - オプションの一番下のBackupから取れる
-- `Brewfile`
-  - ` brew bundle dump`でBrewfileをダンプする
-- `Default.bttpreset`
-- `iterm.json`
-  - preferences -> profiles -> other actions -> export as json -> all
 - google日本語入力を利用するようにする
   - 設定を変更
   - 辞書を登録
-
-
-
 
