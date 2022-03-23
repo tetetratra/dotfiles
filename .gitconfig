@@ -9,6 +9,7 @@
   br = branch
   co = checkout
   d = "diff master..HEAD"
+  ri = "rebase -i HEAD~15"
 [core]
   editor = vim
   quotepath = false  # git 日本語ファイル名をエスケープせずに表示
