@@ -1,20 +1,29 @@
-#!/usr/bin/ruby
+#! /usr/bin/env ruby
+
+# pluralize
+# singularize
+# ordinal
+# ordinalize
+# upcase_first
+# humanize
+# titleize
+# dasherize
+# constantize
+# safe_constantize
+# deconstantize
+# demodulize
+# camelize
+# underscore
+# classify
+# tableize
+# parameterize
+
+raise unless require 'active_support/all'
 
 require 'date'
 require 'json'
 
-_ = ''
-__ = ' '
-
-class String
-  def to_camel
-    self.gsub(/_[a-z0-9]|^[a-z]/) { |s| s.gsub('_', '').upcase }
-  end
-
-  def to_snake
-    self.gsub(/[A-Z0-9]/) { |s| '_' + s.downcase }.gsub(/^_/, '')
-  end
-end
+_ = ' '
 
 class Enumerator
   def w(&b)
