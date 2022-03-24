@@ -189,8 +189,6 @@ set showtabline=2
 
 " === window系 ===
 noremap <Space>e <C-w>w
-noremap <Space>r <C-w>W
-noremap <S-Space> <C-w>w
 noremap <Space>7 <C-w>K<CR>
 noremap <Space>8 <C-w>x<CR>
 noremap <Space>9 <C-w>H<CR>

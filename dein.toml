@@ -84,7 +84,7 @@ repo = 'roxma/vim-hug-neovim-rpc'
 repo = 'scrooloose/nerdtree'
 hook_add = '''
   let NERDTreeShowHidden=1
-  let NERDTreeWinSize=25
+  let NERDTreeWinSize=40
   let g:NERDTreeMapMenu='m'
   nnoremap <space>1 :NERDTreeToggle<CR>
 '''
