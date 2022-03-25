@@ -199,6 +199,8 @@ vnoremap $ $h
 " 貼り付けたテキストの末尾へ自動的に移動
 vnoremap <silent> y y`]
 vnoremap <silent> p p`]
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
 
 " === comand系 ===
 cabbrev t tabnew
