@@ -1,9 +1,7 @@
 alias l='ls -AlFGhv'
 alias ls='ls -AFGv'
 alias ll='ls -AlFGhv'
-alias tree='tree -a -C -I "\.DS_Store|\.git|node_modules|vendor\/bundle" -N'
-alias airport='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I'
-alias scselect='/usr/sbin/scselect'
+alias tree='tree -a'
 alias p='pbpaste'
 alias c='pbcopy'
 alias o='open'
@@ -11,15 +9,14 @@ alias ber='bundle exec ruby'
 alias be='bundle exec'
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 alias rm='trash'
-alias mvim='/Applications/MacVim.app/Contents/bin/mvim'
 alias d='docker'
 alias dc='docker-compose'
 alias dcr='(){  docker-compose run --rm $1 $2   -c "/bin/bash --rcfile <(echo \"alias r=ruby; alias be=\\\"bundle exec\\\"; alias l=\\\"ls -al\\\"; alias ll=\\\"ls -al\\\"; \")" }'
 alias dcrb='(){ docker-compose run --rm $1 bash -c "/bin/bash --rcfile <(echo \"alias r=ruby; alias be=\\\"bundle exec\\\"; alias l=\\\"ls -al\\\"; alias ll=\\\"ls -al\\\"; \")" }'
 
 ### 鍵 ###
-if [ -e ~/.export_keys.sh ]; then
-  source ~/.export_keys.sh
+if [ -e ~/.keys.sh ]; then
+  source ~/.keys.sh
 fi
 
 ### zsh ###
@@ -73,7 +70,6 @@ fi
 
 # brewで入れた方をmac内蔵より優先度高く探す
 export PATH=/usr/local/bin:$PATH
-export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
 
 ### key bind ###
 
