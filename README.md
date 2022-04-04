@@ -89,9 +89,6 @@ mkdir ~/p && cd p && git clone git@github.com:tetetratra/dotfiles.git && cd dotf
 
 cd ~/p/dotfiles && brew bundle --file ./manual/Brewfile
 
-mas install 1429033973 # RunCat
-mas install 931571202 # QuickShade
-
 ln -sf $PWD/.tmux.conf ~/.tmux.conf
 ln -sf $PWD/.zshrc ~/.zshrc
 ln -sf $PWD/.gitignore ~/.gitignore
