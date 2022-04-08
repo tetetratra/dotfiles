@@ -3,7 +3,7 @@
 - `vimium-options.json`
   - オプションの一番下のBackupから取れる
 - `Brewfile`
-  - ` brew bundle dump`でBrewfileをダンプする
+  - `brew bundle dump`でBrewfileをダンプする
 - `Default.bttpreset`
 - `iterm.json`
   - preferences -> profiles -> other actions -> export as json -> all
