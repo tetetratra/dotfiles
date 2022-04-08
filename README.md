@@ -114,6 +114,8 @@ pip install pynvim
 
 - `iterm.json`をインポート
   - preferences -> profiles -> other actions -> import
+- iterm -> preference -> keys -> navigation shortcuts
+  - すべて[No Shortcut]にする(tmuxのwindow切り替えのため)
 - `Default.bttpreset`をインポート
 - deinのインストール
   - `.vimrc`参照
