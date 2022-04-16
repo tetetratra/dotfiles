@@ -222,3 +222,6 @@ highlight Pmenu ctermbg=234 ctermfg=105
 highlight PmenuSel ctermbg=234 ctermfg=45
 highlight Search guibg=darkcyan guifg=cyan
 
+autocmd BufNewFile,BufRead *.rbs set filetype=ruby
+autocmd BufNewFile,BufRead *.mlisp set filetype=lisp
+let lisp_rainbow = 1
