@@ -133,4 +133,4 @@ pip install pynvim
   - 設定を変更
   - 辞書を登録
 - clippyのキーボードショートカットの設定をする
-
+- Karabiner-Elements で、左右のコマンドキーで[英数/かな]切り替えをできるようにする

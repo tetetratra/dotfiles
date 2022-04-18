@@ -38,6 +38,7 @@ cask "visual-studio-code"
 cask "vlc"
 cask "zoom"
 cask "steam"
+cask "karabiner-elements"
 mas "QuickShade", id: 931571202
 mas "RunCat", id: 1429033973
 mas "Relax Melodies: Sleep Sounds", id: 467103113
