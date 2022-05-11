@@ -340,6 +340,9 @@ repo = 'cespare/vim-toml'
 [[plugins]]
 repo = 'mechatroner/rainbow_csv'
 
+[[plugins]]
+repo = 'pocke/rbs.vim'
+
 # その他
 
 [[plugins]]
