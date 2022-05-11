@@ -24,6 +24,7 @@ brew "universal-ctags/universal-ctags/universal-ctags", args: ["HEAD"]
 brew "wget"
 brew "zsh"
 brew "poppler"
+brew "imagemagick"
 cask "bettertouchtool"
 cask "clipy"
 cask "discord"
