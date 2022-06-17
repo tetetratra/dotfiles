@@ -284,6 +284,9 @@ repo = 'tpope/vim-rails'
 [[plugins]] # heredocのsytax-highlight
 repo = 'joker1007/vim-ruby-heredoc-syntax'
 
+[[plugins]]
+repo = 'pocke/rbs.vim'
+
 ## javascript
 
 [[plugins]]
@@ -346,8 +349,8 @@ repo = 'cespare/vim-toml'
 [[plugins]]
 repo = 'mechatroner/rainbow_csv'
 
-[[plugins]]
-repo = 'pocke/rbs.vim'
+## PlantUML
+repo = 'aklt/plantuml-syntax'
 
 # その他
 
