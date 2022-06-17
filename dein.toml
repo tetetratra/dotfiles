@@ -203,6 +203,12 @@ hook_add = '''
   " xnoremap * :<C-u>call <SID>VSetSearch()<CR>/<C-R>=@/<CR><CR>N
 '''
 
+[[plugin]] # typo check https://qiita.com/kamykn/items/f65e83820623694c78ca
+repo = 'kamykn/spelunker.vim'
+# hook_add = '''
+#   let g:spelunker_white_list_for_user = []
+# '''
+
 # mark系
 
 [[plugins]]
@@ -250,11 +256,11 @@ repo = 'cohama/agit.vim'
 repo = 'prabirshrestha/vim-lsp'
 # LspDocumentFormat, LspRename とかも便利そう
 hook_add = '''
+  " 1: true, 0: false
   let g:lsp_settings = {
-  \  'solargraph': { 'disabled': 1 },
-  \  'typeprof': { 'disabled': 1 }
+  \  'solargraph': { 'disabled': 0 },
+  \  'typeprof': { 'disabled': 0 }
   \}
-
   nmap <Space><Space> <esc>:LspHover<CR>
   nmap <Space>]       <esc>:LspDefinition<CR>
   nmap <Space>[       <esc>:LspReference<CR>

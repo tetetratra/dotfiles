@@ -11,8 +11,8 @@ alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 alias rm='trash'
 alias d='docker'
 alias dc='docker-compose'
-alias dcr='(){  docker-compose run --rm $1 $2   -c "/bin/bash --rcfile <(echo \"alias r=ruby; alias be=\\\"bundle exec\\\"; alias l=\\\"ls -al\\\"; alias ll=\\\"ls -al\\\"; \")" }'
-alias dcrb='(){ docker-compose run --rm $1 bash -c "/bin/bash --rcfile <(echo \"alias r=ruby; alias be=\\\"bundle exec\\\"; alias l=\\\"ls -al\\\"; alias ll=\\\"ls -al\\\"; \")" }'
+alias dcr='(){  docker-compose run --rm $1 $2   -c "/bin/bash --rcfile <(echo \"alias r=ruby; alias be=\\\"bundle exec\\\"; alias lint=\\\"npx eslint --fix\\\"; alias l=\\\"ls -al\\\"; alias ll=\\\"ls -al\\\"; \")" }'
+alias dcrb='(){ docker-compose run --rm $1 bash -c "/bin/bash --rcfile <(echo \"alias r=ruby; alias be=\\\"bundle exec\\\"; alias lint=\\\"npx eslint --fix\\\"; alias l=\\\"ls -al\\\"; alias ll=\\\"ls -al\\\"; \")" }'
 # format
 alias f="p | rr 'gsub(\".\", \".\n\n\").gsub(\"，\", \",\n\").gsub(\" \", \"\")' "
 
