@@ -287,6 +287,9 @@ repo = 'joker1007/vim-ruby-heredoc-syntax'
 [[plugins]]
 repo = 'pocke/rbs.vim'
 
+[[plugins]]
+repo = 'mrkn/vim-cruby' # set ft=c
+
 ## javascript
 
 [[plugins]]
