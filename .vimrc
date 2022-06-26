@@ -204,6 +204,7 @@ vnoremap K :m '<-2<CR>gv=gv
 
 " === comand系 ===
 cabbrev t tabnew
+cabbrev w set wrap!
 
 cnoremap <C-e> <End>
 cnoremap <C-a> <Home>
