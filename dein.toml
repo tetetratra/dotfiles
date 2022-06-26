@@ -287,10 +287,6 @@ repo = 'pocke/rbs.vim'
 
 [[plugins]]
 repo = 'mrkn/vim-cruby' # set ft=c
-hook_add = '''
-  " ruby/ 配下のCはcrubyとする https://github.com/mrkn/dotfiles/blob/63626731015ebef950db8a18acee3332bf946eb2/config/.vimrc#L56-L67
-  autocmd BufRead */ruby/*.{c,cc,cpp,h,hpp} setlocal filetype=cruby
-'''
 
 ## javascript
 
