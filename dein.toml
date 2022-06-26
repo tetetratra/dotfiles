@@ -49,9 +49,9 @@ hook_add = '''
   " https://github.com/Shougo/denite.nvim/blob/master/doc/denite.txt#L2083
   nmap <Space>2 <esc>:Denite file/rec -match-highlight<CR>
   nmap <Space>3 <esc>:Denite -start-filter grep:::! -match-highlight<CR>
-  nmap <Space>4 <esc>:Denite buffer -match-highlight<CR>
+  nmap <Space>4 <esc>:Denite outline -match-highlight<CR>
   nmap <Space>5 <esc>:Denite mark -match-highlight<CR>
-  nmap <Space>6 <esc>:Denite outline -match-highlight<CR>
+  nmap <Space>6 <esc>:Denite buffer -match-highlight<CR>
   nmap <Space>r <esc>:Denite -resume<CR>
 
   " ripgrepを使う https://github.com/Shougo/denite.nvim/blob/master/doc/denite.txt#L2083
