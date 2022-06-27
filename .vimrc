@@ -162,6 +162,8 @@ if has("nvim")
   nnoremap O <C-o>
 endif
 nnoremap t :tabnew<CR>
+nnoremap J V:m '>+1<CR>gv=gv
+nnoremap K V:m '<-2<CR>gv=gv
 
 
 " === buffer系 ===
