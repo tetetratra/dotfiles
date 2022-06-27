@@ -227,7 +227,7 @@ hook_add = '''
   nmap <Space>H <Plug>(quickhl-manual-reset)
 '''
 
-# Git系
+# git系
 
 [[plugins]] # gitコマンドをvimから使う
 repo = 'tpope/vim-fugitive'
@@ -248,6 +248,14 @@ hook_add = '''
 
 [[plugins]] # gitのviewer. :Agit, :AgitFile
 repo = 'cohama/agit.vim'
+
+# コンフリクトをハイライト
+# [x や ]x でコンフリクト間を移動
+[[plugins]]
+repo = 'rhysd/conflict-marker.vim'
+hook_add = '''
+  let g:conflict_marker_enable_mappings = 0
+'''
 
 # 言語系
 
