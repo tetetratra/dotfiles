@@ -1,15 +1,19 @@
 [alias]
   c = "commit -am'update'"
+  cam = "commit -am"
   s = status
   ss = status --short
   sss = "!f() { git status --short | awk '{ print $2 }' | tr '\n' ' '; }; f"
   l = log --pretty=fuller --graph --date=short --decorate=full --stat
+  lp = log --pretty=fuller --graph --date=short --decorate=full --stat -p
   pl = pull
   ps = push
   br = branch
   co = checkout
   d = "diff master..HEAD"
+  diffall = diff --no-prefix --unified=1000
   ri = "rebase -i HEAD~15"
+  oneline = log --name-only --oneline
 [core]
   editor = vim
   quotepath = false  # git 日本語ファイル名をエスケープせずに表示
