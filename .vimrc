@@ -164,7 +164,7 @@ endif
 nnoremap t :tabnew<CR>
 nnoremap J V:m '>+1<CR>gv=gv
 nnoremap K V:m '<-2<CR>gv=gv
-
+nnoremap E <esc>:e!<CR>
 
 " === buffer系 ===
 " 保存してなくてもバッファ切り替えOK
