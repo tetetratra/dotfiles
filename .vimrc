@@ -51,7 +51,7 @@ set list listchars=tab:>-
 " ①みたいな記号を全角で表示
 set ambiwidth=double
 set expandtab
-set tabstop=2
+set tabstop=8
 set shiftwidth=2
 autocmd FileType c setlocal sw=4 sts=4 ts=4 et
 set incsearch
@@ -154,9 +154,10 @@ nnoremap <Space>q :q<CR>
 " nnoremap <Space>q :bd<CR>
 " 候補が複数ある場合は一覧表示
 nnoremap <C-]> g<C-]>
-" full path をyank
-nnoremap cp :let @+ = expand("%")<CR>
-nnoremap cpp :let @+ = expand("%:p")<CR>
+" ファイル名をyank
+nnoremap <Space>c <esc>:let @+ = expand('%:t')<CR>
+" パスとファイル名をyank
+nnoremap <Space>C <esc>:let @+ = expand("%")<CR>
 if has("nvim")
   " tmux時のnvim用
   nnoremap O <C-o>
