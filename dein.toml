@@ -140,6 +140,7 @@ repo = 'itchyny/lightline.vim'
 # https://github.com/itchyny/lightline.vim/issues/293#issuecomment-373710096
 hook_add = '''
   let g:lightline = {
+        \ 'colorscheme': 'PaperColor',
         \ 'component_function': {
         \   'filename': 'LightlineFilename',
         \ }
@@ -359,6 +360,7 @@ repo = 'cespare/vim-toml'
 repo = 'mechatroner/rainbow_csv'
 
 ## PlantUML
+[[plugins]]
 repo = 'aklt/plantuml-syntax'
 
 # その他
