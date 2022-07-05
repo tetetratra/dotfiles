@@ -55,7 +55,7 @@
     "Red Component" : 0.3333333432674408,
     "Blue Component" : 0.3333333432674408
   },
-  "Ambiguous Double Width" : false,
+  "Ambiguous Double Width" : true,
   "Jobs to Ignore" : [
     "rlogin",
     "ssh",
