@@ -176,6 +176,14 @@ hook_add = '''
   let g:brightest#pattern = '\k\+'
 '''
 
+[[plugins]]
+repo = 'nathanaelkane/vim-indent-guides'
+hook_add = '''
+  let g:indent_guides_enable_on_vim_startup = 1
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=none
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=234
+'''
+
 # 検索・置換系
 
 [[plugins]] # rubyやperl風正規表現(インクリメンタルサーチはできない)
@@ -297,7 +305,7 @@ repo = 'pocke/rbs.vim'
 [[plugins]]
 repo = 'mrkn/vim-cruby' # set ft=c
 
-## javascript
+## JavaScript
 
 [[plugins]]
 repo = 'maxmellon/vim-jsx-pretty'
@@ -311,12 +319,12 @@ hook_add = '''
 [[plugins]]
 repo = 'rhysd/vim-crystal'
 
-## slim
+## Slim
 
 [[plugins]]
 repo = 'slim-template/vim-slim'
 
-## markdown
+## Markdown
 
 [[plugins]]
 repo = 'plasticboy/vim-markdown'
