@@ -252,7 +252,7 @@ repo = 'tpope/vim-rhubarb'
 [[plugins]] # gitのdiffを左端に表示
 repo = 'airblade/vim-gitgutter'
 hook_add = '''
-  let g:gitgutter_git_executable = '/usr/local/bin/git'
+  let g:gitgutter_git_executable = substitute(system('which git'), '\n\+$', '', '')
 '''
 
 [[plugins]] # gitのviewer. :Agit, :AgitFile
