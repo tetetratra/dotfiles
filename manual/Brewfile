@@ -1,5 +1,6 @@
 brew "cmake"
 brew "delta"
+brew "bat"
 brew "git"
 brew "jq"
 brew "mas"
