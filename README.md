@@ -4,7 +4,6 @@
   - オプションの一番下のBackupから取れる
 - `Brewfile`
   - `brew bundle dump`でBrewfileをダンプする
-- `Default.bttpreset`
 - `iterm.json`
   - preferences -> profiles -> other actions -> export as json -> all
 
@@ -116,7 +115,6 @@ pip install pynvim
   - preferences -> profiles -> other actions -> import
 - iterm -> preference -> keys -> navigation shortcuts
   - すべて[No Shortcut]にする(tmuxのwindow切り替えのため)
-- `Default.bttpreset`をインポート
 - deinのインストール
   - `.vimrc`参照
 - dein.tomlのコメントに従って、macvimが使っているpythonにpynvimを入れる
@@ -134,3 +132,16 @@ pip install pynvim
   - 辞書を登録
 - clippyのキーボードショートカットの設定をする
 - Karabiner-Elements で、左右のコマンドキーで[英数/かな]切り替えをできるようにする
+- Better Touch Toolを設定する
+  - global
+    - `ctrl [1-9]`にアプリケーションを登録
+      - 1: chrome
+      - 2: iterm2
+      - 3以降: よしなに
+    - `ctrl shift alt [hjkl]`でwindow移動
+    - `ctrl shift [hjkl]`で矢印キー
+      - リピートは0.03間隔,0.06遅延
+  - Google Chrome
+    - `ctrl [jk]`で矢印キー
+      - リピートは0.03間隔,0.06遅延
+
