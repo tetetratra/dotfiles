@@ -188,6 +188,15 @@ nmap <D-6> <esc>6gt<CR>
 nmap <D-7> <esc>7gt<CR>
 nmap <D-8> <esc>8gt<CR>
 nmap <D-9> <esc>:tablast<CR>
+nmap 1<Space> <esc>1gt<CR>
+nmap 2<Space> <esc>2gt<CR>
+nmap 3<Space> <esc>3gt<CR>
+nmap 4<Space> <esc>4gt<CR>
+nmap 5<Space> <esc>5gt<CR>
+nmap 6<Space> <esc>6gt<CR>
+nmap 7<Space> <esc>7gt<CR>
+nmap 8<Space> <esc>8gt<CR>
+nmap 9<Space> <esc>:tablast<CR>
 set showtabline=2
 
 " === window系 ===
