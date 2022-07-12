@@ -138,7 +138,8 @@ pip install pynvim
       - 2: iterm2
     - `ctrl shift alt [hjkl]`でwindow移動
   - Google Chrome
-    - `ctrl [jk]`で矢印キー
+    - `ctrl l`で`ctrl tab`, `ctrl h`で`ctrl shift tab`
+    - `ctrl [jknp]`で矢印キー
       - リピートは0.03間隔,0.06遅延
     - `command d`を無効化
     - `alt l`で`command l`を送る
