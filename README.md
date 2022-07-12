@@ -131,17 +131,21 @@ pip install pynvim
   - 設定を変更
   - 辞書を登録
 - clippyのキーボードショートカットの設定をする
-- Karabiner-Elements で、左右のコマンドキーで[英数/かな]切り替えをできるようにする
-- Better Touch Toolを設定する
+- Better Touch Tool を設定する
   - global
     - `ctrl [1-9]`にアプリケーションを登録
       - 1: chrome
       - 2: iterm2
-      - 3以降: よしなに
     - `ctrl shift alt [hjkl]`でwindow移動
-    - `ctrl shift [hjkl]`で矢印キー
-      - リピートは0.03間隔,0.06遅延
   - Google Chrome
     - `ctrl [jk]`で矢印キー
       - リピートは0.03間隔,0.06遅延
+    - `command d`を無効化
+    - `alt l`で`command l`を送る
+- Karabiner-Elements を設定する
+  - 左右のコマンドキーで[英数/かな]切り替えをできるようにする
+  - `esc`押下時に英数キーも送信する
+  - `ctrl [`押下時に英数キーも送信する
+  - `command [hjkl]`でarrow key
+    - "Change Command + h/j/k/l to Arrows" で検索すると出てくる
 
