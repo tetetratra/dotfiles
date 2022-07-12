@@ -86,7 +86,8 @@ hook_add = '''
   let NERDTreeShowHidden=1
   let NERDTreeWinSize=40
   let g:NERDTreeMapMenu='m'
-  nnoremap <space>1 :NERDTreeFind<CR>
+  nnoremap <space>1 :NERDTreeToggle<CR>
+  nnoremap <space><esc> :NERDTreeFind<CR>
 '''
 
 [[plugins]]
