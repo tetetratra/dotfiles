@@ -6,6 +6,8 @@
   - `brew bundle dump`でBrewfileをダンプする
 - `iterm.json`
   - preferences -> profiles -> other actions -> export as json -> all
+- `karabiner-elements.json`
+  - 新しい設定はここに書いてからアプリ側でインポートする
 
 ## macのクリーンインストール後に行うこと
 
@@ -100,8 +102,8 @@ ln -sf $PWD/.gvimrc ~/.gvimrc
 ln -sf $PWD/.ctags ~/.ctags
 ln -sf $PWD/.solargraph.yml ~/.solargraph.yml
 
-mkdir ~/bin
-ln -sf $PWD/bin ~/bin
+ln -sf $PWD/manual/karabiner-elements.json ~/.config/karabiner/assets/complex_modifications/karabiner-elements.json
+mkdir ~/bin && ln -sf $PWD/bin ~/bin
 
 rbenv install 3.1.0 # よしなに
 rbenv global 3.1.0
@@ -143,10 +145,5 @@ pip install pynvim
       - リピートは0.03間隔,0.06遅延
     - `command d`を無効化
     - `alt l`で`command l`を送る
-- Karabiner-Elements を設定する
-  - 左右のコマンドキーで[英数/かな]切り替えをできるようにする
-  - `esc`押下時に英数キーも送信する
-  - `ctrl [`押下時に英数キーも送信する
-  - `command [hjkl]`でarrow key
-    - "Change Command + h/j/k/l to Arrows" で検索すると出てくる
+- Karabiner-Elements で "my confing" にある設定のみをすべてenableにする
 
