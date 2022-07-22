@@ -145,5 +145,8 @@ pip install pynvim
       - リピートは0.03間隔,0.06遅延
     - `command d`を無効化
     - `alt l`で`command l`を送る
+  - iTerm
+    - `ctrl 2`で`ctrl b ctrl b`を送る
+      - globalの設定を上書きする
 - Karabiner-Elements で "my confing" にある設定のみをすべてenableにする
 

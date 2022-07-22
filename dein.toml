@@ -305,6 +305,9 @@ repo = 'pocke/rbs.vim'
 
 [[plugins]]
 repo = 'mrkn/vim-cruby' # set ft=c
+hook_add = '''
+  autocmd BufWinEnter,BufNewFile *.c,*.h setlocal filetype=cruby
+'''
 
 ## JavaScript
 
