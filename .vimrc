@@ -233,7 +233,8 @@ highlight Visual guibg=#006080
 highlight Comment ctermfg=245
 highlight Pmenu ctermbg=234 ctermfg=105
 highlight PmenuSel ctermbg=234 ctermfg=45
-highlight Search guibg=darkcyan guifg=cyan
+highlight Search guibg=darkcyan guifg=cyan ctermbg=darkcyan ctermfg=cyan
+highlight FloatBorder ctermfg=242
 
 autocmd BufNewFile,BufRead *.rbs set filetype=ruby
 autocmd BufNewFile,BufRead *.mlisp set filetype=lisp
