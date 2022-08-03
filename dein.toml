@@ -359,12 +359,3 @@ repo = 'mechatroner/rainbow_csv'
 [[plugins]]
 repo = 'aklt/plantuml-syntax'
 
-# その他
-
-[[plugins]]
-repo = 'glacambre/firenvim'
-hook_post_update = 'call firenvim#install(0)'
-hook_add = '''
-  set guifont=Monaco:h20 " chrome以外でguiにはならないからグローバルに設定
-'''
-
