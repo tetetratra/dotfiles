@@ -110,7 +110,6 @@ rbenv global 3.1.0
 
 pyenv install 3.10.3 # よしなに
 pyenv global 3.10.3
-pip install pynvim
 ```
 
 - `iterm.json`をインポート
@@ -119,7 +118,6 @@ pip install pynvim
   - すべて[No Shortcut]にする(tmuxのwindow切り替えのため)
 - deinのインストール
   - `.vimrc`参照
-- dein.tomlのコメントに従って、macvimが使っているpythonにpynvimを入れる
 - システム環境設定
   - アクセシビリティ -> トラックパッド -> ダブルタップで選択
   - キーボード

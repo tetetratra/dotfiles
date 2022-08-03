@@ -18,17 +18,7 @@ hook_add = '''
 
 # denite
 
-# deniteが動く条件
-# - echo has("python3") が 1 であること
-#   - python3_host_prog が正しく設定されていれば1になるみたい?
-#   - vimを再インストールすると治っているかも
-#   - brewでインストールしたら大丈夫そう? アプリをそのままもってくるとだめそう
-#     - brew --cask でインストールすべし (better touch toolで使えるようにするため)
-# - pyx print(sys.version) で出る python の pip3 に pynvim が入っていること
-#   - pyx print(sys.path) で場所はわかる
-#   - 無ければ pip install pynvim をする
-# - neovim以外の場合は 'roxma/nvim-yarp' と 'roxma/vim-hug-neovim-rpc' が必要
-
+# neovim以外の場合は 'roxma/nvim-yarp' と 'roxma/vim-hug-neovim-rpc' が必要
 [[plugins]]
 repo = 'Shougo/denite.nvim'
 hook_add = '''
@@ -71,12 +61,6 @@ repo = 'Shougo/deoplete.nvim'
 hook_add = '''
   let g:deoplete#enable_at_startup = 1
 '''
-
-[[plugins]]
-repo = 'roxma/nvim-yarp'
-
-[[plugins]]
-repo = 'roxma/vim-hug-neovim-rpc'
 
 # ファイル系
 

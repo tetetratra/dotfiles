@@ -5,9 +5,6 @@ brew "git"
 brew "jq"
 brew "mas"
 brew "mysql"
-# macvimがvimを内包しているのでvim自体は入れない
-# https://www.reddit.com/r/vim/comments/kj5g41/can_you_install_both_vim_and_macvim/
-cask "macvim"
 brew "neovim"
 brew "volta"
 brew "pstree"
