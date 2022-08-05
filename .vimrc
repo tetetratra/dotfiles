@@ -163,6 +163,7 @@ if has("nvim")
   nnoremap O <C-o>
 endif
 nnoremap t :tabnew<CR>
+nnoremap T :tabnew #<CR>
 nnoremap J V:m '>+1<CR>
 nnoremap K V:m '<-2<CR>
 nnoremap E <esc>:e!<CR>
