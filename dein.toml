@@ -12,6 +12,7 @@ hook_add = '''
 
 # neovim以外の場合は 'roxma/nvim-yarp' と 'roxma/vim-hug-neovim-rpc' が必要
 [[plugins]]
+lazy = 1
 repo = 'Shougo/denite.nvim'
 hook_add = '''
   let g:python3_host_prog = "~/.pyenv/shims/python3"
@@ -49,6 +50,7 @@ hook_add = '''
 
 
 [[plugins]]
+lazy = 1
 repo = 'Shougo/deoplete.nvim'
 hook_add = '''
   let g:deoplete#enable_at_startup = 1
@@ -76,14 +78,17 @@ repo = 'bogado/file-line'
 # 補完系
 
 [[plugins]] # 閉じ括弧補間
+lazy = 1
 repo = 'cohama/lexima.vim'
 
 # 操作系
 
 [[plugins]]
+lazy = 1
 repo = 'tpope/vim-surround'
 
 [[plugins]] # 選択箇所をyankで置き換え
+lazy = 1
 repo = 'kana/vim-operator-replace'
 hook_add = '''
   " replace operater
@@ -92,9 +97,11 @@ hook_add = '''
 '''
 
 [[plugins]] # kana/vim-operator-replaceが依存している
+lazy = 1
 repo = 'kana/vim-operator-user'
 
 [[plugins]] # CamelCase <=> snake_case
+lazy = 1
 repo = 'tyru/operator-camelize.vim'
 hook_add = '''
   nmap <Space>s <Plug>(operator-camelize-toggle)
@@ -102,6 +109,7 @@ hook_add = '''
 '''
 
 [[plugins]]
+lazy = 1
 repo = 'scrooloose/nerdcommenter'
 hook_add = '''
   " コメントアウト時にスペース1個
@@ -141,6 +149,7 @@ hook_add = '''
 '''
 
 [[plugins]]
+lazy = 1
 repo = 'simeji/winresizer'
 hook_add = '''
   " ctrl+eでのリサイズのサイズ
@@ -209,6 +218,7 @@ hook_add = '''
 # git系
 
 [[plugins]] # gitコマンドをvimから使う
+lazy = 1
 repo = 'tpope/vim-fugitive'
 hook_add = '''
   cabbrev g Ggrep
@@ -217,6 +227,7 @@ hook_add = '''
 '''
 
 [[plugins]] # vim-fugitiveのgithubサポート用
+lazy = 1
 repo = 'tpope/vim-rhubarb'
 
 [[plugins]] # gitのdiffを左端に表示
@@ -226,6 +237,7 @@ hook_add = '''
 '''
 
 [[plugins]] # gitのviewer. :Agit, :AgitFile
+lazy = 1
 repo = 'cohama/agit.vim'
 
 # コンフリクトをハイライト
@@ -240,6 +252,7 @@ hook_add = '''
 
 ## LSP
 [[plugins]]
+lazy = 1
 repo = 'prabirshrestha/vim-lsp'
 # LspDocumentFormat, LspRename とかも便利そう
 hook_add = '''
@@ -253,6 +266,7 @@ hook_add = '''
 '''
 
 [[plugins]]
+lazy = 1
 repo = 'mattn/vim-lsp-settings'
 hook_add = '''
   command! LspDebug let lsp_log_verbose=1 | let lsp_log_file = expand('~/Downloads/lsp.log')
@@ -263,15 +277,19 @@ hook_add = '''
 
 [[plugins]]
 repo = 'tpope/vim-endwise'
+on_ft = 'ruby'
 
 [[plugins]]
 repo = 'tpope/vim-rails'
+on_ft = 'ruby'
 
 [[plugins]] # heredocのsytax-highlight
 repo = 'joker1007/vim-ruby-heredoc-syntax'
+on_ft = 'ruby'
 
 [[plugins]]
 repo = 'pocke/rbs.vim'
+on_ft = 'ruby'
 
 [[plugins]]
 repo = 'mrkn/vim-cruby' # set ft=c
@@ -287,16 +305,19 @@ hook_add = '''
   let g:vim_jsx_pretty_colorful_config = 1
   let g:vim_jsx_pretty_highlight_close_tag = 1
 '''
+on_ft = ['javascript', 'typescript', 'javascriptreact', 'typescriptreact']
 
 ## Crystal
 
 [[plugins]]
 repo = 'rhysd/vim-crystal'
+on_ft = 'crystal'
 
 ## Slim
 
 [[plugins]]
 repo = 'slim-template/vim-slim'
+on_ft = 'slim'
 
 ## Markdown
 
@@ -311,6 +332,7 @@ hook_add = '''
   autocmd FileType markdown inoremap <S-Tab> <Esc><<A
   let g:vim_markdown_conceal = 0
 '''
+on_ft = 'markdown'
 
 ## LaTeX
 
@@ -320,11 +342,13 @@ hook_add = '''
   " pdflatexをコンパイル
   let g:latex_latexmk_options = '-pdf'
 '''
+on_ft = 'tex'
 
 ## HTML
 
 [[plugins]] # htmlショートカットで書くやつ
 repo = 'mattn/emmet-vim'
+on_ft = 'html'
 # (タグ Ctrl y ,) で<タグ></タグ>になる
 # html:5 でhtml5のテンプレート
 # ul>li*3 でリスト3つ
@@ -336,12 +360,15 @@ repo = 'mattn/emmet-vim'
 
 [[plugins]]
 repo = 'cespare/vim-toml'
+on_ft = 'toml'
 
 ## CSV
 [[plugins]]
 repo = 'mechatroner/rainbow_csv'
+on_ft = 'csv'
 
 ## PlantUML
 [[plugins]]
 repo = 'aklt/plantuml-syntax'
+on_ft = 'plantuml'
 
