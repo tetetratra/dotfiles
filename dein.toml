@@ -8,14 +8,6 @@ hook_add = '''
   endif
 '''
 
-# [[plugins]]
-# repo = 'w0ng/vim-hybrid'
-# hook_add = '''
-#   if has("nvim") " neovim
-#     colorscheme hybrid
-#   endif
-# '''
-
 # denite
 
 # neovim以外の場合は 'roxma/nvim-yarp' と 'roxma/vim-hug-neovim-rpc' が必要
@@ -55,7 +47,7 @@ hook_add = '''
   \ })
 '''
 
-# neovim以外の場合は 'roxma/nvim-yarp' と 'roxma/vim-hug-neovim-rpc' が必要
+
 [[plugins]]
 repo = 'Shougo/deoplete.nvim'
 hook_add = '''
@@ -72,6 +64,7 @@ hook_add = '''
   let g:NERDTreeMapMenu='m'
   nnoremap <space>1 :NERDTreeToggle<CR>
   nnoremap <space><esc> :NERDTreeFind<CR>
+  nnoremap <space>` :NERDTreeFind<CR>
 '''
 
 [[plugins]]
@@ -187,14 +180,6 @@ hook_add = '''
   let g:indexed_search_dont_move = 1 " 検索時に1個下に動かないようになる
   let g:indexed_search_numbered_only = 1 " 検索カウントを簡素な表示に
   let g:indexed_search_shortmess = 1 " 検索カウントを簡素な表示に
-  " function! s:VSetSearch()
-  "   " 参考 https://github.com/nelstrom/vim-visual-star-search/blob/master/plugin/visual-star-search.vim
-  "   let temp = @s
-  "   norm! gv"sy
-  "   let @/ = '\V' . substitute(escape(@s, '/' . '\'), '\n', '\\n', 'g')
-  "   let @s = temp
-  " endfunction
-  " xnoremap * :<C-u>call <SID>VSetSearch()<CR>/<C-R>=@/<CR><CR>N
 '''
 
 [[plugin]] # typo check https://qiita.com/kamykn/items/f65e83820623694c78ca
@@ -269,9 +254,10 @@ hook_add = '''
 
 [[plugins]]
 repo = 'mattn/vim-lsp-settings'
-
-[[plugins]]
-repo = 'lighttiger2505/deoplete-vim-lsp'
+hook_add = '''
+  command! LspDebug let lsp_log_verbose=1 | let lsp_log_file = expand('~/Downloads/lsp.log')
+  let g:lsp_settings_filetype_ruby = 'solargraph'
+'''
 
 ## Ruby
 

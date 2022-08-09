@@ -88,7 +88,7 @@ if rawvim " vim以外ではeregexの正規表現を使うので
   nnoremap ? ?\v
 endif
 " visualモードで選択範囲を検索 https://vim-jp.org/vimdoc-ja/visual.html#visual-search
-vmap * y/<C-R>"<CR>
+vmap S y/<C-R>"<CR>
 " grep検索の実行後にQuickFix Listを表示する
 autocmd QuickFixCmdPost *grep* cwindow
 nnoremap J :cnext<CR>
@@ -158,10 +158,6 @@ nnoremap <C-]> g<C-]>
 nnoremap <Space>c <esc>:let @+ = expand('%:t')<CR>
 " パスとファイル名をyank
 nnoremap <Space>C <esc>:let @+ = expand("%")<CR>
-if has("nvim")
-  " tmux時のnvim用
-  nnoremap O <C-o>
-endif
 nnoremap t :tabnew<CR>
 nnoremap T :tabnew #<CR>
 nnoremap J V:m '>+1<CR>
