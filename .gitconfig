@@ -15,7 +15,7 @@
   ri = "rebase -i HEAD~15"
   oneline = log --name-only --oneline
 [core]
-  editor = vim
+  editor = nvim
   quotepath = false  # git 日本語ファイル名をエスケープせずに表示
   excludesfile = ~/.gitignore
 [status] # git status 追跡されていないファイルはすべて表示
