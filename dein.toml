@@ -87,11 +87,9 @@ hook_add = '''
   let g:lsp_diagnostics_signs_information = {'text': ''}
   let g:lsp_diagnostics_signs_hint = {'text': ''}
 
-  " Space d でエラーの表示を切り替え
   let g:lsp_diagnostics_float_cursor = 1
-  nmap <Space>d <esc>:LspDiagnosticsToggle<CR>
-  command! LspDiagnosticsToggle let g:lsp_diagnostics_float_cursor  = (g:lsp_diagnostics_float_cursor  == 1 ? 0 : 1) |
-                              \ :echo g:lsp_diagnostics_float_cursor == 0 ? 'diagnostics hover off' : 'diagnostics hover on'
+  " diagnosticsを即時に出す
+  let g:lsp_diagnostics_float_delay = 100
 
   nmap <Space><Space> <esc>:LspHover<CR>
   nmap <Space>]       <esc>:LspDefinition<CR>
