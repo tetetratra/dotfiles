@@ -233,6 +233,5 @@ highlight PmenuSel ctermbg=234 ctermfg=45
 highlight Search guibg=darkcyan guifg=cyan ctermbg=darkcyan ctermfg=cyan
 highlight FloatBorder ctermfg=242
 
-autocmd BufNewFile,BufRead *.rbs set filetype=ruby
 autocmd BufNewFile,BufRead *.mlisp set filetype=lisp
 let lisp_rainbow = 1
