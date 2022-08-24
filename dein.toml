@@ -216,12 +216,6 @@ hook_add = '''
   let g:indexed_search_shortmess = 1 " 検索カウントを簡素な表示に
 '''
 
-[[plugin]] # typo check https://qiita.com/kamykn/items/f65e83820623694c78ca
-repo = 'kamykn/spelunker.vim'
-# hook_add = '''
-#   let g:spelunker_white_list_for_user = []
-# '''
-
 # mark系
 
 [[plugins]]
