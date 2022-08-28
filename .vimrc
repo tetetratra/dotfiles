@@ -41,7 +41,7 @@ filetype plugin indent on
 syntax enable
 syntax on
 " vim の矩形選択で文字が無くても右へ進める
-set virtualedit=block
+" set virtualedit=block
 set showcmd
 set number
 set cursorline
@@ -204,7 +204,7 @@ noremap <Space>9 <C-w>H<CR>
 
 " === visual系 ===
 " visualでラストの改行はデフォルトでは含めないようにする
-vnoremap $ $h
+" vnoremap $ $h
 " 貼り付けたテキストの末尾へ自動的に移動
 vnoremap <silent> y y`]
 vnoremap <silent> p p`]
