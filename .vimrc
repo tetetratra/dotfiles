@@ -221,6 +221,11 @@ cnoremap <C-h> <Left>
 cnoremap <C-l> <Right>
 
 " == color ==
+" https://qiita.com/delphinus/items/a202d0724a388f6cdbc3
+set termguicolors " ターミナルでも True Color を使えるようにする
+set winblend=10 " 任意の floating windows を半透明に表示する
+highlight FloatBorder ctermbg=None ctermfg=None
+
 highlight Normal ctermbg=none
 highlight NonText ctermbg=none
 highlight Folded ctermbg=none
@@ -231,7 +236,6 @@ highlight Comment ctermfg=245
 highlight Pmenu ctermbg=234 ctermfg=105
 highlight PmenuSel ctermbg=234 ctermfg=45
 highlight Search guibg=darkcyan guifg=cyan ctermbg=darkcyan ctermfg=cyan
-highlight FloatBorder ctermfg=242
 
 autocmd BufNewFile,BufRead *.mlisp set filetype=lisp
 let lisp_rainbow = 1
