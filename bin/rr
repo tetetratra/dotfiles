@@ -18,10 +18,10 @@
 # tableize
 # parameterize
 
-begin
-  require 'active_support/all'
-rescue LoadError
-end
+# begin
+#   require 'active_support/all'
+# rescue LoadError
+# end
 
 require 'date'
 require 'json'
