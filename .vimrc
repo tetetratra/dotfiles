@@ -40,8 +40,6 @@ set clipboard=unnamed
 filetype plugin indent on
 syntax enable
 syntax on
-" vim の矩形選択で文字が無くても右へ進める
-" set virtualedit=block
 set showcmd
 set number
 set cursorline
@@ -98,6 +96,22 @@ vnoremap p "_dp
 " xで消したときにyankが書き換わらないようにする
 noremap x "_x
 set foldmethod=indent
+
+" [vimの矩形選択で文字が無くても右へ進める] を切り替える
+nnoremap <Space>b <esc>:call ToggleVirtualedit()<CR>
+let g:toggle_virtualedit = 0
+function! ToggleVirtualedit()
+  if g:toggle_virtualedit == 0
+    let g:toggle_virtualedit = 1
+    set virtualedit=block
+    echo 'virtualedit=block'
+  else
+    let g:toggle_virtualedit = 0
+    set virtualedit=none
+    echo 'virtualedit=none'
+  endif
+endfunction
+
 " 最後のカーソル位置を復元する
 autocmd BufReadPost *
 \ if line("'\"") > 0 && line ("'\"") <= line("$") |
