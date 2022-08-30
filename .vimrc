@@ -224,6 +224,8 @@ vnoremap <silent> y y`]
 vnoremap <silent> p p`]
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
+" paste時にreplaceしない
+vnoremap p "0p
 
 " === comand系 ===
 cabbrev t tabnew
