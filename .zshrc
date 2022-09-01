@@ -14,6 +14,7 @@ alias dc='docker-compose'
 alias dcr='(){  docker-compose run --rm $1 $2   -c "/bin/bash --rcfile <(echo \"alias r=ruby; alias be=\\\"bundle exec\\\"; alias lint=\\\"npx eslint --fix\\\"; alias l=\\\"ls -al\\\"; alias ll=\\\"ls -al\\\"; \")" }'
 alias dcrb='(){ docker-compose run --rm $1 bash -c "/bin/bash --rcfile <(echo \"alias r=ruby; alias be=\\\"bundle exec\\\"; alias lint=\\\"npx eslint --fix\\\"; alias l=\\\"ls -al\\\"; alias ll=\\\"ls -al\\\"; \")" }'
 alias nvim='nvim -p'
+alias tree='tree --charset unicode'
 # format
 alias f="p | rr 'gsub(\".\", \".\n\n\").gsub(\"，\", \",\n\").gsub(\" \", \"\")' "
 
