@@ -196,6 +196,9 @@ nmap 8<Space> <esc>8gt<CR>
 nmap 9<Space> <esc>:tablast<CR>
 set showtabline=2
 
+" tabsをクリップボードに入れる TODO: grep, awkする
+command! Tabscopy redi @* | silent tabs | redi end
+
 " === window系 ===
 noremap <Space>e <C-w>w
 noremap <Space>7 <C-w>K<CR>
