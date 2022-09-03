@@ -15,6 +15,7 @@ alias dcr='(){  docker-compose run --rm $1 $2   -c "/bin/bash --rcfile <(echo \"
 alias dcrb='(){ docker-compose run --rm $1 bash -c "/bin/bash --rcfile <(echo \"alias r=ruby; alias be=\\\"bundle exec\\\"; alias lint=\\\"npx eslint --fix\\\"; alias l=\\\"ls -al\\\"; alias ll=\\\"ls -al\\\"; \")" }'
 alias nvim='nvim -p'
 alias tree='tree --charset unicode'
+alias history='history -E 1'
 # format
 alias f="p | rr 'gsub(\".\", \".\n\n\").gsub(\"，\", \",\n\").gsub(\" \", \"\")' "
 
@@ -43,6 +44,17 @@ setopt correct
 fpath+=("$HOME/.zsh/pure")
 autoload -U promptinit; promptinit
 prompt pure
+
+# historyをuniq
+setopt hist_ignore_dups
+# 過去のものと同じなら古い方を削除
+setopt hist_ignore_all_dups
+# historyを共有
+setopt share_history
+# メモリに保存される履歴の件数
+export HISTSIZE=10000
+# 履歴ファイルに保存される履歴の件数
+export SAVEHIST=100000
 
 ### 言語 ###
 
