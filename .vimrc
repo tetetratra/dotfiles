@@ -227,8 +227,6 @@ vnoremap <silent> y y`]
 vnoremap <silent> p p`]
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
-" paste時にreplaceしない
-vnoremap p "0p
 
 " === comand系 ===
 cabbrev t tabnew
@@ -242,6 +240,17 @@ cnoremap <C-l> <Right>
 " == color ==
 " https://qiita.com/delphinus/items/a202d0724a388f6cdbc3
 set termguicolors " ターミナルでも True Color を使えるようにする
+nnoremap <Space>u <esc>:call ToggleTermguicolors()<CR>
+function! ToggleTermguicolors()
+  if &termguicolors == 1
+    set notermguicolors
+    echo 'notermguicolors'
+  else
+    set termguicolors
+    echo 'termguicolors'
+  endif
+endfunction
+
 set winblend=10 " 任意の floating windows を半透明に表示する
 highlight FloatBorder ctermbg=None ctermfg=None
 
