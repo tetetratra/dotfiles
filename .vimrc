@@ -210,8 +210,15 @@ nmap 8<Space> <esc>8gt<CR>
 nmap 9<Space> <esc>:tablast<CR>
 set showtabline=2
 
-" tabsをクリップボードに入れる TODO: grep, awkする
-command! Tabscopy redi @* | silent tabs | redi end
+command! Tabscopy call Tabscopy()
+nnoremap <Space>t :call Tabscopy()<CR>
+function! Tabscopy() abort
+  redi @*
+  silent tabs
+  redi end
+  " vimからのシェル実行はインタラクティブでないため、aliasが効かない
+  call system('pbpaste | grep -vE "Tab page|No Name" | rr "self.split.last" compact | pbcopy')
+endfunction
 
 " === window系 ===
 noremap <Space>e <C-w>w
