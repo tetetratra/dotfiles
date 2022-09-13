@@ -17,6 +17,7 @@ alias nvim='nvim -p'
 alias nvimp='nvim -p `pbpaste`'
 alias tree='tree --charset unicode'
 alias history='history -E 1'
+alias pomodoro='nohup pomodoro > /dev/null &!'
 # format
 alias f="p | rr 'gsub(\".\", \".\n\n\").gsub(\"，\", \",\n\").gsub(\" \", \"\")' "
 

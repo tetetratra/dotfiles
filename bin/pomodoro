@@ -1,0 +1,19 @@
+#! /usr/bin/env ruby
+time = 25
+rest = 5
+
+`notification start! Pomodoro`
+time.to_i.downto(0) do |i|
+  if i.zero?
+    `notification "Finish! rest #{rest} min" Pomodoro`
+    break
+  elsif (i % 5 ).zero?
+    `notification #{i}/#{time} Pomodoro`
+  end
+  sleep 60
+end
+
+sleep(rest * 60)
+`notification "rest finish!" Pomodoro`
+
+
