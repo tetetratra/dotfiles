@@ -80,11 +80,6 @@ set backspace=indent,eol,start
 let g:tex_conceal = ''
 " conceal機能を無効
 set conceallevel=0
-if rawvim " vim以外ではeregexの正規表現を使うので
-  " very magic
-  nnoremap / /\v
-  nnoremap ? ?\v
-endif
 " visualモードで選択範囲を検索 https://vim-jp.org/vimdoc-ja/visual.html#visual-search
 vmap X y/<C-R>"<CR>
 " grep検索の実行後にQuickFix Listを表示する

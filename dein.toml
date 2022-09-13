@@ -202,10 +202,8 @@ hook_add = '''
 repo = 'othree/eregex.vim'
 # "/" will use :M/ to search. ",/" will use the original "/".
 hook_add = '''
+  let g:eregex_default_enable = 0
   nnoremap r/ :M/
-  nnoremap r? :M?
-  nnoremap / /\v
-  nnoremap ? ?\v
 '''
 
 [[plugins]] # 検索結果数カウント
