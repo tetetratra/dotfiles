@@ -5,6 +5,7 @@ alias tree='tree -a'
 alias p='pbpaste'
 alias c='pbcopy'
 alias o='open'
+alias s='git status 2> /dev/null'
 alias ber='bundle exec ruby'
 alias be='bundle exec'
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
@@ -28,9 +29,12 @@ fi
 
 ### zsh ###
 
-# cdなしでディレクトリ名を直接指定して移動し、移動後自動でlsする https://qiita.com/puriketu99/items/e3c85fbe0fc4b939d0e2
+# cd後にlsとgit statusする https://qiita.com/puriketu99/items/e3c85fbe0fc4b939d0e2
 setopt auto_cd
-function chpwd() { ls }
+function chpwd() {
+  ls
+  git status --short 2> /dev/null
+}
 
 # 大文字小文字に関わらず, 候補が見つからない時のみ文字種を無視した補完をする
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}'
