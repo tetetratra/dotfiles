@@ -194,15 +194,16 @@ nmap <D-6> <esc>6gt<CR>
 nmap <D-7> <esc>7gt<CR>
 nmap <D-8> <esc>8gt<CR>
 nmap <D-9> <esc>:tablast<CR>
-nmap 1<Space> <esc>1gt<CR>
-nmap 2<Space> <esc>2gt<CR>
-nmap 3<Space> <esc>3gt<CR>
-nmap 4<Space> <esc>4gt<CR>
-nmap 5<Space> <esc>5gt<CR>
-nmap 6<Space> <esc>6gt<CR>
-nmap 7<Space> <esc>7gt<CR>
-nmap 8<Space> <esc>8gt<CR>
-nmap 9<Space> <esc>:tablast<CR>
+nmap g1 <esc>1gt<CR>
+nmap g2 <esc>2gt<CR>
+nmap g3 <esc>3gt<CR>
+nmap g4 <esc>4gt<CR>
+nmap g5 <esc>5gt<CR>
+nmap g6 <esc>6gt<CR>
+nmap g7 <esc>7gt<CR>
+nmap g8 <esc>8gt<CR>
+nmap g9 <esc>9gt<CR>
+nmap g0 <esc>:tablast<CR>
 set showtabline=2
 
 command! Tabscopy call Tabscopy()

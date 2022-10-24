@@ -20,7 +20,7 @@ hook_add = '''
 
   autocmd FileType denite call s:denite_my_settings()
   function! s:denite_my_settings() abort
-    nnoremap <silent><buffer><expr> <CR>    denite#do_map('do_action')
+    nnoremap <silent><buffer><expr> <CR>    denite#do_map('do_action', 'preview')
     nnoremap <silent><buffer><expr> t       denite#do_map('do_action', 'tabopen')
     nnoremap <silent><buffer><expr> s       denite#do_map('do_action', 'split')
     nnoremap <silent><buffer><expr> v       denite#do_map('do_action', 'vsplit')
@@ -31,11 +31,9 @@ hook_add = '''
   endfunction
 
   " https://github.com/Shougo/denite.nvim/blob/master/doc/denite.txt#L2083
-  nmap <Space>2 <esc>:Denite file/rec -match-highlight<CR>
-  nmap <Space>3 <esc>:Denite -start-filter grep:::! -match-highlight<CR>
-  nmap <Space>4 <esc>:Denite outline -match-highlight<CR>
-  nmap <Space>5 <esc>:Denite mark -match-highlight<CR>
-  nmap <Space>6 <esc>:Denite buffer -match-highlight<CR>
+  nmap <Space>2 <esc>:Denite file/rec -auto-action=preview -match-highlight<CR>
+  nmap <Space>3 <esc>:Denite -start-filter grep:::! -auto-action=preview -match-highlight<CR>
+  nmap <Space>4 <esc>:Denite buffer -auto-action=preview -match-highlight<CR>
   nmap <Space>r <esc>:Denite -resume<CR>
 
   " ripgrepを使う https://github.com/Shougo/denite.nvim/blob/master/doc/denite.txt#L2083
