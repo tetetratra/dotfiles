@@ -255,7 +255,7 @@ function! ToggleTermguicolors()
 endfunction
 
 if has('nvim')
-  set winblend=10 " 任意の floating windows を半透明に表示する
+  set winblend=5 " 任意の floating windows を半透明に表示する
 endif
 highlight FloatBorder ctermbg=None ctermfg=None
 
