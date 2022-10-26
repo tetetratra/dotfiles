@@ -10,9 +10,10 @@
   ps = push
   br = branch
   co = checkout
-  d = "diff master..HEAD"
   diffall = diff --no-prefix --unified=1000
-  ri = "rebase -i HEAD~15"
+  default-branch = "! git remote show origin | grep 'HEAD branch' | awk '{print $NF}'" # https://qiita.com/ymm1x/items/b22bddc9fbc192ae1a70
+  d = "! git diff $(git default-branch)..HEAD"
+  ri = "! git rebase -i `git log $(git default-branch)~1..HEAD --pretty=%H | tail -n 1`"
   oneline = log --name-only --oneline
   force-pull = "!git fetch && git reset --hard origin/$(git branch --show-current)" # https://qiita.com/Yinaura/items/30992f25b87f76af3ba2
 [core]
