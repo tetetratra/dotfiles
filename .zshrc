@@ -51,6 +51,9 @@ fpath+=("$HOME/.zsh/pure")
 autoload -U promptinit; promptinit
 prompt pure
 
+# https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md#manual-git-clone
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
 # historyをuniq
 setopt hist_ignore_dups
 # 過去のものと同じなら古い方を削除
