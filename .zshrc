@@ -19,6 +19,8 @@ alias nvimp='nvim -p `pbpaste`'
 alias tree='tree --charset unicode'
 alias history='history -E 1'
 alias insns='ruby --dump=insns -e'
+alias insnst="ruby -e 'puts RubyVM::InstructionSequence.new(ARGV[0], tailcall_optimization: true).disasm'"
+
 # format
 alias f="p | rr 'gsub(\".\", \".\n\n\").gsub(\"，\", \",\n\").gsub(\" \", \"\")' "
 
