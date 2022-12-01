@@ -84,7 +84,7 @@ networksetup -setdnsservers Wi-Fi 2001:4860:4860::8844 2001:4860:4860::8888 8.8.
 ```bash
 xcode-select --install
 
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 
 mkdir ~/p && cd p && git clone git@github.com:tetetratra/dotfiles.git && cd dotfiles
 
@@ -112,6 +112,9 @@ pyenv install 3.10.3 # よしなに
 pyenv global 3.10.3
 ```
 
+- zshrcの拡張を手動でインストール
+  - pure: https://github.com/sindresorhus/pure#manually
+  - zsh-autosuggestions: https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md#manual-git-clone
 - `iterm.json`をインポート
   - preferences -> profiles -> other actions -> import
 - iterm -> preference -> keys -> navigation shortcuts

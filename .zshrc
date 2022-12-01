@@ -48,7 +48,7 @@ zstyle ':completion:*' list-colors "${LS_COLORS}" # 補完候補のカラー表�
 # コマンド提案
 setopt correct
 
-# pureプロンプト
+# pureプロンプト https://github.com/sindresorhus/pure#manually
 fpath+=("$HOME/.zsh/pure")
 autoload -U promptinit; promptinit
 prompt pure
