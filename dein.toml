@@ -365,3 +365,8 @@ on_ft = 'csv'
 repo = 'aklt/plantuml-syntax'
 on_ft = 'plantuml'
 
+[[plugins]]
+repo = 'rizzatti/dash.vim'
+hook_add = '''
+  cabbrev d Dash
+'''
