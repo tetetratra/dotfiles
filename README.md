@@ -149,5 +149,7 @@ pyenv global 3.10.3
   - iTerm
     - `ctrl 2`で`ctrl b ctrl b`を送る
       - globalの設定を上書きする
+  - BTTが勝手に起動するバグに遭遇したときは `defaults write com.hegenberg.BetterTouchTool BTTDontShowPrefsOnReopen YES` の設定をすると直るかもしれない
+    - https://qiita.com/take_3/items/08acebb07e313c89dea9
 - Karabiner-Elements で "my confing" にある設定のみをすべてenableにする
 
