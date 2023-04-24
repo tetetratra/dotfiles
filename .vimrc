@@ -166,7 +166,7 @@ nnoremap <C-]> g<C-]>
 " ファイル名をyank
 nnoremap <Space>c <esc>:let @+ = expand('%:t')<CR>
 " パスとファイル名をyank
-nnoremap <Space>C <esc>:let @+ = expand("%")<CR>
+nnoremap <Space>C <esc>:let @+ = fnamemodify(expand("%"), ":~:.")<CR>
 nnoremap t :tabnew<CR>
 nnoremap T :tabnew #<CR>
 nnoremap J V:m '>+1<CR>
