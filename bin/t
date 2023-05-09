@@ -1,0 +1,22 @@
+#!/bin/bash
+
+tmux new-session -d -s $1
+
+SESSION_NAME=$(tmux display-message -p '#S')
+
+case $SESSION_NAME in
+    red)
+        tmux select-pane -P bg=colour52,fg=white
+        ;;
+    blue)
+        tmux select-pane -P bg=colour23,fg=white
+        ;;
+    yellow)
+        tmux select-pane -P bg=colour100,fg=white
+        ;;
+    *)
+        echo 'invalid argument'
+        exit
+        ;;
+esac
+tmux a
