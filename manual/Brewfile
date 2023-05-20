@@ -40,10 +40,10 @@ cask "vlc"
 cask "zoom"
 cask "steam"
 cask "karabiner-elements"
+cask "skitch"
 mas "QuickShade", id: 931571202
 mas "RunCat", id: 1429033973
 mas "Relax Melodies: Sleep Sounds", id: 467103113
-mas "Flow - 勉強 集中 ＆ ポモドーロタイマー", id: 1423210932
 tap "homebrew/bundle"
 tap "homebrew/cask"
 tap "homebrew/core"
