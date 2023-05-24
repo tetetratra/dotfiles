@@ -206,6 +206,9 @@ vim.api.nvim_set_keymap('v', 'J', ':m \'>+1<CR>gv=gv', { silent = true })
 vim.api.nvim_set_keymap('v', 'K', ':m \'<-2<CR>gv=gv', { silent = true })
 
 -- === command系 ===
+vim.cmd('cabbrev t tabnew')
+vim.cmd('cabbrev w set wrap!')
+
 vim.api.nvim_set_keymap('c', '<C-e>', '<End>', { noremap = true })
 vim.api.nvim_set_keymap('c', '<C-a>', '<Home>', { noremap = true })
 vim.api.nvim_set_keymap('c', '<C-h>', '<Left>', { noremap = true })
