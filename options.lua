@@ -67,16 +67,10 @@ vim.o.backspace = "indent,eol,start"
 vim.g.tex_conceal = ''
 -- conceal機能を無効にする
 vim.o.conceallevel = 0
-
--- visualモードで選択範囲を検索する
-vim.cmd('vmap X y/<C-R>"<CR>')
--- grep検索の実行後にQuickFix Listを表示する
-vim.cmd('autocmd QuickFixCmdPost *grep* cwindow')
--- pキーでペーストするときにデフォルトレジスタを使用しない
-vim.api.nvim_set_keymap('n', 'p', '"_dp', { silent = true })
-vim.api.nvim_set_keymap('v', 'p', '"_dp', { silent = true })
 -- 折りたたみメソッドをインデントベースに設定する
 vim.o.foldmethod = 'indent'
+-- grep検索の実行後にQuickFix Listを表示する
+vim.cmd('autocmd QuickFixCmdPost *grep* cwindow')
 
 -- "vimの矩形選択で文字が無くても右へ進める" を切り替える
 vim.api.nvim_set_keymap('n', '<Space>B', '<esc>:lua ToggleVirtualedit()<CR>', { silent = true })
@@ -200,11 +194,15 @@ vim.api.nvim_set_keymap('n', '<Space>8', '<C-w>x<CR>', {})
 vim.api.nvim_set_keymap('n', '<Space>9', '<C-w>H<CR>', {})
 
 -- === visual系 ===
--- 貼り付けたテキストの末尾へ自動的に移動
-vim.api.nvim_set_keymap('v', 'y', 'y`]', { silent = true })
-vim.api.nvim_set_keymap('v', 'p', 'p`]', { silent = true })
+-- ヤンクしたテキストの末尾へ自動的に移動
+vim.api.nvim_set_keymap('v', 'y', 'y`]', { silent = true})
+-- 貼り付けたたテキストの末尾へ自動的に移動 & 選択していた範囲の文字をレジスタに入れない
+vim.api.nvim_set_keymap('v', 'p', 'P`]', { silent = true })
+-- J, K で行を上下に移動する
 vim.api.nvim_set_keymap('v', 'J', ':m \'>+1<CR>gv=gv', { silent = true })
 vim.api.nvim_set_keymap('v', 'K', ':m \'<-2<CR>gv=gv', { silent = true })
+-- Xで範囲を検索する(記号が入っていると上手く行かない場合がある)
+vim.api.nvim_set_keymap('v', 'X', 'y/<C-R>"<CR>', { silent = true })
 
 -- === command系 ===
 vim.cmd('cabbrev t tabnew')
