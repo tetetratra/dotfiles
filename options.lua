@@ -118,10 +118,11 @@ vim.cmd('set notimeout')
 vim.cmd('set ttimeout')
 vim.cmd('set timeoutlen=100')
 
--- === insert ===
+
 vim.api.nvim_set_keymap('i', 'jj', '<ESC>', { silent = true })
 vim.api.nvim_set_keymap('i', '<C-e>', '<End>', { silent = true })
-vim.api.nvim_set_keymap('i', '<C-a>', '<Home>', { noremap = true })
+-- <C-o>: insert mode時に一時的にnormal modeへ移行するキー
+vim.api.nvim_set_keymap('i', '<C-a>', '<C-o>:lua home()<CR>', { silent = true })
 vim.api.nvim_set_keymap('i', '<C-d>', '<BackSpace>', { silent = true })
 vim.api.nvim_set_keymap('i', '<C-h>', '<Left>', { silent = true })
 vim.api.nvim_set_keymap('i', '<C-k>', '<Up>', { silent = true })
@@ -130,6 +131,17 @@ vim.api.nvim_set_keymap('i', '<C-j>', '<Down>', { silent = true })
 -- vim.api.nvim_set_keymap('i', '<C-l>', '<Right>', { silent = true })
 vim.api.nvim_set_keymap('i', '<TAB>', '<C-n>', { silent = true })
 vim.api.nvim_set_keymap('i', '<S-TAB>', '<C-p>', { silent = true })
+
+function home()
+  local start_column = vim.fn.col('.') -- 元のカラム番号を取得
+  -- normal mode の ^ 相当の移動をする
+  vim.cmd('normal! ^')
+  -- 既に ^ 相当の移動後の位置にいる場合は 0 相当の移動をする
+  if vim.fn.col('.') == start_column then
+    vim.cmd('normal! 0')
+  end
+  return ''
+end
 
 -- === normal ===
 vim.api.nvim_set_keymap('n', '<Esc>', ':noh<CR>', { silent = true })
