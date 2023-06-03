@@ -31,9 +31,10 @@ hook_add = '''
   endfunction
 
   " https://github.com/Shougo/denite.nvim/blob/master/doc/denite.txt
+  nmap <Space>f <esc>:Denite file/rec               -split=floating -auto-action=preview -preview-height=20 -match-highlight<CR>
   nmap <Space>2 <esc>:Denite file/rec               -split=floating -auto-action=preview -preview-height=20 -match-highlight<CR>
-  nmap <Space>3 <esc>:Denite -start-filter grep:::! -split=floating -auto-action=preview -preview-height=20 -match-highlight<CR>
-  nmap <Space>4 <esc>:Denite buffer                 -split=floating -auto-action=preview -preview-height=20 -match-highlight<CR>
+  nmap <Space>g <esc>:Denite -start-filter grep:::! -split=floating -auto-action=preview -preview-height=20 -match-highlight<CR>
+  nmap <Space>b <esc>:Denite buffer                 -split=floating -auto-action=preview -preview-height=20 -match-highlight<CR>
   nmap <Space>r <esc>:Denite -resume                -split=floating<CR>
 
   " ripgrepを使う https://github.com/Shougo/denite.nvim/blob/master/doc/denite.txt#L2083
@@ -55,9 +56,8 @@ hook_add = '''
   let NERDTreeShowHidden=1
   let NERDTreeWinSize=40
   let g:NERDTreeMapMenu='m'
-  nnoremap <space>1 :NERDTreeToggle<CR>
-  nnoremap <space><esc> :NERDTreeFind<CR>
-  nnoremap <space>` :NERDTreeFind<CR>
+  nnoremap <Space>n :NERDTreeFind<CR>
+  nnoremap <Space>1 :NERDTreeFind<CR>
 '''
 
 [[plugins]]
@@ -81,18 +81,20 @@ hook_add = '''
   " エラーでも赤文字にしない
   let g:lsp_diagnostics_highlights_enabled = 0
 
-  " 空文字で出すことで、error,warning以外について let g:lsp_diagnostics_signs_enabled = 0 と同じ設定になる
-  let g:lsp_diagnostics_signs_information = {'text': ''}
-  let g:lsp_diagnostics_signs_hint = {'text': ''}
+  let g:lsp_diagnostics_signs_enabled = 0
+  " let g:lsp_diagnostics_signs_error       = {'text': ''}
+  " let g:lsp_diagnostics_signs_warning     = {'text': ''}
+  " let g:lsp_diagnostics_signs_information = {'text': ''}
+  " let g:lsp_diagnostics_signs_hint        = {'text': ''}
 
-  let g:lsp_diagnostics_float_cursor = 1
+  " let g:lsp_diagnostics_float_cursor = 1
   " diagnosticsを即時に出す
-  let g:lsp_diagnostics_float_delay = 100
+  " let g:lsp_diagnostics_float_delay = 100
 
   nmap <Space><Space> <esc>:LspHover<CR>
   nmap <Space>]       <esc>:LspDefinition<CR>
   nmap <Space>[       <esc>:LspReference<CR>
-  nmap D              <esc>:LspDocumentDiagnostics<CR>
+  nmap <Space>d       <esc>:LspDocumentDiagnostics<CR>
 '''
 
 [[plugins]]
@@ -110,6 +112,21 @@ repo = 'prabirshrestha/asyncomplete.vim'
 [[plugins]]
 repo = 'prabirshrestha/asyncomplete-lsp.vim'
 
+[[plugins]]
+repo = 'liuchengxu/vista.vim'
+hook_add = '''
+  nnoremap <Space>v :Vista!!<CR>
+  nnoremap <Space>` :Vista!!<CR>
+
+  let g:vista_default_executive = 'vim_lsp'
+  let g:vista_sidebar_position = 'vertical topleft'
+  let g:vista#renderer#enable_icon = 0
+  let g:vista_icon_indent = ['- ', '- ']
+  let g:vista_fold_toggle_icons = ['v', '>']
+  let g:vista_blink = [0, 0]
+  let g:vista_top_level_blink = [0, 0]
+'''
+
 # 操作系
 
 [[plugins]]
@@ -120,7 +137,6 @@ repo = 'kana/vim-operator-replace'
 hook_add = '''
   " replace operater
   nmap R <Plug>(operator-replace)
-  nmap _ Raw
 '''
 
 [[plugins]] # kana/vim-operator-replaceが依存している
@@ -140,7 +156,7 @@ hook_add = '''
   let g:NERDSpaceDelims=1
   let g:NERDDefaultAlign = 'left'
   " Ctrl + スラッシュでエスケープ
-  vmap <C-c> <Leader>c<space>
+  vmap <C-c> <Leader>c<Space>
 '''
 
 # 表示系
@@ -256,6 +272,9 @@ hook_add = '''
 lazy = 1
 on_cmd = ['Agit', 'AgitFile']
 repo = 'cohama/agit.vim'
+hook_add = '''
+  nmap <Space>a :AgitFile<CR>
+'''
 
 # コンフリクトをハイライト
 # [x や ]x でコンフリクト間を移動

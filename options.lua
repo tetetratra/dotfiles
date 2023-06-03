@@ -78,8 +78,8 @@ vim.api.nvim_set_keymap('v', 'p', '"_dp', { silent = true })
 -- 折りたたみメソッドをインデントベースに設定する
 vim.o.foldmethod = 'indent'
 
--- [vimの矩形選択で文字が無くても右へ進める] を切り替える
-vim.api.nvim_set_keymap('n', '<Space>b', '<esc>:lua ToggleVirtualedit()<CR>', { silent = true })
+-- "vimの矩形選択で文字が無くても右へ進める" を切り替える
+vim.api.nvim_set_keymap('n', '<Space>B', '<esc>:lua ToggleVirtualedit()<CR>', { silent = true })
 vim.g.toggle_virtualedit = 0
 
 function ToggleVirtualedit()
