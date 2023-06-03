@@ -71,6 +71,15 @@ repo = 'bogado/file-line'
 [[plugins]] # 閉じ括弧補間
 repo = 'cohama/lexima.vim'
 
+[[plugins]]
+repo = 'github/copilot.vim'
+# 初回起動時に :Copilot setup をする
+# 認証情報は ~/.config/github-copilot/hosts.json に入る
+hook_add = '''
+  imap <C-]> <Plug>(copilot-next)
+  nmap <C-C> <cmd>Copilot panel<CR>
+'''
+
 # LSP
 
 [[plugins]]
