@@ -77,7 +77,9 @@ repo = 'github/copilot.vim'
 # 認証情報は ~/.config/github-copilot/hosts.json に入る
 hook_add = '''
   imap <C-]> <Plug>(copilot-next)
-  nmap <C-C> <cmd>Copilot panel<CR>
+  imap <silent><script><expr> <C-l> copilot#Accept("\<Right>")
+  let g:copilot_no_tab_map = v:true
+  nmap <C-C> <cmd>Copilot panel<CR>:setlocal nonumber<CR><C-w>L
 '''
 
 # LSP

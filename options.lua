@@ -132,7 +132,8 @@ vim.api.nvim_set_keymap('i', '<C-d>', '<BackSpace>', { silent = true })
 vim.api.nvim_set_keymap('i', '<C-h>', '<Left>', { silent = true })
 vim.api.nvim_set_keymap('i', '<C-k>', '<Up>', { silent = true })
 vim.api.nvim_set_keymap('i', '<C-j>', '<Down>', { silent = true })
-vim.api.nvim_set_keymap('i', '<C-l>', '<Right>', { silent = true })
+-- copilot.vim 側でremapする
+-- vim.api.nvim_set_keymap('i', '<C-l>', '<Right>', { silent = true })
 vim.api.nvim_set_keymap('i', '<TAB>', '<C-n>', { silent = true })
 vim.api.nvim_set_keymap('i', '<S-TAB>', '<C-p>', { silent = true })
 
