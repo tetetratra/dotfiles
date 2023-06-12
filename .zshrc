@@ -122,3 +122,4 @@ prompt pure
 # zsh-autosuggestions
 zinit load zsh-users/zsh-autosuggestions
 
+export PATH="$HOME/bin:$PATH"
