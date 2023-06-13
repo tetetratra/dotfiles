@@ -114,6 +114,7 @@ zinit load zsh-users/zsh-syntax-highlighting
 
 # pure
 zinit load sindresorhus/pure
+fpath+=$HOME/.zsh/pure
 autoload -U promptinit; promptinit
 prompt pure
 
