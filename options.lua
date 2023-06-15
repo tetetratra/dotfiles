@@ -147,6 +147,7 @@ end
 vim.api.nvim_set_keymap('n', '<Esc>', ':noh<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 's', '<Nop>', { silent = true })
 vim.api.nvim_set_keymap('n', 'p', 'p`]', { silent = true })
+vim.cmd('nnoremap <silent> x "_x') -- nvim_set_keymap を使って競ってすると何故かフリーズするためcmdで設定
 vim.api.nvim_set_keymap('n', '<Space>w', ':write<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', '<Space>q', ':quit<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', '<C-]>', 'g<C-]>', { silent = true })
@@ -201,9 +202,6 @@ end
 
 -- === window系 ===
 vim.api.nvim_set_keymap('n', '<Space>e', '<C-w>w', {})
-vim.api.nvim_set_keymap('n', '<Space>7', '<C-w>K<CR>', {})
-vim.api.nvim_set_keymap('n', '<Space>8', '<C-w>x<CR>', {})
-vim.api.nvim_set_keymap('n', '<Space>9', '<C-w>H<CR>', {})
 
 -- === visual系 ===
 -- ヤンクしたテキストの末尾へ自動的に移動
@@ -228,10 +226,10 @@ vim.api.nvim_set_keymap('c', '<C-l>', '<Right>', { noremap = true })
 -- == color ==
 -- ターミナルでも True Color を使えるようにする
 vim.cmd('set termguicolors')
-vim.cmd('nnoremap <Space>u <esc>:call ToggleTermguicolors()<CR>')
+vim.cmd('nnoremap <Space>u <esc>:lua ToggleTermguicolors()<CR>')
 
 function ToggleTermguicolors()
-  if vim.o.termguicolors == 1 then
+  if vim.o.termguicolors then
     vim.o.termguicolors = false
     print('notermguicolors')
   else
