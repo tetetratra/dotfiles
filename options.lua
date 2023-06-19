@@ -193,11 +193,11 @@ vim.o.showtabline = 2
 -- === command系 ===
 vim.cmd('command! TabsCopy lua TabsCopy()')
 function TabsCopy()
-  vim.cmd('redi @*')
-  vim.cmd('silent tabs')
-  vim.cmd('redi end')
+  vim.cmd('redi @*') -- メッセージを`"`レジスタ(= クリップボード)にリダイレクトする
+  vim.cmd('silent tabs') -- タブ一覧を表示
+  vim.cmd('redi end') -- メッセージのリダイレクト終了
   -- vimからのシェル実行はインタラクティブでないため、aliasが効かない
-  vim.fn.system('pbpaste | grep -vE "Tab page|No Name" | rr "self.split.last" compact | pbcopy')
+  vim.fn.system('pbpaste | grep -vE "Tab page|No Name" | rr "self.split.last" "uniq.compact.sort.join(\' \')" | pbcopy')
 end
 
 -- === window系 ===
