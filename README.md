@@ -152,4 +152,11 @@ pyenv global 3.10.3
   - BTTが勝手に起動するバグに遭遇したときは `defaults write com.hegenberg.BetterTouchTool BTTDontShowPrefsOnReopen YES` の設定をすると直るかもしれない
     - https://qiita.com/take_3/items/08acebb07e313c89dea9
 - Karabiner-Elements で "my confing" にある設定のみをすべてenableにする
+- .gitconfig_local を作る
 
+```.gitconfig_local
+# 例
+[user]
+name = tetetratra
+email = 44367208+tetetratra@users.noreply.github.com
+```

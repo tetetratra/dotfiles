@@ -1,6 +1,6 @@
 [alias]
   c = "commit -am'update'"
-  cam = "commit -am"
+  b = "branch --verbose"
   s = status
   ss = status --short
   sss = "!f() { git status --short | awk '{ print $2 }' | tr '\n' ' '; }; f"
@@ -8,14 +8,16 @@
   lp = log --pretty=fuller --graph --date=short --decorate=full --stat -p
   pl = pull
   ps = push
-  br = branch
   co = checkout
   diffall = diff --no-prefix --unified=1000
   default-branch = "! git remote show origin | grep 'HEAD branch' | awk '{print $NF}'" # https://qiita.com/ymm1x/items/b22bddc9fbc192ae1a70
   d = "! git diff $(git default-branch)..HEAD"
-  ri = "! git rebase -i `git log $(git default-branch)~1..HEAD --pretty=%H | tail -n 1`"
   oneline = log --name-only --oneline
   force-pull = "!git fetch && git reset --hard origin/$(git branch --show-current)" # https://qiita.com/Yinaura/items/30992f25b87f76af3ba2
+  # developからHEADまでをrebase (developへsquashマージしているプロジェクト用)
+  ri = "! git rebase -i `git log develop~1..HEAD --pretty=%H | tail -n 1`"
+  # developからHEADまでをrebase (developへ通常のマージしているプロジェクト用)
+  rei = "! git rebase -i HEAD~$(git log --oneline `git log --first-parent develop --pretty='%H' | head -n 1`..HEAD | wc -l | bc)"
 [core]
   editor = nvim
   quotepath = false  # git 日本語ファイル名をエスケープせずに表示
@@ -23,21 +25,24 @@
 [status] # git status 追跡されていないファイルはすべて表示
   showUntrackedFiles = all
 
-[user]
-  name = tetetratra
-  email = 44367208+tetetratra@users.noreply.github.com
-
 [init]
   defaultBranch = main
 [pull]
-  rebase = false
+  rebase = true
 [push]
   default = current
 
-[branch "master"] # masterにいるときのgit pullではorigin masterをpullするようにする
-	remote = origin
-	merge = refs/heads/master
-[branch "develop"] # 同develop
-	remote = origin
+# master,main,developにいるときのgit pullではoriginをpullするようにする
+[branch "master"]
+  remote = origin
+  merge = refs/heads/master
+[branch "main"]
+  remote = origin
+  merge = refs/heads/main
+[branch "develop"]
+  remote = origin
   merge = refs/heads/develop
+
+[include]
+  path = .gitconfig_local
 
