@@ -370,15 +370,21 @@ on_ft = 'tex'
 
 ## HTML
 
-[[plugins]] # htmlショートカットで書くやつ
+[[plugins]] # htmlのショートカット
 repo = 'mattn/emmet-vim'
 on_ft = 'html'
-# (タグ Ctrl y ,) で<タグ></タグ>になる
-# html:5 でhtml5のテンプレート
-# ul>li*3 でリスト3つ
-# テキストはdiv{}のように
+# 詳しくは https://raw.githubusercontent.com/mattn/emmet-vim/master/TUTORIAL
+# Ctrl m , で展開
+hook_add = '''
+  let g:user_emmet_leader_key='<C-Z>'
+  " let g:user_emmet_install_global = 0
+  " auletocmd FileType html,css,typescriptreact EmmetInstall
+'''
+# (例)
+# html:5  : html5のテンプレート
+# ul>li*3 : リスト3つ
+# div{}   : divタグの中身に{}を入れる
 # visualで囲った後に使うと、タグでそれを囲める
-# 詳しくは: https://raw.githubusercontent.com/mattn/emmet-vim/master/TUTORIAL
 
 ## TOML
 
