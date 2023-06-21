@@ -14,10 +14,16 @@
   d = "! git diff $(git default-branch)..HEAD"
   oneline = log --name-only --oneline
   force-pull = "!git fetch && git reset --hard origin/$(git branch --show-current)" # https://qiita.com/Yinaura/items/30992f25b87f76af3ba2
+  # developからHEADまでに更新したファイル一覧
+  fs = "!f () { git log --name-only --oneline develop..HEAD | rr chomp 'reject{_1[/\\w{9} /]}.uniq.sort.join(%q[ ])'; }; f"
   # developからHEADまでをrebase (developへsquashマージしているプロジェクト用)
   ri = "! git rebase -i `git log develop~1..HEAD --pretty=%H | tail -n 1`"
   # developからHEADまでをrebase (developへ通常のマージしているプロジェクト用)
-  rei = "! git rebase -i HEAD~$(git log --oneline `git log --first-parent develop --pretty='%H' | head -n 1`..HEAD | wc -l | bc)"
+  rei = "! git rebase -i HEAD~$(git commit-count-from develop)"
+  # --- alias用util関数 ---
+  commit-count-from = "!f () { git log --oneline $(git first-parent-sha $1)..HEAD | wc -l | tr -d ' '; }; f"
+  first-parent-sha = "!f () { git log --first-parent $1 --pretty='%H' -n 1;}; f"
+
 [core]
   editor = nvim
   quotepath = false  # git 日本語ファイル名をエスケープせずに表示
