@@ -1,6 +1,7 @@
 [alias]
-  c = "commit -am'update'"
+  a = "commit -a --amend"
   b = "branch --verbose"
+  c = "commit -am 'update'"
   s = status
   ss = status --short
   sss = "!f() { git status --short | awk '{ print $2 }' | tr '\n' ' '; }; f"
@@ -9,6 +10,7 @@
   pl = pull
   ps = push
   co = checkout
+  prev = reset --mixed HEAD~1
   diffall = diff --no-prefix --unified=1000
   default-branch = "! git remote show origin | grep 'HEAD branch' | awk '{print $NF}'" # https://qiita.com/ymm1x/items/b22bddc9fbc192ae1a70
   d = "! git diff $(git default-branch)..HEAD"
