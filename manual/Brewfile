@@ -40,6 +40,7 @@ cask "zoom"
 cask "steam"
 cask "karabiner-elements"
 cask "skitch"
+cask "alfred"
 mas "QuickShade", id: 931571202
 mas "RunCat", id: 1429033973
 mas "Relax Melodies: Sleep Sounds", id: 467103113
