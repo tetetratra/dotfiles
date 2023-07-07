@@ -1,0 +1,148 @@
+#!/usr/bin/osascript -l JavaScript
+
+// from https://gist.github.com/woxtu/ceb6a4bc0de2d0e2c4ae8a1ceb2d0cdf
+
+ObjC.import("stdlib");
+ObjC.import("AppKit");
+ObjC.import("PDFKit");
+ObjC.import("Vision");
+
+const scriptName = $.NSProcessInfo.processInfo.arguments.objectAtIndex(3).lastPathComponent.js;
+
+console.error = (obj) => {
+  const data = $(`${obj}\n`).dataUsingEncoding($.NSUTF8StringEncoding);
+  $.NSFileHandle.fileHandleWithStandardError.writeData(data);
+};
+
+function ocr(filePath, lang, dpi) {
+  const request = $.VNRecognizeTextRequest.alloc.init;
+  request.setRecognitionLevel($.VNRequestTextRecognitionLevelAccurate);
+  request.setUsesLanguageCorrection = true;
+
+  function ocrPDF(fileURL, dpi) {
+    const doc = $.PDFDocument.alloc.initWithURL(fileURL);
+    return Array(+doc.pageCount)
+      .fill()
+      .map((_, i) => {
+        const scaleFactor = dpi / (72.0 * $.NSScreen.mainScreen.backingScaleFactor);
+        const pdfImageRep = $.NSPDFImageRep.imageRepWithData(doc.pageAtIndex(i).dataRepresentation);
+        const originalSize = pdfImageRep.bounds.size;
+        const targetRect = $.NSMakeRect(0, 0, originalSize.width * scaleFactor, originalSize.height * scaleFactor);
+        const image = $.NSImage.alloc.initWithSize(targetRect.size);
+        image.lockFocus;
+        $.NSColor.whiteColor.set;
+        $.NSBezierPath.fillRect(targetRect);
+        pdfImageRep.drawInRect(targetRect);
+        image.unlockFocus;
+        return ocrTIFF(image.TIFFRepresentation);
+      })
+      .join("\n");
+  }
+
+  function ocrImage(fileURL) {
+    const scaleFactor = $.NSScreen.mainScreen.backingScaleFactor;
+    const bitmapImageRep = $.NSBitmapImageRep.imageRepWithData($.NSImage.alloc.initWithContentsOfURL(fileURL).TIFFRepresentation);
+    const srcSize = $.NSMakeSize(bitmapImageRep.pixelsWide / scaleFactor, bitmapImageRep.pixelsHigh / scaleFactor);
+    const srcImage = $.NSImage.alloc.initWithSize(srcSize);
+    srcImage.addRepresentation(bitmapImageRep);
+    const targetRect = $.NSMakeRect(0, 0, srcSize.width, srcSize.height);
+    const newImage = $.NSImage.alloc.initWithSize(targetRect.size);
+    newImage.lockFocus;
+    $.NSColor.whiteColor.set;
+    $.NSBezierPath.fillRect(targetRect);
+    srcImage.drawInRect(targetRect);
+    newImage.unlockFocus;
+    return ocrTIFF(newImage.TIFFRepresentation);
+  }
+
+  function ocrTIFF(tiff) {
+    const requestHandler = $.VNImageRequestHandler.alloc.initWithDataOptions(tiff, $({}));
+    requestHandler.performRequestsError($([request]), null);
+    return request.results.js.map((result) => result.topCandidates(1).objectAtIndex(0).string.js).join("\n");
+  }
+
+  if (lang === "ja") {
+    request.setRecognitionLanguages(["ja", "en"]);
+  } else {
+    request.setRecognitionLanguages(["en"]);
+  }
+  const fileURL = $.NSURL.fileURLWithPath(filePath);
+  if (fileURL.pathExtension.js == "pdf") {
+    return ocrPDF(fileURL, dpi);
+  } else {
+    return ocrImage(fileURL);
+  }
+}
+
+function usage() {
+  console.log(`Usage: ${scriptName} [--lang <LANG>] [--dpi <VALUE>] <input1> <input2> ...
+  
+  Input file types: pdf/jpg/png
+  Options:
+    -h, --help      Show help
+    --lang <LANG>   Set OCR language (ja/en) (default: ja)
+    --dpi <VALUE>   Set DPI value for PDF rasterization (default: 200)`);
+}
+
+function run(args) {
+  // parse arguments
+  let params = [];
+  let lang = "ja";
+  let dpi = 200;
+
+  let i = 0;
+  while (i < args.length) {
+    const opt = args[i];
+    switch (opt) {
+      case "-h":
+      case "--help":
+        usage();
+        $.exit(0);
+
+      case "--lang":
+        if (!args[i + 1]) {
+          console.error(`${scriptName}: option requires an argument -- ${opt}`);
+          $.exit(1);
+        }
+        lang = args[i + 1];
+        i += 1;
+        break;
+
+      case "--dpi":
+        if (!args[i + 1]) {
+          console.error(`${scriptName}: option requires an argument -- ${opt}`);
+          $.exit(1);
+        }
+        dpi = +args[i + 1];
+        i += 1;
+        break;
+
+      case "--":
+      case "-":
+        params = [...params, ...args.slice(i + 1)];
+        i = args.length;
+        break;
+
+      default:
+        if (opt.startsWith("-")) {
+          console.error(`${scriptName}: illegal option -- '${opt.replace(/^-*/, "")}'`);
+          $.exit(1);
+        } else {
+          params = [...params, opt];
+        }
+        break;
+    }
+    i += 1;
+  }
+
+  // handle invalid arguments
+  if (!params.length) {
+    console.error(`${scriptName}: too few arguments`);
+    console.error(`Try '${scriptName} --help' for more information.`);
+    $.exit(1);
+  }
+
+  for (const file of params) {
+    console.log(ocr(file, lang, dpi));
+  }
+}
