@@ -407,3 +407,10 @@ repo = 'rizzatti/dash.vim'
 hook_add = '''
   cabbrev d Dash
 '''
+
+# その他
+[[plugins]]
+repo = 'glacambre/firenvim'
+hook_post_update = '''
+  firenvim#install(1)
+'''
