@@ -37,5 +37,4 @@ if dein#check_install()
 endif
 
 lua require('options')
-lua require('firenvim')
 
