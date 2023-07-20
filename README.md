@@ -107,9 +107,11 @@ mkdir ~/bin && ln -sf $PWD/bin ~/bin
 
 rbenv install 3.1.0 # よしなに
 rbenv global 3.1.0
+gem install neovim
 
 pyenv install 3.10.3 # よしなに
 pyenv global 3.10.3
+pip install pynvim
 ```
 
 - zshrcの拡張を手動でインストール
