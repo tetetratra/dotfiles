@@ -226,15 +226,15 @@ vim.api.nvim_set_keymap('c', '<C-l>', '<Right>', { noremap = true })
 -- == color ==
 -- ターミナルでも True Color を使えるようにする
 vim.cmd('set termguicolors')
-vim.cmd('nnoremap <Space>u <esc>:lua ToggleTermguicolors()<CR>')
 
-function ToggleTermguicolors()
-  if vim.o.termguicolors then
-    vim.o.termguicolors = false
-    print('notermguicolors')
-  else
-    vim.o.termguicolors = true
-    print('termguicolors')
+vim.cmd('nnoremap <Space>u <esc>:lua ToggleTransparent()<CR>')
+function ToggleTransparent()
+  local bg = vim.api.nvim_get_hl_by_name('Normal', true).background
+  if bg then -- 退避 & 透明化
+    vim.g.saved_normal_guibg = bg
+    vim.api.nvim_set_hl(0, 'Normal', { background = 'NONE' })
+  else -- 復元
+    vim.api.nvim_set_hl(0, 'Normal', { background = vim.g.saved_normal_guibg })
   end
 end
 
