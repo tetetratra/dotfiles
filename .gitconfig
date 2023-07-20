@@ -17,7 +17,7 @@
   oneline = log --name-only --oneline
   force-pull = "!git fetch && git reset --hard origin/$(git branch --show-current)" # https://qiita.com/Yinaura/items/30992f25b87f76af3ba2
   # developからHEADまでに更新したファイル一覧
-  fs = "!f () { git log --name-only --oneline develop..HEAD | rr chomp 'reject{_1[/\\w{9} /]}.uniq.sort.join(%q[ ])'; }; f"
+  fs = "!f () { git log --name-only --oneline develop..HEAD | rr chomp 'reject{_1[/\\w{9} /]}.uniq.sort.join(%Q(\\n))'; }; f"
   # developからHEADまでをrebase (developへsquashマージしているプロジェクト用)
   ri = "! git rebase -i `git log develop~1..HEAD --pretty=%H | tail -n 1`"
   # developからHEADまでをrebase (developへ通常のマージしているプロジェクト用)
