@@ -54,9 +54,11 @@ repo = 'scrooloose/nerdtree'
 hook_add = '''
   let NERDTreeShowHidden=1
   let NERDTreeWinSize=40
+  let NERDTreeShowBookmarks=1
   let g:NERDTreeMapMenu='m'
   nnoremap <Space>t :NERDTreeFind<CR>
   nnoremap <Space>` :NERDTreeFind<CR>
+  cabbrev B Bookmark
 '''
 
 [[plugins]]
