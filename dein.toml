@@ -1,3 +1,5 @@
+# https://github.com/Shougo/dein.vim/blob/master/doc/dein.txt
+
 # 環境
 [[plugins]]
 repo = 'vim-denops/denops.vim'
@@ -10,9 +12,7 @@ repo = 'vim-denops/denops-helloworld.vim'
 [[plugins]]
 repo = 'cocopon/iceberg.vim'
 hook_add = '''
-  if has("gui_running") || has("nvim")
-    colorscheme iceberg
-  endif
+  colorscheme iceberg
 '''
 
 # denite
@@ -58,14 +58,14 @@ hook_add = '''
 
 [[plugins]]
 repo = 'scrooloose/nerdtree'
-hook_add = '''
-  let NERDTreeShowHidden=1
-  let NERDTreeWinSize=40
-  let NERDTreeShowBookmarks=1
-  let g:NERDTreeMapMenu='m'
-  nnoremap <Space>t :NERDTreeFind<CR>
-  nnoremap <Space>` :NERDTreeFind<CR>
-  cabbrev B Bookmark
+lua_add = '''
+  vim.g.NERDTreeShowHidden = 1
+  vim.g.NERDTreeWinSize = 40
+  vim.g.NERDTreeShowBookmarks = 1
+  vim.g.NERDTreeMapMenu = 'm'
+  vim.api.nvim_set_keymap('n', '<Space><Esc>', ':NERDTreeFind<CR>', { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('n', '<Space>`', ':NERDTreeFind<CR>', { noremap = true, silent = true })
+  vim.cmd('cabbrev B Bookmark')
 '''
 
 [[plugins]]
@@ -198,9 +198,8 @@ repo = 'tpope/vim-surround'
 
 [[plugins]] # 選択箇所をyankで置き換え
 repo = 'kana/vim-operator-replace'
-hook_add = '''
-  " replace operater
-  nmap R <Plug>(operator-replace)
+lua_add = '''
+  vim.api.nvim_set_keymap('n', 'R', '<Plug>(operator-replace)', {})
 '''
 
 [[plugins]] # kana/vim-operator-replaceが依存している
@@ -214,12 +213,10 @@ hook_add = '''
 
 [[plugins]]
 repo = 'scrooloose/nerdcommenter'
-hook_add = '''
-  " コメントアウト時にスペース1個
-  let g:NERDSpaceDelims=1
-  let g:NERDDefaultAlign = 'left'
-  " Ctrl + スラッシュでエスケープ
-  vmap <C-c> <Leader>c<Space>
+lua_add = '''
+  vim.g.NERDSpaceDelims = 1
+  vim.g.NERDDefaultAlign = 'left'
+  vim.api.nvim_set_keymap('v', '<C-c>', '<Leader>c<Space>', {})
 '''
 
 # 表示系
@@ -295,26 +292,25 @@ hook_add = '''
 
 [[plugins]]
 repo = 'kshenoy/vim-signature'
-hook_add = '''
-  let g:SignatureMap = { 'Leader' : "m", 'PlaceNextMark' : "", 'ToggleMarkAtLine' : "<Space>m", 'PurgeMarksAtLine' : "", 'DeleteMark' : "", 'PurgeMarks' : "", 'PurgeMarkers' : "", 'GotoNextLineAlpha' : "", 'GotoPrevLineAlpha' : "", 'GotoNextSpotAlpha' : "", 'GotoPrevSpotAlpha' : "", 'GotoNextLineByPos' : "", 'GotoPrevLineByPos' : "", 'GotoNextSpotByPos' : "", 'GotoPrevSpotByPos' : "", 'GotoNextMarker' : "", 'GotoPrevMarker' : "", 'GotoNextMarkerAny' : "", 'GotoPrevMarkerAny' : "", 'ListBufferMarks' : "", 'ListBufferMarkers' : "" }
-  let g:SignatureIncludeMarks = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-  nmap <Space>M :delmarks A-Z<CR>
+lua_add = '''
+  vim.g.SignatureMap = { ToggleMarkAtLine = "<Space>m", }
+  vim.g.SignatureIncludeMarks = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  vim.api.nvim_set_keymap('n', '<Space>M', ':delmarks A-Z<CR>', { silent = true })
 '''
 
 [[plugins]] # コードに色付け(markとは別物) https://secret-garden.hatenablog.com/
 repo = 't9md/vim-quickhl'
-hook_add = '''
-  nmap <Space>h <Plug>(quickhl-manual-this)
-  xmap <Space>h <Plug>(quickhl-manual-this)
-  nmap <Space>H <Plug>(quickhl-manual-reset)
-
-  let g:quickhl_manual_enable_at_startup = 1
-  let g:quickhl_manual_keywords = [
-     \ "binding.pry",
-     \ "binding.irb",
-     \ "NOTE:",
-     \ "MEMO:",
-     \ ]
+lua_add = '''
+  vim.api.nvim_set_keymap('n', '<Space>h', '<Plug>(quickhl-manual-this)', { silent = true })
+  vim.api.nvim_set_keymap('x', '<Space>h', '<Plug>(quickhl-manual-this)', { silent = true })
+  vim.api.nvim_set_keymap('n', '<Space>H', '<Plug>(quickhl-manual-reset)', {silent = true })
+  vim.g.quickhl_manual_enable_at_startup = 1
+  vim.g.quickhl_manual_keywords = {
+    "binding.pry",
+    "binding.irb",
+    "NOTE:",
+    "MEMO:",
+  }
 '''
 
 # git系
