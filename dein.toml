@@ -307,6 +307,14 @@ hook_add = '''
   nmap <Space>h <Plug>(quickhl-manual-this)
   xmap <Space>h <Plug>(quickhl-manual-this)
   nmap <Space>H <Plug>(quickhl-manual-reset)
+
+  let g:quickhl_manual_enable_at_startup = 1
+  let g:quickhl_manual_keywords = [
+     \ "binding.pry",
+     \ "binding.irb",
+     \ "NOTE:",
+     \ "MEMO:",
+     \ ]
 '''
 
 # git系
