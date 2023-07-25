@@ -179,6 +179,8 @@ hook_add = '''
     \ })
 '''
 
+# TODO: vim-lsp-settings から脱却したい
+
 # ここらへんのインストールが必要そう
 # gem install rubocop-performance
 # gem install rubocop-rspec
