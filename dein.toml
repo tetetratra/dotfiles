@@ -194,6 +194,12 @@ hook_add = '''
 '''
 
 # 操作系
+[[plugins]] # jump
+repo = 'phaazon/hop.nvim'
+lua_add = '''
+  require('hop').setup()
+  vim.api.nvim_set_keymap('n', 'f', '<esc>:HopWord<CR>', { silent = true })
+'''
 
 [[plugins]]
 repo = 'tpope/vim-surround'
