@@ -291,6 +291,14 @@ hook_post_update = '''
 [[plugins]]
 repo = 'nvim-treesitter/nvim-treesitter-context'
 
+[[plugins]] # 引数のハイライト
+repo = 'm-demare/hlargs.nvim'
+lua_add = '''
+  require('hlargs').setup {
+    color = '#DBDBBB'
+  }
+  '''
+
 # 検索・置換系
 
 [[plugins]] # rubyやperl風正規表現(インクリメンタルサーチはできない)
