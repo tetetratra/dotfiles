@@ -249,13 +249,6 @@ hook_add = '''
   endfunction
 '''
 
-[[plugins]] # 余分な空白を赤く
-repo = 'bronson/vim-trailing-whitespace'
-hook_add = '''
-  " unite vim でも機能するのを止める
-  let g:extra_whitespace_ignored_filetypes = ['unite']
-'''
-
 [[plugins]]
 repo = 'simeji/winresizer'
 hook_add = '''
