@@ -335,6 +335,26 @@ lua_add = '''
   vim.g.quickhl_manual_keywords = { { pattern = pattern, regexp = 1 }, }
 '''
 
+[[plugins]] # RutaTang/quicknote.nvim が依存している
+repo = 'nvim-lua/plenary.nvim'
+
+[[plugins]]
+repo = 'RutaTang/quicknote.nvim'
+lua_add = '''
+  local quicknote = require("quicknote")
+  quicknote.setup({})
+
+  function NewOrOpenNoteAtCurrentLine()
+    if not quicknote.OpenNoteAtCurrentLine() then
+      quicknote.NewNoteAtCurrentLine()
+    end
+  end
+
+  vim.api.nvim_set_keymap("n", "<Space>n", "<cmd>:lua NewOrOpenNoteAtCurrentLine()<cr>",{})
+  vim.api.nvim_set_keymap("n", "<Space>N", "<cmd>:lua require('quicknote').DeleteNoteAtCurrentLine()<cr>",{})
+  vim.cmd('autocmd BufEnter * lua require("quicknote").ShowNoteSigns()')
+'''
+
 # git系
 
 [[plugins]] # gitコマンドをvimから使う
