@@ -268,7 +268,7 @@ hook_add = '''
 [[plugins]]
 repo = 'nvim-treesitter/nvim-treesitter'
 # これらを実行する
-# :TSInstall ruby
+# :TSInstall ruby javascript typescript html css json yaml lua rust c cpp swift go haskell
 # 確認
 # :TSInstallInfo
 hook_post_update = '''
@@ -284,7 +284,17 @@ lua_add = '''
   require('hlargs').setup {
     color = '#DBDBBB'
   }
-  '''
+'''
+
+[[plugins]] # 閉じ括弧補完. treesitterを利用
+repo = 'windwp/nvim-ts-autotag'
+lua_add = '''
+  require'nvim-treesitter.configs'.setup {
+    autotag = {
+      enable = true,
+    }
+  }
+'''
 
 # 検索・置換系
 
@@ -402,10 +412,6 @@ hook_add = '''
 # 言語系
 
 ## Ruby
-
-[[plugins]]
-repo = 'tpope/vim-endwise'
-on_ft = 'ruby'
 
 [[plugins]]
 repo = 'tpope/vim-rails'
