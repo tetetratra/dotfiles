@@ -1,4 +1,6 @@
 # https://github.com/Shougo/dein.vim/blob/master/doc/dein.txt
+# depends を指定するときは名前のみ指定する
+# depends に指定しただけではインストールまではされず、別途 [[plugins]] で指定する必要がある
 
 # 環境
 [[plugins]]
@@ -6,6 +8,9 @@ repo = 'vim-denops/denops.vim'
 
 [[plugins]] # :DenopsHello => Hello
 repo = 'vim-denops/denops-helloworld.vim'
+
+[[plugins]]
+repo = 'nvim-lua/plenary.nvim'
 
 # color
 
@@ -15,47 +20,39 @@ hook_add = '''
   colorscheme iceberg
 '''
 
-# denite
-# TODO: ddu.vim に移行したい
+# fuzzy finder
 
 [[plugins]]
-lazy = 1
-on_cmd = 'Denite'
-repo = 'Shougo/denite.nvim'
-hook_add = '''
-  let g:python3_host_prog = "~/.pyenv/shims/python3"
+repo = 'nvim-telescope/telescope.nvim'
+depends = ['nvim-lua/plenary.nvim']
+lua_add = '''
+  vim.api.nvim_set_keymap('n', '<Space>f', ':lua require("telescope.builtin").find_files()<cr>', { noremap = true })
+  vim.api.nvim_set_keymap('n', '<Space>g', ':lua require("telescope.builtin").live_grep()<cr>',  { noremap = true })
+  vim.api.nvim_set_keymap('n', '<Space>b', ':lua require("telescope.builtin").buffers()<cr>',    { noremap = true })
 
-  autocmd FileType denite call s:denite_my_settings()
-  function! s:denite_my_settings() abort
-    nnoremap <silent><buffer><expr> <CR>    denite#do_map('do_action', 'open')
-    nnoremap <silent><buffer><expr> t       denite#do_map('do_action', 'tabopen')
-    nnoremap <silent><buffer><expr> s       denite#do_map('do_action', 'split')
-    nnoremap <silent><buffer><expr> v       denite#do_map('do_action', 'vsplit')
-    nnoremap <silent><buffer><expr> d       denite#do_map('do_action', 'delete')
-    nnoremap <silent><buffer><expr> i       denite#do_map('open_filter_buffer')
-    nnoremap <silent><buffer><expr> q       denite#do_map('quit')
-    nnoremap <silent><buffer><expr> <Space> denite#do_map('toggle_select').'j'
-  endfunction
+  vim.api.nvim_create_user_command('H', function()
+    require("telescope.builtin").help_tags()
+  end, {})
 
-  " https://github.com/Shougo/denite.nvim/blob/master/doc/denite.txt
-  nmap <Space>f <esc>:Denite file/rec               -split=tab -auto-action=preview -preview-height=20 -match-highlight<CR>
-  nmap <Space>g <esc>:Denite -start-filter grep:::! -split=tab -auto-action=preview -preview-height=20 -match-highlight<CR>
-  nmap <Space>b <esc>:Denite buffer                 -split=tab -auto-action=preview -preview-height=20 -match-highlight<CR>
-  nmap <Space>r <esc>:Denite -resume                -split=tab<CR>
-
-  " ripgrepを使う https://github.com/Shougo/denite.nvim/blob/master/doc/denite.txt#L2083
-  call denite#custom#var('grep', {
-  \ 'command': ['rg'],
-  \ 'default_opts': ['-i', '--vimgrep', '--no-heading'],
-  \ 'recursive_opts': [],
-  \ 'pattern_opt': ['--regexp'],
-  \ 'separator': ['--'],
-  \ 'final_opts': [],
-  \ })
+  -- 参考: https://dev.classmethod.jp/articles/nvim_telescope
+  require('telescope').setup{
+    defaults = {
+      mappings = {
+        n = {
+          ["<esc>"] = require('telescope.actions').close,
+          ["<Space>q"] = require('telescope.actions').close,
+        },
+        i = {
+          ["<esc>"] = require('telescope.actions').close,
+          ["<C-a>"] = require('telescope.actions').send_to_qflist + require('telescope.actions').open_qflist,
+          ["<C-q>"] = require('telescope.actions').send_selected_to_qflist + require('telescope.actions').open_qflist
+        }
+      },
+    },
+  }
 '''
 
-# ファイル系
-
+# ファイル
 [[plugins]]
 repo = 'scrooloose/nerdtree'
 lua_add = '''
@@ -337,11 +334,9 @@ lua_add = '''
   vim.g.quickhl_manual_keywords = { { pattern = pattern, regexp = 1 }, }
 '''
 
-[[plugins]] # RutaTang/quicknote.nvim が依存している
-repo = 'nvim-lua/plenary.nvim'
-
 [[plugins]]
 repo = 'RutaTang/quicknote.nvim'
+depends = ['plenary.nvim']
 lua_add = '''
   local quicknote = require("quicknote")
   quicknote.setup({})
