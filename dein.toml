@@ -259,14 +259,6 @@ hook_add = '''
 '''
 
 [[plugins]]
-repo = 'nathanaelkane/vim-indent-guides'
-hook_add = '''
-  let g:indent_guides_enable_on_vim_startup = 1
-  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=none
-  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=234
-'''
-
-[[plugins]]
 repo = 'nvim-treesitter/nvim-treesitter'
 # これらを実行する
 # :TSInstall ruby javascript typescript html css json yaml lua rust c cpp swift go haskell
@@ -289,8 +281,26 @@ lua_add = '''
   }
 '''
 
+[[plugins]]
+repo = 'lukas-reineke/indent-blankline.nvim'
+depends = ['nvim-treesitter']
+lua_add = '''
+  vim.opt.termguicolors = true
+  vim.cmd [[highlight IndentBlanklineIndent1 guibg=#1f1f1f gui=nocombine]]
+  vim.cmd [[highlight IndentBlanklineIndent2 guibg=#1a1a1a gui=nocombine]]
+
+  require("indent_blankline").setup {
+    char = "|",
+  }
+'''
+
 [[plugins]] # 閉じ括弧補間
 repo = 'cohama/lexima.vim'
+
+[[plugins]]
+repo = 'ntpeters/vim-better-whitespace'
+# 変な箇所で色がつくようなら以下を追加する
+# autocmd FileType <desired_filetypes> EnableStripWhitespaceOnSave
 
 # 検索・置換系
 
