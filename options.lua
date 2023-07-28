@@ -24,7 +24,8 @@ vim.o.visualbell = true
 -- タブを特殊文字で表示する
 vim.o.list = true
 vim.o.listchars = "tab:>-"
--- 「まるいち」のような記号を全角で表示
+-- single: 「まるいち」のような記号が半角になってしまう
+-- double: 全角文字が現れたときに表示が崩れる (iterm + tmux + neovim)
 vim.o.ambiwidth = "double"
 -- タブをスペースに展開する
 vim.o.expandtab = true

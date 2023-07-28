@@ -41,6 +41,7 @@ cask "steam"
 cask "karabiner-elements"
 cask "skitch"
 cask "alfred"
+cask "font-noto-nerd-font"
 mas "QuickShade", id: 931571202
 mas "RunCat", id: 1429033973
 mas "Relax Melodies: Sleep Sounds", id: 467103113
@@ -48,3 +49,4 @@ tap "homebrew/bundle"
 tap "homebrew/cask"
 tap "homebrew/core"
 tap "universal-ctags/universal-ctags"
+tap "homebrew/cask-fonts"

@@ -65,6 +65,10 @@ lua_add = '''
   vim.cmd('cabbrev B Bookmark')
 '''
 
+[[plugins]] # nerd tree で nerd font
+repo = 'ryanoasis/vim-devicons'
+depends = ['scrooloose/nerdtree']
+
 [[plugins]]
 repo = 'Xuyuanp/nerdtree-git-plugin'
 

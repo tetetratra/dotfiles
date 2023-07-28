@@ -121,6 +121,7 @@ pip install pynvim
   - preferences -> profiles -> other actions -> import
 - iterm -> preference -> keys -> navigation shortcuts
   - すべて[No Shortcut]にする(tmuxのwindow切り替えのため)
+- iterm の Non-ASCII Font を nerd font にする
 - deinのインストール
   - `.vimrc`参照
 - システム環境設定
@@ -155,10 +156,9 @@ pip install pynvim
     - https://qiita.com/take_3/items/08acebb07e313c89dea9
 - Karabiner-Elements で "my confing" にある設定のみをすべてenableにする
 - .gitconfig_local を作る
-
-```.gitconfig_local
-# 例
-[user]
-name = tetetratra
-email = 44367208+tetetratra@users.noreply.github.com
-```
+  ```.gitconfig_local
+  # 例
+  [user]
+  name = tetetratra
+  email = 44367208+tetetratra@users.noreply.github.com
+  ```
