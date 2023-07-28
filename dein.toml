@@ -25,9 +25,13 @@ lua_add = '''
 # fuzzy finder
 
 [[plugins]]
+repo = 'nvim-telescope/telescope-fzf-native.nvim'
+
+[[plugins]]
 repo = 'nvim-telescope/telescope.nvim'
 depends = ['nvim-lua/plenary.nvim']
 lua_add = '''
+  -- live_grep は ripgrep に依存している
   vim.api.nvim_set_keymap('n', '<Space>f', ':lua require("telescope.builtin").find_files()<cr>', { noremap = true })
   vim.api.nvim_set_keymap('n', '<Space>g', ':lua require("telescope.builtin").live_grep()<cr>',  { noremap = true })
   vim.api.nvim_set_keymap('n', '<Space>b', ':lua require("telescope.builtin").buffers()<cr>',    { noremap = true })
@@ -38,7 +42,7 @@ lua_add = '''
   end, {})
 
   -- 参考: https://dev.classmethod.jp/articles/nvim_telescope
-  require('telescope').setup{
+  require('telescope').setup({
     defaults = {
       mappings = {
         n = {
@@ -52,7 +56,16 @@ lua_add = '''
         }
       },
     },
-  }
+    extensions = {
+      fzf = { -- https://wonwon-eater.com/nvim-susume-fuzzy-finder
+        fuzzy = true,
+        override_generic_sorter = false,
+        override_file_sorter = true,
+        case_mode = "smart_case",
+      }
+    }
+  })
+  require('telescope').load_extension('fzf')
 '''
 
 # ファイル
