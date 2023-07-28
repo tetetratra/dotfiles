@@ -460,16 +460,6 @@ hook_add = '''
 '''
 on_ft = 'markdown'
 
-## LaTeX
-
-[[plugins]]
-repo = 'lervag/vimtex'
-hook_add = '''
-  " pdflatexをコンパイル
-  let g:latex_latexmk_options = '-pdf'
-'''
-on_ft = 'tex'
-
 ## HTML
 
 [[plugins]] # htmlのショートカット
