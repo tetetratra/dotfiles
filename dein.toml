@@ -16,8 +16,10 @@ repo = 'nvim-lua/plenary.nvim'
 
 [[plugins]]
 repo = 'cocopon/iceberg.vim'
-hook_add = '''
-  colorscheme iceberg
+# highlightの設定は https://github.com/cocopon/iceberg.vim/issues/101 がcloseするまで
+lua_add = '''
+  vim.cmd('colorscheme iceberg')
+  vim.cmd('highlight FloatBorder guibg=#242940 guifg=#242940 ctermbg=none')
 '''
 
 # fuzzy finder

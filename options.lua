@@ -239,21 +239,8 @@ function ToggleTransparent()
   end
 end
 
-if vim.fn.has('nvim') then
-  -- floating windows を半透明に表示する
-  vim.o.winblend = 5
-end
-
-vim.cmd('highlight FloatBorder ctermbg=None ctermfg=None')
-vim.cmd('highlight Normal ctermbg=none')
-vim.cmd('highlight NonText ctermbg=none')
-vim.cmd('highlight Folded ctermbg=none')
-vim.cmd('highlight EndOfBuffer ctermbg=none')
-vim.cmd('highlight Visual ctermbg=242')
-vim.cmd('highlight Visual guibg=#006080')
-vim.cmd('highlight Comment ctermfg=245')
-vim.cmd('highlight Pmenu ctermbg=234 ctermfg=105')
-vim.cmd('highlight PmenuSel ctermbg=234 ctermfg=45')
-vim.cmd('highlight Search guibg=darkcyan guifg=cyan ctermbg=darkcyan ctermfg=cyan')
-vim.g.lisp_rainbow = 1 -- Enable lisp_rainbow plugin
+-- floating windows を半透明に表示する
+vim.o.winblend = 5
+vim.cmd('highlight Visual      guibg=#006080 guifg=none')
+vim.cmd('highlight Search      guibg=#00FFFF guifg=none')
 
