@@ -281,7 +281,7 @@ repo = 'm-demare/hlargs.nvim'
 depends = ['nvim-treesitter']
 lua_add = '''
   require('hlargs').setup {
-    color = '#DBDBBB'
+    color = '#F0D0D0'
   }
 '''
 
