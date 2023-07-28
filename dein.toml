@@ -130,9 +130,6 @@ hook_add = '''
   call ddc#enable()
 '''
 
-[[plugins]] # 閉じ括弧補間
-repo = 'cohama/lexima.vim'
-
 [[plugins]]
 repo = 'github/copilot.vim'
 # 初回起動時に :Copilot setup をする
@@ -277,24 +274,19 @@ hook_post_update = '''
 
 [[plugins]]
 repo = 'nvim-treesitter/nvim-treesitter-context'
+depends = ['nvim-treesitter']
 
 [[plugins]] # 引数のハイライト
 repo = 'm-demare/hlargs.nvim'
+depends = ['nvim-treesitter']
 lua_add = '''
   require('hlargs').setup {
     color = '#DBDBBB'
   }
 '''
 
-[[plugins]] # 閉じ括弧補完. treesitterを利用
-repo = 'windwp/nvim-ts-autotag'
-lua_add = '''
-  require'nvim-treesitter.configs'.setup {
-    autotag = {
-      enable = true,
-    }
-  }
-'''
+[[plugins]] # 閉じ括弧補間
+repo = 'cohama/lexima.vim'
 
 # 検索・置換系
 
