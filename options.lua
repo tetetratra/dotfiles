@@ -74,10 +74,10 @@ vim.o.foldmethod = 'indent'
 vim.cmd('autocmd QuickFixCmdPost *grep* cwindow')
 
 -- "vimの矩形選択で文字が無くても右へ進める" を切り替える
-vim.api.nvim_set_keymap('n', '<Space>B', '<esc>:lua ToggleVirtualedit()<CR>', { silent = true })
+vim.cmd('command! ToggleVE lua ToggleVirtualEdit()')
 vim.g.toggle_virtualedit = 0
 
-function ToggleVirtualedit()
+function ToggleVirtualEdit()
     if vim.g.toggle_virtualedit == 0 then
         vim.g.toggle_virtualedit = 1
         vim.o.virtualedit = 'block'
