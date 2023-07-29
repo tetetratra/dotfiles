@@ -97,9 +97,7 @@ vim.cmd([[
         \ endif
 ]])
 
-if vim.fn.has("nvim") then
-    vim.o.mouse = 'a'
-end
+vim.o.mouse = 'a'
 
 if not vim.g.loaded_matchit then
     -- matchitを有効化

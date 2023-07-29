@@ -1,28 +1,5 @@
 #! /usr/bin/env ruby
 
-# pluralize
-# singularize
-# ordinal
-# ordinalize
-# upcase_first
-# humanize
-# titleize
-# dasherize
-# constantize
-# safe_constantize
-# deconstantize
-# demodulize
-# camelize
-# underscore
-# classify
-# tableize
-# parameterize
-
-# begin
-#   require 'active_support/all'
-# rescue LoadError
-# end
-
 require 'date'
 require 'json'
 
