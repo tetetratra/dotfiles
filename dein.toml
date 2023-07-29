@@ -122,53 +122,42 @@ depends = [
   'ddc-sorter_rank',
   'ddc-converter_remove_overlap',
 ]
+lua_add = '''
+  vim.fn['ddc#custom#patch_global']('ui', 'native')
+  vim.fn['ddc#custom#patch_global']('sources', {'vim-lsp', 'around'})
+  vim.fn['ddc#custom#patch_global']('sourceOptions', {
+    _ = {
+      matchers = {'matcher_head'},
+      sorters = {'sorter_rank'},
+      converters = {'converter_remove_overlap'},
+      ignoreCase = true,
+      minAutoCompleteLength = 1,
+    },
+    around = {
+      mark = '[Around]',
+      minAutoCompleteLength = 1,
+    },
+    ['vim-lsp'] = {
+      mark = '[LSP]',
+      matchers = {'matcher_head'},
+      forceCompletionPattern = '\\.|:|->|"\\w+/*',
+      minAutoCompleteLength = 1,
+    },
+  })
+  vim.fn['ddc#custom#patch_global']('sourceParams', {
+    around = {
+      maxSize = 500,
+    },
+  })
+  vim.fn['ddc#enable']()
+'''
+# lua_addだとうまく行かないからhook_addでmapする
 hook_add = '''
-  " ddc と ddc-source-vim-lsp のREADMEを参考に設定
-
-  call ddc#custom#patch_global('ui', 'native')
-
-  " 参考:
-  " - https://note.com/dd_techblog/n/n97f2b6ca09d8
-  call ddc#custom#patch_global('sources', ['copilot', 'vim-lsp', 'around'])
-  call ddc#custom#patch_global('sourceOptions', {
-  \ '_': {
-  \   'matchers': ['matcher_head'],
-  \   'sorters': ['sorter_rank'],
-  \   'converters': ['converter_remove_overlap'],
-  \   'ignoreCase': v:true,
-  \   'minAutoCompleteLength': 1,
-  \ },
-  \ 'around': {
-  \   'mark': '[Around]',
-  \   'minAutoCompleteLength': 1,
-  \  },
-  \ 'vim-lsp': {
-  \   'mark': '[LSP]',
-  \   'matchers': ['matcher_head'],
-  \   'forceCompletionPattern': '\.|:|->|"\w+/*',
-  \   'minAutoCompleteLength': 1,
-  \ },
-  \})
-
-  call ddc#custom#patch_global('sourceParams', {
-    \ 'around': {
-    \   'maxSize': 500
-    \ },
-  \ })
-
-  " Mappings
-
-  " <TAB>: completion.
   inoremap <silent><expr> <TAB>
-  \ pumvisible() ? '<C-n>' :
   \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
-  \ '<TAB>' : ddc#map#manual_complete()
+  \ '<TAB>' : ddc#manual_complete()
 
-  " <S-TAB>: completion back.
-  inoremap <expr><S-TAB>  pumvisible() ? '<C-p>' : '<C-h>'
-
-  " Use ddc.
-  call ddc#enable()
+  inoremap <expr><S-TAB> <C-h>
 '''
 
 [[plugins]]
