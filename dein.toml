@@ -179,32 +179,38 @@ hook_add = '''
 [[plugins]]
 repo = 'prabirshrestha/vim-lsp'
 # LspDocumentFormat, LspRename とかも便利そう
-hook_add = '''
-  let g:lsp_diagnostics_virtual_text_enabled = 0
-  " エラーでも赤文字にしない
-  let g:lsp_diagnostics_highlights_enabled = 0
+lua_add = '''
+  vim.g.lsp_diagnostics_virtual_text_enabled = false
+  -- エラーでも赤文字にしない
+  -- vim.g.lsp_diagnostics_highlights_enabled = false
 
-  " let g:lsp_diagnostics_signs_enabled = 0
-  " let g:lsp_diagnostics_signs_error       = {'text': ''}
-  let g:lsp_diagnostics_signs_warning     = {'text': ''}
-  let g:lsp_diagnostics_signs_information = {'text': ''}
-  let g:lsp_diagnostics_signs_hint        = {'text': ''}
+  vim.g.lsp_diagnostics_signs_enabled = false
+  -- vim.g.lsp_diagnostics_signs_error = { text = '' }
+  -- vim.g.lsp_diagnostics_signs_warning = { text = '' }
+  -- vim.g.lsp_diagnostics_signs_information = { text = '' }
+  -- vim.g.lsp_diagnostics_signs_hint = { text = '' }
 
-  " let g:lsp_diagnostics_float_cursor = 1
-  " diagnosticsを即時に出す
-  " let g:lsp_diagnostics_float_delay = 100
+  -- vim.g.lsp_diagnostics_float_cursor = true
+  -- diagnosticsを即時に出す
+  -- vim.g.lsp_diagnostics_float_delay = 100
 
-  nmap <Space><Space> <esc>:LspHover<CR>
-  nmap <Space>]       <esc>:LspDefinition<CR>
-  nmap <Space>[       <esc>:LspReference<CR>
-  nmap <Space>d       <esc>:LspDocumentDiagnostics<CR>
+  vim.api.nvim_set_keymap('n', '<Space><Space>', '<Plug>(lsp-hover)', { noremap = true })
+  vim.api.nvim_set_keymap('n', '<Space>]',       '<Plug>(lsp-definition)', { noremap = true })
+  vim.api.nvim_set_keymap('n', '<Space>[',       '<Plug>(lsp-references)', { noremap = true })
+  vim.api.nvim_set_keymap('n', '<Space>d',       '<esc>:LspDocumentDiagnostics<CR>', { noremap = true })
 
-  " autocmd! BufWritePre *.rb call execute('LspDocumentFormatSync')
-  autocmd User lsp_setup call lsp#register_server({
-    \ 'name': 'rubocop',
-    \ 'cmd': {server_info->['rubocop', '--lsp']},
-    \ 'allowlist': ['ruby'],
-    \ })
+  vim.api.nvim_set_keymap('n', '<M-u>', '<Cmd>call lsp#scroll(-10)<CR>',  { noremap = true })
+  vim.api.nvim_set_keymap('n', '<M-k>', '<Cmd>call lsp#scroll(-1) <CR>',   { noremap = true })
+  vim.api.nvim_set_keymap('n', '<M-j>', '<Cmd>call lsp#scroll(+1) <CR>',   { noremap = true })
+  vim.api.nvim_set_keymap('n', '<M-d>', '<Cmd>call lsp#scroll(+10)<CR>',  { noremap = true })
+
+  vim.cmd([[
+    autocmd User lsp_setup call lsp#register_server({
+      \ 'name': 'rubocop',
+      \ 'cmd': {server_info->['rubocop', '--lsp']},
+      \ 'allowlist': ['ruby'],
+      \ })
+  ]])
 '''
 
 # ここらへんのインストールが必要そう
