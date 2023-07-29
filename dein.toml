@@ -85,15 +85,42 @@ repo = 'bogado/file-line'
 
 # 補完系
 
-[[multiple_plugins]]
-plugins = [
-  'Shougo/ddc.vim',
-  'Shougo/ddc-ui-native',
-  'Shougo/ddc-source-around',
-  'shun/ddc-source-vim-lsp',
-  'Shougo/ddc-matcher_head',
-  'Shougo/ddc-sorter_rank',
-  'Shougo/ddc-converter_remove_overlap',
+[[plugins]]
+repo = 'Shougo/ddc-ui-native'
+
+[[plugins]]
+repo = 'Shougo/ddc-source-around'
+
+[[plugins]]
+repo = 'shun/ddc-source-vim-lsp'
+
+[[plugins]]
+repo = 'Shougo/ddc-matcher_head'
+
+[[plugins]]
+repo = 'Shougo/ddc-sorter_rank'
+
+[[plugins]]
+repo = 'Shougo/ddc-converter_remove_overlap'
+
+# 操作性が悪いから使わない
+# [[plugins]]
+# repo = 'Shougo/ddc-source-copilot'
+# \ 'copilot': {
+# \   'mark': '[Copilot]',
+# \   'matchers': [],
+# \   'minAutoCompleteLength': 0,
+# \ }
+
+[[plugins]] # multiple_plugins で設定すると自動でインストールされないみたいだから1個ずつ列挙してdependsに追加する
+repo = 'Shougo/ddc.vim'
+depends = [
+  'ddc-ui-native',
+  'ddc-source-around',
+  'ddc-source-vim-lsp'
+  'ddc-matcher_head',
+  'ddc-sorter_rank',
+  'ddc-converter_remove_overlap',
 ]
 hook_add = '''
   " ddc と ddc-source-vim-lsp のREADMEを参考に設定
@@ -102,19 +129,24 @@ hook_add = '''
 
   " 参考:
   " - https://note.com/dd_techblog/n/n97f2b6ca09d8
-  call ddc#custom#patch_global('sources', ['vim-lsp', 'around'])
+  call ddc#custom#patch_global('sources', ['copilot', 'vim-lsp', 'around'])
   call ddc#custom#patch_global('sourceOptions', {
   \ '_': {
   \   'matchers': ['matcher_head'],
   \   'sorters': ['sorter_rank'],
   \   'converters': ['converter_remove_overlap'],
   \   'ignoreCase': v:true,
+  \   'minAutoCompleteLength': 1,
   \ },
-  \ 'around': {'mark': 'Around'},
+  \ 'around': {
+  \   'mark': '[Around]',
+  \   'minAutoCompleteLength': 1,
+  \  },
   \ 'vim-lsp': {
-  \   'mark': 'LSP',
+  \   'mark': '[LSP]',
   \   'matchers': ['matcher_head'],
-  \   'forceCompletionPattern': '\.|:|->|"\w+/*'
+  \   'forceCompletionPattern': '\.|:|->|"\w+/*',
+  \   'minAutoCompleteLength': 1,
   \ },
   \})
 
@@ -144,12 +176,13 @@ repo = 'github/copilot.vim'
 # 初回起動時に :Copilot setup をする
 # 認証情報は ~/.config/github-copilot/hosts.json に入る
 hook_add = '''
-  imap <C-f> <Plug>(copilot-next) " fallbackのf
-  imap <silent><script><expr> <C-l> copilot#Accept("\<Right>")
-  imap <silent><script><expr> <C-e> copilot#Accept("\<End>")
-  imap <silent><script><expr> <Right> copilot#Accept("\<Right>")
-  let g:copilot_no_tab_map = v:true
-  nmap <C-g> <cmd>Copilot panel<CR>:setlocal nonumber<CR><C-w>L
+ " fallbackのf
+ imap <C-f> <Plug>(copilot-next)
+ imap <silent><script><expr> <C-l> copilot#Accept("\<Right>")
+ imap <silent><script><expr> <C-e> copilot#Accept("\<End>")
+ imap <silent><script><expr> <Right> copilot#Accept("\<Right>")
+ let g:copilot_no_tab_map = v:true
+ nmap <C-g> <cmd>Copilot panel<CR>:setlocal nonumber<CR><C-w>L
 '''
 
 # LSP
@@ -162,11 +195,11 @@ hook_add = '''
   " エラーでも赤文字にしない
   let g:lsp_diagnostics_highlights_enabled = 0
 
-  let g:lsp_diagnostics_signs_enabled = 0
+  " let g:lsp_diagnostics_signs_enabled = 0
   " let g:lsp_diagnostics_signs_error       = {'text': ''}
-  " let g:lsp_diagnostics_signs_warning     = {'text': ''}
-  " let g:lsp_diagnostics_signs_information = {'text': ''}
-  " let g:lsp_diagnostics_signs_hint        = {'text': ''}
+  let g:lsp_diagnostics_signs_warning     = {'text': ''}
+  let g:lsp_diagnostics_signs_information = {'text': ''}
+  let g:lsp_diagnostics_signs_hint        = {'text': ''}
 
   " let g:lsp_diagnostics_float_cursor = 1
   " diagnosticsを即時に出す
@@ -184,8 +217,6 @@ hook_add = '''
     \ 'allowlist': ['ruby'],
     \ })
 '''
-
-# TODO: vim-lsp-settings から脱却したい
 
 # ここらへんのインストールが必要そう
 # gem install rubocop-performance
