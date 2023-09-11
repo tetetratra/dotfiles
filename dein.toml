@@ -543,6 +543,11 @@ on_ft = 'plantuml'
 [[plugins]]
 repo = 'mtdl9/vim-log-highlighting'
 
+
+## Terraform
+[[plugins]]
+repo = 'hashivim/vim-terraform'
+
 # その他
 [[plugins]]
 repo = 'rizzatti/dash.vim'
