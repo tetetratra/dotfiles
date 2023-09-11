@@ -25,11 +25,11 @@ lua_add = '''
 # fuzzy finder
 
 [[plugins]]
-repo = 'nvim-telescope/telescope-fzy-native.nvim'
+repo = 'natecraddock/telescope-zf-native.nvim'
 
 [[plugins]]
 repo = 'nvim-telescope/telescope.nvim'
-depends = ['nvim-lua/plenary.nvim', 'nvim-telescope/telescope-fzf-native.nvim']
+depends = ['nvim-lua/plenary.nvim', 'natecraddock/telescope-zf-native.nvim']
 lua_add = '''
   -- live_grep は ripgrep に依存している
   vim.api.nvim_set_keymap('n', '<Space>f', ':lua require("telescope.builtin").find_files()<cr>', { noremap = true })
@@ -51,13 +51,32 @@ lua_add = '''
         },
         i = {
           ["<esc>"] = require('telescope.actions').close,
-          ["<C-a>"] = require('telescope.actions').send_to_qflist + require('telescope.actions').open_qflist,
-          ["<C-q>"] = require('telescope.actions').send_selected_to_qflist + require('telescope.actions').open_qflist
         }
       },
+    },
+    ["zf-native"] = {
+        -- options for sorting file-like items
+        file = {
+            -- override default telescope file sorter
+            enable = true,
+            -- highlight matching text in results
+            highlight_results = true,
+            -- enable zf filename match priority
+            match_filename = false, -- !!!
+        },
+
+        -- options for sorting all other items
+        generic = {
+            -- override default telescope generic item sorter
+            enable = true,
+            -- highlight matching text in results
+            highlight_results = true,
+            -- disable zf filename match priority
+            match_filename = false,
+        },
     }
   })
-  require('telescope').load_extension('fzy_native')
+  require('telescope').load_extension('zf-native')
 '''
 
 # ファイル
@@ -294,7 +313,7 @@ hook_add = '''
 [[plugins]]
 repo = 'nvim-treesitter/nvim-treesitter'
 # これらを実行する
-# :TSInstall ruby javascript typescript html css json yaml lua rust c cpp swift go haskell
+# :TSInstall ruby toml javascript typescript html css json yaml lua rust c cpp swift go haskell
 # 確認
 # :TSInstallInfo
 hook_post_update = '''

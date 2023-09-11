@@ -11,6 +11,8 @@ vim.cmd('filetype plugin indent on')
 vim.cmd('syntax enable')
 vim.cmd('syntax on')
 
+-- ファイル保存時の確認を無効化
+vim.o.confirm = false
 -- showcmdを有効にする
 vim.o.showcmd = true
 -- 行番号を表示する
