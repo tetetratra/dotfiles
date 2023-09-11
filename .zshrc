@@ -123,4 +123,8 @@ prompt pure
 # zsh-autosuggestions
 zinit load zsh-users/zsh-autosuggestions
 
+# zsh-fzf-history-search
+zinit ice lucid wait'0'
+zinit light joshskidmore/zsh-fzf-history-search
+
 export PATH="$HOME/bin:$PATH"
