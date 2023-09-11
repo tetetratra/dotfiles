@@ -9,6 +9,7 @@
   lp = log --pretty=fuller --graph --date=short --decorate=full --stat -p
   pl = pull
   ps = push
+  psf = push --force-with-lease
   co = checkout
   prev = reset --mixed HEAD~1
   diffall = diff --no-prefix --unified=1000
