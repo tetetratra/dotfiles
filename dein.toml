@@ -351,6 +351,9 @@ repo = 'cohama/lexima.vim'
 
 [[plugins]]
 repo = 'ntpeters/vim-better-whitespace'
+hook_add = '''
+  let g:better_whitespace_guicolor = 'DarkRed'
+'''
 # 変な箇所で色がつくようなら以下を追加する
 # autocmd FileType <desired_filetypes> EnableStripWhitespaceOnSave
 
