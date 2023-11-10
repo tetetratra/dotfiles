@@ -51,6 +51,8 @@ export HISTSIZE=10000
 export SAVEHIST=100000
 # brewで入れた方をmac内蔵より優先度高く探す
 export PATH=/usr/local/bin:$PATH
+# 自動アップデートをdisable
+export HOMEBREW_NO_AUTO_UPDATE=1
 
 ### 言語 ###
 
