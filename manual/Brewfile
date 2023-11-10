@@ -19,6 +19,7 @@ brew "fzy"
 brew "rustup-init"
 brew "tmux"
 brew "trash"
+brew "httpie"
 brew "tree"
 brew "universal-ctags/universal-ctags/universal-ctags", args: ["HEAD"]
 brew "wget"
