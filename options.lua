@@ -156,6 +156,14 @@ vim.api.nvim_set_keymap('n', '<D-T>', ':tabnew #<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'J', 'V:m \'>+1<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'K', 'V:m \'<-2<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'E', '<ESC>:e!<CR>', { silent = true })
+vim.api.nvim_set_keymap('n', 'gp', '<C-o>:lua jumpToClipboardNumber()<CR>', { silent = true })
+
+function jumpToClipboardNumber()
+  local target_line = tonumber(vim.fn.getreg('+'))
+  if target_line ~= nil then
+    vim.cmd(':' .. target_line)
+  end
+end
 
 -- === buffer系 ===
 vim.o.hidden = true
