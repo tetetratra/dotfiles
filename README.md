@@ -76,6 +76,10 @@ defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool
 defaults write com.apple.terminal StringEncodings -array 4
 
 networksetup -setdnsservers Wi-Fi 2001:4860:4860::8844 2001:4860:4860::8888 8.8.4.4 8.8.8.8
+
+# macOS Sonomaのかな漢字変換で表示される吹き出しを消す https://techracho.bpsinc.jp/hachi8833/2023_11_17/135935
+sudo mkdir -p /Library/Preferences/FeatureFlags/Domain
+sudo /usr/libexec/PlistBuddy -c "Add 'redesigned_text_cursor:Enabled' bool false" /Library/Preferences/FeatureFlags/Domain/UIKit.plist
 ```
 
 - ここでmacを再起動
