@@ -84,6 +84,9 @@ fi
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 
+# homebrew
+export HOMEBREW_NO_AUTO_UPDATE=1
+
 ### key bind ###
 bindkey -v # vim like
 bindkey -M viins '^A' beginning-of-line
