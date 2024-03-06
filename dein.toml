@@ -284,6 +284,7 @@ hook_add = '''
         \ 'colorscheme': 'PaperColor',
         \ 'component_function': {
         \   'filename': 'LightlineFilename',
+        \   'fileencoding': 'LightlineFileencoding',
         \ }
         \ }
   function! LightlineFilename()
@@ -293,6 +294,14 @@ hook_add = '''
       return path[len(root)+1:]
     endif
     return expand('%')
+  endfunction
+
+  " enc: 内部処理に使用するエンコーディング
+  " fenc: 現在開いているファイルのエンコーディング
+  function LightlineFileencoding()
+    let current_encoding = &enc
+    let file_encoding = &fenc
+    return current_encoding . " (enc) | " . file_encoding . " (fenc)"
   endfunction
 '''
 

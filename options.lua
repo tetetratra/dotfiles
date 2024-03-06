@@ -3,6 +3,8 @@
 vim.o.compatible = false
 -- English
 vim.cmd('language C')
+-- 読み込み時の文字コードの候補を指定
+vim.cmd('set fileencodings=utf-8,sjis,euc-jp')
 -- https://teratail.com/questions/166889 アスタリスクレジスタ経由でクリップボード入れた文字が文字化けする対策
 vim.env.LANG = 'en_US.UTF-8'
 -- yankとmacのクリップボードを共有
@@ -198,6 +200,9 @@ vim.o.showtabline = 2
 
 -- === command系 ===
 vim.cmd('command! TabsCopy lua TabsCopy()')
+vim.cmd('command! SJIS edit ++enc=sjis')
+vim.cmd('command! UTF8 edit ++enc=utf-8')
+
 function TabsCopy()
   vim.cmd('redi @*') -- メッセージを`"`レジスタ(= クリップボード)にリダイレクトする
   vim.cmd('silent tabs') -- タブ一覧を表示
