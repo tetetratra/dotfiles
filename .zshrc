@@ -133,3 +133,6 @@ zinit ice lucid wait'0'
 zinit light joshskidmore/zsh-fzf-history-search
 
 export PATH="$HOME/bin:$PATH"
+
+# direnv
+eval "$(direnv hook bash)"

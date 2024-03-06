@@ -2,3 +2,4 @@
 tags
 /utils/
 /.quicknote/
+.env
