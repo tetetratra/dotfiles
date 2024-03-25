@@ -542,7 +542,7 @@ on_ft = 'markdown'
 repo = 'mattn/emmet-vim'
 on_ft = 'html'
 # 詳しくは https://raw.githubusercontent.com/mattn/emmet-vim/master/TUTORIAL
-# Ctrl m , で展開
+# Ctrl z , で展開
 hook_add = '''
   let g:user_emmet_leader_key='<C-Z>'
   " let g:user_emmet_install_global = 0
