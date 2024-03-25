@@ -1,0 +1,20 @@
+#! /usr/bin/env ruby
+# 参考: https://kannokanno.hatenablog.com/entry/2017/05/30/000935
+
+require 'csv'
+
+def print_to_table(rows)
+  header   = rows[0]
+  contents = rows[1..-1]
+
+  puts "| " + header.join(" | ") + " |"
+  puts "| " + Array.new(header.length, "---").join(" | ") + " |"
+  contents.each do |items|
+    puts "| " + items.join(" | ") + " |"
+  end
+end
+
+rows = CSV.parse(STDIN.read)
+
+print_to_table(rows)
+
