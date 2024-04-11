@@ -151,6 +151,8 @@ vim.cmd('nnoremap <silent> x "_x') -- nvim_set_keymap を使って競ってす�
 vim.api.nvim_set_keymap('n', '<Space>w', ':write<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', '<Space>q', ':quit<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', '<C-]>', 'g<C-]>', { silent = true })
+vim.api.nvim_set_keymap('n', '}', ':cn<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '{', ':cN<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<Space>c', '<ESC>:let @+ = expand("%:t")<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', '<Space>C', '<ESC>:let @+ = fnamemodify(expand("%"), ":~:.")<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 't', ':tabnew<CR>', { silent = true })
