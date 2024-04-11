@@ -1,0 +1,9 @@
+#! /usr/bin/env ruby
+
+dir_path = File.expand_path('~/Downloads/*')
+
+newest_file_path = Dir.glob(dir_path).max_by(&File.method(:mtime))
+
+if newest_file_path
+  puts File.read(newest_file_path)
+end
