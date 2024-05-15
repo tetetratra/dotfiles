@@ -131,15 +131,6 @@ repo = 'Shougo/ddc-sorter_rank'
 [[plugins]]
 repo = 'Shougo/ddc-converter_remove_overlap'
 
-# 操作性が悪いから使わない
-# [[plugins]]
-# repo = 'Shougo/ddc-source-copilot'
-# \ 'copilot': {
-# \   'mark': '[Copilot]',
-# \   'matchers': [],
-# \   'minAutoCompleteLength': 0,
-# \ }
-
 [[plugins]] # multiple_plugins で設定すると自動でインストールされないみたいだから1個ずつ列挙してdependsに追加する
 repo = 'Shougo/ddc.vim'
 depends = [
@@ -178,14 +169,6 @@ lua_add = '''
     },
   })
   vim.fn['ddc#enable']()
-'''
-# lua_addだとうまく行かないからhook_addでmapする
-hook_add = '''
-  inoremap <silent><expr> <TAB>
-  \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
-  \ '<TAB>' : ddc#manual_complete()
-
-  inoremap <expr><S-TAB> <C-h>
 '''
 
 [[plugins]]
@@ -474,14 +457,6 @@ repo = 'tpope/vim-rhubarb'
 repo = 'airblade/vim-gitgutter'
 hook_add = '''
   let g:gitgutter_git_executable = substitute(system('which git'), '\n\+$', '', '')
-'''
-
-[[plugins]] # gitのviewer. :Agit, :AgitFile
-lazy = 1
-on_cmd = ['Agit', 'AgitFile']
-repo = 'cohama/agit.vim'
-hook_add = '''
-  nmap <Space>a :AgitFile<CR>
 '''
 
 # コンフリクトをハイライト
