@@ -1,6 +1,6 @@
 [alias]
   a = "commit -a --amend"
-  b = "branch --verbose"
+  b = "branch -vv --no-merged" # -vv はリモートブランチ名も表示するオプション
   c = "commit -am 'update'"
   s = status
   ss = status --short
