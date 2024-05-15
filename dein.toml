@@ -1,3 +1,12 @@
+# [忘れがちな設定まとめ]
+# <Space>g でfuzzy grep
+# <Space>d でlspのdefinition
+# <Space><Space>でhoverしたあとのスクロールは <M-j> <M-k>
+# r/ でRubyの正規表現で検索
+# [x, ]x でコンフリクト間を移動
+# Ctrl-z , でemmet(htmlの略記)展開
+
+
 # https://github.com/Shougo/dein.vim/blob/master/doc/dein.txt
 # depends を指定するときは名前のみ指定する
 # depends に指定しただけではインストールまではされず、別途 [[plugins]] で指定する必要がある

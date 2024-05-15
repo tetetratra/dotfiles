@@ -1,3 +1,14 @@
+-- [忘れがちな設定まとめ]
+-- ToggleVE
+-- insert中にctrl-dでdelete
+-- grep後に { , }
+-- gp でjumpToClipboardNumber
+-- :TabsCopy
+-- :SHIS
+-- :UTF8
+-- w -> set wrap!
+-- <Space>u で透明化切り替え
+
 -- ===== main =====
 -- vi互換モードoff
 vim.o.compatible = false
