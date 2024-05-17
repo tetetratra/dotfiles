@@ -16,6 +16,8 @@ alias dcrb='(){ docker-compose run --rm $1 bash -c "/bin/bash" }'
 alias nvim='nvim -p'
 alias tree='tree --charset unicode'
 alias history='history -E 1'
+alias blue='tmux set-option -p -t : window-style bg=colour17' # 現在(-t :)のpane(-p)の背景色を変更
+alias red='tmux set-option -p -t : window-style bg=colour52'
 
 ### ローカル独自の設定 ###
 if [ -f ~/.zshrc_local ]; then
