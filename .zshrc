@@ -33,6 +33,12 @@ function chpwd() {
   git status --short 2> /dev/null
 }
 
+# manをnvimのfiletype=manかつ読み込みモードで開く
+# タグジャンプとかが使えて便利
+# 参考: https://rcmdnk.com/blog/2014/07/20/computer-vim/
+# colコマンドの -b はバックスペースを使って戻ることができるようにするもの。-x はタブをスペースに変換するもの。
+# nomodifiedがないと、閉じるときに毎回未保存の警告が出てしまうため必要
+export MANPAGER="col -b -x | nvim -c 'set filetype=man nomodified' -"
 # 大文字小文字に関わらず, 候補が見つからない時のみ文字種を無視した補完をする
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}'
 # 補完機能を有効にする
