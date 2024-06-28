@@ -1,13 +1,13 @@
 -- [忘れがちな設定まとめ]
--- ToggleVE
+-- ToggleVirtualEdit
+-- ToggleTransparent
 -- insert中にctrl-dでdelete
 -- grep後に { , }
 -- gp でjumpToClipboardNumber
--- :TabsCopy
--- :SHIS
--- :UTF8
+-- :SJIS, :UTF8 でそれぞれのエンコーディングで開き直す
 -- w -> set wrap!
 -- <Space>u で透明化切り替え
+
 
 -- ===== main =====
 -- vi互換モードoff
@@ -61,7 +61,7 @@ vim.o.laststatus = 2
 -- スワップファイルを使用しない
 vim.o.swapfile = false
 -- スクロール時に下部が見えるようにする
-vim.o.scrolloff = 5
+vim.o.scrolloff = 7
 -- 対応する括弧に<と>のペアを追加する
 vim.o.matchpairs = vim.o.matchpairs .. ",<:>"
 -- 対応する括弧をハイライト表示する
@@ -89,7 +89,7 @@ vim.o.foldmethod = 'indent'
 vim.cmd('autocmd QuickFixCmdPost *grep* cwindow')
 
 -- "vimの矩形選択で文字が無くても右へ進める" を切り替える
-vim.cmd('command! ToggleVE lua ToggleVirtualEdit()')
+vim.cmd('command! ToggleVirtualEdit lua ToggleVirtualEdit()')
 vim.g.toggle_virtualedit = 0
 
 function ToggleVirtualEdit()
@@ -161,13 +161,12 @@ vim.api.nvim_set_keymap('n', 'p', 'p`]', { silent = true })
 vim.cmd('nnoremap <silent> x "_x') -- nvim_set_keymap を使って競ってすると何故かフリーズするためcmdで設定
 vim.api.nvim_set_keymap('n', '<Space>w', ':write<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', '<Space>q', ':quit<CR>', { silent = true })
+
 vim.api.nvim_set_keymap('n', '<C-]>', 'g<C-]>', { silent = true })
 vim.api.nvim_set_keymap('n', '}', ':cn<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '{', ':cN<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<Space>c', '<ESC>:let @+ = expand("%:t")<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', '<Space>C', '<ESC>:let @+ = fnamemodify(expand("%"), ":~:.")<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', 't', ':tabnew<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', '<D-T>', ':tabnew #<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'J', 'V:m \'>+1<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'K', 'V:m \'<-2<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'E', '<ESC>:e!<CR>', { silent = true })
@@ -181,6 +180,7 @@ function jumpToClipboardNumber()
 end
 
 -- === buffer系 ===
+-- 未保存の場合にバッファを切り替えても警告を出さない
 vim.o.hidden = true
 
 -- === tab系 ===
@@ -189,40 +189,13 @@ vim.api.nvim_set_keymap('n', '<C-l>', ':tabnext<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', '<lt>', ':-tabm<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', '>', ':+tabm<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'yt', ':tab split<CR>', { silent = true })
+vim.api.nvim_set_keymap('n', 't', ':tabnew<CR>', { silent = true })
 
-vim.api.nvim_set_keymap('n', '<D-1>', '<ESC>1gt<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', '<D-2>', '<ESC>2gt<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', '<D-3>', '<ESC>3gt<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', '<D-4>', '<ESC>4gt<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', '<D-5>', '<ESC>5gt<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', '<D-6>', '<ESC>6gt<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', '<D-7>', '<ESC>7gt<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', '<D-8>', '<ESC>8gt<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', '<D-9>', '<ESC>:tablast<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', 'g1', '<ESC>1gt<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', 'g2', '<ESC>2gt<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', 'g3', '<ESC>3gt<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', 'g4', '<ESC>4gt<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', 'g5', '<ESC>5gt<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', 'g6', '<ESC>6gt<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', 'g7', '<ESC>7gt<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', 'g8', '<ESC>8gt<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', 'g9', '<ESC>9gt<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', 'g0', '<ESC>:tablast<CR>', { silent = true })
 vim.o.showtabline = 2
 
 -- === command系 ===
-vim.cmd('command! TabsCopy lua TabsCopy()')
 vim.cmd('command! SJIS edit ++enc=sjis')
 vim.cmd('command! UTF8 edit ++enc=utf-8')
-
-function TabsCopy()
-  vim.cmd('redi @*') -- メッセージを`"`レジスタ(= クリップボード)にリダイレクトする
-  vim.cmd('silent tabs') -- タブ一覧を表示
-  vim.cmd('redi end') -- メッセージのリダイレクト終了
-  -- vimからのシェル実行はインタラクティブでないため、aliasが効かない
-  vim.fn.system('pbpaste | grep -vE "Tab page|No Name" | rr "self.split.last" "uniq.compact.sort.join(\' \')" | pbcopy')
-end
 
 -- === window系 ===
 vim.api.nvim_set_keymap('n', '<Space>e', '<C-w>w', {})
@@ -251,7 +224,7 @@ vim.api.nvim_set_keymap('c', '<C-l>', '<Right>', { noremap = true })
 -- ターミナルでも True Color を使えるようにする
 vim.cmd('set termguicolors')
 
-vim.cmd('nnoremap <Space>u <esc>:lua ToggleTransparent()<CR>')
+vim.cmd('command! ToggleTransparent lua ToggleTransparent()')
 function ToggleTransparent()
   local bg = vim.api.nvim_get_hl_by_name('Normal', true).background
   if bg then -- 退避 & 透明化

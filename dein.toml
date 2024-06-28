@@ -6,23 +6,10 @@
 # [x, ]x でコンフリクト間を移動
 # Ctrl-z , でemmet(htmlの略記)展開
 
-
-# https://github.com/Shougo/dein.vim/blob/master/doc/dein.txt
-# depends を指定するときは名前のみ指定する
-# depends に指定しただけではインストールまではされず、別途 [[plugins]] で指定する必要がある
-
-# 環境
-# [[plugins]]
-# repo = 'vim-denops/denops.vim'
-# 
-# [[plugins]] # :DenopsHello => Hello
-# repo = 'vim-denops/denops-helloworld.vim'
-
 [[plugins]]
 repo = 'nvim-lua/plenary.nvim'
 
-# color
-
+# Color
 [[plugins]]
 repo = 'cocopon/iceberg.vim'
 # highlightの設定は https://github.com/cocopon/iceberg.vim/issues/101 がcloseするまで
@@ -32,7 +19,6 @@ lua_add = '''
 '''
 
 # fuzzy finder
-
 [[plugins]]
 repo = 'natecraddock/telescope-zf-native.nvim'
 
@@ -91,19 +77,18 @@ lua_add = '''
 # ファイル
 [[plugins]]
 repo = 'scrooloose/nerdtree'
+depends = ['ryanoasis/vim-devicons']
 lua_add = '''
   vim.g.NERDTreeShowHidden = 1
   vim.g.NERDTreeWinSize = 40
   vim.g.NERDTreeShowBookmarks = 1
   vim.g.NERDTreeMapMenu = 'm'
-  vim.api.nvim_set_keymap('n', '<Space><Esc>', ':NERDTreeFind<CR>', { noremap = true, silent = true })
-  vim.api.nvim_set_keymap('n', '<Space>`', ':NERDTreeFind<CR>', { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('n', '<Space>`', ':NERDTreeToggle<CR>', { noremap = true, silent = true })
   vim.cmd('cabbrev B Bookmark')
 '''
 
-[[plugins]] # nerd tree で nerd font
+[[plugins]]
 repo = 'ryanoasis/vim-devicons'
-depends = ['scrooloose/nerdtree']
 
 [[plugins]]
 repo = 'Xuyuanp/nerdtree-git-plugin'
@@ -111,104 +96,44 @@ repo = 'Xuyuanp/nerdtree-git-plugin'
 [[plugins]] # file_name:123 のように行数指定でファイルを開ける
 repo = 'bogado/file-line'
 
-# 補完系
-
+# 補完
 # [[plugins]]
-# repo = 'Shougo/ddc-ui-native'
+# repo = 'github/copilot.vim'
+# # 初回起動時に :Copilot setup をする
+# # 認証情報は ~/.config/github-copilot/hosts.json に入る
+# hook_add = '''
+#  " fallbackのf
+#  imap <C-f> <Plug>(copilot-next)
+#  imap <silent><script><expr> <C-l> copilot#Accept("\<Right>")
+#  imap <silent><script><expr> <C-e> copilot#Accept("\<End>")
+#  imap <silent><script><expr> <Right> copilot#Accept("\<Right>")
+#  let g:copilot_no_tab_map = v:true
+#  nmap <C-g> <cmd>Copilot panel<CR>:setlocal nonumber<CR><C-w>L
+# '''
 # 
+# # 設定の参考：https://qiita.com/lx-sasabo/items/97c49d0f354ea3bdd525 , https://github.com/CopilotC-Nvim/CopilotChat.nvim?tab=readme-ov-file#tips
 # [[plugins]]
-# repo = 'Shougo/ddc-source-around'
-# 
-# [[plugins]]
-# repo = 'shun/ddc-source-vim-lsp'
-# 
-# [[plugins]]
-# repo = 'Shougo/ddc-matcher_head'
-# 
-# [[plugins]]
-# repo = 'Shougo/ddc-sorter_rank'
-# 
-# [[plugins]]
-# repo = 'Shougo/ddc-converter_remove_overlap'
-# 
-# [[plugins]] # multiple_plugins で設定すると自動でインストールされないみたいだから1個ずつ列挙してdependsに追加する
-# repo = 'Shougo/ddc.vim'
-# depends = [
-#   'ddc-ui-native',
-#   'ddc-source-around',
-#   'ddc-source-vim-lsp'
-#   'ddc-matcher_head',
-#   'ddc-sorter_rank',
-#   'ddc-converter_remove_overlap',
-# ]
+# repo = 'CopilotC-Nvim/CopilotChat.nvim'
+# depends = ['copilot.vim', 'plenary.nvim']
+# branch = 'canary'
 # lua_add = '''
-#   vim.fn['ddc#custom#patch_global']('ui', 'native')
-#   vim.fn['ddc#custom#patch_global']('sources', {'vim-lsp', 'around'})
-#   vim.fn['ddc#custom#patch_global']('sourceOptions', {
-#     _ = {
-#       matchers = {'matcher_head'},
-#       sorters = {'sorter_rank'},
-#       converters = {'converter_remove_overlap'},
-#       ignoreCase = true,
-#       minAutoCompleteLength = 1,
-#     },
-#     around = {
-#       mark = '[Around]',
-#       minAutoCompleteLength = 1,
-#     },
-#     ['vim-lsp'] = {
-#       mark = '[LSP]',
-#       matchers = {'matcher_head'},
-#       forceCompletionPattern = '\\.|:|->|"\\w+/*',
-#       minAutoCompleteLength = 1,
-#     },
-#   })
-#   vim.fn['ddc#custom#patch_global']('sourceParams', {
-#     around = {
-#       maxSize = 500,
-#     },
-#   })
-#   vim.fn['ddc#enable']()
+#   require("CopilotChat").setup {
+#     debug = true, -- Enable debugging
+#   }
+# 
+#   -- バッファの内容全体を使って Copilot とチャットする
+#   function CopilotChatBuffer()
+#     local input = vim.fn.input("Quick Chat: ")
+#     if input ~= "" then
+#       require("CopilotChat").ask(input, { selection = require("CopilotChat.select").buffer })
+#     end
+#   end
+# 
+#   -- <leader>ccq (Copilot Chat Quick) で Copilot とチャットする
+#   vim.api.nvim_set_keymap("n", "<Space>Q", "<cmd>lua CopilotChatBuffer()<cr>", { noremap = true, silent = true })
 # '''
 
-[[plugins]]
-repo = 'github/copilot.vim'
-# 初回起動時に :Copilot setup をする
-# 認証情報は ~/.config/github-copilot/hosts.json に入る
-hook_add = '''
- " fallbackのf
- imap <C-f> <Plug>(copilot-next)
- imap <silent><script><expr> <C-l> copilot#Accept("\<Right>")
- imap <silent><script><expr> <C-e> copilot#Accept("\<End>")
- imap <silent><script><expr> <Right> copilot#Accept("\<Right>")
- let g:copilot_no_tab_map = v:true
- nmap <C-g> <cmd>Copilot panel<CR>:setlocal nonumber<CR><C-w>L
-'''
-
-# 設定の参考：https://qiita.com/lx-sasabo/items/97c49d0f354ea3bdd525 , https://github.com/CopilotC-Nvim/CopilotChat.nvim?tab=readme-ov-file#tips
-[[plugins]]
-repo = 'CopilotC-Nvim/CopilotChat.nvim'
-depends = ['copilot.vim', 'plenary.nvim']
-branch = 'canary'
-lua_add = '''
-  require("CopilotChat").setup {
-    debug = true, -- Enable debugging
-  }
-
-  -- バッファの内容全体を使って Copilot とチャットする
-  function CopilotChatBuffer()
-    local input = vim.fn.input("Quick Chat: ")
-    if input ~= "" then
-      require("CopilotChat").ask(input, { selection = require("CopilotChat.select").buffer })
-    end
-  end
-
-  -- <leader>ccq (Copilot Chat Quick) で Copilot とチャットする
-  vim.api.nvim_set_keymap("n", "<Space>Q", "<cmd>lua CopilotChatBuffer()<cr>", { noremap = true, silent = true })
-'''
-
 # LSP
-
 [[plugins]]
 repo = 'prabirshrestha/vim-lsp'
 # LspDocumentFormat, LspRename とかも便利そう
@@ -260,8 +185,7 @@ hook_add = '''
   let g:lsp_settings_filetype_ruby = ['steep', 'solargraph', 'rubocop']
 '''
 
-# 操作系
-
+# 操作
 [[plugins]]
 repo = 'tpope/vim-surround'
 
@@ -288,36 +212,21 @@ lua_add = '''
   vim.api.nvim_set_keymap('v', '<C-c>', '<Leader>c<Space>', {})
 '''
 
-# 表示系
+# 表示
+[[plugins]]
+repo = 'akinsho/bufferline.nvim'
+depends = ['nvim-tree/nvim-web-devicons']
+lua_add = '''
+  vim.opt.termguicolors = true
+  require("bufferline").setup {
+    options = {
+      mode = "tabs",
+    }
+  }
+'''
 
 [[plugins]]
-repo = 'itchyny/lightline.vim'
-# https://github.com/itchyny/lightline.vim/issues/293#issuecomment-373710096
-hook_add = '''
-  let g:lightline = {
-        \ 'colorscheme': 'PaperColor',
-        \ 'component_function': {
-        \   'filename': 'LightlineFilename',
-        \   'fileencoding': 'LightlineFileencoding',
-        \ }
-        \ }
-  function! LightlineFilename()
-    let root = fnamemodify(get(b:, 'git_dir'), ':h')
-    let path = expand('%:p')
-    if path[:len(root)-1] ==# root
-      return path[len(root)+1:]
-    endif
-    return expand('%')
-  endfunction
-
-  " enc: 内部処理に使用するエンコーディング
-  " fenc: 現在開いているファイルのエンコーディング
-  function LightlineFileencoding()
-    let current_encoding = &enc
-    let file_encoding = &fenc
-    return current_encoding . " (enc) | " . file_encoding . " (fenc)"
-  endfunction
-'''
+repo = 'nvim-tree/nvim-web-devicons'
 
 [[plugins]]
 repo = 'simeji/winresizer'
@@ -386,8 +295,7 @@ hook_add = '''
 # 変な箇所で色がつくようなら以下を追加する
 # autocmd FileType <desired_filetypes> EnableStripWhitespaceOnSave
 
-# 検索・置換系
-
+# 検索・置換
 [[plugins]] # rubyやperl風正規表現(インクリメンタルサーチはできない)
 repo = 'othree/eregex.vim'
 # "/" will use :M/ to search. ",/" will use the original "/".
@@ -404,8 +312,7 @@ hook_add = '''
   let g:indexed_search_shortmess = 1 " 検索カウントを簡素な表示に
 '''
 
-# mark系
-
+# mark
 [[plugins]]
 repo = 'kshenoy/vim-signature'
 lua_add = '''
@@ -435,8 +342,7 @@ lua_add = '''
   vim.g.quickhl_manual_keywords = { { pattern = pattern, regexp = 1 }, }
 '''
 
-# git系
-
+# git
 [[plugins]] # gitコマンドをvimから使う
 lazy = 1
 on_cmd = ['Git', 'Ggrep', 'GBrowse']
@@ -446,7 +352,6 @@ hook_add = '''
   cabbrev b GBrowse
   cabbrev l Git log --follow -p %
 '''
-
 
 [[plugins]] # vim-fugitiveのgithubサポート用
 repo = 'tpope/vim-rhubarb'
@@ -465,10 +370,8 @@ hook_add = '''
   let g:conflict_marker_enable_mappings = 0
 '''
 
-# 言語系
-
+# 言語
 ## Ruby
-
 [[plugins]]
 # gfを強化してくれる
 # A : 関連ファイルに切り替え
@@ -566,7 +469,7 @@ on_ft = 'plantuml'
 repo = 'mtdl9/vim-log-highlighting'
 
 
-## Terraform
+## terraform
 [[plugins]]
 repo = 'hashivim/vim-terraform'
 
