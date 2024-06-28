@@ -12,11 +12,11 @@
 # depends に指定しただけではインストールまではされず、別途 [[plugins]] で指定する必要がある
 
 # 環境
-[[plugins]]
-repo = 'vim-denops/denops.vim'
-
-[[plugins]] # :DenopsHello => Hello
-repo = 'vim-denops/denops-helloworld.vim'
+# [[plugins]]
+# repo = 'vim-denops/denops.vim'
+# 
+# [[plugins]] # :DenopsHello => Hello
+# repo = 'vim-denops/denops-helloworld.vim'
 
 [[plugins]]
 repo = 'nvim-lua/plenary.nvim'
@@ -113,63 +113,63 @@ repo = 'bogado/file-line'
 
 # 補完系
 
-[[plugins]]
-repo = 'Shougo/ddc-ui-native'
-
-[[plugins]]
-repo = 'Shougo/ddc-source-around'
-
-[[plugins]]
-repo = 'shun/ddc-source-vim-lsp'
-
-[[plugins]]
-repo = 'Shougo/ddc-matcher_head'
-
-[[plugins]]
-repo = 'Shougo/ddc-sorter_rank'
-
-[[plugins]]
-repo = 'Shougo/ddc-converter_remove_overlap'
-
-[[plugins]] # multiple_plugins で設定すると自動でインストールされないみたいだから1個ずつ列挙してdependsに追加する
-repo = 'Shougo/ddc.vim'
-depends = [
-  'ddc-ui-native',
-  'ddc-source-around',
-  'ddc-source-vim-lsp'
-  'ddc-matcher_head',
-  'ddc-sorter_rank',
-  'ddc-converter_remove_overlap',
-]
-lua_add = '''
-  vim.fn['ddc#custom#patch_global']('ui', 'native')
-  vim.fn['ddc#custom#patch_global']('sources', {'vim-lsp', 'around'})
-  vim.fn['ddc#custom#patch_global']('sourceOptions', {
-    _ = {
-      matchers = {'matcher_head'},
-      sorters = {'sorter_rank'},
-      converters = {'converter_remove_overlap'},
-      ignoreCase = true,
-      minAutoCompleteLength = 1,
-    },
-    around = {
-      mark = '[Around]',
-      minAutoCompleteLength = 1,
-    },
-    ['vim-lsp'] = {
-      mark = '[LSP]',
-      matchers = {'matcher_head'},
-      forceCompletionPattern = '\\.|:|->|"\\w+/*',
-      minAutoCompleteLength = 1,
-    },
-  })
-  vim.fn['ddc#custom#patch_global']('sourceParams', {
-    around = {
-      maxSize = 500,
-    },
-  })
-  vim.fn['ddc#enable']()
-'''
+# [[plugins]]
+# repo = 'Shougo/ddc-ui-native'
+# 
+# [[plugins]]
+# repo = 'Shougo/ddc-source-around'
+# 
+# [[plugins]]
+# repo = 'shun/ddc-source-vim-lsp'
+# 
+# [[plugins]]
+# repo = 'Shougo/ddc-matcher_head'
+# 
+# [[plugins]]
+# repo = 'Shougo/ddc-sorter_rank'
+# 
+# [[plugins]]
+# repo = 'Shougo/ddc-converter_remove_overlap'
+# 
+# [[plugins]] # multiple_plugins で設定すると自動でインストールされないみたいだから1個ずつ列挙してdependsに追加する
+# repo = 'Shougo/ddc.vim'
+# depends = [
+#   'ddc-ui-native',
+#   'ddc-source-around',
+#   'ddc-source-vim-lsp'
+#   'ddc-matcher_head',
+#   'ddc-sorter_rank',
+#   'ddc-converter_remove_overlap',
+# ]
+# lua_add = '''
+#   vim.fn['ddc#custom#patch_global']('ui', 'native')
+#   vim.fn['ddc#custom#patch_global']('sources', {'vim-lsp', 'around'})
+#   vim.fn['ddc#custom#patch_global']('sourceOptions', {
+#     _ = {
+#       matchers = {'matcher_head'},
+#       sorters = {'sorter_rank'},
+#       converters = {'converter_remove_overlap'},
+#       ignoreCase = true,
+#       minAutoCompleteLength = 1,
+#     },
+#     around = {
+#       mark = '[Around]',
+#       minAutoCompleteLength = 1,
+#     },
+#     ['vim-lsp'] = {
+#       mark = '[LSP]',
+#       matchers = {'matcher_head'},
+#       forceCompletionPattern = '\\.|:|->|"\\w+/*',
+#       minAutoCompleteLength = 1,
+#     },
+#   })
+#   vim.fn['ddc#custom#patch_global']('sourceParams', {
+#     around = {
+#       maxSize = 500,
+#     },
+#   })
+#   vim.fn['ddc#enable']()
+# '''
 
 [[plugins]]
 repo = 'github/copilot.vim'
