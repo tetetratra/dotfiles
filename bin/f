@@ -1,0 +1,24 @@
+#! /usr/bin/env ruby
+
+# npm install prettier
+# pip3 install guesslang-experimental tensorflow==2.13.0
+# をする。
+# guesslang-experimental は、開発が止まった guesslang を誰かがforkして、新し目のtensorflowでも動くようにしたもの。
+# ただ、最新のtensorflow(2.16)だと動かなかったので、入れられる中で一番古いバージョンであるtensorflow 2.13.0を入れる。
+
+# - ファイルを推測
+# - それに応じてformat
+
+require 'open3'
+src = STDIN.read
+
+guessed = nil
+Open3.popen3('guesslang') do |stdin, stdout, stderr, _wait_thread|
+ stdin.puts(src)
+  stdin.close
+  raise err unless (err = stderr.read).empty?
+
+  guessed = stdout.read.match(/Programming language: (.*)\n/)[1]
+end
+p guessed
+
