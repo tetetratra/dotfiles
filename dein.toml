@@ -470,6 +470,9 @@ hook_add = '''
 ## Ruby
 
 [[plugins]]
+# gfを強化してくれる
+# A : 関連ファイルに切り替え
+# R : 関連ファイルに切り替え2
 repo = 'tpope/vim-rails'
 on_ft = 'ruby'
 
