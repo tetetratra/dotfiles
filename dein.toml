@@ -207,6 +207,16 @@ lua_add = '''
 repo = 'nvim-tree/nvim-web-devicons'
 
 [[plugins]]
+repo = 'nvim-lualine/lualine.nvim'
+depends = ['nvim-tree/nvim-web-devicons']
+lua_add = '''
+  require('lualine').setup({
+    options = { theme = 'iceberg_dark' },
+  })
+'''
+
+
+[[plugins]]
 repo = 'simeji/winresizer'
 hook_add = '''
   " ctrl+eでのリサイズのサイズ
