@@ -16,12 +16,18 @@ def print_to_table(rows)
 end
 
 opt = OptionParser.new
+cols = nil
 col_sep = ','
-opt.on('-s VAL') { |val| col_sep = val }
-opt.on('-t') { col_sep = "\t" }
+
+opt.on('--cols column_numbers') { |val| cols = val.split(',').map(&:to_i) }
+opt.on('--tsv') { col_sep = "\t" }
+opt.on('-s separate_char') { |val| col_sep = val }
+
 opt.parse!(ARGV)
 
 rows = CSV.parse(STDIN.read, col_sep: col_sep)
+
+rows.map! { |row| row.values_at(*cols) } if cols
 
 print_to_table(rows)
 
