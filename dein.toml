@@ -18,23 +18,16 @@ lua_add = '''
   vim.cmd('highlight FloatBorder guibg=#242940 guifg=#242940 ctermbg=none')
 '''
 
-# fuzzy finder
-[[plugins]]
-repo = 'natecraddock/telescope-zf-native.nvim'
-
 [[plugins]]
 repo = 'nvim-telescope/telescope.nvim'
 depends = ['nvim-lua/plenary.nvim', 'natecraddock/telescope-zf-native.nvim']
 lua_add = '''
   -- live_grep は ripgrep に依存している
   vim.api.nvim_set_keymap('n', '<Space>f', ':lua require("telescope.builtin").find_files()<cr>', { noremap = true })
-  vim.api.nvim_set_keymap('n', '<Space>g', ':lua require("telescope.builtin").live_grep()<cr>',  { noremap = true })
+  vim.api.nvim_set_keymap('n', '<Space>g', ':lua require("telescope.builtin").live_grep()<cr>',  { noremap = true }) -- grepのg
+  vim.api.nvim_set_keymap('n', '<Space>?', ':lua require("telescope.builtin").help_tags()<cr>',  { noremap = true }) -- helpを絞り込んで探せる(helpの連想で?)
   vim.api.nvim_set_keymap('n', '<Space>b', ':lua require("telescope.builtin").buffers()<cr>',    { noremap = true })
   vim.api.nvim_set_keymap('n', '<Space>r', ':lua require("telescope.builtin").resume()<cr>',     { noremap = true })
-
-  vim.api.nvim_create_user_command('H', function()
-    require("telescope.builtin").help_tags()
-  end, {})
 
   -- 参考: https://dev.classmethod.jp/articles/nvim_telescope
   require('telescope').setup({
@@ -42,11 +35,16 @@ lua_add = '''
       mappings = {
         n = {
           ["<esc>"] = require('telescope.actions').close,
-          ["<Space>q"] = require('telescope.actions').close,
+          ["<C-d>"] = require('telescope.actions').close,
+          ["q"] = require('telescope.actions').close,
         },
         i = {
           ["<esc>"] = require('telescope.actions').close,
+          ["<C-d>"] = require('telescope.actions').close,
         }
+      },
+      preview = {
+        treesitter = { enable = false, } -- 右側に表示されるプレビューまわりでtreesitterのエラーが起きるのでtelescope内では無効化する
       },
     },
     ["zf-native"] = {
@@ -72,7 +70,22 @@ lua_add = '''
     }
   })
   require('telescope').load_extension('zf-native')
+  require('telescope').load_extension('telescope-tabs')
 '''
+
+[[plugins]]
+repo = 'LukasPietzschmann/telescope-tabs'
+depends = ['nvim-telescope/telescope.nvim']
+lua_add = '''
+  -- load_extension呼び出しはtelescope側で行っている
+  require('telescope-tabs').setup{}
+  vim.api.nvim_set_keymap('n', '<Space>t', ':lua require("telescope-tabs").list_tabs()<cr>', { noremap = true })
+'''
+
+# fuzzy finder
+[[plugins]]
+# telescopeで使っている (load_extension呼び出しなどもtelescopeの設定の方に書いている)
+repo = 'natecraddock/telescope-zf-native.nvim'
 
 # ファイル
 [[plugins]]
