@@ -103,6 +103,7 @@ mkdir -p ~/.config/nvim/dein/toml
 ln -sf $PWD/init.vim ~/.config/nvim/init.vim
 ln -sf $PWD/options.lua ~/.config/nvim/lua/options.lua
 ln -sf $PWD/dein.toml ~/.config/nvim/dein/toml/dein.toml
+ln -sf $PWD/dein_copilot.toml ~/.config/nvim/dein/toml/dein_copilot.toml
 ln -sf $PWD/.ctags ~/.ctags
 ln -sf $PWD/.solargraph.yml ~/.solargraph.yml
 
