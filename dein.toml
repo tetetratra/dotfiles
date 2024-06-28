@@ -185,6 +185,28 @@ hook_add = '''
  nmap <C-g> <cmd>Copilot panel<CR>:setlocal nonumber<CR><C-w>L
 '''
 
+# 設定の参考：https://qiita.com/lx-sasabo/items/97c49d0f354ea3bdd525 , https://github.com/CopilotC-Nvim/CopilotChat.nvim?tab=readme-ov-file#tips
+[[plugins]]
+repo = 'CopilotC-Nvim/CopilotChat.nvim'
+depends = ['copilot.vim', 'plenary.nvim']
+branch = 'canary'
+lua_add = '''
+  require("CopilotChat").setup {
+    debug = true, -- Enable debugging
+  }
+
+  -- バッファの内容全体を使って Copilot とチャットする
+  function CopilotChatBuffer()
+    local input = vim.fn.input("Quick Chat: ")
+    if input ~= "" then
+      require("CopilotChat").ask(input, { selection = require("CopilotChat.select").buffer })
+    end
+  end
+
+  -- <leader>ccq (Copilot Chat Quick) で Copilot とチャットする
+  vim.api.nvim_set_keymap("n", "<Space>Q", "<cmd>lua CopilotChatBuffer()<cr>", { noremap = true, silent = true })
+'''
+
 # LSP
 
 [[plugins]]
