@@ -189,9 +189,19 @@ vim.api.nvim_set_keymap('n', '<C-l>', ':tabnext<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', '<lt>', ':-tabm<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', '>', ':+tabm<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'yt', ':tab split<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', 't', ':tabnew<CR>', { silent = true })
+-- vim.api.nvim_set_keymap('n', 't', ':tabnew<CR>', { silent = true })
 
 vim.o.showtabline = 2
+
+-- T を打つと名前付きの区切り用のバッファが入る
+function open_or_create_named_buffer(buffer_name)
+  buffer_name = '[' .. buffer_name .. ']'
+  vim.cmd('tabnew')
+  local new_buf = vim.api.nvim_create_buf(false, true) -- Not listed, scratch buffer
+  vim.api.nvim_buf_set_name(new_buf, buffer_name) -- Set the buffer name
+  vim.api.nvim_set_current_buf(new_buf) -- Switch to the new buffer
+end
+vim.api.nvim_set_keymap('n', 'T', ':lua open_or_create_named_buffer(vim.fn.input("Separator name: "))<CR>', { noremap = true, silent = true })
 
 -- === command系 ===
 vim.cmd('command! SJIS edit ++enc=sjis')

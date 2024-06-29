@@ -26,7 +26,7 @@ lua_add = '''
   vim.api.nvim_set_keymap('n', '<Space>f', ':lua require("telescope.builtin").find_files()<cr>', { noremap = true })
   vim.api.nvim_set_keymap('n', '<Space>g', ':lua require("telescope.builtin").live_grep()<cr>',  { noremap = true }) -- grepのg
   vim.api.nvim_set_keymap('n', '<Space>?', ':lua require("telescope.builtin").help_tags()<cr>',  { noremap = true }) -- helpを絞り込んで探せる(helpの連想で?)
-  vim.api.nvim_set_keymap('n', '<Space>b', ':lua require("telescope.builtin").buffers()<cr>',    { noremap = true })
+  vim.api.nvim_set_keymap('n', '<Space>b', ':lua require("telescope.builtin").buffers({ initial_mode = "normal" })<cr>',    { noremap = true })
   vim.api.nvim_set_keymap('n', '<Space>r', ':lua require("telescope.builtin").resume()<cr>',     { noremap = true })
 
   -- 参考: https://dev.classmethod.jp/articles/nvim_telescope
@@ -79,7 +79,7 @@ depends = ['nvim-telescope/telescope.nvim']
 lua_add = '''
   -- load_extension呼び出しはtelescope側で行っている
   require('telescope-tabs').setup{}
-  vim.api.nvim_set_keymap('n', '<Space>t', ':lua require("telescope-tabs").list_tabs()<cr>', { noremap = true })
+  vim.api.nvim_set_keymap('n', 't', ':lua require("telescope-tabs").list_tabs({ initial_mode = "normal" })<cr>', { noremap = true })
 '''
 
 # fuzzy finder
