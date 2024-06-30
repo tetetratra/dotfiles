@@ -10,15 +10,55 @@
 # - それに応じてformat
 
 require 'open3'
-src = STDIN.read
 
-guessed = nil
-Open3.popen3('guesslang') do |stdin, stdout, stderr, _wait_thread|
- stdin.puts(src)
-  stdin.close
-  raise err unless (err = stderr.read).empty?
+def main
+  src = STDIN.read
 
-  guessed = stdout.read.match(/Programming language: (.*)\n/)[1]
+  guessed_lang = guess(src)
+  case guessed_lang
+  when 'Ruby'
+    format_ruby(src)
+  when 'JavaScript'
+    format_javascript(src)
+  else
+    puts "No formatter found. (guessed: #{guessed_lang})"
+  end
 end
-p guessed
 
+def guess(src)
+  Open3.popen3('guesslang') do |stdin, stdout, stderr, wait_thread|
+    stdin.puts(src)
+    stdin.close
+    raise err unless (err = stderr.read).empty?
+
+    guessed = stdout.read.match(/Programming language: (.*)\n/)[1]
+
+    puts stderr.read unless wait_thread.value.success?
+
+    guessed
+  end
+end
+
+def format_ruby(src)
+  Open3.popen3('rubocop -A --stdin test.rb') do |stdin, stdout, stderr, wait_thread|
+    stdin.puts(src)
+    stdin.close
+
+    puts stdout.read.lines.chunk { |line| line == "====================\n" }.to_a.last[1]
+
+    puts stderr.read unless wait_thread.value.success?
+  end
+end
+
+def format_javascript(src)
+  Open3.popen3('npx prettier --stdin-filepath test.js') do |stdin, stdout, stderr, wait_thread|
+    stdin.puts(src)
+    stdin.close
+
+    puts stdout.read
+
+    puts stderr.read unless wait_thread.value.success?
+  end
+end
+
+   main
