@@ -1,13 +1,5 @@
--- [忘れがちな設定まとめ]
--- ToggleVirtualEdit
--- ToggleTransparent
--- insert中にctrl-dでdelete
--- grep後に { , }
--- gp でjumpToClipboardNumber
--- :SJIS, :UTF8 でそれぞれのエンコーディングで開き直す
--- w -> set wrap!
--- <Space>u で透明化切り替え
-
+vim.g.function_key_mapping = 'F1: resize,   F2: ToggleVirtualEdit,   F3: ToggleTransparent,   F4: ToggleLspDiagnostics,   F5: ToggleWrap'
+vim.api.nvim_set_keymap('n', '<F12>', ':echom function_key_mapping<CR>', { noremap = true })
 
 -- ===== main =====
 -- vi互換モードoff
@@ -89,9 +81,8 @@ vim.o.foldmethod = 'indent'
 vim.cmd('autocmd QuickFixCmdPost *grep* cwindow')
 
 -- "vimの矩形選択で文字が無くても右へ進める" を切り替える
-vim.cmd('command! ToggleVirtualEdit lua ToggleVirtualEdit()')
+vim.api.nvim_set_keymap('n', '<F2>', ':lua ToggleVirtualEdit()<CR>', { noremap = true })
 vim.g.toggle_virtualedit = 0
-
 function ToggleVirtualEdit()
     if vim.g.toggle_virtualedit == 0 then
         vim.g.toggle_virtualedit = 1
@@ -155,7 +146,7 @@ function home()
 end
 
 -- === normal ===
-vim.api.nvim_set_keymap('n', '<Esc>', ':noh<CR>', { silent = true })
+-- vim.api.nvim_set_keymap('n', '<Esc>', ':noh<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 's', '<Nop>', { silent = true })
 vim.api.nvim_set_keymap('n', 'p', 'p`]', { silent = true })
 vim.cmd('nnoremap <silent> x "_x') -- nvim_set_keymap を使って競ってすると何故かフリーズするためcmdで設定
@@ -170,7 +161,6 @@ vim.api.nvim_set_keymap('n', '<Space>C', '<ESC>:let @+ = fnamemodify(expand("%")
 vim.api.nvim_set_keymap('n', 'J', 'V:m \'>+1<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'K', 'V:m \'<-2<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'E', '<ESC>:e!<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', 'gp', '<C-o>:lua jumpToClipboardNumber()<CR>', { silent = true })
 
 function jumpToClipboardNumber()
   local target_line = tonumber(vim.fn.getreg('+'))
@@ -190,6 +180,8 @@ vim.api.nvim_set_keymap('n', '<lt>', ':-tabm<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', '>', ':+tabm<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'yt', ':tab split<CR>', { silent = true })
 -- vim.api.nvim_set_keymap('n', 't', ':tabnew<CR>', { silent = true })
+
+-- LspError, LspWarning, LspInformation, LspHint
 
 vim.o.showtabline = 2
 
@@ -223,7 +215,7 @@ vim.api.nvim_set_keymap('v', 'X', 'y/<C-R>"<CR>', { silent = true })
 
 -- === command系 ===
 vim.cmd('cabbrev t tabnew')
-vim.cmd('cabbrev w set wrap!')
+vim.api.nvim_set_keymap('n', '<F5>', ':set wrap!<CR>', { noremap = true })
 
 vim.api.nvim_set_keymap('c', '<C-e>', '<End>', { noremap = true })
 vim.api.nvim_set_keymap('c', '<C-a>', '<Home>', { noremap = true })
@@ -234,14 +226,16 @@ vim.api.nvim_set_keymap('c', '<C-l>', '<Right>', { noremap = true })
 -- ターミナルでも True Color を使えるようにする
 vim.cmd('set termguicolors')
 
-vim.cmd('command! ToggleTransparent lua ToggleTransparent()')
+vim.api.nvim_set_keymap('n', '<F3>', ':lua ToggleTransparent()<CR>', { noremap = true })
 function ToggleTransparent()
   local bg = vim.api.nvim_get_hl_by_name('Normal', true).background
   if bg then -- 退避 & 透明化
     vim.g.saved_normal_guibg = bg
     vim.api.nvim_set_hl(0, 'Normal', { background = 'NONE' })
+    print('background color disabled')
   else -- 復元
     vim.api.nvim_set_hl(0, 'Normal', { background = vim.g.saved_normal_guibg })
+    print('background color enabled')
   end
 end
 

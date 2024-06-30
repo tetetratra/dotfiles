@@ -1,11 +1,3 @@
-# [忘れがちな設定まとめ]
-# <Space>g でfuzzy grep
-# <Space>d でlspのdefinition
-# <Space><Space>でhoverしたあとのスクロールは <M-j> <M-k>
-# r/ でRubyの正規表現で検索
-# [x, ]x でコンフリクト間を移動
-# Ctrl-z , でemmet(htmlの略記)展開
-
 [[plugins]]
 repo = 'nvim-lua/plenary.nvim'
 
@@ -23,11 +15,11 @@ repo = 'nvim-telescope/telescope.nvim'
 depends = ['nvim-lua/plenary.nvim', 'natecraddock/telescope-zf-native.nvim']
 lua_add = '''
   -- live_grep は ripgrep に依存している
-  vim.api.nvim_set_keymap('n', '<Space>f', ':lua require("telescope.builtin").find_files()<cr>', { noremap = true })
-  vim.api.nvim_set_keymap('n', '<Space>g', ':lua require("telescope.builtin").live_grep()<cr>',  { noremap = true }) -- grepのg
-  vim.api.nvim_set_keymap('n', '<Space>?', ':lua require("telescope.builtin").help_tags()<cr>',  { noremap = true }) -- helpを絞り込んで探せる(helpの連想で?)
-  vim.api.nvim_set_keymap('n', '<Space>b', ':lua require("telescope.builtin").buffers({ initial_mode = "normal" })<cr>',    { noremap = true })
-  vim.api.nvim_set_keymap('n', '<Space>r', ':lua require("telescope.builtin").resume()<cr>',     { noremap = true })
+  vim.api.nvim_set_keymap('n', '<Space>f', ':lua require("telescope.builtin").find_files({ initial_mode = "normal" })<cr>', { noremap = true })
+  vim.api.nvim_set_keymap('n', '<Space>g', ':lua require("telescope.builtin").live_grep({ initial_mode = "normal" })<cr>', { noremap = true }) -- grepのg
+  vim.api.nvim_set_keymap('n', '<Space>?', ':lua require("telescope.builtin").help_tags({ initial_mode = "normal" })<cr>', { noremap = true }) -- helpを絞り込んで探せる(helpの連想で?のキー)
+  vim.api.nvim_set_keymap('n', '<Space>b', ':lua require("telescope.builtin").buffers({ initial_mode = "normal" })<cr>', { noremap = true })
+  vim.api.nvim_set_keymap('n', '<Space>r', ':lua require("telescope.builtin").resume({ initial_mode = "normal" })<cr>', { noremap = true })
 
   -- 参考: https://dev.classmethod.jp/articles/nvim_telescope
   require('telescope').setup({
@@ -40,7 +32,6 @@ lua_add = '''
         },
         i = {
           ["<esc>"] = require('telescope.actions').close,
-          ["<C-d>"] = require('telescope.actions').close,
         }
       },
       preview = {
@@ -55,7 +46,7 @@ lua_add = '''
             -- highlight matching text in results
             highlight_results = true,
             -- enable zf filename match priority
-            match_filename = false, -- !!!
+            match_filename = false,
         },
 
         -- options for sorting all other items
@@ -110,35 +101,53 @@ repo = 'Xuyuanp/nerdtree-git-plugin'
 repo = 'bogado/file-line'
 
 # 補完
-
 # LSP
 [[plugins]]
 repo = 'prabirshrestha/vim-lsp'
 # LspDocumentFormat, LspRename とかも便利そう
 lua_add = '''
+  -- diagnosticsの表示切り替え
+  ---- 初期設定
+  vim.g.lsp_diagnostics_float_cursor = true -- 最初っからfalseにするとtrueに切り替えたときに何故か表示されないため初期値はtrueにしておいて、0.1s後にfalseにする
+  vim.defer_fn(function()
+    vim.g.lsp_diagnostics_float_cursor = false
+    toggle_diagnostics_for_all_buffers(false)
+  end, 100)
+  ---- 切り替え関数
+  vim.api.nvim_set_keymap('n', '<F4>', ':lua ToggleLspDiagnostics()<CR>', { noremap = true })
+  function ToggleLspDiagnostics()
+    local current_value = vim.g.lsp_diagnostics_float_cursor
+    if current_value then
+      vim.g.lsp_diagnostics_float_cursor = false
+      toggle_diagnostics_for_all_buffers(false)
+      print("lsp diagnostics disabled")
+    else
+      vim.g.lsp_diagnostics_float_cursor = true
+      toggle_diagnostics_for_all_buffers(true)
+      print("lsp diagnostics enabled")
+    end
+  end
+  ---- helper関数
+  function toggle_diagnostics_for_all_buffers(toggle)
+    for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+      if toggle then
+        vim.api.nvim_call_function('lsp#enable_diagnostics_for_buffer', { bufnr })
+      else
+        vim.api.nvim_call_function('lsp#disable_diagnostics_for_buffer', { bufnr })
+      end
+    end
+  end
+
+  -- hover表示は遅延させない
+  vim.g.lsp_diagnostics_float_delay = 0
+  -- エラーを行の右側に出さない
   vim.g.lsp_diagnostics_virtual_text_enabled = false
   -- エラーでも赤文字にしない
   vim.g.lsp_diagnostics_highlights_enabled = false
 
-  -- vim.g.lsp_diagnostics_signs_enabled = false
-  -- vim.g.lsp_diagnostics_signs_error = { text = '' }
-  -- vim.g.lsp_diagnostics_signs_warning = { text = '' }
-  vim.g.lsp_diagnostics_signs_information = { text = '' }
-  vim.g.lsp_diagnostics_signs_hint = { text = '' }
-
-  -- vim.g.lsp_diagnostics_float_cursor = true
-  -- diagnosticsを即時に出す
-  -- vim.g.lsp_diagnostics_float_delay = 100
-
-  vim.api.nvim_set_keymap('n', '<Space><Space>', '<Plug>(lsp-hover)', { noremap = true })
-  vim.api.nvim_set_keymap('n', '<Space>]',       '<Plug>(lsp-definition)', { noremap = true })
-  vim.api.nvim_set_keymap('n', '<Space>[',       '<Plug>(lsp-references)', { noremap = true })
-  vim.api.nvim_set_keymap('n', '<Space>d',       '<esc>:LspDocumentDiagnostics<CR>', { noremap = true })
-
-  vim.api.nvim_set_keymap('n', '<M-u>', '<Cmd>call lsp#scroll(-10)<CR>',  { noremap = true })
-  vim.api.nvim_set_keymap('n', '<M-k>', '<Cmd>call lsp#scroll(-1) <CR>',   { noremap = true })
-  vim.api.nvim_set_keymap('n', '<M-j>', '<Cmd>call lsp#scroll(+1) <CR>',   { noremap = true })
-  vim.api.nvim_set_keymap('n', '<M-d>', '<Cmd>call lsp#scroll(+10)<CR>',  { noremap = true })
+  vim.api.nvim_set_keymap('n', 'L', '<Plug>(lsp-hover)', { noremap = true }) -- lookのLと覚えよう
+  vim.api.nvim_set_keymap('n', '<Space>]', '<Plug>(lsp-definition)', { noremap = true })
+  vim.api.nvim_set_keymap('n', '<Space>[', '<Plug>(lsp-references)', { noremap = true })
 
   vim.cmd([[
     autocmd User lsp_setup call lsp#register_server({
@@ -178,8 +187,8 @@ repo = 'kana/vim-operator-user'
 
 [[plugins]] # CamelCase <=> snake_case
 repo = 'tyru/operator-camelize.vim'
-hook_add = '''
-  vmap <Space>s <Plug>(operator-camelize-toggle)
+lua_add = '''
+  vim.api.nvim_set_keymap('v', '<Space>s', '<Plug>(operator-camelize-toggle)', {})
 '''
 
 [[plugins]]
@@ -223,8 +232,8 @@ lua_add = '''
 [[plugins]]
 repo = 'simeji/winresizer'
 hook_add = '''
-  " ctrl+eでのリサイズのサイズ
   let g:winresizer_vert_resize = 5
+  let g:winresizer_start_key = '<F1>'
 '''
 
 [[plugins]] # カーソル下の単語を移動するたびにハイライトする
@@ -288,12 +297,22 @@ hook_add = '''
 # autocmd FileType <desired_filetypes> EnableStripWhitespaceOnSave
 
 # 検索・置換
-[[plugins]] # rubyやperl風正規表現(インクリメンタルサーチはできない)
+[[plugins]]
 repo = 'othree/eregex.vim'
-# "/" will use :M/ to search. ",/" will use the original "/".
+# /  : 普通の検索 (インクリメンタルサーチ可)
+# ? : Rubyの正規表現で検索
+# %s : 通常の置換
+# %S : Rubyの正規表現で置換
+# [Rubyの正規表現のみで使えるもの]
+# \d
+# a|b
+# a*
+# a+
+# (a)
+# などなど
 hook_add = '''
   let g:eregex_default_enable = 0
-  nnoremap r/ :M/
+  nnoremap ? :M/
 '''
 
 [[plugins]] # 検索結果数カウント
@@ -316,17 +335,7 @@ lua_add = '''
 [[plugins]] # コードに色付け(markとは別物) https://secret-garden.hatenablog.com/
 repo = 't9md/vim-quickhl'
 lua_add = '''
-  local pattern = ([[
-    binding.pry
-    binding.irb
-    NOTE:
-    MEMO:
-    <<<<<<<
-    >>>>>>>
-    =======
-  ]]):gsub(" +", "")
-     :gsub("\n", "\\|")
-     :gsub("\\|$", "") -- 末尾についてしまう\|を削除
+  local pattern = ('binding.pry,binding.irb,NOTE:,MEMO:,<<<<<<<,>>>>>>>,======='):gsub(",", "\\|")
   vim.api.nvim_set_keymap('n', '<Space>h', '<Plug>(quickhl-manual-this)', { silent = true })
   vim.api.nvim_set_keymap('x', '<Space>h', '<Plug>(quickhl-manual-this)', { silent = true })
   vim.api.nvim_set_keymap('n', '<Space>H', '<Plug>(quickhl-manual-reset)', {silent = true })
@@ -378,12 +387,6 @@ on_ft = 'ruby'
 [[plugins]]
 repo = 'pocke/rbs.vim'
 on_ft = 'ruby'
-
-[[plugins]]
-repo = 'mrkn/vim-cruby' # set ft=c, set ft=cruby
-# hook_add = '''
-#   autocmd BufWinEnter,BufNewFile *.c,*.h,insns.def setlocal filetype=cruby
-# '''
 
 ## JavaScript
 
@@ -459,7 +462,6 @@ on_ft = 'plantuml'
 ## logファイル
 [[plugins]]
 repo = 'mtdl9/vim-log-highlighting'
-
 
 ## terraform
 [[plugins]]
