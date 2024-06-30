@@ -106,29 +106,22 @@ repo = 'bogado/file-line'
 repo = 'prabirshrestha/vim-lsp'
 # LspDocumentFormat, LspRename とかも便利そう
 lua_add = '''
-  -- diagnosticsの表示切り替え
-  ---- 初期設定
-  vim.g.lsp_diagnostics_float_cursor = true -- 最初っからfalseにするとtrueに切り替えたときに何故か表示されないため初期値はtrueにしておいて、0.1s後にfalseにする
-  vim.defer_fn(function()
-    vim.g.lsp_diagnostics_float_cursor = false
-    toggle_diagnostics_for_all_buffers(false)
-  end, 100)
-  ---- 切り替え関数
-  vim.api.nvim_set_keymap('n', '<F4>', ':lua ToggleLspDiagnostics()<CR>', { noremap = true })
-  function ToggleLspDiagnostics()
-    local current_value = vim.g.lsp_diagnostics_float_cursor
-    if current_value then
-      vim.g.lsp_diagnostics_float_cursor = false
-      toggle_diagnostics_for_all_buffers(false)
-      print("lsp diagnostics disabled")
-    else
-      vim.g.lsp_diagnostics_float_cursor = true
-      toggle_diagnostics_for_all_buffers(true)
-      print("lsp diagnostics enabled")
+  -- モード
+  vim.g.lsp_mode = "none" -- "none" | "hover" | "diagnostics"
+  vim.api.nvim_set_keymap('n', '<F4>', ':lua ToggleLsp()<CR>', { noremap = true })
+
+  -- 切り替え関数の内部実装(hover)
+  vim.api.nvim_command('autocmd CursorMoved * lua ShowLspHover()') -- カーソルを移動するごとにLspHoverの結果を表示する
+  function ShowLspHover()
+    if vim.g.lsp_toggle_hover then
+      vim.cmd('silent LspHover')
     end
   end
-  ---- helper関数
-  function toggle_diagnostics_for_all_buffers(toggle)
+
+  -- 切り替え関数の内部実装(diagnostics)
+  function toggle_diagnostics(toggle)
+    vim.g.lsp_diagnostics_float_cursor = toggle
+
     for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
       if toggle then
         vim.api.nvim_call_function('lsp#enable_diagnostics_for_buffer', { bufnr })
@@ -136,6 +129,32 @@ lua_add = '''
         vim.api.nvim_call_function('lsp#disable_diagnostics_for_buffer', { bufnr })
       end
     end
+  end
+
+  -- 初期設定
+  vim.g.lsp_toggle_hover = false
+  vim.g.lsp_toggle_diagnostics = false
+  toggle_diagnostics(true) -- 最初っからfalseにするとtrueに切り替えたときに何故か表示されないため初期値はtrueにしておいて、0.1s後にfalseにする
+  vim.defer_fn(function()
+    toggle_diagnostics(false)
+  end, 100)
+
+  -- モード切り替え関数
+  function ToggleLsp()
+    if vim.g.lsp_mode == "none" then
+      vim.g.lsp_mode = "hover"
+      vim.g.lsp_toggle_hover = true
+    elseif vim.g.lsp_mode == "hover" then
+      vim.g.lsp_mode = "diagnostics"
+      vim.g.lsp_toggle_hover = false
+      vim.g.lsp_toggle_diagnostics = true
+    elseif vim.g.lsp_mode == "diagnostics" then
+      vim.g.lsp_mode = "none"
+      vim.g.lsp_toggle_diagnostics = false
+    end
+
+    toggle_diagnostics(vim.g.lsp_toggle_diagnostics)
+    print("LSP mode : " .. vim.g.lsp_mode)
   end
 
   -- hover表示は遅延させない
