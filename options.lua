@@ -123,7 +123,7 @@ vim.cmd('set notimeout')
 vim.cmd('set ttimeout')
 vim.cmd('set timeoutlen=100')
 
-
+vim.api.nvim_set_keymap('n', '<Esc>', ':noh<CR>', { silent = true })
 vim.api.nvim_set_keymap('i', 'jj', '<ESC>', { silent = true })
 vim.api.nvim_set_keymap('i', '<C-e>', '<End>', { silent = true })
 -- <C-o>: insert mode時に一時的にnormal modeへ移行するキー
