@@ -115,6 +115,13 @@ lua_add = '''
   function ShowLspHover()
     if vim.g.lsp_toggle_hover then
       vim.cmd('silent LspHover')
+
+      vim.defer_fn(function() -- LspHoverで開いたfloating windowはなぜか一番下にスクロールされているので、見つけ出してtopに戻す
+        local float_windows = GetFloatingWindows()
+        for _, win_id in ipairs(float_windows) do
+          vim.api.nvim_win_set_cursor(win_id, {1, 0})
+        end
+      end, 100)
     end
   end
 
@@ -167,6 +174,8 @@ lua_add = '''
   vim.api.nvim_set_keymap('n', 'L', '<Plug>(lsp-hover)', { noremap = true }) -- lookのLと覚えよう
   vim.api.nvim_set_keymap('n', '<Space>]', '<Plug>(lsp-definition)', { noremap = true })
   vim.api.nvim_set_keymap('n', '<Space>[', '<Plug>(lsp-references)', { noremap = true })
+
+  vim.g.lsp_float_max_width = 0
 
   vim.cmd([[
     autocmd User lsp_setup call lsp#register_server({
@@ -312,8 +321,6 @@ repo = 'ntpeters/vim-better-whitespace'
 hook_add = '''
   let g:better_whitespace_guicolor = 'DarkRed'
 '''
-# 変な箇所で色がつくようなら以下を追加する
-# autocmd FileType <desired_filetypes> EnableStripWhitespaceOnSave
 
 # 検索・置換
 [[plugins]]

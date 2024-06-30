@@ -1,4 +1,4 @@
-vim.g.function_key_mapping = 'F1: resize,   F2: ToggleVirtualEdit,   F3: ToggleTransparent,   F4: ToggleLspDiagnostics,   F5: ToggleWrap'
+vim.g.function_key_mapping = 'F1: resize,   F2: ToggleVirtualEdit,   F3: ToggleTransparent,   F4: ToggleLsp,   F5: ToggleWrap'
 vim.api.nvim_set_keymap('n', '<F12>', ':echom function_key_mapping<CR>', { noremap = true })
 
 -- ===== main =====
@@ -243,4 +243,23 @@ end
 vim.o.winblend = 5
 vim.cmd('highlight Visual      guibg=#006080 guifg=none')
 vim.cmd('highlight Search      guibg=#00FFFF guifg=none')
+
+-- == Util関数 ==
+function GetFloatingWindows()
+    local floating_windows = {}
+    local all_windows = vim.api.nvim_list_wins()
+    for _, win_id in ipairs(all_windows) do
+        local config = vim.api.nvim_win_get_config(win_id)
+        if config.relative ~= '' then -- relativeが空でないとき、それはfloating window
+            table.insert(floating_windows, win_id)
+        end
+    end
+    return floating_windows
+end
+
+-- :p vim.api.nvim_list_wins() のように使う
+vim.cmd('cabbrev p PrettyPrintLuaExp')
+vim.api.nvim_create_user_command('PrettyPrintLuaExp', function(opts)
+    print(vim.inspect(opts.arg))
+end, { nargs = 1 })
 
