@@ -11,6 +11,7 @@ lua_add = '''
 '''
 
 [[plugins]]
+# 検索したものは <C-t> で新規タブで開ける
 repo = 'nvim-telescope/telescope.nvim'
 depends = ['nvim-lua/plenary.nvim', 'natecraddock/telescope-zf-native.nvim']
 lua_add = '''
@@ -84,10 +85,10 @@ repo = 'scrooloose/nerdtree'
 depends = ['ryanoasis/vim-devicons']
 lua_add = '''
   vim.g.NERDTreeShowHidden = 1
-  vim.g.NERDTreeWinSize = 40
+  vim.g.NERDTreeWinSize = 30
   vim.g.NERDTreeShowBookmarks = 1
   vim.g.NERDTreeMapMenu = 'm'
-  vim.api.nvim_set_keymap('n', '<Space>`', ':NERDTreeToggle<CR>', { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('n', '<Space>`', ':NERDTreeFind<CR>', { noremap = true, silent = true })
   vim.cmd('cabbrev B Bookmark')
 '''
 
