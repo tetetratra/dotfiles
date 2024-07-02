@@ -1,6 +1,7 @@
 [alias]
   a = "commit -a --amend"
-  b = "branch -vv --no-merged" # -vv はリモートブランチ名も表示するオプション
+  # 参考: https://stackoverflow.com/a/5188364
+  b = "for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:red)%(objectname:short)%(color:reset) %(color:yellow)%(refname:short)%(color:reset) %(contents:subject) (%(color:green)%(committerdate:relative)%(color:reset))'"
   c = "commit -am 'update'"
   s = status
   ss = status --short
