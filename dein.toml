@@ -61,23 +61,25 @@ lua_add = '''
         },
     }
   })
-  require('telescope').load_extension('zf-native')
-  require('telescope').load_extension('telescope-tabs')
 '''
 
 [[plugins]]
 repo = 'LukasPietzschmann/telescope-tabs'
 depends = ['nvim-telescope/telescope.nvim']
 lua_add = '''
-  -- load_extension呼び出しはtelescope側で行っている
+  require('telescope').load_extension('telescope-tabs')
   require('telescope-tabs').setup{}
   vim.api.nvim_set_keymap('n', 't', ':lua require("telescope-tabs").list_tabs({ initial_mode = "normal" })<cr>', { noremap = true })
 '''
 
 # fuzzy finder
+# telescopeで使っている
 [[plugins]]
-# telescopeで使っている (load_extension呼び出しなどもtelescopeの設定の方に書いている)
 repo = 'natecraddock/telescope-zf-native.nvim'
+lua_add = '''
+  -- telescopeの方にも設定あり
+  require('telescope').load_extension('zf-native')
+'''
 
 # ファイル
 [[plugins]]
@@ -254,6 +256,9 @@ depends = ['nvim-tree/nvim-web-devicons']
 lua_add = '''
   require('lualine').setup({
     options = { theme = 'iceberg_dark' },
+    sections = {
+      lualine_c = { { 'filename', file_status = true, path = 3 } },
+    }
   })
 '''
 
