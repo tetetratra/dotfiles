@@ -21,6 +21,9 @@ lua_add = '''
   vim.api.nvim_set_keymap('n', '<Space>b', ':lua require("telescope.builtin").buffers({ initial_mode = "normal" })<cr>', { noremap = true })
   vim.api.nvim_set_keymap('n', '<Space>r', ':lua require("telescope.builtin").resume({ initial_mode = "normal" })<cr>', { noremap = true })
 
+  -- 折りたたみを無効化する 参考: https://github.com/nvim-telescope/telescope.nvim/issues/991#issuecomment-1429539473
+  vim.api.nvim_create_autocmd("FileType", { pattern = "TelescopeResults", command = [[setlocal nofoldenable]] })
+
   -- 参考: https://dev.classmethod.jp/articles/nvim_telescope
   require('telescope').setup({
     defaults = {
