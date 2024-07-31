@@ -12,6 +12,7 @@
   ps = push
   psf = push --force-with-lease
   co = checkout
+  cp = cherry-pick
   prev = reset --mixed HEAD~1
   diffall = diff --no-prefix --unified=1000
   default-branch = "! git remote show origin | grep 'HEAD branch' | awk '{print $NF}'" # https://qiita.com/ymm1x/items/b22bddc9fbc192ae1a70
