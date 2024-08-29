@@ -219,6 +219,9 @@ hook_add = '''
 [[plugins]]
 repo = 'tpope/vim-surround'
 
+[[plugins]] # :Align , のように使う
+repo = 'vim-scripts/Align'
+
 [[plugins]] # 選択箇所をyankで置き換え
 repo = 'kana/vim-operator-replace'
 lua_add = '''
