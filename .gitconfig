@@ -7,7 +7,8 @@
   ss = status --short
   sss = "!f() { git status --short | awk '{ print $2 }' | tr '\n' ' '; }; f"
   l = log --pretty=fuller --graph --date=short --decorate=full --stat
-  lp = log --pretty=fuller --graph --date=short --decorate=full --stat -p
+  lp = log --pretty=fuller --date=short --decorate=full --stat -p
+  lg = log --pretty=fuller --graph --date=short --decorate=full --stat -p
   pl = pull
   ps = push
   psf = push --force-with-lease
@@ -33,9 +34,18 @@
   editor = nvim
   quotepath = false  # git 日本語ファイル名をエスケープせずに表示
   excludesfile = ~/.gitignore
+  pager = delta
 [status] # git status 追跡されていないファイルはすべて表示
   showUntrackedFiles = all
-
+[interactive]
+  diffFilter = delta --color-only
+[delta]
+  navigate = true    # use n and N to move between diff sections
+  side-by-side = true
+[merge]
+    conflictstyle = diff3
+[diff]
+    colorMoved = default
 [init]
   defaultBranch = main
 [pull]
