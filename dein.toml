@@ -395,10 +395,19 @@ lua_add = '''
 lazy = 1
 on_cmd = ['Git', 'Ggrep', 'GBrowse']
 repo = 'tpope/vim-fugitive'
-hook_add = '''
-  cabbrev g Ggrep
-  cabbrev b GBrowse
-  cabbrev l Git log --follow -p %
+lua_add = '''
+  vim.cmd('cabbrev g Ggrep')
+  vim.cmd('cabbrev b lua BrowseDevelop()')
+  vim.cmd('cabbrev l Git log --follow -p %')
+
+  function BrowseDevelop()
+    vim.cmd('GBrowse!')
+    local url = vim.fn.getreg('+') -- レジスタ '+' に GBrowse! の結果が格納される
+    local new_url = url:gsub("/blob/[^/]+", "/blob/develop")
+    vim.fn.setreg('+', new_url) -- 新しいURLをクリップボードにコピー
+    -- print("Copied to clipboard: " .. new_url)
+    vim.fn.system({"open", new_url})
+  end
 '''
 
 [[plugins]] # vim-fugitiveのgithubサポート用
