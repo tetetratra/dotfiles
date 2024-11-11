@@ -403,7 +403,8 @@ lua_add = '''
   function BrowseDevelop()
     vim.cmd('GBrowse!')
     local url = vim.fn.getreg('+') -- レジスタ '+' に GBrowse! の結果が格納される
-    local new_url = url:gsub("/blob/[^/]+", "/blob/develop")
+    local default_branch = vim.fn.systemlist("git default-branch")[1]
+    local new_url = url:gsub("/blob/[^/]+", "/blob/" .. default_branch)
     vim.fn.setreg('+', new_url) -- 新しいURLをクリップボードにコピー
     -- print("Copied to clipboard: " .. new_url)
     vim.fn.system({"open", new_url})
