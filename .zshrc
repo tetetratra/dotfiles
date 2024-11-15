@@ -20,6 +20,7 @@ alias tree='tree --charset unicode'
 alias history='history -E 1'
 alias blue='tmux set-option -p -t : window-style bg=colour17' # 現在(-t :)のpane(-p)の背景色を変更
 alias red='tmux set-option -p -t : window-style bg=colour52'
+alias yellow='tmux set-option -p -t : window-style bg=colour58'
 
 ### ローカル独自の設定 ###
 if [ -f ~/.zshrc_local ]; then
