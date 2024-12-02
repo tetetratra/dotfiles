@@ -167,3 +167,6 @@ pip install pynvim
   name = tetetratra
   email = 44367208+tetetratra@users.noreply.github.com
   ```
+- 壁紙をランダムにする
+  - 設定->壁紙->「空撮をシャッフル: すべてをシャッフル」を選ぶ
+
