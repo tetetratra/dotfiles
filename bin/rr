@@ -1,6 +1,7 @@
 #! /usr/bin/env ruby
 
 require 'date'
+require 'csv'
 require 'json'
 
 _ = ' '
