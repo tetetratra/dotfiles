@@ -399,7 +399,7 @@ lua_add = '''
 repo = 't9md/vim-quickhl'
 lua_add = '''
   local pattern = ('binding.pry,binding.irb,NOTE:,MEMO:,<<<<<<<,>>>>>>>,======='):gsub(",", "\\|")
-  vim.api.nvim_set_keymap('n', '<Space>h', '<Plug>(quickhl-manual-this)', { silent = true })
+  vim.api.nvim_set_keymap('n', '<Space>h', '<Plug>(quickhl-manual-this-whole-word)', { silent = true })
   vim.api.nvim_set_keymap('x', '<Space>h', '<Plug>(quickhl-manual-this)', { silent = true })
   vim.api.nvim_set_keymap('n', '<Space>H', '<Plug>(quickhl-manual-reset)', {silent = true })
   vim.g.quickhl_manual_enable_at_startup = 1
