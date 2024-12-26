@@ -1,4 +1,10 @@
 [[plugins]]
+repo = 'folke/which-key.nvim'
+lua_add = '''
+  require("which-key").setup({})
+'''
+
+[[plugins]]
 repo = 'nvim-lua/plenary.nvim'
 
 # Color
