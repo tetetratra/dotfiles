@@ -217,6 +217,24 @@ vim.api.nvim_set_keymap('v', 'X', 'y/<C-R>"<CR>', { silent = true })
 vim.cmd('cabbrev t tabnew')
 vim.api.nvim_set_keymap('n', '<F5>', ':set wrap!<CR>', { noremap = true })
 
+-- 新しいタブを開いて、引数の文字列をペーストしてタグジャンプを行う
+vim.api.nvim_create_user_command(
+  'Jump',
+  function(opts)
+    vim.cmd("tabnew") -- 新しいタブを開く
+    vim.cmd("enew") -- 新しいバッファを開く
+    local input = opts.args
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("$", true, false, true), 'n', true) -- カーソルを最後に移動
+    local buf = vim.api.nvim_get_current_buf()
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, { input }) -- 引数の文字列をバッファに挿入
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-]>", true, false, true), 'n', true)
+    print('jump to ' .. input)
+  end,
+  { nargs = 1, desc = "Open new buffer, insert text, and perform a tag jump (Ctrl+])" }
+)
+vim.cmd('cabbrev j Jump')
+
+
 vim.api.nvim_set_keymap('c', '<C-e>', '<End>', { noremap = true })
 vim.api.nvim_set_keymap('c', '<C-a>', '<Home>', { noremap = true })
 vim.api.nvim_set_keymap('c', '<C-h>', '<Left>', { noremap = true })
