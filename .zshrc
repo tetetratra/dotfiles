@@ -15,8 +15,6 @@ alias d='docker'
 alias dc='docker-compose'
 alias dcrb='(){ docker-compose run --rm $1 bash -c "bash --rcfile utils/.bashrc_local" }'
 alias dceb='(){ docker-compose exec     $1 bash -c "bash --rcfile utils/.bashrc_local" }'
-alias n='nvim'
-alias nvim='nvim -p'
 alias tree='tree --charset unicode'
 alias history='history -E 1'
 alias blue='tmux set-option -p -t : window-style bg=colour17' # 現在(-t :)のpane(-p)の背景色を変更

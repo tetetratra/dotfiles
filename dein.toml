@@ -1,3 +1,8 @@
+# TODO
+# - [ ] copilotを補完に含める
+# - [ ] copilot-chatをいい感じのUIで使う
+# - [ ] dein.tomlをluaファイル化(インデントも揃える)
+
 [[plugins]]
 repo = 'folke/which-key.nvim'
 lua_add = '''
@@ -34,7 +39,6 @@ lua_add = '''
   -- live_grep は ripgrep に依存している
   vim.api.nvim_set_keymap('n', '<Space>f', ':lua require("telescope.builtin").find_files({ initial_mode = "normal" })<cr>', { noremap = true })
   vim.api.nvim_set_keymap('n', '<Space>?', ':lua require("telescope.builtin").help_tags({ initial_mode = "normal" })<cr>', { noremap = true }) -- helpを絞り込んで探せる(helpの連想で?のキー)
-  vim.api.nvim_set_keymap('n', '<Space>b', ':lua require("telescope.builtin").buffers({ initial_mode = "normal" })<cr>', { noremap = true })
   vim.api.nvim_set_keymap('n', '<Space>r', ':lua require("telescope.builtin").resume({ initial_mode = "normal" })<cr>', { noremap = true })
 
   -- 折りたたみを無効化する 参考: https://github.com/nvim-telescope/telescope.nvim/issues/991#issuecomment-1429539473
@@ -82,15 +86,6 @@ lua_add = '''
 '''
 
 [[plugins]]
-repo = 'LukasPietzschmann/telescope-tabs'
-depends = ['nvim-telescope/telescope.nvim']
-lua_add = '''
-  require('telescope').load_extension('telescope-tabs')
-  require('telescope-tabs').setup{}
-  vim.api.nvim_set_keymap('n', 't', ':lua require("telescope-tabs").list_tabs({ initial_mode = "normal" })<cr>', { noremap = true })
-'''
-
-[[plugins]]
 repo = 'nvim-telescope/telescope-live-grep-args.nvim'
 depends = ['nvim-telescope/telescope.nvim']
 # "" や '' で囲むと、その次の語句でdirを指定できる
@@ -98,7 +93,6 @@ lua_add = '''
   require('telescope').load_extension('live_grep_args')
   vim.api.nvim_set_keymap('n', '<Space>g', ':lua require("telescope").extensions.live_grep_args.live_grep_args({ initial_mode = "normal" })<cr>', { noremap = true }) -- grepのg
 '''
-
 
 # fuzzy finder
 # telescopeで使っている
@@ -109,19 +103,21 @@ lua_add = '''
   require('telescope').load_extension('zf-native')
 '''
 
-# ファイル
+# ファイラー
+# B でバッファにあるのみ表示
 [[plugins]]
-repo = 'scrooloose/nerdtree'
-depends = ['ryanoasis/vim-devicons']
+repo = 'kyazdani42/nvim-tree.lua'
 lua_add = '''
-  vim.g.NERDTreeShowHidden = 1
-  vim.g.NERDTreeWinSize = 30
-  vim.g.NERDTreeShowBookmarks = 1
-  vim.g.NERDTreeMapMenu = 'm'
-  vim.api.nvim_set_keymap('n', '<Space>`', ':NERDTreeFind<CR>', { noremap = true, silent = true })
-  vim.cmd('cabbrev B Bookmark')
+  require("nvim-tree").setup({
+    filters = {
+      dotfiles = true,
+    },
+  })
+
+  vim.api.nvim_set_keymap('n', '<Space>`', ':NvimTreeFindFile<CR>', { noremap = true, silent = true })
 '''
 
+# 入れてなかったら `brew install --cask font-noto-nerd-font` して、iterm2でそれを設定する
 [[plugins]]
 repo = 'ryanoasis/vim-devicons'
 
@@ -133,11 +129,69 @@ repo = 'bogado/file-line'
 
 # 補完
 
+## CoC
+# インストール後
+# - `:CocConfig`を打つ (だめだったら`:call coc#util#install()`もしてみる)
+# - `:CocInstall coc-solargraph`を打つ
+[[plugins]]
+repo = 'neoclide/coc.nvim'
+source = 'release'
+build = 'coc#util#install()' # 参考: https://scrapbox.io/appbirdNotebook-public/coc.nvim_%E3%82%92_%E3%83%80%E3%82%A6%E3%83%B3%E3%83%AD%E3%83%BC%E3%83%89_%E3%81%97%E3%82%88%E3%81%86%E3%81%A8%E3%81%97%E3%81%9F%E3%82%89_coc.nvim_build%2Findex.js_not_found,_please_install_dependencies_and_compile_coc.nvim_by:_npm_ci%E3%81%A8%E5%87%BA%E3%81%9F
+lua_add = '''
+    -- 公式のREADMEを参考に設定
+
+    local keyset = vim.keymap.set
+    -- Autocomplete
+    function _G.check_back_space()
+        local col = vim.fn.col('.') - 1
+        return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
+    end
+
+    -- Use Tab for trigger completion with characters ahead and navigate
+    -- NOTE: There's always a completion item selected by default, you may want to enable
+    -- no select by setting `"suggest.noselect": true` in your configuration file
+    -- NOTE: Use command ':verbose imap <tab>' to make sure Tab is not mapped by
+    -- other plugins before putting this into your config
+    local opts = {silent = true, noremap = true, expr = true, replace_keycodes = false}
+    keyset("i", "<TAB>", 'coc#pum#visible() ? coc#pum#next(1) : v:lua.check_back_space() ? "<TAB>" : coc#refresh()', opts)
+    keyset("i", "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
+    
+    -- Make <CR> to accept selected completion item or notify coc.nvim to format
+    -- <C-g>u breaks current undo, please make your own choice
+    keyset("i", "<cr>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], opts)
+
+    -- Use `[g` and `]g` to navigate diagnostics
+    -- Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
+    keyset("n", "[g", "<Plug>(coc-diagnostic-prev)", {silent = true})
+    keyset("n", "]g", "<Plug>(coc-diagnostic-next)", {silent = true})
+
+    -- GoTo code navigation
+    keyset("n", "<Space>[", "<Plug>(coc-references)", {silent = true})
+
+    function jump_gf_lsp_tag()
+        -- coc-definition を試す
+        local success = false
+        local ok, _ = pcall(function() -- エラーハンドリング付きで実行
+          vim.fn.CocAction('jumpDefinition')
+        end)
+        if ok and success then return end
+
+        -- gf (Vim-Rails の拡張込み) を試す
+        local ok, _ = pcall(function() -- エラーハンドリング付きで実行
+          vim.cmd('normal gf')
+        end)
+        if ok then return end
+
+        print("No LSP definition or file found.")
+    end
+    vim.api.nvim_set_keymap("n", "<C-]>", ":lua jump_gf_lsp_tag()<CR>", { noremap = true, silent = true })
+'''
+
 # 操作
 [[plugins]]
 repo = 'tpope/vim-surround'
 
-[[plugins]] # :Align , のように使う
+[[plugins]] # 縦揃え用。`:Align ,`のように使う
 repo = 'vim-scripts/Align'
 
 [[plugins]] # 選択箇所をyankで置き換え
@@ -171,13 +225,33 @@ lua_add = '''
   vim.opt.termguicolors = true
   require("bufferline").setup {
     options = {
-      mode = "tabs",
-      tab_size = 1,
+      tab_size = 5,
       show_close_icon = false,
       show_buffer_close_icons = false,
       show_duplicate_prefix = false,
+      get_element_icon = function(element)
+        -- nilを返した場合デフォルトのアイコンが使われる
+        return element.filetype == "" and "" or nil
+      end,
+      offsets = {
+        {
+          filetype = "NvimTree",
+          text = "NvimTree",
+          highlight = "Directory",
+          separator = true
+        }
+      }
     }
   }
+
+  vim.api.nvim_set_keymap('n', '<C-l>', ':BufferLineCycleNext<CR>', { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('n', '<C-h>', ':BufferLineCyclePrev<CR>', { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('n', '>', ':BufferLineMoveNext<CR>', { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('n', '<lt>', ':BufferLineMovePrev<CR>', { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('n', '<C-p>', ':BufferLineTogglePin<CR>', { noremap = true, silent = true })
+
+  vim.api.nvim_set_keymap('n', 't', ':enew <CR>:file -<CR>', { silent = true })
+  vim.api.nvim_set_keymap('n', '<Space>q', ':bdelete!<CR>', { silent = true })
 '''
 
 [[plugins]]
@@ -315,16 +389,13 @@ on_cmd = ['Git', 'Ggrep', 'GBrowse']
 repo = 'tpope/vim-fugitive'
 lua_add = '''
   vim.cmd('cabbrev g Ggrep')
-  vim.cmd('cabbrev b lua BrowseDevelop()')
   vim.cmd('cabbrev l Git log --follow -p %')
 
   function BrowseDevelop()
     vim.cmd('GBrowse!')
     local url = vim.fn.getreg('+') -- レジスタ '+' に GBrowse! の結果が格納される
-    local default_branch = vim.fn.systemlist("git default-branch")[1]
-    local new_url = url:gsub("/blob/[^/]+", "/blob/" .. default_branch)
+    local new_url = url:gsub("/blob/[^/]+", "/blob/" .. 'develop')
     vim.fn.setreg('+', new_url) -- 新しいURLをクリップボードにコピー
-    -- print("Copied to clipboard: " .. new_url)
     vim.fn.system({"open", new_url})
   end
 '''

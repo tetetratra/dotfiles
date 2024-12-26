@@ -1,6 +1,3 @@
-vim.g.function_key_mapping = 'F1: resize,   F2: ToggleVirtualEdit,   F3: ToggleTransparent,   F4: ToggleLsp,   F5: ToggleWrap'
-vim.api.nvim_set_keymap('n', '<F12>', ':echom function_key_mapping<CR>', { noremap = true })
-
 -- ===== main =====
 -- vi互換モードoff
 vim.o.compatible = false
@@ -151,7 +148,6 @@ vim.api.nvim_set_keymap('n', 's', '<Nop>', { silent = true })
 vim.api.nvim_set_keymap('n', 'p', 'p`]', { silent = true })
 vim.cmd('nnoremap <silent> x "_x') -- nvim_set_keymap を使って競ってすると何故かフリーズするためcmdで設定
 vim.api.nvim_set_keymap('n', '<Space>w', ':write<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', '<Space>q', ':quit<CR>', { silent = true })
 
 -- vim.api.nvim_set_keymap('n', '<C-]>', 'g<C-]>', { silent = true })
 vim.api.nvim_set_keymap('n', '}', ':cn<CR>', { noremap = true, silent = true })
@@ -162,38 +158,11 @@ vim.api.nvim_set_keymap('n', 'J', 'V:m \'>+1<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'K', 'V:m \'<-2<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'E', '<ESC>:e!<CR>', { silent = true })
 
-function jumpToClipboardNumber()
-  local target_line = tonumber(vim.fn.getreg('+'))
-  if target_line ~= nil then
-    vim.cmd(':' .. target_line)
-  end
-end
-
 -- === buffer系 ===
 -- 未保存の場合にバッファを切り替えても警告を出さない
 vim.o.hidden = true
 
--- === tab系 ===
-vim.api.nvim_set_keymap('n', '<C-h>', ':tabprevious<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', '<C-l>', ':tabnext<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', '<lt>', ':-tabm<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', '>', ':+tabm<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', 'yt', ':tab split<CR>', { silent = true })
--- vim.api.nvim_set_keymap('n', 't', ':tabnew<CR>', { silent = true })
-
--- LspError, LspWarning, LspInformation, LspHint
-
 vim.o.showtabline = 2
-
--- T を打つと名前付きの区切り用のバッファが入る
-function open_or_create_named_buffer(buffer_name)
-  buffer_name = '[' .. buffer_name .. ']'
-  vim.cmd('tabnew')
-  local new_buf = vim.api.nvim_create_buf(false, true) -- Not listed, scratch buffer
-  vim.api.nvim_buf_set_name(new_buf, buffer_name) -- Set the buffer name
-  vim.api.nvim_set_current_buf(new_buf) -- Switch to the new buffer
-end
-vim.api.nvim_set_keymap('n', 'T', ':lua open_or_create_named_buffer(vim.fn.input("Separator name: "))<CR>', { noremap = true, silent = true })
 
 -- === command系 ===
 vim.cmd('command! SJIS edit ++enc=sjis')
@@ -216,24 +185,6 @@ vim.api.nvim_set_keymap('v', 'X', 'y/<C-R>"<CR>', { silent = true })
 -- === command系 ===
 vim.cmd('cabbrev t tabnew')
 vim.api.nvim_set_keymap('n', '<F5>', ':set wrap!<CR>', { noremap = true })
-
--- 新しいタブを開いて、引数の文字列をペーストしてタグジャンプを行う
-vim.api.nvim_create_user_command(
-  'Jump',
-  function(opts)
-    vim.cmd("tabnew") -- 新しいタブを開く
-    vim.cmd("enew") -- 新しいバッファを開く
-    local input = opts.args
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("$", true, false, true), 'n', true) -- カーソルを最後に移動
-    local buf = vim.api.nvim_get_current_buf()
-    vim.api.nvim_buf_set_lines(buf, 0, -1, false, { input }) -- 引数の文字列をバッファに挿入
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-]>", true, false, true), 'n', true)
-    print('jump to ' .. input)
-  end,
-  { nargs = 1, desc = "Open new buffer, insert text, and perform a tag jump (Ctrl+])" }
-)
-vim.cmd('cabbrev j Jump')
-
 
 vim.api.nvim_set_keymap('c', '<C-e>', '<End>', { noremap = true })
 vim.api.nvim_set_keymap('c', '<C-a>', '<Home>', { noremap = true })
@@ -280,4 +231,3 @@ vim.cmd('cabbrev p PrettyPrintLuaExp')
 vim.api.nvim_create_user_command('PrettyPrintLuaExp', function(opts)
     print(vim.inspect(opts.arg))
 end, { nargs = 1 })
-
