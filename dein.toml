@@ -208,13 +208,13 @@ lua_add = '''
 
   vim.g.lsp_float_max_width = 0
 
-  vim.cmd([[
-    autocmd User lsp_setup call lsp#register_server({
-      \ 'name': 'rubocop',
-      \ 'cmd': {server_info->['rubocop', '--lsp']},
-      \ 'allowlist': ['ruby'],
-      \ })
-  ]])
+  -- vim.cmd([[
+  --   autocmd User lsp_setup call lsp#register_server({
+  --     \ 'name': 'rubocop',
+  --     \ 'cmd': {server_info->['rubocop', '--lsp']},
+  --     \ 'allowlist': ['ruby'],
+  --     \ })
+  -- ]])
 '''
 
 # ここらへんのインストールが必要そう
@@ -226,9 +226,25 @@ lua_add = '''
 repo = 'mattn/vim-lsp-settings'
 # 設定ファイル:   https://github.com/mattn/vim-lsp-settings/tree/master/settings
 # インストーラー: https://github.com/mattn/vim-lsp-settings/tree/master/installer
-hook_add = '''
-  command! LspDebug let lsp_log_verbose=1 | let lsp_log_file = expand('~/Downloads/lsp.log') | call system("echo -n '' > ~/Downloads/lsp.log") | tabnew ~/Downloads/lsp.log
-  let g:lsp_settings_filetype_ruby = ['steep', 'solargraph', 'rubocop']
+# hook_add = '''
+#   command! LspDebug let lsp_log_verbose=1 | let lsp_log_file = expand('~/Downloads/lsp.log') | call system("echo -n '' > ~/Downloads/lsp.log") | tabnew ~/Downloads/lsp.log
+#   let g:lsp_settings_filetype_ruby = ['steep', 'solargraph', 'rubocop']
+# '''
+lua_add = '''
+  function jump_gf_lsp_tag()
+      --  `gf` (Vim-Rails の拡張込み) を試す
+      local ok, _ = pcall(function() -- gf実行をエラーハンドリング付きで実行
+        vim.cmd('normal gf')
+      end)
+      if ok then
+        return
+      end
+  
+      print("No file, LSP definition, or tag found.")
+  end
+  
+  -- キーマッピング
+  vim.api.nvim_set_keymap("n", "<C-]>", ":lua jump_gf_lsp_tag()<CR>", { noremap = true, silent = true })
 '''
 
 # 操作
