@@ -119,7 +119,7 @@ bindkey -M vicmd 'y' vi-yank-xclip
 
 ### plugin ###
 
-# zinit
+# zinit (Zsh プラグインマネージャー) のインストール
 # https://github.com/zdharma-continuum/zinit#manual
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 [ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
@@ -138,13 +138,16 @@ autoload -U promptinit; promptinit
 prompt pure
 
 # zsh-autosuggestions
-zinit load zsh-users/zsh-autosuggestions
+zinit light zsh-users/zsh-autosuggestions
 
 # zsh-fzf-history-search
-zinit ice lucid wait'0'
-zinit light joshskidmore/zsh-fzf-history-search
+zinit light joshskidmore/zsh-fzf-history-search # light: 非同期でロードする
 
-export PATH="$HOME/bin:$PATH"
 
+### その他設定 ###
 # direnv
 eval "$(direnv hook zsh)"
+
+# ホームディレクトリのbinにパスを通す
+export PATH="$HOME/bin:$PATH"
+
