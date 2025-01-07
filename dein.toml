@@ -250,7 +250,7 @@ lua_add = '''
   vim.api.nvim_set_keymap('n', '<lt>', ':BufferLineMovePrev<CR>', { noremap = true, silent = true })
   vim.api.nvim_set_keymap('n', '<C-p>', ':BufferLineTogglePin<CR>', { noremap = true, silent = true })
 
-  vim.api.nvim_set_keymap('n', 't', ':enew <CR>:file -<CR>', { silent = true })
+  vim.api.nvim_set_keymap('n', 't', ':tabnew <CR>', { silent = true })
   vim.api.nvim_set_keymap('n', '<Space>q', ':bdelete!<CR>', { silent = true })
 '''
 
