@@ -1,7 +1,10 @@
 # TODO
-# - [ ] copilotを補完に含める
-# - [ ] copilot-chatをいい感じのUIで使う
-# - [ ] dein.tomlをluaファイル化(インデントも揃える)
+# - copilotを補完に含める
+# - copilot-chatをいい感じのUIで使う
+# - dein.tomlをluaファイル化(インデントも揃える)
+# - cocの補完で、決定を押せるようにする
+# - :Jump XXX というコマンドを作る
+# - telescopeで、以前の検索を再利用できるようにする
 
 [[plugins]]
 repo = 'folke/which-key.nvim'
