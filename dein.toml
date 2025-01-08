@@ -108,11 +108,7 @@ lua_add = '''
 [[plugins]]
 repo = 'kyazdani42/nvim-tree.lua'
 lua_add = '''
-  require("nvim-tree").setup({
-    filters = {
-      dotfiles = true,
-    },
-  })
+  require("nvim-tree").setup({})
 
   vim.api.nvim_set_keymap('n', '<Space>`', ':NvimTreeFindFile<CR>', { noremap = true, silent = true })
 '''
