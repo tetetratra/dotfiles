@@ -186,6 +186,16 @@ lua_add = '''
         print("No LSP definition or file found.")
     end
     vim.api.nvim_set_keymap("n", "<C-]>", ":lua jump_gf_lsp_tag()<CR>", { noremap = true, silent = true })
+
+    vim.api.nvim_set_keymap(
+      'n',
+      '<C-k>',
+      '<cmd>lua show_documentation()<CR>',
+      { noremap = true, silent = true }
+    )
+    function show_documentation()
+      vim.fn.CocAction('doHover')
+    end
 '''
 
 # 操作
