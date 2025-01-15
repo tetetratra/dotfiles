@@ -41,5 +41,13 @@
     "formatter": "auto",
     "linters": [],
     "experimentalFeaturesEnabled": false
-  }
-},
+  },
+  "eslint.autoFixOnSave": true,
+  "eslint.filetypes": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "vue"
+  ]
+}

@@ -131,7 +131,9 @@ repo = 'bogado/file-line'
 ## CoC
 # インストール後
 # - `:CocConfig`を打つ (だめだったら`:call coc#util#install()`もしてみる)
-# - `:CocInstall coc-solargraph`を打つ
+# - lspを入れる
+#   - `:CocInstall coc-solargraph`
+#   - `:CocInstall coc-tsserver @yaegassy/coc-volar coc-eslint coc-prettier`
 [[plugins]]
 repo = 'neoclide/coc.nvim'
 source = 'release'
