@@ -58,6 +58,8 @@ lua_add = '''
         },
         i = {
           ["<esc>"] = require('telescope.actions').close,
+          ["<Down>"] = require('telescope.actions').cycle_history_next,
+          ["<Up>"] = require('telescope.actions').cycle_history_prev,
         }
       },
       preview = {
@@ -111,7 +113,11 @@ lua_add = '''
 [[plugins]]
 repo = 'kyazdani42/nvim-tree.lua'
 lua_add = '''
-  require("nvim-tree").setup({})
+  require("nvim-tree").setup({
+    view = {
+      width = 50,
+    },
+  })
 
   vim.api.nvim_set_keymap('n', '<Space>`', ':NvimTreeFindFile<CR>', { noremap = true, silent = true })
 '''
