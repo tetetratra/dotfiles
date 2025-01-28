@@ -152,8 +152,9 @@ vim.api.nvim_set_keymap('n', '<Space>w', ':write<CR>', { silent = true })
 -- vim.api.nvim_set_keymap('n', '<C-]>', 'g<C-]>', { silent = true })
 vim.api.nvim_set_keymap('n', '}', ':cn<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '{', ':cN<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<Space>c', '<ESC>:let @+ = expand("%:t")<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', '<Space>C', '<ESC>:let @+ = fnamemodify(expand("%"), ":~:.")<CR>', { silent = true })
+vim.api.nvim_set_keymap('n', '<Space>c', '<ESC>:let @+ = expand("%:t")<CR>', { silent = true }) -- ファイル名
+vim.api.nvim_set_keymap('n', '<Space>C', '<ESC>:let @+ = fnamemodify(expand("%"), ":~:.")<CR>', { silent = true }) -- ファイルパス
+vim.api.nvim_set_keymap('n', '<C-C>',    '<ESC>:let @+ = fnamemodify(expand("%"), ":~:.") . ":" . line(".")<CR>', { silent = true }) -- ファイルパス:行番号
 vim.api.nvim_set_keymap('n', 'J', 'V:m \'>+1<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'K', 'V:m \'<-2<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'E', '<ESC>:e!<CR>', { silent = true })
