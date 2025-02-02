@@ -2,6 +2,14 @@
 # - dein.tomlをluaファイル化(インデントも揃える)
 
 [[plugins]]
+repo = 'rmagatti/auto-session'
+lua_add = '''
+  require("auto-session").setup()
+ 
+  vim.api.nvim_set_keymap('n', '<Space>w', ':write<CR>:SessionSave<CR>', { silent = true })
+'''
+
+[[plugins]]
 repo = 'folke/which-key.nvim'
 lua_add = '''
   require("which-key").setup({})
@@ -157,9 +165,9 @@ lua_add = '''
     -- other plugins before putting this into your config
     local opts = {silent = true, noremap = true, expr = true, replace_keycodes = false}
     keyset("i", "<TAB>",   [[coc#pum#visible() ? coc#pum#next(1) : (v:lua.check_back_space() ? "<TAB>" : coc#refresh())]], opts)
-    keyset("i", "<Down>",  [[coc#pum#visible() ? coc#pum#next(1) : (v:lua.check_back_space() ? "<TAB>" : coc#refresh())]], opts)
+    keyset("i", "<Down>",  [[coc#pum#visible() ? coc#pum#next(1) : "<Down>"]], opts)
     keyset("i", "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
-    keyset("i", "<Up>",    [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
+    keyset("i", "<Up>",    [[coc#pum#visible() ? coc#pum#prev(1) : "<Up>"]], opts)
     
     -- Make <CR> to accept selected completion item or notify coc.nvim to format
     -- <C-g>u breaks current undo, please make your own choice
@@ -234,15 +242,13 @@ lua_add = '''
   vim.api.nvim_set_keymap('v', '<Space>s', '<Plug>(operator-camelize-toggle)', {})
 '''
 
-# [[plugins]]
-# repo = 'scrooloose/nerdcommenter'
-# lua_add = '''
-#   vim.g.NERDSpaceDelims = 1
-#   vim.g.NERDDefaultAlign = 'left'
-#   vim.api.nvim_set_keymap('v', '<C-c>', '<Leader>c<Space>', {})
-# '''
-
 # 表示
+[[plugins]]
+repo = 'petertriho/nvim-scrollbar'
+lua_add = '''
+  require("scrollbar").setup()
+'''
+
 [[plugins]]
 repo = 'akinsho/bufferline.nvim'
 depends = ['nvim-tree/nvim-web-devicons']
@@ -405,6 +411,26 @@ lua_add = '''
   vim.api.nvim_set_keymap('n', '<Space>H', '<Plug>(quickhl-manual-reset)', {silent = true })
   vim.g.quickhl_manual_enable_at_startup = 1
   vim.g.quickhl_manual_keywords = { { pattern = pattern, regexp = 1 }, }
+'''
+
+[[plugins]]
+repo = 'kristijanhusak/line-notes.nvim'
+lua_add = '''
+  local git_root = vim.fn.system("git rev-parse --show-toplevel"):gsub("\n", "")
+  require('line-notes').setup({
+    path = git_root .. '/line-notes.json',
+    border_style = 'none'
+  })
+
+  -- カーソル移動時にプレビューを表示
+  vim.api.nvim_create_autocmd("CursorMoved", {
+    callback = function()
+      require('line-notes').preview()
+    end,
+  })
+
+  vim.api.nvim_set_keymap('n', '<Space>n', ':lua require("line-notes").add()<CR>', { noremap = true })
+  vim.api.nvim_set_keymap('n', '<Space>N', ':lua require("line-notes").delete()<CR>', { noremap = true })
 '''
 
 # git

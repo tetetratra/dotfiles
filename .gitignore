@@ -3,3 +3,4 @@ tags
 /utils/
 /.quicknote/
 .env
+line-notes.json

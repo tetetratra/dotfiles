@@ -159,6 +159,8 @@ vim.api.nvim_set_keymap('n', 'J', 'V:m \'>+1<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'K', 'V:m \'<-2<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'E', '<ESC>:e!<CR>', { silent = true })
 
+vim.api.nvim_set_keymap('v', '<C-c>', 'gc', { silent = true }) -- コメントアウトのトグル
+
 -- === buffer系 ===
 -- 未保存の場合にバッファを切り替えても警告を出さない
 vim.o.hidden = true
