@@ -1,15 +1,15 @@
+# init.vim で $USE_GITHUB_COPILOT が1のときこのファイルを読み込むように設定している
+
 [[plugins]]
 repo = 'github/copilot.vim'
 # 初回起動時に :Copilot setup をする
 # 認証情報は ~/.config/github-copilot/hosts.json に入る
-hook_add = '''
- " fallbackのf
- imap <C-f> <Plug>(copilot-next)
- imap <silent><script><expr> <C-l> copilot#Accept("\<Right>")
- imap <silent><script><expr> <C-e> copilot#Accept("\<End>")
- imap <silent><script><expr> <Right> copilot#Accept("\<Right>")
- let g:copilot_no_tab_map = v:true
- nmap <C-g> <cmd>Copilot panel<CR>:setlocal nonumber<CR><C-w>L
+lua_add = '''
+  vim.api.nvim_set_keymap('i', '<C-f>', '<Plug>(copilot-next)', { silent = true })
+  vim.api.nvim_set_keymap('i', '<C-l>', "copilot#Accept('<Right>')", { noremap = true, silent = true, expr = true })
+  vim.api.nvim_set_keymap('i', '<Right>', "copilot#Accept('<Right>')", { noremap = true, silent = true, expr = true })
+
+  vim.g.copilot_no_tab_map = true
 '''
 
 # 設定の参考：https://qiita.com/lx-sasabo/items/97c49d0f354ea3bdd525 , https://github.com/CopilotC-Nvim/CopilotChat.nvim?tab=readme-ov-file#tips
@@ -19,22 +19,63 @@ depends = ['copilot.vim', 'plenary.nvim']
 branch = 'canary'
 # :CopilotChat とかのコマンドがある
 lua_add = '''
+  -- 参考: https://qiita.com/lx-sasabo/items/97c49d0f354ea3bdd525
+
+  local select = require('CopilotChat.select')
   require("CopilotChat").setup {
-    debug = true, -- Enable debugging
+      debug = true, -- Enable debugging,
+      highlight_selection = false, -- 選択範囲をハイライトしない
+      show_help = false,
+      window = {
+        width = 0.3,
+      },
+      -- プロンプトの設定
+      prompts = {
+        Review = {
+          prompt = '/COPILOT_REVIEW このコードをレビューしてください。',
+        },
+        Commit = {
+          prompt = '/COPILOT_COMMIT このコードのコミットメッセージを日本語で考えてください。',
+        },
+        Explain = {
+          prompt = '/COPILOT_EXPLAIN カーソル上のコードの説明を段落をつけて書いてください。',
+        },
+        Tests = {
+          prompt = '/COPILOT_TESTS カーソル上のコードの詳細な単体テスト関数を書いてください。',
+        },
+        Fix = {
+          prompt = '/COPILOT_FIX このコードには問題があります。バグを修正したコードに書き換えてください。',
+        },
+        Optimize = {
+          prompt = '/COPILOT_REFACTOR 選択したコードを最適化し、パフォーマンスと可読性を向上させてください。',
+        },
+        Docs = {
+          prompt = '/COPILOT_REFACTOR 選択したコードのドキュメントを書いてください。ドキュメントをコメントとして追加した元のコードを含むコードブロックで回答してください。使用するプログラミング言語に最も適したドキュメントスタイルを使用してください（例：JavaScriptのJSDoc、Pythonのdocstringsなど）',
+        },
+        FixDiagnostic = {
+          prompt = 'ファイル内の次のような診断上の問題を解決してください：',
+          selection = select.diagnostics,
+        },
+      }
   }
 
-  -- 参考: https://qiita.com/lx-sasabo/items/97c49d0f354ea3bdd525
   -- バッファの内容全体を使って Copilot とチャットする
   function CopilotChatBuffer()
     local input = vim.fn.input("Quick Chat: ")
-    if input ~= "" then
-      require("CopilotChat").ask(input, { selection = require("CopilotChat.select").buffer })
+    if input == "" then
+      input = "こちらのコードの概要を100文字以内で簡潔に説明してください。"
     end
+    require("CopilotChat").ask(input, { selection = require("CopilotChat.select").buffer })
   end
+  -- <leader>cでCopilot とチャットする
+  vim.api.nvim_set_keymap("n", "<leader>c", "<cmd>lua CopilotChatBuffer()<cr>", { noremap = true, silent = true })
 
   -- telescope を使ってアクションプロンプトを表示する
   function ShowCopilotChatActionPrompt()
     local actions = require("CopilotChat.actions")
-    require("CopilotChat.integrations.telescope").pick(actions.prompt_actions())
+    require("CopilotChat.integrations.telescope").pick(actions.prompt_actions(), { initial_mode = "normal" })
   end
+  -- <leader>Cでアクションプロンプトを表示する
+  vim.api.nvim_set_keymap("n", "<leader>C", "<cmd>lua ShowCopilotChatActionPrompt()<cr>", { noremap = true, silent = true })
 '''
+

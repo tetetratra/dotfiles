@@ -1,10 +1,5 @@
 # TODO
-# - copilotを補完に含める
-# - copilot-chatをいい感じのUIで使う
 # - dein.tomlをluaファイル化(インデントも揃える)
-# - cocの補完で、決定を押せるようにする
-# - :Jump XXX というコマンドを作る
-# - telescopeで、以前の検索を再利用できるようにする
 
 [[plugins]]
 repo = 'folke/which-key.nvim'
@@ -42,6 +37,7 @@ lua_add = '''
   -- live_grep は ripgrep に依存している
   vim.api.nvim_set_keymap('n', '<Space>f', ':lua require("telescope.builtin").find_files({ initial_mode = "normal" })<cr>', { noremap = true })
   vim.api.nvim_set_keymap('n', '<Space>?', ':lua require("telescope.builtin").help_tags({ initial_mode = "normal" })<cr>', { noremap = true }) -- helpを絞り込んで探せる(helpの連想で?のキー)
+  vim.api.nvim_set_keymap('n', '<Space>b', ':lua require("telescope.builtin").buffers({ initial_mode = "normal" })<cr>', { noremap = true })
   vim.api.nvim_set_keymap('n', '<Space>r', ':lua require("telescope.builtin").resume({ initial_mode = "normal" })<cr>', { noremap = true })
 
   -- 折りたたみを無効化する 参考: https://github.com/nvim-telescope/telescope.nvim/issues/991#issuecomment-1429539473
@@ -160,36 +156,48 @@ lua_add = '''
     -- NOTE: Use command ':verbose imap <tab>' to make sure Tab is not mapped by
     -- other plugins before putting this into your config
     local opts = {silent = true, noremap = true, expr = true, replace_keycodes = false}
-    keyset("i", "<TAB>", 'coc#pum#visible() ? coc#pum#next(1) : v:lua.check_back_space() ? "<TAB>" : coc#refresh()', opts)
+    keyset("i", "<TAB>",   [[coc#pum#visible() ? coc#pum#next(1) : (v:lua.check_back_space() ? "<TAB>" : coc#refresh())]], opts)
+    keyset("i", "<Down>",  [[coc#pum#visible() ? coc#pum#next(1) : (v:lua.check_back_space() ? "<TAB>" : coc#refresh())]], opts)
     keyset("i", "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
+    keyset("i", "<Up>",    [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
     
     -- Make <CR> to accept selected completion item or notify coc.nvim to format
     -- <C-g>u breaks current undo, please make your own choice
     keyset("i", "<cr>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], opts)
-
-    -- Use `[g` and `]g` to navigate diagnostics
-    -- Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
-    keyset("n", "[g", "<Plug>(coc-diagnostic-prev)", {silent = true})
-    keyset("n", "]g", "<Plug>(coc-diagnostic-next)", {silent = true})
 
     -- GoTo code navigation
     keyset("n", "<Space>[", "<Plug>(coc-references)", {silent = true})
 
     function jump_gf_lsp_tag()
         -- coc-definition を試す
-        local success = false
+        local jump_success = false
         local ok, _ = pcall(function() -- エラーハンドリング付きで実行
-          vim.fn.CocAction('jumpDefinition')
+          jump_success = vim.fn.CocAction('jumpDefinition')
         end)
-        if ok and success then return end
+        if ok and jump_success then
+          print("[lsp]")
+          return
+        end
 
         -- gf (Vim-Rails の拡張込み) を試す
         local ok, _ = pcall(function() -- エラーハンドリング付きで実行
           vim.cmd('normal gf')
         end)
-        if ok then return end
+        if ok then
+          print("[vim-rails]")
+          return
+        end
 
-        print("No LSP definition or file found.")
+        -- tagジャンプ を試す
+        ok, _ = pcall(function()
+            vim.cmd('tag ' .. vim.fn.expand('<cword>'))
+        end)
+        if ok then
+          print("[tag]")
+          return
+        end
+
+        print("No LSP definition or file or tag found.")
     end
     vim.api.nvim_set_keymap("n", "<C-]>", ":lua jump_gf_lsp_tag()<CR>", { noremap = true, silent = true })
 
@@ -226,13 +234,13 @@ lua_add = '''
   vim.api.nvim_set_keymap('v', '<Space>s', '<Plug>(operator-camelize-toggle)', {})
 '''
 
-[[plugins]]
-repo = 'scrooloose/nerdcommenter'
-lua_add = '''
-  vim.g.NERDSpaceDelims = 1
-  vim.g.NERDDefaultAlign = 'left'
-  vim.api.nvim_set_keymap('v', '<C-c>', '<Leader>c<Space>', {})
-'''
+# [[plugins]]
+# repo = 'scrooloose/nerdcommenter'
+# lua_add = '''
+#   vim.g.NERDSpaceDelims = 1
+#   vim.g.NERDDefaultAlign = 'left'
+#   vim.api.nvim_set_keymap('v', '<C-c>', '<Leader>c<Space>', {})
+# '''
 
 # 表示
 [[plugins]]

@@ -159,26 +159,6 @@ vim.api.nvim_set_keymap('n', 'J', 'V:m \'>+1<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'K', 'V:m \'<-2<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'E', '<ESC>:e!<CR>', { silent = true })
 
--- 新しいバッファを開いて、引数の文字列をペーストしてジャンプを行う
-vim.api.nvim_create_user_command(
-  'Jump',
-  function(opts)
-    vim.cmd("enew") -- 新しいバッファを開く
-    local input = opts.args
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("$", true, false, true), 'n', true) -- カーソルを最後に移動
-    local buf = vim.api.nvim_get_current_buf()
-    vim.api.nvim_buf_set_lines(buf, 0, -1, false, { input }) -- 引数の文字列をバッファに挿入
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-]>", true, false, true), 'n', true)
-    print('jump to ' .. input)
-    -- 処理後にバッファを削除
-    vim.schedule(function()
-      vim.api.nvim_buf_delete(buf, { force = true })
-    end)
-  end,
-  { nargs = 1 }
-)
-vim.cmd('cabbrev j Jump')
-
 -- === buffer系 ===
 -- 未保存の場合にバッファを切り替えても警告を出さない
 vim.o.hidden = true
