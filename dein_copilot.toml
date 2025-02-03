@@ -67,15 +67,13 @@ lua_add = '''
     end
     require("CopilotChat").ask(input, { selection = require("CopilotChat.select").buffer })
   end
-  -- <leader>cでCopilot とチャットする
-  vim.api.nvim_set_keymap("n", "<leader>c", "<cmd>lua CopilotChatBuffer()<cr>", { noremap = true, silent = true })
+  vim.api.nvim_set_keymap("n", "<Space>c", "<cmd>lua CopilotChatBuffer()<cr>", { noremap = true, silent = true })
 
   -- telescope を使ってアクションプロンプトを表示する
   function ShowCopilotChatActionPrompt()
     local actions = require("CopilotChat.actions")
     require("CopilotChat.integrations.telescope").pick(actions.prompt_actions(), { initial_mode = "normal" })
   end
-  -- <leader>Cでアクションプロンプトを表示する
-  vim.api.nvim_set_keymap("n", "<leader>C", "<cmd>lua ShowCopilotChatActionPrompt()<cr>", { noremap = true, silent = true })
+  vim.api.nvim_set_keymap("n", "<Space>C", "<cmd>lua ShowCopilotChatActionPrompt()<cr>", { noremap = true, silent = true })
 '''
 

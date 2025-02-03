@@ -152,14 +152,46 @@ vim.api.nvim_set_keymap('n', '<Space>w', ':write<CR>', { silent = true })
 -- vim.api.nvim_set_keymap('n', '<C-]>', 'g<C-]>', { silent = true })
 vim.api.nvim_set_keymap('n', '}', ':cn<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '{', ':cN<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<Space>c', '<ESC>:let @+ = expand("%:t")<CR>', { silent = true }) -- ファイル名
-vim.api.nvim_set_keymap('n', '<Space>C', '<ESC>:let @+ = fnamemodify(expand("%"), ":~:.")<CR>', { silent = true }) -- ファイルパス
-vim.api.nvim_set_keymap('n', '<C-C>',    '<ESC>:let @+ = fnamemodify(expand("%"), ":~:.") . ":" . line(".")<CR>', { silent = true }) -- ファイルパス:行番号
+vim.api.nvim_set_keymap('n', '<Space>p', ':let @+ = expand("%:t")<CR>', { silent = true }) -- ファイル名
+vim.api.nvim_set_keymap('n', '<Space>P', ':let @+ = fnamemodify(expand("%"), ":~:.")<CR>', { silent = true }) -- ファイルパス
+vim.api.nvim_set_keymap('n', '<Space>:', ':let @+ = fnamemodify(expand("%"), ":~:.") . ":" . line(".")<CR>', { silent = true }) -- ファイルパス:行番号
+vim.api.nvim_set_keymap('n', '<Space>;', ':lua get_github_url()<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'J', 'V:m \'>+1<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'K', 'V:m \'<-2<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'E', '<ESC>:e!<CR>', { silent = true })
 
 vim.api.nvim_set_keymap('v', '<C-c>', 'gc', { silent = true }) -- コメントアウトのトグル
+
+function get_github_url()
+  -- 現在開いているバッファのファイルパスを相対パスに変換
+  local filepath = vim.fn.fnamemodify(vim.fn.expand("%:p"), ":~:.")
+  
+  -- カレントディレクトリ取得
+  local current_dir = vim.fn.expand("%:p:h")
+
+  -- originのURL取得
+  local origin_url = vim.fn.system("git -C " .. current_dir .. " remote get-url origin")
+  origin_url = origin_url:gsub("%s+$", "")  -- 改行除去
+
+  -- ブランチ名取得
+  local branch = vim.fn.system("git -C " .. current_dir .. " symbolic-ref --short HEAD")
+  branch = branch:gsub("%s+$", "")
+
+  -- URLから org/repo を抽出 (https/SSH 両対応)
+  local org_repo = origin_url:match("github.com[:/](.+)%.git")
+  if not org_repo then
+    print("GitHubリポジトリではない可能性があります")
+    return nil
+  end
+
+  -- GitHubファイルURLを構築
+  local github_url = "https://github.com/" .. org_repo .. "/blob/" .. branch .. "/" .. filepath
+
+  print(github_url)
+  vim.fn.setreg('+', github_url)
+  vim.fn.system({"open", github_url})
+end
+
 
 -- === buffer系 ===
 -- 未保存の場合にバッファを切り替えても警告を出さない
