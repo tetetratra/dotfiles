@@ -148,6 +148,7 @@ zinit light joshskidmore/zsh-fzf-history-search # light: 非同期でロード�
 ### その他設定 ###
 # direnv
 eval "$(direnv hook zsh)"
+export DIRENV_LOG_FORMAT=""
 
 # ホームディレクトリのbinにパスを通す
 export PATH="$HOME/bin:$PATH"
