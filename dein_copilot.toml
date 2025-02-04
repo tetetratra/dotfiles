@@ -27,7 +27,7 @@ lua_add = '''
       highlight_selection = false, -- 選択範囲をハイライトしない
       show_help = false,
       window = {
-        width = 0.3,
+        width = 0.2,
       },
       -- プロンプトの設定
       prompts = {
@@ -59,21 +59,21 @@ lua_add = '''
       }
   }
 
-  -- バッファの内容全体を使って Copilot とチャットする
   function CopilotChatBuffer()
-    local input = vim.fn.input("Quick Chat: ")
-    if input == "" then
-      input = "こちらのコードの概要を100文字以内で簡潔に説明してください。"
-    end
-    require("CopilotChat").ask(input, { selection = require("CopilotChat.select").buffer })
+    require("CopilotChat").toggle({
+      selection = function(source)
+        return select.visual(source) or select.buffer(source)
+      end
+    })
   end
-  vim.api.nvim_set_keymap("n", "<Space>c", "<cmd>lua CopilotChatBuffer()<cr>", { noremap = true, silent = true })
+  vim.api.nvim_set_keymap("n", "<Space><Tab>", "<cmd>lua CopilotChatBuffer()<cr>", { noremap = true, silent = true })
+  vim.api.nvim_set_keymap("v", "<Space><Tab>", "<cmd>lua CopilotChatBuffer()<cr>", { noremap = true, silent = true })
 
   -- telescope を使ってアクションプロンプトを表示する
   function ShowCopilotChatActionPrompt()
     local actions = require("CopilotChat.actions")
     require("CopilotChat.integrations.telescope").pick(actions.prompt_actions(), { initial_mode = "normal" })
   end
-  vim.api.nvim_set_keymap("n", "<Space>C", "<cmd>lua ShowCopilotChatActionPrompt()<cr>", { noremap = true, silent = true })
+  vim.api.nvim_set_keymap("n", "<Leader>C", "<cmd>lua ShowCopilotChatActionPrompt()<cr>", { noremap = true, silent = true })
 '''
 

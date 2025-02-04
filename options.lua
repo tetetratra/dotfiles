@@ -152,8 +152,8 @@ vim.api.nvim_set_keymap('n', '<Space>w', ':write<CR>', { silent = true })
 -- vim.api.nvim_set_keymap('n', '<C-]>', 'g<C-]>', { silent = true })
 vim.api.nvim_set_keymap('n', '}', ':cn<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '{', ':cN<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<Space>p', ':let @+ = expand("%:t")<CR>', { silent = true }) -- ファイル名
-vim.api.nvim_set_keymap('n', '<Space>P', ':let @+ = fnamemodify(expand("%"), ":~:.")<CR>', { silent = true }) -- ファイルパス
+vim.api.nvim_set_keymap('n', '<Space>c', ':let @+ = expand("%:t")<CR>', { silent = true }) -- ファイル名
+vim.api.nvim_set_keymap('n', '<Space>C', ':let @+ = fnamemodify(expand("%"), ":~:.")<CR>', { silent = true }) -- ファイルパス
 vim.api.nvim_set_keymap('n', '<Space>:', ':let @+ = fnamemodify(expand("%"), ":~:.") . ":" . line(".")<CR>', { silent = true }) -- ファイルパス:行番号
 vim.api.nvim_set_keymap('n', '<Space>;', ':lua get_github_url()<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'J', 'V:m \'>+1<CR>', { silent = true })
