@@ -242,13 +242,6 @@ lua_add = '''
   vim.api.nvim_set_keymap('v', '<Space>s', '<Plug>(operator-camelize-toggle)', {})
 '''
 
-# 表示
-[[plugins]]
-repo = 'petertriho/nvim-scrollbar'
-lua_add = '''
-  require("scrollbar").setup()
-'''
-
 [[plugins]]
 repo = 'akinsho/bufferline.nvim'
 depends = ['nvim-tree/nvim-web-devicons']
