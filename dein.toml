@@ -222,6 +222,14 @@ lua_add = '''
 
 # 操作
 [[plugins]]
+repo = 'numToStr/Comment.nvim'
+lua_add = '''
+  require('Comment').setup()
+
+  vim.api.nvim_set_keymap('v', '<C-c>', '<Plug>(comment_toggle_linewise_visual)', { noremap = true, silent = true })
+'''
+
+[[plugins]]
 repo = 'tpope/vim-surround'
 
 [[plugins]] # 縦揃え用。`:Align ,`のように使う
@@ -274,7 +282,6 @@ lua_add = '''
   vim.api.nvim_set_keymap('n', '<lt>', ':BufferLineMovePrev<CR>', { noremap = true, silent = true })
   vim.api.nvim_set_keymap('n', '<C-p>', ':BufferLineTogglePin<CR>', { noremap = true, silent = true })
 
-  vim.api.nvim_set_keymap('n', 't', ':tabnew <CR>', { silent = true })
   vim.api.nvim_set_keymap('n', '<Space>q', ':bdelete!<CR>', { silent = true })
 '''
 

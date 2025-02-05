@@ -143,6 +143,22 @@ function home()
 end
 
 -- === normal ===
+function write_last_messages_to_new_buffer()
+  vim.cmd("enew")
+
+  -- 読み取り専用を解除（必要なら）
+  vim.bo.readonly = false
+  vim.bo.buftype = ""
+
+  local messages = vim.fn.execute("messages")
+  local lines = vim.split(messages, "\n")
+
+  -- メッセージを書き込み
+  vim.api.nvim_buf_set_lines(0, 0, -1, true, lines)
+end
+vim.api.nvim_set_keymap('n', 'T', ':lua write_last_messages_to_new_buffer()<CR>', { silent = true })
+vim.api.nvim_set_keymap('n', 't', ':enew<CR>', { silent = true })
+
 -- vim.api.nvim_set_keymap('n', '<Esc>', ':noh<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 's', '<Nop>', { silent = true })
 vim.api.nvim_set_keymap('n', 'p', 'p`]', { silent = true })
@@ -159,8 +175,6 @@ vim.api.nvim_set_keymap('n', '<Space>:', ':lua get_github_url()<CR>', { silent =
 vim.api.nvim_set_keymap('n', 'J', 'V:m \'>+1<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'K', 'V:m \'<-2<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'E', '<ESC>:e!<CR>', { silent = true })
-
-vim.api.nvim_set_keymap('v', '<C-c>', 'gc', { silent = true }) -- コメントアウトのトグル
 
 function get_github_url()
   -- 現在開いているバッファのファイルパスを相対パスに変換
