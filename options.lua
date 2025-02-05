@@ -220,7 +220,8 @@ vim.cmd('command! UTF8 edit ++enc=utf-8')
 -- === window系 ===
 vim.api.nvim_set_keymap('n', '<Space>e', '<C-w>w', {})
 
-vim.api.nvim_set_keymap('n', '<Space>o', ':only<CR>', {})
+vim.api.nvim_set_keymap('n', '<Space>o', ':only<CR>', {}) -- close other windows
+vim.api.nvim_set_keymap('n', '<Space>O', '<C-w>c', {}) -- close window (keep buffer)
 
 -- === visual系 ===
 -- ヤンクしたテキストの末尾へ自動的に移動
