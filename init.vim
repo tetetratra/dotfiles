@@ -30,10 +30,6 @@ call dein#add(s:dein_src)
 " Your plugins go here:
 let s:toml = $HOME .. '/.config/nvim/dein/toml/dein.toml'
 call dein#load_toml(s:toml, {'lazy': 0})
-if exists('$USE_GITHUB_COPILOT')
-  let s:toml_copilot = $HOME .. '/.config/nvim/dein/toml/dein_copilot.toml'
-  call dein#load_toml(s:toml_copilot, {'lazy': 0})
-endif
 " Finish dein initialization (required)
 call dein#end()
 if dein#check_install()

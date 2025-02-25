@@ -157,7 +157,7 @@ function write_last_messages_to_new_buffer()
   vim.api.nvim_buf_set_lines(0, 0, -1, true, lines)
 end
 vim.api.nvim_set_keymap('n', 'T', ':lua write_last_messages_to_new_buffer()<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', 't', ':enew<CR>', { silent = true })
+vim.api.nvim_set_keymap('n', 't', ':tabnew<CR>', { silent = true })
 
 -- vim.api.nvim_set_keymap('n', '<Esc>', ':noh<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 's', '<Nop>', { silent = true })
@@ -175,6 +175,10 @@ vim.api.nvim_set_keymap('n', '<Space>:', ':lua get_github_url()<CR>', { silent =
 vim.api.nvim_set_keymap('n', 'J', 'V:m \'>+1<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'K', 'V:m \'<-2<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'E', '<ESC>:e!<CR>', { silent = true })
+vim.api.nvim_set_keymap('n', '<C-l>', '<C-w>l', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-h>', '<C-w>h', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', 'L', ':tabnext<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', 'H', ':tabprevious<CR>', { noremap = true, silent = true })
 
 function get_github_url()
   -- 現在開いているバッファのファイルパスを相対パスに変換

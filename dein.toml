@@ -1,5 +1,19 @@
 # TODO
-# - dein.tomlをluaファイル化(インデントも揃える)
+# - [ ] dein.tomlをluaファイル化(インデントも揃える)
+# - [ ] ctrl h, l でwindowの移動をする
+# - [ ] ctrl x でwindowを閉じる
+# - [ ] lualineで、現在のファイル名をわかりやすく表示する
+# - [ ] nvimtreeで、現在フォーカスがあたっているファイルをハイライトする
+# - [ ] nvimtreeで、gitのstagedファイルかどうかを表示する
+# - [ ] ctrl ] で最終的にtagsも使う(最初のマッチにjump)
+# - [ ] ctrl - でhorizonal split
+# - [ ] ctrl | でvertical split
+# - [ ] tabを使う
+#   - bufferlineでtab modeを使うようにして、Shift h, l でtabを移動するkeymapを設定する
+#   - 各tab内にどんなwindowがあるかをサイドバーに表示できるようにする
+# - [ ] lexima.vimで、checkboxの[ のときはスペースが1個だけ入るようにする
+# - [ ] copilot chatのacceptのkeymapを変更する
+# - [ ] copilot chatやnvim-treeのtoggleをf1,f2,...に割り当てる
 
 [[plugins]]
 repo = 'rmagatti/auto-session'
@@ -45,7 +59,7 @@ lua_add = '''
   -- live_grep は ripgrep に依存している
   vim.api.nvim_set_keymap('n', '<Space>f', ':lua require("telescope.builtin").find_files({ initial_mode = "normal" })<cr>', { noremap = true })
   vim.api.nvim_set_keymap('n', '<Space>?', ':lua require("telescope.builtin").help_tags({ initial_mode = "normal" })<cr>', { noremap = true }) -- helpを絞り込んで探せる(helpの連想で?のキー)
-  vim.api.nvim_set_keymap('n', '<Space>b', ':lua require("telescope.builtin").buffers({ initial_mode = "normal" })<cr>', { noremap = true })
+  -- vim.api.nvim_set_keymap('n', '<Space>b', ':lua require("telescope.builtin").buffers({ initial_mode = "normal" })<cr>', { noremap = true })
   vim.api.nvim_set_keymap('n', '<Space>r', ':lua require("telescope.builtin").resume({ initial_mode = "normal" })<cr>', { noremap = true })
 
   -- 折りたたみを無効化する 参考: https://github.com/nvim-telescope/telescope.nvim/issues/991#issuecomment-1429539473
@@ -251,39 +265,48 @@ lua_add = '''
 '''
 
 [[plugins]]
-repo = 'akinsho/bufferline.nvim'
-depends = ['nvim-tree/nvim-web-devicons']
+repo = 'j-morano/buffer_manager.nvim'
+depends = ['nvim-lua/plenary.nvim']
 lua_add = '''
-  vim.opt.termguicolors = true
-  require("bufferline").setup {
-    options = {
-      tab_size = 5,
-      show_close_icon = false,
-      show_buffer_close_icons = false,
-      show_duplicate_prefix = false,
-      get_element_icon = function(element)
-        -- nilを返した場合デフォルトのアイコンが使われる
-        return element.filetype == "" and "" or nil
-      end,
-      offsets = {
-        {
-          filetype = "NvimTree",
-          text = "NvimTree",
-          highlight = "Directory",
-          separator = true
-        }
-      }
-    }
-  }
+  vim.api.nvim_set_keymap('n', '<Space>b', ':lua require("buffer_manager.ui").toggle_quick_menu()<CR>', { noremap = true })
 
-  vim.api.nvim_set_keymap('n', '<C-l>', ':BufferLineCycleNext<CR>', { noremap = true, silent = true })
-  vim.api.nvim_set_keymap('n', '<C-h>', ':BufferLineCyclePrev<CR>', { noremap = true, silent = true })
-  vim.api.nvim_set_keymap('n', '>', ':BufferLineMoveNext<CR>', { noremap = true, silent = true })
-  vim.api.nvim_set_keymap('n', '<lt>', ':BufferLineMovePrev<CR>', { noremap = true, silent = true })
-  vim.api.nvim_set_keymap('n', '<C-p>', ':BufferLineTogglePin<CR>', { noremap = true, silent = true })
-
-  vim.api.nvim_set_keymap('n', '<Space>q', ':bdelete!<CR>', { silent = true })
+  vim.api.nvim_set_keymap('n', '<BS>', '<C-w>c', { silent = true })
 '''
+
+# [[plugins]]
+# repo = 'akinsho/bufferline.nvim'
+# depends = ['nvim-tree/nvim-web-devicons']
+# lua_add = '''
+#   vim.opt.termguicolors = true
+#   require("bufferline").setup {
+#     options = {
+#       tab_size = 5,
+#       show_close_icon = false,
+#       show_buffer_close_icons = false,
+#       show_duplicate_prefix = false,
+#       get_element_icon = function(element)
+#         -- nilを返した場合デフォルトのアイコンが使われる
+#         return element.filetype == "" and "" or nil
+#       end,
+#       offsets = {
+#         {
+#           filetype = "NvimTree",
+#           text = "NvimTree",
+#           highlight = "Directory",
+#           separator = true
+#         }
+#       }
+#     }
+#   }
+# 
+#   vim.api.nvim_set_keymap('n', '<C-l>', ':BufferLineCycleNext<CR>', { noremap = true, silent = true })
+#   vim.api.nvim_set_keymap('n', '<C-h>', ':BufferLineCyclePrev<CR>', { noremap = true, silent = true })
+#   vim.api.nvim_set_keymap('n', '>', ':BufferLineMoveNext<CR>', { noremap = true, silent = true })
+#   vim.api.nvim_set_keymap('n', '<lt>', ':BufferLineMovePrev<CR>', { noremap = true, silent = true })
+#   vim.api.nvim_set_keymap('n', '<C-p>', ':BufferLineTogglePin<CR>', { noremap = true, silent = true })
+# 
+#   vim.api.nvim_set_keymap('n', '<Space>q', ':bdelete!<CR>', { silent = true })
+# '''
 
 [[plugins]]
 repo = 'nvim-tree/nvim-web-devicons'
@@ -562,3 +585,82 @@ repo = 'rizzatti/dash.vim'
 hook_add = '''
   cabbrev d Dash
 '''
+
+# Github Copilot
+[[plugins]]
+repo = 'github/copilot.vim'
+# 初回起動時に :Copilot setup をする
+# 認証情報は ~/.config/github-copilot/hosts.json に入る
+lua_add = '''
+  vim.api.nvim_set_keymap('i', '<C-f>', '<Plug>(copilot-next)', { silent = true })
+  vim.api.nvim_set_keymap('i', '<C-l>', "copilot#Accept('<Right>')", { noremap = true, silent = true, expr = true })
+  vim.api.nvim_set_keymap('i', '<Right>', "copilot#Accept('<Right>')", { noremap = true, silent = true, expr = true })
+
+  vim.g.copilot_no_tab_map = true
+'''
+
+# 設定の参考：https://qiita.com/lx-sasabo/items/97c49d0f354ea3bdd525 , https://github.com/CopilotC-Nvim/CopilotChat.nvim?tab=readme-ov-file#tips
+[[plugins]]
+repo = 'CopilotC-Nvim/CopilotChat.nvim'
+depends = ['copilot.vim', 'plenary.nvim']
+branch = 'canary'
+# :CopilotChat とかのコマンドがある
+lua_add = '''
+  -- 参考: https://qiita.com/lx-sasabo/items/97c49d0f354ea3bdd525
+
+  local select = require('CopilotChat.select')
+  require("CopilotChat").setup {
+      debug = true, -- Enable debugging,
+      highlight_selection = false, -- 選択範囲をハイライトしない
+      show_help = false,
+      window = {
+        width = 0.2,
+      },
+      -- プロンプトの設定
+      prompts = {
+        Review = {
+          prompt = '/COPILOT_REVIEW このコードをレビューしてください。',
+        },
+        Commit = {
+          prompt = '/COPILOT_COMMIT このコードのコミットメッセージを日本語で考えてください。',
+        },
+        Explain = {
+          prompt = '/COPILOT_EXPLAIN カーソル上のコードの説明を段落をつけて書いてください。',
+        },
+        Tests = {
+          prompt = '/COPILOT_TESTS カーソル上のコードの詳細な単体テスト関数を書いてください。',
+        },
+        Fix = {
+          prompt = '/COPILOT_FIX このコードには問題があります。バグを修正したコードに書き換えてください。',
+        },
+        Optimize = {
+          prompt = '/COPILOT_REFACTOR 選択したコードを最適化し、パフォーマンスと可読性を向上させてください。',
+        },
+        Docs = {
+          prompt = '/COPILOT_REFACTOR 選択したコードのドキュメントを書いてください。ドキュメントをコメントとして追加した元のコードを含むコードブロックで回答してください。使用するプログラミング言語に最も適したドキュメントスタイルを使用してください（例：JavaScriptのJSDoc、Pythonのdocstringsなど）',
+        },
+        FixDiagnostic = {
+          prompt = 'ファイル内の次のような診断上の問題を解決してください：',
+          selection = select.diagnostics,
+        },
+      }
+  }
+
+  function CopilotChatBuffer()
+    require("CopilotChat").toggle({
+      selection = function(source)
+        return select.visual(source) or select.buffer(source)
+      end
+    })
+  end
+  vim.api.nvim_set_keymap("n", "<Space><Tab>", "<cmd>lua CopilotChatBuffer()<cr>", { noremap = true, silent = true })
+  vim.api.nvim_set_keymap("v", "<Space><Tab>", "<cmd>lua CopilotChatBuffer()<cr>", { noremap = true, silent = true })
+
+  -- telescope を使ってアクションプロンプトを表示する
+  function ShowCopilotChatActionPrompt()
+    local actions = require("CopilotChat.actions")
+    require("CopilotChat.integrations.telescope").pick(actions.prompt_actions(), { initial_mode = "normal" })
+  end
+  vim.api.nvim_set_keymap("n", "<Leader>C", "<cmd>lua ShowCopilotChatActionPrompt()<cr>", { noremap = true, silent = true })
+'''
+
