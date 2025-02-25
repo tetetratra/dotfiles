@@ -179,6 +179,9 @@ vim.api.nvim_set_keymap('n', '<C-l>', '<C-w>l', { noremap = true, silent = true 
 vim.api.nvim_set_keymap('n', '<C-h>', '<C-w>h', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', 'L', ':tabnext<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', 'H', ':tabprevious<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '>', ':+tabmove<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<', ':-tabmove<CR>', { noremap = true, silent = true })
+
 
 function get_github_url()
   -- 現在開いているバッファのファイルパスを相対パスに変換

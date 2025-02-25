@@ -268,45 +268,23 @@ lua_add = '''
 repo = 'j-morano/buffer_manager.nvim'
 depends = ['nvim-lua/plenary.nvim']
 lua_add = '''
-  vim.api.nvim_set_keymap('n', '<Space>b', ':lua require("buffer_manager.ui").toggle_quick_menu()<CR>', { noremap = true })
-
-  vim.api.nvim_set_keymap('n', '<BS>', '<C-w>c', { silent = true })
+  require("buffer_manager").setup({
+    width = 100,
+    height = 30,
+    select_menu_item_commands = {
+      v = {
+        key = "<C-v>",
+        command = "vsplit"
+      },
+      h = {
+        key = "<C-h>",
+        command = "split"
+      }
+    }
+  })
+  vim.api.nvim_set_keymap('n', ';', ':lua require("buffer_manager.ui").toggle_quick_menu()<CR>', { noremap = true })
+  vim.api.nvim_set_keymap('n', '<Space>x', '<C-w>c', { silent = true })
 '''
-
-# [[plugins]]
-# repo = 'akinsho/bufferline.nvim'
-# depends = ['nvim-tree/nvim-web-devicons']
-# lua_add = '''
-#   vim.opt.termguicolors = true
-#   require("bufferline").setup {
-#     options = {
-#       tab_size = 5,
-#       show_close_icon = false,
-#       show_buffer_close_icons = false,
-#       show_duplicate_prefix = false,
-#       get_element_icon = function(element)
-#         -- nilを返した場合デフォルトのアイコンが使われる
-#         return element.filetype == "" and "" or nil
-#       end,
-#       offsets = {
-#         {
-#           filetype = "NvimTree",
-#           text = "NvimTree",
-#           highlight = "Directory",
-#           separator = true
-#         }
-#       }
-#     }
-#   }
-# 
-#   vim.api.nvim_set_keymap('n', '<C-l>', ':BufferLineCycleNext<CR>', { noremap = true, silent = true })
-#   vim.api.nvim_set_keymap('n', '<C-h>', ':BufferLineCyclePrev<CR>', { noremap = true, silent = true })
-#   vim.api.nvim_set_keymap('n', '>', ':BufferLineMoveNext<CR>', { noremap = true, silent = true })
-#   vim.api.nvim_set_keymap('n', '<lt>', ':BufferLineMovePrev<CR>', { noremap = true, silent = true })
-#   vim.api.nvim_set_keymap('n', '<C-p>', ':BufferLineTogglePin<CR>', { noremap = true, silent = true })
-# 
-#   vim.api.nvim_set_keymap('n', '<Space>q', ':bdelete!<CR>', { silent = true })
-# '''
 
 [[plugins]]
 repo = 'nvim-tree/nvim-web-devicons'
