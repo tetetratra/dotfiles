@@ -1,22 +1,6 @@
 # TODO
-# - [ ] dein.tomlをluaファイル化(インデントも揃える)
-# - [ ] nvimtreeで、現在フォーカスがあたっているファイルをハイライトする
-# - [ ] nvimtreeで、gitのstagedファイルかどうかを表示する
-# - [ ] ctrl ] で最終的にtagsも使う(最初のマッチにjump)
-# - [ ] tabを使う
-#   - bufferlineでtab modeを使うようにして、Shift h, l でtabを移動するkeymapを設定する
-#   - 各tab内にどんなwindowがあるかをサイドバーに表示できるようにする
-# - [ ] lexima.vimで、checkboxの[ のときはスペースが1個だけ入るようにする
-# - [ ] copilot chatのacceptのkeymapを変更する
-# - [ ] copilot chatやnvim-treeのtoggleをf1,f2,...に割り当てる
-
-[[plugins]]
-repo = 'rmagatti/auto-session'
-lua_add = '''
-  require("auto-session").setup()
- 
-  vim.api.nvim_set_keymap('n', '<Space>w', ':write<CR>:SessionSave<CR>', { silent = true })
-'''
+# - dein.tomlをluaファイル化(インデントも揃える)
+# - 各tab内にどんなwindowがあるかをサイドバーに表示できるようにする
 
 [[plugins]]
 repo = 'folke/which-key.nvim'
@@ -28,7 +12,6 @@ lua_add = '''
 repo = 'karb94/neoscroll.nvim'
 lua_add = '''
   neoscroll = require('neoscroll')
-  local keymap = {}
   vim.keymap.set({ 'n', 'v', 'x' }, "<C-u>", function() neoscroll.ctrl_u({ duration = 100 }) end)
   vim.keymap.set({ 'n', 'v', 'x' }, "<C-d>", function() neoscroll.ctrl_d({ duration = 100 }) end)
   neoscroll.setup({})
@@ -135,13 +118,22 @@ lua_add = '''
 [[plugins]]
 repo = 'kyazdani42/nvim-tree.lua'
 lua_add = '''
+  vim.g.nvim_tree_highlight_opened_files = 1
+
   require("nvim-tree").setup({
+    update_focused_file = {
+      enable = true,
+      update_cwd = true,
+    },
+    renderer = {
+      highlight_opened_files = "all",
+    },
     view = {
       width = 50,
     },
   })
 
-  vim.api.nvim_set_keymap('n', '<Space>`', ':NvimTreeFindFile<CR>', { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('n', '<F2>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
 '''
 
 # 入れてなかったら `brew install --cask font-noto-nerd-font` して、iterm2でそれを設定する
@@ -354,6 +346,11 @@ lua_add = '''
 
 [[plugins]] # 閉じ括弧補間
 repo = 'cohama/lexima.vim'
+hook_add = '''
+  " スペースを入れてくれる補完はめったに使わないので無効化
+  let g:lexima_enable_space_rules = 0
+'''
+
 
 [[plugins]]
 repo = 'ntpeters/vim-better-whitespace'
@@ -554,8 +551,8 @@ repo = 'hashivim/vim-terraform'
 # その他
 [[plugins]]
 repo = 'rizzatti/dash.vim'
-hook_add = '''
-  cabbrev d Dash
+hook_lua = '''
+  vim.cmd('cabbrev d Dash')
 '''
 
 # Github Copilot
@@ -583,10 +580,15 @@ lua_add = '''
   local select = require('CopilotChat.select')
   require("CopilotChat").setup {
       debug = true, -- Enable debugging,
-      highlight_selection = false, -- 選択範囲をハイライトしない
-      show_help = false,
+      highlight_selection = true, -- 選択範囲のハイライト
+      show_help = true,
+      mappings = {
+        accept_diff = {
+          normal = 'Y', -- デフォルトの<C-y>はtmuxと競合するので変更
+        },
+      },
       window = {
-        width = 0.2,
+        width = 0.3,
       },
       -- プロンプトの設定
       prompts = {
@@ -625,8 +627,8 @@ lua_add = '''
       end
     })
   end
-  vim.api.nvim_set_keymap("n", "<Space><Tab>", "<cmd>lua CopilotChatBuffer()<cr>", { noremap = true, silent = true })
-  vim.api.nvim_set_keymap("v", "<Space><Tab>", "<cmd>lua CopilotChatBuffer()<cr>", { noremap = true, silent = true })
+  vim.api.nvim_set_keymap("n", "<F3>", "<cmd>lua CopilotChatBuffer()<cr>", { noremap = true, silent = true })
+  vim.api.nvim_set_keymap("v", "<F3>", "<cmd>lua CopilotChatBuffer()<cr>", { noremap = true, silent = true })
 
   -- telescope を使ってアクションプロンプトを表示する
   function ShowCopilotChatActionPrompt()

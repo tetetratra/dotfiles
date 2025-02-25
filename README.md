@@ -100,13 +100,14 @@ ln -sf $PWD/.gitignore ~/.gitignore
 ln -sf $PWD/.gitconfig ~/.gitconfig
 mkdir -p ~/.config/nvim/dein/lua
 mkdir -p ~/.config/nvim/dein/toml
-ln -sf $PWD/init.vim ~/.config/nvim/init.vim
-ln -sf $PWD/options.lua ~/.config/nvim/lua/options.lua
-ln -sf $PWD/dein.toml ~/.config/nvim/dein/toml/dein.toml
-ln -sf $PWD/dein_copilot.toml ~/.config/nvim/dein/toml/dein_copilot.toml
+
+ln -sf $PWD/neovim/init.vim ~/.config/nvim/init.vim
+ln -sf $PWD/neovim/lua ~/.config/nvim/lua/
+ln -sf $PWD/neovim/dein.toml ~/.config/nvim/dein/toml/dein.toml
+ln -sf $PWD/neovim/coc-settings.json ~/.config/nvim/coc-settings.json
+
 ln -sf $PWD/.ctags ~/.ctags
 ln -sf $PWD/.solargraph.yml ~/.solargraph.yml
-ln -sf $PWD/coc-settings.json ~/.config/nvim/coc-settings.json
 
 ln -sf $PWD/manual/karabiner-elements.json ~/.config/karabiner/assets/complex_modifications/karabiner-elements.json
 mkdir ~/bin && ln -sf $PWD/bin ~/bin

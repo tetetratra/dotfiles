@@ -36,6 +36,6 @@ if dein#check_install()
   call dein#install()
 endif
 
-lua require('utils')
-lua require('options')
-
+lua require('lua/utils')
+lua require('lua/options')
+lua require('lua/keymap')
