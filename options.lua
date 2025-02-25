@@ -78,41 +78,41 @@ vim.o.foldmethod = 'indent'
 vim.cmd('autocmd QuickFixCmdPost *grep* cwindow')
 
 -- "vimの矩形選択で文字が無くても右へ進める" を切り替える
-vim.api.nvim_set_keymap('n', '<F2>', ':lua ToggleVirtualEdit()<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<Space><F2>', ':lua ToggleVirtualEdit()<CR>', { noremap = true })
 vim.g.toggle_virtualedit = 0
 function ToggleVirtualEdit()
-    if vim.g.toggle_virtualedit == 0 then
-        vim.g.toggle_virtualedit = 1
-        vim.o.virtualedit = 'block'
-        print('virtualedit=block')
-    else
-        vim.g.toggle_virtualedit = 0
-        vim.o.virtualedit = 'none'
-        print('virtualedit=none')
-    end
+  if vim.g.toggle_virtualedit == 0 then
+    vim.g.toggle_virtualedit = 1
+    vim.o.virtualedit = 'block'
+    print('virtualedit=block')
+  else
+    vim.g.toggle_virtualedit = 0
+    vim.o.virtualedit = 'none'
+    print('virtualedit=none')
+  end
 end
 
 -- 最後のカーソル位置を復元する
 vim.cmd([[
-    autocmd BufReadPost *
-        \ if line("'\"") > 0 && line("'\"") <= line("$") |
-        \     exe "normal! g'\"" |
-        \ endif
+autocmd BufReadPost *
+\ if line("'\"") > 0 && line("'\"") <= line("$") |
+\     exe "normal! g'\"" |
+\ endif
 ]])
 
 vim.o.mouse = 'a'
 
 if not vim.g.loaded_matchit then
-    -- matchitを有効化
-    vim.cmd('runtime macros/matchit.vim')
+  -- matchitを有効化
+  vim.cmd('runtime macros/matchit.vim')
 end
 
 if vim.fn.has('vim') == 1 then
-    -- 標準ファイラーは使わないからOFF
-    vim.g.loaded_netrw = 1
-    vim.g.loaded_netrwPlugin = 1
-    vim.g.loaded_netrwSettings = 1
-    vim.g.loaded_netrwFileHandlers = 1
+  -- 標準ファイラーは使わないからOFF
+  vim.g.loaded_netrw = 1
+  vim.g.loaded_netrwPlugin = 1
+  vim.g.loaded_netrwSettings = 1
+  vim.g.loaded_netrwFileHandlers = 1
 end
 
 -- ====== mapping ======
@@ -131,31 +131,7 @@ vim.api.nvim_set_keymap('i', '<C-k>', '<Up>', { silent = true })
 vim.api.nvim_set_keymap('i', '<C-j>', '<Down>', { silent = true })
 -- vim.api.nvim_set_keymap('i', '<C-l>', '<Right>', { silent = true }) -- copilot.vim 側でremapする
 
-function home()
-  local start_column = vim.fn.col('.') -- 元のカラム番号を取得
-  -- normal mode の ^ 相当の移動をする
-  vim.cmd('normal! ^')
-  -- 既に ^ 相当の移動後の位置にいる場合は 0 相当の移動をする
-  if vim.fn.col('.') == start_column then
-    vim.cmd('normal! 0')
-  end
-  return ''
-end
-
 -- === normal ===
-function write_last_messages_to_new_buffer()
-  vim.cmd("enew")
-
-  -- 読み取り専用を解除（必要なら）
-  vim.bo.readonly = false
-  vim.bo.buftype = ""
-
-  local messages = vim.fn.execute("messages")
-  local lines = vim.split(messages, "\n")
-
-  -- メッセージを書き込み
-  vim.api.nvim_buf_set_lines(0, 0, -1, true, lines)
-end
 vim.api.nvim_set_keymap('n', 'T', ':lua write_last_messages_to_new_buffer()<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 't', ':tabnew<CR>', { silent = true })
 
@@ -181,38 +157,8 @@ vim.api.nvim_set_keymap('n', 'L', ':tabnext<CR>', { noremap = true, silent = tru
 vim.api.nvim_set_keymap('n', 'H', ':tabprevious<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '>', ':+tabmove<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<', ':-tabmove<CR>', { noremap = true, silent = true })
-
-
-function get_github_url()
-  -- 現在開いているバッファのファイルパスを相対パスに変換
-  local filepath = vim.fn.fnamemodify(vim.fn.expand("%:p"), ":~:.")
-  
-  -- カレントディレクトリ取得
-  local current_dir = vim.fn.expand("%:p:h")
-
-  -- originのURL取得
-  local origin_url = vim.fn.system("git -C " .. current_dir .. " remote get-url origin")
-  origin_url = origin_url:gsub("%s+$", "")  -- 改行除去
-
-  -- ブランチ名取得
-  local branch = vim.fn.system("git -C " .. current_dir .. " symbolic-ref --short HEAD")
-  branch = branch:gsub("%s+$", "")
-
-  -- URLから org/repo を抽出 (https/SSH 両対応)
-  local org_repo = origin_url:match("github.com[:/](.+)%.git")
-  if not org_repo then
-    print("GitHubリポジトリではない可能性があります")
-    return nil
-  end
-
-  -- GitHubファイルURLを構築
-  local github_url = "https://github.com/" .. org_repo .. "/blob/" .. branch .. "/" .. filepath
-
-  print(github_url)
-  vim.fn.setreg('+', github_url)
-  vim.fn.system({"open", github_url})
-end
-
+vim.api.nvim_set_keymap('n', '<Space>q', '<C-w>c', { silent = true })
+vim.api.nvim_set_keymap('n', '<Space>Q', ':bdelete<CR>', { noremap = true, silent = true })
 
 -- === buffer系 ===
 -- 未保存の場合にバッファを切り替えても警告を出さない
@@ -228,7 +174,6 @@ vim.cmd('command! UTF8 edit ++enc=utf-8')
 vim.api.nvim_set_keymap('n', '<Space>e', '<C-w>w', {})
 
 vim.api.nvim_set_keymap('n', '<Space>o', ':only<CR>', {}) -- close other windows
-vim.api.nvim_set_keymap('n', '<Space>O', '<C-w>c', {}) -- close window (keep buffer)
 
 -- === visual系 ===
 -- ヤンクしたテキストの末尾へ自動的に移動
@@ -254,38 +199,14 @@ vim.api.nvim_set_keymap('c', '<C-l>', '<Right>', { noremap = true })
 vim.cmd('set termguicolors')
 
 vim.api.nvim_set_keymap('n', '<F3>', ':lua ToggleTransparent()<CR>', { noremap = true })
-function ToggleTransparent()
-  local bg = vim.api.nvim_get_hl_by_name('Normal', true).background
-  if bg then -- 退避 & 透明化
-    vim.g.saved_normal_guibg = bg
-    vim.api.nvim_set_hl(0, 'Normal', { background = 'NONE' })
-    print('background color disabled')
-  else -- 復元
-    vim.api.nvim_set_hl(0, 'Normal', { background = vim.g.saved_normal_guibg })
-    print('background color enabled')
-  end
-end
 
 -- floating windows を半透明に表示する
 vim.o.winblend = 5
 vim.cmd('highlight Visual      guibg=#006080 guifg=none')
 vim.cmd('highlight Search      guibg=#00FFFF guifg=none')
 
--- == Util関数 ==
-function GetFloatingWindows()
-    local floating_windows = {}
-    local all_windows = vim.api.nvim_list_wins()
-    for _, win_id in ipairs(all_windows) do
-        local config = vim.api.nvim_win_get_config(win_id)
-        if config.relative ~= '' then -- relativeが空でないとき、それはfloating window
-            table.insert(floating_windows, win_id)
-        end
-    end
-    return floating_windows
-end
-
 -- :p vim.api.nvim_list_wins() のように使う
 vim.cmd('cabbrev p PrettyPrintLuaExp')
 vim.api.nvim_create_user_command('PrettyPrintLuaExp', function(opts)
-    print(vim.inspect(opts.arg))
+  print(vim.inspect(opts.arg))
 end, { nargs = 1 })

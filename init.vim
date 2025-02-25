@@ -36,5 +36,6 @@ if dein#check_install()
   call dein#install()
 endif
 
+lua require('utils')
 lua require('options')
 

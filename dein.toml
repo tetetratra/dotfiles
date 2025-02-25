@@ -1,13 +1,8 @@
 # TODO
 # - [ ] dein.tomlをluaファイル化(インデントも揃える)
-# - [ ] ctrl h, l でwindowの移動をする
-# - [ ] ctrl x でwindowを閉じる
-# - [ ] lualineで、現在のファイル名をわかりやすく表示する
 # - [ ] nvimtreeで、現在フォーカスがあたっているファイルをハイライトする
 # - [ ] nvimtreeで、gitのstagedファイルかどうかを表示する
 # - [ ] ctrl ] で最終的にtagsも使う(最初のマッチにjump)
-# - [ ] ctrl - でhorizonal split
-# - [ ] ctrl | でvertical split
 # - [ ] tabを使う
 #   - bufferlineでtab modeを使うようにして、Shift h, l でtabを移動するkeymapを設定する
 #   - 各tab内にどんなwindowがあるかをサイドバーに表示できるようにする
@@ -128,6 +123,15 @@ lua_add = '''
 
 # ファイラー
 # B でバッファにあるのみ表示
+# C でgit上で変更されたファイルのみ表示
+# P で親ディレクトリに移動
+# <C-v> で縦分割で開く
+# <C-x> で横分割で開く
+# <Tab> でプレビュー
+# E でexpand all
+# W でcollapse all
+# r でrename
+# <C-k> でファイル情報を表示
 [[plugins]]
 repo = 'kyazdani42/nvim-tree.lua'
 lua_add = '''
@@ -190,37 +194,6 @@ lua_add = '''
     -- GoTo code navigation
     keyset("n", "<Space>[", "<Plug>(coc-references)", {silent = true})
 
-    function jump_gf_lsp_tag()
-        -- coc-definition を試す
-        local jump_success = false
-        local ok, _ = pcall(function() -- エラーハンドリング付きで実行
-          jump_success = vim.fn.CocAction('jumpDefinition')
-        end)
-        if ok and jump_success then
-          print("[lsp]")
-          return
-        end
-
-        -- gf (Vim-Rails の拡張込み) を試す
-        local ok, _ = pcall(function() -- エラーハンドリング付きで実行
-          vim.cmd('normal gf')
-        end)
-        if ok then
-          print("[vim-rails]")
-          return
-        end
-
-        -- tagジャンプ を試す
-        ok, _ = pcall(function()
-            vim.cmd('tag ' .. vim.fn.expand('<cword>'))
-        end)
-        if ok then
-          print("[tag]")
-          return
-        end
-
-        print("No LSP definition or file or tag found.")
-    end
     vim.api.nvim_set_keymap("n", "<C-]>", ":lua jump_gf_lsp_tag()<CR>", { noremap = true, silent = true })
 
     vim.api.nvim_set_keymap(
@@ -283,7 +256,6 @@ lua_add = '''
     }
   })
   vim.api.nvim_set_keymap('n', ';', ':lua require("buffer_manager.ui").toggle_quick_menu()<CR>', { noremap = true })
-  vim.api.nvim_set_keymap('n', '<Space>x', '<C-w>c', { silent = true })
 '''
 
 [[plugins]]
@@ -293,27 +265,6 @@ repo = 'nvim-tree/nvim-web-devicons'
 repo = 'nvim-lualine/lualine.nvim'
 depends = ['nvim-tree/nvim-web-devicons']
 lua_add = '''
-  local function git_relative_filepath()
-    -- 現在編集中のファイルの絶対パスを取得
-    local filepath = vim.fn.expand('%:p')
-    if filepath == '' then
-      return ''
-    end
-    -- Git ルートディレクトリを取得（Git 管理下でない場合は空文字列になる）
-    local git_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1] or ''
-    if git_root == '' then
-      -- Git 管理下でない場合は、相対パス（カレントディレクトリ基準）を返す
-      return vim.fn.expand('%:.')
-    end
-    -- ファイルパスが git_root から始まる場合、git_root より後ろを返す
-    if string.sub(filepath, 1, #git_root) == git_root then
-      -- git_root とファイルパスの間の "/" 分を調整して返す
-      return string.sub(filepath, #git_root + 2)
-    else
-      return vim.fn.expand('%:.')
-    end
-  end
-
   require('lualine').setup({
     options = {
       theme = 'iceberg_dark',
