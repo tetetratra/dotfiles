@@ -315,11 +315,54 @@ repo = 'nvim-tree/nvim-web-devicons'
 repo = 'nvim-lualine/lualine.nvim'
 depends = ['nvim-tree/nvim-web-devicons']
 lua_add = '''
+  local function git_relative_filepath()
+    -- 現在編集中のファイルの絶対パスを取得
+    local filepath = vim.fn.expand('%:p')
+    if filepath == '' then
+      return ''
+    end
+    -- Git ルートディレクトリを取得（Git 管理下でない場合は空文字列になる）
+    local git_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1] or ''
+    if git_root == '' then
+      -- Git 管理下でない場合は、相対パス（カレントディレクトリ基準）を返す
+      return vim.fn.expand('%:.')
+    end
+    -- ファイルパスが git_root から始まる場合、git_root より後ろを返す
+    if string.sub(filepath, 1, #git_root) == git_root then
+      -- git_root とファイルパスの間の "/" 分を調整して返す
+      return string.sub(filepath, #git_root + 2)
+    else
+      return vim.fn.expand('%:.')
+    end
+  end
+
   require('lualine').setup({
-    options = { theme = 'iceberg_dark' },
+    options = {
+      theme = 'iceberg_dark',
+      component_separators = '',
+      section_separators = '',
+    },
     sections = {
-      lualine_c = { { 'filename', file_status = true, path = 3 } },
-    }
+      -- 左側のセクションは空にする（vimのmode等を表示しない）
+      lualine_a = {},
+      lualine_b = {},
+      -- 中央にカスタムコンポーネント（Gitルートからの相対パス）を表示
+      lualine_c = { { git_relative_filepath, color = {} } },
+      -- 右側のセクションは空にする
+      lualine_x = {},
+      lualine_y = {},
+      lualine_z = {},
+    },
+    -- 非アクティブウィンドウでも active セクションと同じ内容を表示する設定
+    inactive_sections = {
+      lualine_a = {},
+      lualine_b = {},
+      lualine_c = { { git_relative_filepath, color = {} } },
+      lualine_x = {},
+      lualine_y = {},
+      lualine_z = {},
+    },
+    extensions = {},
   })
 '''
 
