@@ -586,6 +586,9 @@ lua_add = '''
         accept_diff = {
           normal = 'Y', -- デフォルトの<C-y>はtmuxと競合するので変更
         },
+        reset = {
+          normal = 'R', -- デフォルトの<C-l>はwindow移動と競合するので変更
+        }
       },
       window = {
         width = 0.3,

@@ -1,4 +1,3 @@
--- ===== main =====
 -- vi互換モードoff
 vim.o.compatible = false
 -- English
