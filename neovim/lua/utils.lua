@@ -129,3 +129,32 @@ function jump_gf_lsp_tag()
 
     print("No LSP definition or file or tag found.")
 end
+
+function my_tab_line()
+    local s = ""
+    for i = 1, vim.fn.tabpagenr("$") do
+        local buflist = vim.fn.tabpagebuflist(i) -- タブ内のバッファリストを取得
+        local win_index = vim.fn.tabpagewinnr(i) -- アクティブなウィンドウのインデックス
+        local bufnr = buflist[win_index]         -- アクティブなバッファ番号
+        -- 無効なバッファ番号チェック
+        if bufnr and vim.api.nvim_buf_is_valid(bufnr) then
+            local bufname = vim.fn.bufname(bufnr)
+            local bufpath = bufname ~= "" and bufname or "[No Name]"
+            -- Git のルートディレクトリが存在する場合、相対パスを取得
+            if git_root and bufpath:find(git_root, 1, true) then
+                bufpath = bufpath:sub(#git_root + 2)  -- Git ルートからの相対パスを取得
+            end
+            -- 現在のタブとそれ以外で色を分ける
+            if i == vim.fn.tabpagenr() then
+                s = s .. "%" .. i .. "T%#TabLineSel# " .. i .. ": " .. bufpath .. " %#TabLine#"
+            else
+                s = s .. "%" .. i .. "T%#TabLine# " .. i .. ": " .. bufpath .. " %#TabLine#"
+            end
+        else
+            s = s .. "%" .. i .. "T%#TabLine# " .. i .. ": [Invalid Buffer] %#TabLine#"
+        end
+    end
+    return s
+end
+vim.cmd("highlight TabLineSel guifg=#bbbbbb guibg=#333333 gui=bold")
+vim.cmd("highlight TabLine guifg=#555555 guibg=#222222")

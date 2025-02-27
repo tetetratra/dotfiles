@@ -108,6 +108,8 @@ vim.cmd('set timeoutlen=100')
 
 -- タブラインを常に表示する
 vim.o.showtabline = 2
+vim.o.tabline = "%!v:lua.MyTabLine()"
+_G.MyTabLine = my_tab_line
 
 vim.cmd('command! SJIS edit ++enc=sjis')
 vim.cmd('command! UTF8 edit ++enc=utf-8')
