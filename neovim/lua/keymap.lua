@@ -19,28 +19,29 @@ n('T', ':lua write_last_messages_to_new_buffer()<CR>')
 n('t', ':tabnew<CR>')
 n('p', 'p`]')
 n('x', '"_x') -- レジスタに入れない
-n('<Space>w', ':write<CR>')
 n('}', ':cn<CR>')
 n('{', ':cN<CR>')
-n('<Space>c', ':let @+ = expand("%:t")<CR>') -- ファイル名
-n('<Space>C', ':let @+ = fnamemodify(expand("%"), ":~:.")<CR>') -- ファイルパス
-n('<Space>;', ':let @+ = fnamemodify(expand("%"), ":~:.") . ":" . line(".")<CR>', { silent = true }) -- ファイルパス:行番号
-n('<Space>:', ':lua get_github_url()<CR>')
 n('J', 'V:m \'>+1<CR>')
 n('K', 'V:m \'<-2<CR>')
-n('E', '<ESC>:e!<CR>')
+n('E', ':e!<CR>')
 n('<C-l>', '<C-w>l')
 n('<C-h>', '<C-w>h')
 n('L', ':tabnext<CR>')
 n('H', ':tabprevious<CR>')
 n('>', ':+tabmove<CR>')
 n('<', ':-tabmove<CR>')
+n('<Space>c', ':let @+ = expand("%:t")<CR>') -- ファイル名
+n('<Space>C', ':let @+ = fnamemodify(expand("%"), ":~:.")<CR>') -- ファイルパス
+n('<Space>;', ':let @+ = fnamemodify(expand("%"), ":~:.") . ":" . line(".")<CR>', { silent = true }) -- ファイルパス:行番号
+n('<Space>:', ':lua get_github_url()<CR>')
+n('<Space>w', ':write<CR>')
 n('<Space>q', '<C-w>c')
 n('<Space>Q', ':bdelete<CR>')
 n('<Space>e', '<C-w>w')
 n('<Space>o', ':only<CR>')
-n('<Space><F2>', ':lua ToggleVirtualEdit()<CR>') -- "vimの矩形選択で文字が無くても右へ進める" を切り替える
-n('<Space><F3>', ':lua ToggleTransparent()<CR>')
+n('<Space>t', '<C-w>T')
+n('<Space><F2>', ':lua toggle_virtual_edit()<CR>') -- "vimの矩形選択で文字が無くても右へ進める" を切り替える
+n('<Space><F3>', ':lua toggle_transparent()<CR>')
 n('<Space><F5>', ':set wrap!<CR>')
 
 i('jj', '<ESC>')

@@ -109,7 +109,6 @@ vim.cmd('set timeoutlen=100')
 -- タブラインを常に表示する
 vim.o.showtabline = 2
 
--- === command系 ===
 vim.cmd('command! SJIS edit ++enc=sjis')
 vim.cmd('command! UTF8 edit ++enc=utf-8')
 

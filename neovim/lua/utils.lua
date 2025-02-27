@@ -74,8 +74,7 @@ function git_relative_filepath()
   end
 end
 
-vim.g.toggle_virtualedit = 0
-function ToggleVirtualEdit()
+function toggle_virtual_edit()
   if vim.g.toggle_virtualedit == 0 then
     vim.g.toggle_virtualedit = 1
     vim.o.virtualedit = 'block'
@@ -87,7 +86,7 @@ function ToggleVirtualEdit()
   end
 end
 
-function ToggleTransparent()
+function toggle_transparent()
   local bg = vim.api.nvim_get_hl_by_name('Normal', true).background
   if bg then -- 退避 & 透明化
     vim.g.saved_normal_guibg = bg
