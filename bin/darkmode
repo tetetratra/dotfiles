@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# 参考: https://qiita.com/guai3/items/20b6eac7d096f0320e83
+osascript << EOS
+tell application "System Events"
+    tell appearance preferences
+        set dark mode to not dark mode
+    end tell
+end tell
+EOS
