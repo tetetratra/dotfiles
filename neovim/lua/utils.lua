@@ -156,5 +156,5 @@ function my_tab_line()
     end
     return s
 end
-vim.cmd("highlight TabLineSel guifg=#bbbbbb guibg=#333333 gui=bold")
-vim.cmd("highlight TabLine guifg=#555555 guibg=#222222")
+vim.cmd("highlight TabLineSel guifg=#cccccc guibg=#333333 gui=bold")
+vim.cmd("highlight TabLine guifg=#aaaaaa guibg=#222222")
