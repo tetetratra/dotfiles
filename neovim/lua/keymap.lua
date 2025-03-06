@@ -17,6 +17,8 @@ end
 n('<Esc>', ':noh<CR>')
 n('T', ':lua write_last_messages_to_new_buffer()<CR>')
 n('t', ':tabnew<CR>')
+-- タブを複製
+n('yt', ':tabnew %<CR>')
 n('p', 'p`]')
 n('x', '"_x') -- レジスタに入れない
 n('}', ':cn<CR>')
@@ -39,7 +41,7 @@ n('<Space>q', '<C-w>c')
 n('<Space>Q', ':bdelete<CR>')
 n('<Space>e', '<C-w>w')
 n('<Space>o', ':only<CR>')
-n('<Space>t', '<C-w>T')
+n('<Space>t', '<C-w>T') -- 現在のwindowをtabで開く
 n('<Space><F2>', ':lua toggle_virtual_edit()<CR>') -- "vimの矩形選択で文字が無くても右へ進める" を切り替える
 n('<Space><F3>', ':lua toggle_transparent()<CR>')
 n('<Space><F5>', ':set wrap!<CR>')
