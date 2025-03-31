@@ -29,6 +29,8 @@
   # --- alias用util関数 ---
   commit-count-from = "!f () { git log --oneline $(git first-parent-sha $1)..HEAD | wc -l | tr -d ' '; }; f"
   first-parent-sha = "!f () { git log --first-parent $1 --pretty='%H' -n 1;}; f"
+  # 参考: https://suzuken.hatenablog.jp/entry/2018/12/05/155040
+  logrep = "!f () { git log -p -S $1; }; f"
 
 [core]
   editor = nvim
