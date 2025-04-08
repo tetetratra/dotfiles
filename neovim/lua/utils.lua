@@ -158,3 +158,10 @@ function my_tab_line()
 end
 vim.cmd("highlight TabLineSel guifg=#cccccc guibg=#333333 gui=bold")
 vim.cmd("highlight TabLine guifg=#aaaaaa guibg=#222222")
+
+function tab_clone_with_cursor()
+  -- tabnew % だとカーソル位置がリセットされてしまうので、カーソル位置を保存してからtabnewする
+  local pos = vim.fn.getpos(".")
+  vim.cmd("tabnew %")
+  vim.fn.setpos(".", pos)
+end

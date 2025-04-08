@@ -18,7 +18,7 @@ n('<Esc>', ':noh<CR>')
 n('T', ':lua write_last_messages_to_new_buffer()<CR>')
 n('t', ':tabnew<CR>')
 -- タブを複製
-n('yt', ':tabnew %<CR>')
+n('yt', ':lua tab_clone_with_cursor()<CR>')
 n('p', 'p`]')
 n('x', '"_x') -- レジスタに入れない
 n('}', ':cn<CR>')
