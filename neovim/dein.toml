@@ -580,7 +580,7 @@ lua_add = '''
   local select = require('CopilotChat.select')
   require("CopilotChat").setup {
       debug = true, -- Enable debugging,
-      highlight_selection = true, -- 選択範囲のハイライト
+      highlight_selection = false, -- 選択範囲のハイライト
       show_help = true,
       mappings = {
         accept_diff = {
