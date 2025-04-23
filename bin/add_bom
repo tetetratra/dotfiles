@@ -1,0 +1,6 @@
+#!/bin/bash
+
+file="$1"
+tmpfile=$(mktemp)
+(printf '\xEF\xBB\xBF'; cat "$file") > "$tmpfile"
+mv "$tmpfile" "$file"
