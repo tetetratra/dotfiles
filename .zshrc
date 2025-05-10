@@ -1,6 +1,5 @@
 alias l='ls -AlFGhv'
 alias ls='ls -AFGv'
-alias t='squish'
 alias g='git'
 alias tree='tree -a'
 alias less='less -R'
