@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# macOSだとBSD sedが使われてしまうので、GNU sedを使用する
+gsed -i '1s/^\xEF\xBB\xBF//' "$1"
