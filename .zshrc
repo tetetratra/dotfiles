@@ -12,6 +12,7 @@ alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 alias rm='trash'
 alias d='docker'
 alias dc='docker-compose'
+alias nvim='nvim -p'
 alias dcr='(){  docker-compose run --rm $1 bash -c "$2" }'
 alias dcrb='(){ docker-compose run --rm $1 bash -c "bash --rcfile utils/.bashrc_local" }'
 # 使用例: `dc up -d` 後に `dce app 'bin/rails s'`
@@ -22,6 +23,8 @@ alias history='history -E 1'
 alias blue='tmux set-option -p -t : window-style bg=colour17' # 現在(-t :)のpane(-p)の背景色を変更
 alias red='tmux set-option -p -t : window-style bg=colour52'
 alias yellow='tmux set-option -p -t : window-style bg=colour58'
+alias lesstestlog='echo "--------------------" >> log/test.log; less +F log/test.log'
+alias lessdeveloplog='echo "--------------------" >> log/development.log; less +F log/development.log'
 
 ### ローカル独自の設定 ###
 if [ -f ~/.zshrc_local ]; then

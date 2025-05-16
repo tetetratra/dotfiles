@@ -99,6 +99,10 @@ function toggle_transparent()
 end
 
 function jump_gf_lsp_tag()
+    if vim.bo.filetype == "" then -- 空のバッファ等でfiletyepeが設定されていない場合は決め打ちでrubyにする
+      vim.bo.filetype = "ruby"
+    end
+
     -- coc-definition を試す
     local jump_success = false
     local ok, _ = pcall(function() -- エラーハンドリング付きで実行
@@ -156,7 +160,7 @@ function my_tab_line()
     end
     return s
 end
-vim.cmd("highlight TabLineSel guifg=#cccccc guibg=#333333 gui=bold")
+vim.cmd("highlight TabLineSel guifg=#cccccc guibg=#555555 gui=bold")
 vim.cmd("highlight TabLine guifg=#aaaaaa guibg=#222222")
 
 function tab_clone_with_cursor()
