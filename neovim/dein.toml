@@ -268,7 +268,7 @@ lua_add = '''
       lualine_a = {},
       lualine_b = {},
       -- 中央にカスタムコンポーネント（Gitルートからの相対パス）を表示
-      lualine_c = { { git_relative_filepath, color = {} } },
+      -- lualine_c = { { git_relative_filepath, color = {} } },
       -- 右側のセクションは空にする
       lualine_x = {},
       lualine_y = {},
@@ -278,7 +278,7 @@ lua_add = '''
     inactive_sections = {
       lualine_a = {},
       lualine_b = {},
-      lualine_c = { { git_relative_filepath, color = {} } },
+      -- lualine_c = { { git_relative_filepath, color = {} } },
       lualine_x = {},
       lualine_y = {},
       lualine_z = {},
