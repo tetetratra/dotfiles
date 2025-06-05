@@ -98,12 +98,9 @@ ln -sf $PWD/.tmux.conf ~/.tmux.conf
 ln -sf $PWD/.zshrc ~/.zshrc
 ln -sf $PWD/.gitignore ~/.gitignore
 ln -sf $PWD/.gitconfig ~/.gitconfig
-mkdir -p ~/.config/nvim/dein/lua
-mkdir -p ~/.config/nvim/dein/toml
 
-ln -sf $PWD/neovim/init.vim ~/.config/nvim/init.vim
+ln -sf $PWD/neovim/init.lua ~/.config/nvim/init.lua
 ln -sf $PWD/neovim/lua ~/.config/nvim/lua/
-ln -sf $PWD/neovim/dein.toml ~/.config/nvim/dein/toml/dein.toml
 ln -sf $PWD/neovim/coc-settings.json ~/.config/nvim/coc-settings.json
 
 ln -sf $PWD/.ctags ~/.ctags
@@ -129,8 +126,6 @@ pip install pynvim
 - iterm -> preference -> keys -> navigation shortcuts
   - すべて[No Shortcut]にする(tmuxのwindow切り替えのため)
 - iterm の Non-ASCII Font を nerd font にする
-- deinのインストール
-  - `.vimrc`参照
 - システム環境設定
   - アクセシビリティ -> トラックパッド -> ダブルタップで選択
   - キーボード
