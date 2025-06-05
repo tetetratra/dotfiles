@@ -117,6 +117,9 @@ vim.cmd('command! UTF8 edit ++enc=utf-8')
 -- ターミナルでも True Color を使えるようにする
 vim.cmd('set termguicolors')
 
+-- ターミナルの背景色を透明にする
+vim.api.nvim_set_hl(0, 'Normal', { background = 'NONE' })
+
 -- floating windows を半透明に表示する
 vim.o.winblend = 5
 vim.cmd('highlight Visual      guibg=#006080 guifg=none')

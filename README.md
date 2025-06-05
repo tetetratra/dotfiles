@@ -161,6 +161,7 @@ pip install pynvim
     - `ctrl l`で`ctrl b ctrl n`を送る
     - `ctrl h`で`ctrl b ctrl p`を送る
     - `cmd l`で`ctrl l`を送る
+      - 再帰的なトリガーを防ぐ、のチェックをつける
   - BTTが勝手に起動するバグに遭遇したときは `defaults write com.hegenberg.BetterTouchTool BTTDontShowPrefsOnReopen YES` の設定をすると直るかもしれない
     - https://qiita.com/take_3/items/08acebb07e313c89dea9
 - Karabiner-Elements で "my confing" にある設定のみをすべてenableにする
