@@ -50,8 +50,6 @@ i('jj', '<ESC>')
 i('<C-e>', '<End>')
 i('<C-a>', '<C-o>:lua home()<CR>')
 i('<C-d>', '<BackSpace>')
-i('<C-h>', '<Left>')
-i('<C-k>', '<Up>')
 i('<C-j>', '<Down>') -- <C-l>はcopilot.vim 側でremapする
 
 v('y', 'y`]') -- ヤンクしたテキストの末尾へ自動的に移動
