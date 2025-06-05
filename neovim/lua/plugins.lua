@@ -94,7 +94,7 @@ end },
   { "ryanoasis/vim-devicons" },
   { "Xuyuanp/nerdtree-git-plugin" },
   { "bogado/file-line" },
-  { "neoclide/coc.nvim", config = function()
+  { "neoclide/coc.nvim", branch = "release", build = "npm ci", config = function()
 -- 公式のREADMEを参考に設定
 
     local keyset = vim.keymap.set
@@ -141,10 +141,9 @@ require('Comment').setup()
 end },
   { "tpope/vim-surround" },
   { "vim-scripts/Align" },
-  { "kana/vim-operator-replace", config = function()
+  { "kana/vim-operator-replace", dependencies = { "kana/vim-operator-user" }, config = function()
 vim.api.nvim_set_keymap('n', 'R', '<Plug>(operator-replace)', {})
 end },
-  { "kana/vim-operator-user" },
   { "tyru/operator-camelize.vim", config = function()
 vim.api.nvim_set_keymap('v', '<Space>s', '<Plug>(operator-camelize-toggle)', {})
 end },
@@ -204,8 +203,8 @@ let g:winresizer_vert_resize = 5
 end },
   { "osyo-manga/vim-brightest", config = function()
 vim.cmd([[
-let g:brightest#highlight = { \"group\" : \"BrightestUnderline\" }
-  let g:brightest#pattern = '\k\+'
+let g:brightest#highlight = { "group" : "BrightestUnderline" }
+let g:brightest#pattern = '\\k\\+'
 ]])
 end },
   { "nvim-treesitter/nvim-treesitter", build = "TSUpdate" },
@@ -231,8 +230,8 @@ local highlight = {
 end },
   { "cohama/lexima.vim", config = function()
 vim.cmd([[
-\" スペースを入れてくれる補完はめったに使わないので無効化
-  let g:lexima_enable_space_rules = 0
+" スペースを入れてくれる補完はめったに使わないので無効化
+let g:lexima_enable_space_rules = 0
 ]])
 end },
   { "ntpeters/vim-better-whitespace", config = function()
@@ -248,9 +247,9 @@ let g:eregex_default_enable = 0
 end },
   { "henrik/vim-indexed-search", config = function()
 vim.cmd([[
-let g:indexed_search_dont_move = 1 \" 検索時に1個下に動かないようになる
-  let g:indexed_search_numbered_only = 1 \" 検索カウントを簡素な表示に
-  let g:indexed_search_shortmess = 1 \" 検索カウントを簡素な表示に
+let g:indexed_search_dont_move = 1 " 検索時に1個下に動かないようになる
+let g:indexed_search_numbered_only = 1 " 検索カウントを簡素な表示に
+let g:indexed_search_shortmess = 1 " 検索カウントを簡素な表示に
 ]])
 end },
   { "kshenoy/vim-signature", config = function()
@@ -311,10 +310,10 @@ end },
   { "slim-template/vim-slim", ft = "slim" },
   { "plasticboy/vim-markdown", ft = "markdown", config = function()
 vim.cmd([[
-\" markdwonの折りたたみ無効化
+" markdwonの折りたたみ無効化
   set nofoldenable
   let g:vim_markdown_folding_disabled = 1
-  \" markdown書くようの設定
+  " markdown書くようの設定
   autocmd FileType markdown inoremap <Tab> <Esc>>>A
   autocmd FileType markdown inoremap <S-Tab> <Esc><<A
   let g:vim_markdown_conceal = 0
@@ -323,8 +322,8 @@ end },
   { "mattn/emmet-vim", ft = "html", config = function()
 vim.cmd([[
 let g:user_emmet_leader_key='<C-Z>'
-  \" let g:user_emmet_install_global = 0
-  \" auletocmd FileType html,css,typescriptreact EmmetInstall
+  " let g:user_emmet_install_global = 0
+  " auletocmd FileType html,css,typescriptreact EmmetInstall
 ]])
 end },
   { "cespare/vim-toml", ft = "toml" },
@@ -340,7 +339,7 @@ vim.api.nvim_set_keymap('i', '<C-f>', '<Plug>(copilot-next)', { silent = true })
 
   vim.g.copilot_no_tab_map = true
 end },
-  { "CopilotC-Nvim/CopilotChat.nvim", branch = "canary", dependencies = { "copilot.vim", "plenary.nvim" }, config = function()
+  { "CopilotC-Nvim/CopilotChat.nvim", branch = "main", dependencies = { "copilot.vim", "plenary.nvim" }, config = function()
 -- 参考: https://qiita.com/lx-sasabo/items/97c49d0f354ea3bdd525
 
   local select = require('CopilotChat.select')
