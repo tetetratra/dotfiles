@@ -1,6 +1,7 @@
 # TODO
 # - dein.tomlをluaファイル化(インデントも揃える)
 # - 各tab内にどんなwindowがあるかをサイドバーに表示できるようにする
+# - terraformのlspを入れる
 
 [[plugins]]
 repo = 'folke/which-key.nvim'
