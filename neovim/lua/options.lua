@@ -1,16 +1,16 @@
 -- vi互換モードoff
 vim.o.compatible = false
 -- English
-vim.cmd('language C')
+vim.cmd("language C")
 -- 読み込み時の文字コードの候補を指定
-vim.cmd('set fileencodings=utf-8,sjis,euc-jp')
+vim.cmd("set fileencodings=utf-8,sjis,euc-jp")
 -- https://teratail.com/questions/166889 アスタリスクレジスタ経由でクリップボード入れた文字が文字化けする対策
-vim.env.LANG = 'en_US.UTF-8'
+vim.env.LANG = "en_US.UTF-8"
 -- yankとmacのクリップボードを共有
-vim.o.clipboard = 'unnamed'
-vim.cmd('filetype plugin indent on')
-vim.cmd('syntax enable')
-vim.cmd('syntax on')
+vim.o.clipboard = "unnamed"
+vim.cmd("filetype plugin indent on")
+vim.cmd("syntax enable")
+vim.cmd("syntax on")
 -- ファイル保存時の確認を無効化
 vim.o.confirm = false
 -- showcmdを有効にする
@@ -36,7 +36,7 @@ vim.o.tabstop = 8
 -- インデント幅を2に設定する
 vim.o.shiftwidth = 2
 -- FileTypeがcのときにローカルな設定を適用する
-vim.cmd('autocmd FileType c setlocal sw=4 sts=4 ts=4 et')
+vim.cmd("autocmd FileType c setlocal sw=4 sts=4 ts=4 et")
 -- 検索時にインクリメンタル検索を有効にする
 vim.o.incsearch = true
 -- 検索結果をハイライト表示する
@@ -67,34 +67,34 @@ vim.o.whichwrap = "b,s,h,l,<,>,[,]"
 -- Backspaceの影響範囲に制限を設けないようにする
 vim.o.backspace = "indent,eol,start"
 -- texの数式を特殊文字に置き換えないようにする
-vim.g.tex_conceal = ''
+vim.g.tex_conceal = ""
 -- conceal機能を無効にする
 vim.o.conceallevel = 0
 -- 折りたたみメソッドをインデントベースに設定する
-vim.o.foldmethod = 'indent'
+vim.o.foldmethod = "indent"
 -- grep検索の実行後にQuickFix Listを表示する
-vim.cmd('autocmd QuickFixCmdPost *grep* cwindow')
+vim.cmd("autocmd QuickFixCmdPost *grep* cwindow")
 -- 未保存の場合にバッファを切り替えても警告を出さない
 vim.o.hidden = true
 -- 最後のカーソル位置を復元する
 vim.api.nvim_create_autocmd("BufReadPost", {
-    pattern = "*",
-    callback = function()
-        local line = vim.fn.line
-        if line("'\"") > 0 and line("'\"") <= line("$") then
-            vim.cmd("normal! g'\"")
-        end
-    end,
+  pattern = "*",
+  callback = function()
+    local line = vim.fn.line
+    if line("'\"") > 0 and line("'\"") <= line("$") then
+      vim.cmd("normal! g'\"")
+    end
+  end,
 })
 -- マウスを有効にする
-vim.o.mouse = 'a'
+vim.o.mouse = "a"
 
 if not vim.g.loaded_matchit then
   -- matchitを有効化
-  vim.cmd('runtime macros/matchit.vim')
+  vim.cmd("runtime macros/matchit.vim")
 end
 
-if vim.fn.has('vim') == 1 then
+if vim.fn.has("vim") == 1 then
   -- 標準ファイラーは使わないからOFF
   vim.g.loaded_netrw = 1
   vim.g.loaded_netrwPlugin = 1
@@ -102,31 +102,31 @@ if vim.fn.has('vim') == 1 then
   vim.g.loaded_netrwFileHandlers = 1
 end
 
-vim.cmd('set notimeout')
-vim.cmd('set ttimeout')
-vim.cmd('set timeoutlen=100')
+vim.cmd("set notimeout")
+vim.cmd("set ttimeout")
+vim.cmd("set timeoutlen=100")
 
 -- タブラインを常に表示する
 vim.o.showtabline = 2
 vim.o.tabline = "%!v:lua.MyTabLine()"
 _G.MyTabLine = my_tab_line
 
-vim.cmd('command! SJIS edit ++enc=sjis')
-vim.cmd('command! UTF8 edit ++enc=utf-8')
+vim.cmd("command! SJIS edit ++enc=sjis")
+vim.cmd("command! UTF8 edit ++enc=utf-8")
 
 -- ターミナルでも True Color を使えるようにする
-vim.cmd('set termguicolors')
+vim.cmd("set termguicolors")
 
 -- ターミナルの背景色を透明にする
-vim.api.nvim_set_hl(0, 'Normal', { background = 'NONE' })
+vim.api.nvim_set_hl(0, "Normal", { background = "NONE" })
 
 -- floating windows を半透明に表示する
 vim.o.winblend = 5
-vim.cmd('highlight Visual      guibg=#006080 guifg=none')
-vim.cmd('highlight Search      guibg=#00FFFF guifg=none')
+vim.cmd("highlight Visual      guibg=#006080 guifg=none")
+vim.cmd("highlight Search      guibg=#00FFFF guifg=none")
 
 -- :p vim.api.nvim_list_wins() のように使う
-vim.cmd('cabbrev p PrettyPrintLuaExp')
-vim.api.nvim_create_user_command('PrettyPrintLuaExp', function(opts)
+vim.cmd("cabbrev p PrettyPrintLuaExp")
+vim.api.nvim_create_user_command("PrettyPrintLuaExp", function(opts)
   print(vim.inspect(opts.arg))
 end, { nargs = 1 })
