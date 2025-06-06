@@ -1,3 +1,8 @@
+-- TODO:
+-- - dein.tomlをluaファイル化(インデントも揃える)
+-- - 各tab内にどんなwindowがあるかをサイドバーに表示できるようにする
+-- - terraformのlspを入れる
+
 return {
   { "folke/which-key.nvim", config = function()
     require("which-key").setup({})
@@ -93,6 +98,17 @@ return {
   end },
   { "ryanoasis/vim-devicons" },
   { "Xuyuanp/nerdtree-git-plugin" },
+    -- ファイラー
+    -- B でバッファにあるのみ表示
+    -- C でgit上で変更されたファイルのみ表示
+    -- P で親ディレクトリに移動
+    -- <C-v> で縦分割で開く
+    -- <C-x> で横分割で開く
+    -- <Tab> でプレビュー
+    -- E でexpand all
+    -- W でcollapse all
+    -- r でrename
+    -- <C-k> でファイル情報を表示
   { "bogado/file-line" },
   { "neoclide/coc.nvim", branch = "release", config = function()
     -- 公式のREADMEを参考に設定
@@ -172,6 +188,8 @@ return {
         component_separators = '',
         section_separators = '',
       },
+    -- 選択箇所をyankで置き換え
+    -- CamelCase <=> snake_case
       sections = {
         -- 左側のセクションは空にする（vimのmode等を表示しない）
         lualine_a = {},
