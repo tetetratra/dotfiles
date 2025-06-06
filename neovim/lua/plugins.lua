@@ -160,6 +160,9 @@ return {
   {
     "neoclide/coc.nvim",
     branch = "release",
+    build = function()
+      vim.cmd('call coc#util#install()')
+    end,
     config = function()
       -- 公式のREADMEを参考に設定
 
