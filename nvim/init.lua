@@ -5,9 +5,9 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup("lua.plugins")
+require("lazy").setup("plugins")
 
-require("lua.utils")
-require("lua.options")
-require("lua.keymap")
+require("utils")
+require("options")
+require("keymap")
 

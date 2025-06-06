@@ -99,9 +99,12 @@ ln -sf $PWD/.zshrc ~/.zshrc
 ln -sf $PWD/.gitignore ~/.gitignore
 ln -sf $PWD/.gitconfig ~/.gitconfig
 
-ln -sf $PWD/neovim/init.lua ~/.config/nvim/init.lua
-ln -sf $PWD/neovim/lua ~/.config/nvim/lua/
-ln -sf $PWD/neovim/coc-settings.json ~/.config/nvim/coc-settings.json
+ln -sf $PWD/nvim/init.lua ~/.config/nvim/init.lua
+ln -sf $PWD/nvim/keymap.lua ~/.config/nvim/keymap.lua
+ln -sf $PWD/nvim/options.lua ~/.config/nvim/options.lua
+ln -sf $PWD/nvim/plugins.lua ~/.config/nvim/plugins.lua
+ln -sf $PWD/nvim/utils.lua ~/.config/nvim/utils.lua
+ln -sf $PWD/nvim/coc-settings.json ~/.config/nvim/coc-settings.json
 
 ln -sf $PWD/.ctags ~/.ctags
 ln -sf $PWD/.solargraph.yml ~/.solargraph.yml
