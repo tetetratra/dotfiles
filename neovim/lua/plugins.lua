@@ -4,330 +4,451 @@
 -- - terraformのlspを入れる
 
 return {
-  { "folke/which-key.nvim", config = function()
-    require("which-key").setup({})
-  end },
-  { "karb94/neoscroll.nvim", config = function()
-    neoscroll = require('neoscroll')
-    vim.keymap.set({ 'n', 'v', 'x' }, "<C-u>", function() neoscroll.ctrl_u({ duration = 100 }) end)
-    vim.keymap.set({ 'n', 'v', 'x' }, "<C-d>", function() neoscroll.ctrl_d({ duration = 100 }) end)
-    neoscroll.setup({})
-  end },
+  {
+    "folke/which-key.nvim",
+    config = function()
+      require("which-key").setup({})
+    end,
+  },
+  {
+    "karb94/neoscroll.nvim",
+    config = function()
+      neoscroll = require("neoscroll")
+      vim.keymap.set({ "n", "v", "x" }, "<C-u>", function()
+        neoscroll.ctrl_u({ duration = 100 })
+      end)
+      vim.keymap.set({ "n", "v", "x" }, "<C-d>", function()
+        neoscroll.ctrl_d({ duration = 100 })
+      end)
+      neoscroll.setup({})
+    end,
+  },
   { "nvim-lua/plenary.nvim" },
-  { "cocopon/iceberg.vim", config = function()
-    vim.cmd('colorscheme iceberg')
-    vim.cmd('highlight FloatBorder guibg=#242940 guifg=#242940 ctermbg=none')
-  end },
-  { "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim", "natecraddock/telescope-zf-native.nvim" }, config = function()
-    -- live_grep は ripgrep に依存している
-    vim.api.nvim_set_keymap('n', '<Space>f', ':lua require("telescope.builtin").find_files({ initial_mode = "normal" })<cr>', { noremap = true })
-    vim.api.nvim_set_keymap('n', '<Space>?', ':lua require("telescope.builtin").help_tags({ initial_mode = "normal" })<cr>', { noremap = true }) -- helpを絞り込んで探せる(helpの連想で?のキー)
-    -- vim.api.nvim_set_keymap('n', '<Space>b', ':lua require("telescope.builtin").buffers({ initial_mode = "normal" })<cr>', { noremap = true })
-    vim.api.nvim_set_keymap('n', '<Space>r', ':lua require("telescope.builtin").resume({ initial_mode = "normal" })<cr>', { noremap = true })
+  {
+    "cocopon/iceberg.vim",
+    config = function()
+      vim.cmd("colorscheme iceberg")
+      vim.cmd("highlight FloatBorder guibg=#242940 guifg=#242940 ctermbg=none")
+    end,
+  },
+  {
+    "nvim-telescope/telescope.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "natecraddock/telescope-zf-native.nvim" },
+    config = function()
+      -- live_grep は ripgrep に依存している
+      vim.api.nvim_set_keymap(
+        "n",
+        "<Space>f",
+        ':lua require("telescope.builtin").find_files({ initial_mode = "normal" })<cr>',
+        { noremap = true }
+      )
+      vim.api.nvim_set_keymap(
+        "n",
+        "<Space>?",
+        ':lua require("telescope.builtin").help_tags({ initial_mode = "normal" })<cr>',
+        { noremap = true }
+      ) -- helpを絞り込んで探せる(helpの連想で?のキー)
+      -- vim.api.nvim_set_keymap('n', '<Space>b', ':lua require("telescope.builtin").buffers({ initial_mode = "normal" })<cr>', { noremap = true })
+      vim.api.nvim_set_keymap(
+        "n",
+        "<Space>r",
+        ':lua require("telescope.builtin").resume({ initial_mode = "normal" })<cr>',
+        { noremap = true }
+      )
 
-    -- 折りたたみを無効化する 参考: https://github.com/nvim-telescope/telescope.nvim/issues/991#issuecomment-1429539473
-    vim.api.nvim_create_autocmd("FileType", { pattern = "TelescopeResults", command = [[setlocal nofoldenable]] })
+      -- 折りたたみを無効化する 参考: https://github.com/nvim-telescope/telescope.nvim/issues/991#issuecomment-1429539473
+      vim.api.nvim_create_autocmd("FileType", { pattern = "TelescopeResults", command = [[setlocal nofoldenable]] })
 
-    -- 参考: https://dev.classmethod.jp/articles/nvim_telescope
-    require('telescope').setup({
-      defaults = {
-        mappings = {
-          n = {
-            ["<esc>"] = require('telescope.actions').close,
-            ["<C-d>"] = require('telescope.actions').close,
-            ["q"] = require('telescope.actions').close,
+      -- 参考: https://dev.classmethod.jp/articles/nvim_telescope
+      require("telescope").setup({
+        defaults = {
+          mappings = {
+            n = {
+              ["<esc>"] = require("telescope.actions").close,
+              ["<C-d>"] = require("telescope.actions").close,
+              ["q"] = require("telescope.actions").close,
+            },
+            i = {
+              ["<esc>"] = require("telescope.actions").close,
+              ["<Down>"] = require("telescope.actions").cycle_history_next,
+              ["<Up>"] = require("telescope.actions").cycle_history_prev,
+            },
           },
-          i = {
-            ["<esc>"] = require('telescope.actions').close,
-            ["<Down>"] = require('telescope.actions').cycle_history_next,
-            ["<Up>"] = require('telescope.actions').cycle_history_prev,
-          }
+          preview = {
+            treesitter = { enable = false }, -- 右側に表示されるプレビューまわりでtreesitterのエラーが起きるのでtelescope内では無効化する
+          },
         },
-        preview = {
-          treesitter = { enable = false, } -- 右側に表示されるプレビューまわりでtreesitterのエラーが起きるのでtelescope内では無効化する
+        ["zf-native"] = {
+          -- options for sorting file-like items
+          file = {
+            -- override default telescope file sorter
+            enable = true,
+            -- highlight matching text in results
+            highlight_results = true,
+            -- enable zf filename match priority
+            match_filename = false,
+          },
+
+          -- options for sorting all other items
+          generic = {
+            -- override default telescope generic item sorter
+            enable = true,
+            -- highlight matching text in results
+            highlight_results = true,
+            -- disable zf filename match priority
+            match_filename = false,
+          },
         },
-      },
-      ["zf-native"] = {
-        -- options for sorting file-like items
-        file = {
-          -- override default telescope file sorter
+      })
+    end,
+  },
+  {
+    "nvim-telescope/telescope-live-grep-args.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim" },
+    config = function()
+      require("telescope").load_extension("live_grep_args")
+      vim.api.nvim_set_keymap(
+        "n",
+        "<Space>g",
+        ':lua require("telescope").extensions.live_grep_args.live_grep_args({ initial_mode = "normal" })<cr>',
+        { noremap = true }
+      ) -- grepのg
+    end,
+  },
+  {
+    "natecraddock/telescope-zf-native.nvim",
+    config = function()
+      -- telescopeの方にも設定あり
+      require("telescope").load_extension("zf-native")
+    end,
+  },
+  {
+    "kyazdani42/nvim-tree.lua",
+    config = function()
+      vim.g.nvim_tree_highlight_opened_files = 1
+
+      require("nvim-tree").setup({
+        update_focused_file = {
           enable = true,
-          -- highlight matching text in results
-          highlight_results = true,
-          -- enable zf filename match priority
-          match_filename = false,
+          update_cwd = true,
         },
-
-        -- options for sorting all other items
-        generic = {
-          -- override default telescope generic item sorter
-          enable = true,
-          -- highlight matching text in results
-          highlight_results = true,
-          -- disable zf filename match priority
-          match_filename = false,
+        renderer = {
+          highlight_opened_files = "all",
         },
-      }
-    })
-  end },
-  { "nvim-telescope/telescope-live-grep-args.nvim", dependencies = { "nvim-telescope/telescope.nvim" }, config = function()
-    require('telescope').load_extension('live_grep_args')
-    vim.api.nvim_set_keymap('n', '<Space>g', ':lua require("telescope").extensions.live_grep_args.live_grep_args({ initial_mode = "normal" })<cr>', { noremap = true }) -- grepのg
-  end },
-  { "natecraddock/telescope-zf-native.nvim", config = function()
-    -- telescopeの方にも設定あり
-    require('telescope').load_extension('zf-native')
-  end },
-  { "kyazdani42/nvim-tree.lua", config = function()
-    vim.g.nvim_tree_highlight_opened_files = 1
+        view = {
+          width = 50,
+        },
+      })
 
-    require("nvim-tree").setup({
-      update_focused_file = {
-        enable = true,
-        update_cwd = true,
-      },
-      renderer = {
-        highlight_opened_files = "all",
-      },
-      view = {
-        width = 50,
-      },
-    })
-
-    vim.api.nvim_set_keymap('n', '<F2>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
-  end },
+      vim.api.nvim_set_keymap("n", "<F2>", ":NvimTreeToggle<CR>", { noremap = true, silent = true })
+    end,
+  },
   { "ryanoasis/vim-devicons" },
   { "Xuyuanp/nerdtree-git-plugin" },
-    -- ファイラー
-    -- B でバッファにあるのみ表示
-    -- C でgit上で変更されたファイルのみ表示
-    -- P で親ディレクトリに移動
-    -- <C-v> で縦分割で開く
-    -- <C-x> で横分割で開く
-    -- <Tab> でプレビュー
-    -- E でexpand all
-    -- W でcollapse all
-    -- r でrename
-    -- <C-k> でファイル情報を表示
+  -- ファイラー
+  -- B でバッファにあるのみ表示
+  -- C でgit上で変更されたファイルのみ表示
+  -- P で親ディレクトリに移動
+  -- <C-v> で縦分割で開く
+  -- <C-x> で横分割で開く
+  -- <Tab> でプレビュー
+  -- E でexpand all
+  -- W でcollapse all
+  -- r でrename
+  -- <C-k> でファイル情報を表示
   { "bogado/file-line" },
-  { "neoclide/coc.nvim", branch = "release", config = function()
-    -- 公式のREADMEを参考に設定
+  {
+    "neoclide/coc.nvim",
+    branch = "release",
+    config = function()
+      -- 公式のREADMEを参考に設定
 
-    local keyset = vim.keymap.set
-    -- Autocomplete
-    function _G.check_back_space()
-      local col = vim.fn.col('.') - 1
-      return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
-    end
+      local keyset = vim.keymap.set
+      -- Autocomplete
+      function _G.check_back_space()
+        local col = vim.fn.col(".") - 1
+        return col == 0 or vim.fn.getline("."):sub(col, col):match("%s") ~= nil
+      end
 
-    -- Use Tab for trigger completion with characters ahead and navigate
-    -- NOTE: There's always a completion item selected by default, you may want to enable
-    -- no select by setting `"suggest.noselect": true` in your configuration file
-    -- NOTE: Use command ':verbose imap <tab>' to make sure Tab is not mapped by
-    -- other plugins before putting this into your config
-    local opts = {silent = true, noremap = true, expr = true, replace_keycodes = false}
-    keyset("i", "<TAB>",   [[coc#pum#visible() ? coc#pum#next(1) : (v:lua.check_back_space() ? "<TAB>" : coc#refresh())]], opts)
-    keyset("i", "<Down>",  [[coc#pum#visible() ? coc#pum#next(1) : "<Down>"]], opts)
-    keyset("i", "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
-    keyset("i", "<Up>",    [[coc#pum#visible() ? coc#pum#prev(1) : "<Up>"]], opts)
+      -- Use Tab for trigger completion with characters ahead and navigate
+      -- NOTE: There's always a completion item selected by default, you may want to enable
+      -- no select by setting `"suggest.noselect": true` in your configuration file
+      -- NOTE: Use command ':verbose imap <tab>' to make sure Tab is not mapped by
+      -- other plugins before putting this into your config
+      local opts = { silent = true, noremap = true, expr = true, replace_keycodes = false }
+      keyset(
+        "i",
+        "<TAB>",
+        [[coc#pum#visible() ? coc#pum#next(1) : (v:lua.check_back_space() ? "<TAB>" : coc#refresh())]],
+        opts
+      )
+      keyset("i", "<Down>", [[coc#pum#visible() ? coc#pum#next(1) : "<Down>"]], opts)
+      keyset("i", "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
+      keyset("i", "<Up>", [[coc#pum#visible() ? coc#pum#prev(1) : "<Up>"]], opts)
 
-    -- Make <CR> to accept selected completion item or notify coc.nvim to format
-    -- <C-g>u breaks current undo, please make your own choice
-    keyset("i", "<cr>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], opts)
+      -- Make <CR> to accept selected completion item or notify coc.nvim to format
+      -- <C-g>u breaks current undo, please make your own choice
+      keyset("i", "<cr>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], opts)
 
-    -- GoTo code navigation
-    keyset("n", "<Space>[", "<Plug>(coc-references)", {silent = true})
+      -- GoTo code navigation
+      keyset("n", "<Space>[", "<Plug>(coc-references)", { silent = true })
 
-    vim.api.nvim_set_keymap("n", "<C-]>", ":lua jump_gf_lsp_tag()<CR>", { noremap = true, silent = true })
+      vim.api.nvim_set_keymap("n", "<C-]>", ":lua jump_gf_lsp_tag()<CR>", { noremap = true, silent = true })
 
-    vim.api.nvim_set_keymap(
-    'n',
-    '<C-k>',
-    '<cmd>lua show_documentation()<CR>',
-    { noremap = true, silent = true }
-    )
-    function show_documentation()
-      vim.fn.CocAction('doHover')
-    end
-  end },
-  { "numToStr/Comment.nvim", config = function()
-    require('Comment').setup()
+      vim.api.nvim_set_keymap("n", "<C-k>", "<cmd>lua show_documentation()<CR>", { noremap = true, silent = true })
+      function show_documentation()
+        vim.fn.CocAction("doHover")
+      end
+    end,
+  },
+  {
+    "numToStr/Comment.nvim",
+    config = function()
+      require("Comment").setup()
 
-    vim.api.nvim_set_keymap('v', '<C-c>', '<Plug>(comment_toggle_linewise_visual)', { noremap = true, silent = true })
-  end },
+      vim.api.nvim_set_keymap("v", "<C-c>", "<Plug>(comment_toggle_linewise_visual)", { noremap = true, silent = true })
+    end,
+  },
   { "tpope/vim-surround" },
   { "vim-scripts/Align" },
-  { "kana/vim-operator-replace", dependencies = { "kana/vim-operator-user" }, config = function()
-    vim.api.nvim_set_keymap('n', 'R', '<Plug>(operator-replace)', {})
-  end },
-  { "tyru/operator-camelize.vim", config = function()
-    vim.api.nvim_set_keymap('v', '<Space>s', '<Plug>(operator-camelize-toggle)', {})
-  end },
-  { "j-morano/buffer_manager.nvim", dependencies = { "nvim-lua/plenary.nvim" }, config = function()
-    require("buffer_manager").setup({
-      width = 100,
-      height = 30,
-      select_menu_item_commands = {
-        v = {
-          key = "<C-v>",
-          command = "vsplit"
+  {
+    "kana/vim-operator-replace",
+    dependencies = { "kana/vim-operator-user" },
+    config = function()
+      vim.api.nvim_set_keymap("n", "R", "<Plug>(operator-replace)", {})
+    end,
+  },
+  {
+    "tyru/operator-camelize.vim",
+    config = function()
+      vim.api.nvim_set_keymap("v", "<Space>s", "<Plug>(operator-camelize-toggle)", {})
+    end,
+  },
+  {
+    "j-morano/buffer_manager.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("buffer_manager").setup({
+        width = 100,
+        height = 30,
+        select_menu_item_commands = {
+          v = {
+            key = "<C-v>",
+            command = "vsplit",
+          },
+          h = {
+            key = "<C-h>",
+            command = "split",
+          },
         },
-        h = {
-          key = "<C-h>",
-          command = "split"
-        }
-      }
-    })
-    vim.api.nvim_set_keymap('n', ';', ':lua require("buffer_manager.ui").toggle_quick_menu()<CR>', { noremap = true })
-  end },
+      })
+      vim.api.nvim_set_keymap("n", ";", ':lua require("buffer_manager.ui").toggle_quick_menu()<CR>', { noremap = true })
+    end,
+  },
   { "nvim-tree/nvim-web-devicons" },
-  { "nvim-lualine/lualine.nvim", dependencies = { "nvim-tree/nvim-web-devicons" }, config = function()
-    require('lualine').setup({
-      options = {
-        theme = 'iceberg_dark',
-        component_separators = '',
-        section_separators = '',
-      },
-    -- 選択箇所をyankで置き換え
-    -- CamelCase <=> snake_case
-      sections = {
-        -- 左側のセクションは空にする（vimのmode等を表示しない）
-        lualine_a = {},
-        lualine_b = {},
-        -- 中央にカスタムコンポーネント（Gitルートからの相対パス）を表示
-        -- lualine_c = { { git_relative_filepath, color = {} } },
-        -- 右側のセクションは空にする
-        lualine_x = {},
-        lualine_y = {},
-        lualine_z = {},
-      },
-      -- 非アクティブウィンドウでも active セクションと同じ内容を表示する設定
-      inactive_sections = {
-        lualine_a = {},
-        lualine_b = {},
-        -- lualine_c = { { git_relative_filepath, color = {} } },
-        lualine_x = {},
-        lualine_y = {},
-        lualine_z = {},
-      },
-      extensions = {},
-    })
-  end },
-  { "simeji/winresizer", config = function()
-    vim.cmd([[
+  {
+    "nvim-lualine/lualine.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("lualine").setup({
+        options = {
+          theme = "iceberg_dark",
+          component_separators = "",
+          section_separators = "",
+        },
+        -- 選択箇所をyankで置き換え
+        -- CamelCase <=> snake_case
+        sections = {
+          -- 左側のセクションは空にする（vimのmode等を表示しない）
+          lualine_a = {},
+          lualine_b = {},
+          -- 中央にカスタムコンポーネント（Gitルートからの相対パス）を表示
+          -- lualine_c = { { git_relative_filepath, color = {} } },
+          -- 右側のセクションは空にする
+          lualine_x = {},
+          lualine_y = {},
+          lualine_z = {},
+        },
+        -- 非アクティブウィンドウでも active セクションと同じ内容を表示する設定
+        inactive_sections = {
+          lualine_a = {},
+          lualine_b = {},
+          -- lualine_c = { { git_relative_filepath, color = {} } },
+          lualine_x = {},
+          lualine_y = {},
+          lualine_z = {},
+        },
+        extensions = {},
+      })
+    end,
+  },
+  {
+    "simeji/winresizer",
+    config = function()
+      vim.cmd([[
     let g:winresizer_vert_resize = 5
     let g:winresizer_start_key = '<F1>'
     ]])
-  end },
-  { "osyo-manga/vim-brightest", config = function()
-    vim.cmd([[
+    end,
+  },
+  {
+    "osyo-manga/vim-brightest",
+    config = function()
+      vim.cmd([[
     let g:brightest#highlight = { "group" : "BrightestUnderline" }
     let g:brightest#pattern = '\\k\\+'
     ]])
-  end },
+    end,
+  },
   { "nvim-treesitter/nvim-treesitter", build = "TSUpdate" },
   { "nvim-treesitter/nvim-treesitter-context", dependencies = { "nvim-treesitter" } },
-  { "m-demare/hlargs.nvim", dependencies = { "nvim-treesitter" }, config = function()
-    require('hlargs').setup {
-      color = '#C0D0FF'
-    }
-  end },
-  { "lukas-reineke/indent-blankline.nvim", dependencies = { "nvim-treesitter" }, config = function()
-    local highlight = {
-      "CursorColumn",
-      "Whitespace",
-    }
-    require("ibl").setup {
-      indent = { highlight = highlight, char = "" },
-      whitespace = {
-        highlight = highlight,
-        remove_blankline_trail = false,
-      },
-      scope = { enabled = false },
-    }
-  end },
-  { "cohama/lexima.vim", config = function()
-    vim.cmd([[
+  {
+    "m-demare/hlargs.nvim",
+    dependencies = { "nvim-treesitter" },
+    config = function()
+      require("hlargs").setup({
+        color = "#C0D0FF",
+      })
+    end,
+  },
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    dependencies = { "nvim-treesitter" },
+    config = function()
+      local highlight = {
+        "CursorColumn",
+        "Whitespace",
+      }
+      require("ibl").setup({
+        indent = { highlight = highlight, char = "" },
+        whitespace = {
+          highlight = highlight,
+          remove_blankline_trail = false,
+        },
+        scope = { enabled = false },
+      })
+    end,
+  },
+  {
+    "cohama/lexima.vim",
+    config = function()
+      vim.cmd([[
     " スペースを入れてくれる補完はめったに使わないので無効化
     let g:lexima_enable_space_rules = 0
     ]])
-  end },
-  { "ntpeters/vim-better-whitespace", config = function()
-    vim.cmd([[
+    end,
+  },
+  {
+    "ntpeters/vim-better-whitespace",
+    config = function()
+      vim.cmd([[
     let g:better_whitespace_guicolor = 'DarkRed'
     ]])
-  end },
-  { "othree/eregex.vim", config = function()
-    vim.cmd([[
+    end,
+  },
+  {
+    "othree/eregex.vim",
+    config = function()
+      vim.cmd([[
     let g:eregex_default_enable = 0
     nnoremap ? :M/
     ]])
-  end },
-  { "henrik/vim-indexed-search", config = function()
-    vim.cmd([[
+    end,
+  },
+  {
+    "henrik/vim-indexed-search",
+    config = function()
+      vim.cmd([[
     let g:indexed_search_dont_move = 1 " 検索時に1個下に動かないようになる
     let g:indexed_search_numbered_only = 1 " 検索カウントを簡素な表示に
     let g:indexed_search_shortmess = 1 " 検索カウントを簡素な表示に
     ]])
-  end },
-  { "kshenoy/vim-signature", config = function()
-    vim.g.SignatureMap = { ToggleMarkAtLine = "<Space>m", }
-    vim.g.SignatureIncludeMarks = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    vim.api.nvim_set_keymap('n', '<Space>M', ':delmarks A-Z<CR>', { silent = true })
-  end },
-  { "t9md/vim-quickhl", config = function()
-    local pattern = ('binding.pry,binding.irb,NOTE:,MEMO:,<<<<<<<,>>>>>>>,======='):gsub(",", "\\|")
-    vim.api.nvim_set_keymap('n', '<Space>h', '<Plug>(quickhl-manual-this-whole-word)', { silent = true })
-    vim.api.nvim_set_keymap('x', '<Space>h', '<Plug>(quickhl-manual-this)', { silent = true })
-    vim.api.nvim_set_keymap('n', '<Space>H', '<Plug>(quickhl-manual-reset)', {silent = true })
-    vim.g.quickhl_manual_enable_at_startup = 1
-    vim.g.quickhl_manual_keywords = { { pattern = pattern, regexp = 1 }, }
-  end },
-  { "kristijanhusak/line-notes.nvim", config = function()
-    local git_root = vim.fn.system("git rev-parse --show-toplevel"):gsub("\n", "")
-    require('line-notes').setup({
-      path = git_root .. '/line-notes.json',
-      border_style = 'none'
-    })
+    end,
+  },
+  {
+    "kshenoy/vim-signature",
+    config = function()
+      vim.g.SignatureMap = { ToggleMarkAtLine = "<Space>m" }
+      vim.g.SignatureIncludeMarks = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+      vim.api.nvim_set_keymap("n", "<Space>M", ":delmarks A-Z<CR>", { silent = true })
+    end,
+  },
+  {
+    "t9md/vim-quickhl",
+    config = function()
+      local pattern = ("binding.pry,binding.irb,NOTE:,MEMO:,<<<<<<<,>>>>>>>,======="):gsub(",", "\\|")
+      vim.api.nvim_set_keymap("n", "<Space>h", "<Plug>(quickhl-manual-this-whole-word)", { silent = true })
+      vim.api.nvim_set_keymap("x", "<Space>h", "<Plug>(quickhl-manual-this)", { silent = true })
+      vim.api.nvim_set_keymap("n", "<Space>H", "<Plug>(quickhl-manual-reset)", { silent = true })
+      vim.g.quickhl_manual_enable_at_startup = 1
+      vim.g.quickhl_manual_keywords = { { pattern = pattern, regexp = 1 } }
+    end,
+  },
+  {
+    "kristijanhusak/line-notes.nvim",
+    config = function()
+      local git_root = vim.fn.system("git rev-parse --show-toplevel"):gsub("\n", "")
+      require("line-notes").setup({
+        path = git_root .. "/line-notes.json",
+        border_style = "none",
+      })
 
-    -- カーソル移動時にプレビューを表示
-    vim.api.nvim_create_autocmd("CursorMoved", {
-      callback = function()
-        require('line-notes').preview()
-      end,
-    })
+      -- カーソル移動時にプレビューを表示
+      vim.api.nvim_create_autocmd("CursorMoved", {
+        callback = function()
+          require("line-notes").preview()
+        end,
+      })
 
-    vim.api.nvim_set_keymap('n', '<Space>n', ':lua require("line-notes").add()<CR>', { noremap = true })
-    vim.api.nvim_set_keymap('n', '<Space>N', ':lua require("line-notes").delete()<CR>', { noremap = true })
-  end },
-  { "tpope/vim-fugitive", cmd = { "Git", "Ggrep", "GBrowse" }, config = function()
-    vim.cmd('cabbrev g Ggrep')
-    vim.cmd('cabbrev l Git log --follow -p %')
-  end },
+      vim.api.nvim_set_keymap("n", "<Space>n", ':lua require("line-notes").add()<CR>', { noremap = true })
+      vim.api.nvim_set_keymap("n", "<Space>N", ':lua require("line-notes").delete()<CR>', { noremap = true })
+    end,
+  },
+  {
+    "tpope/vim-fugitive",
+    cmd = { "Git", "Ggrep", "GBrowse" },
+    config = function()
+      vim.cmd("cabbrev g Ggrep")
+      vim.cmd("cabbrev l Git log --follow -p %")
+    end,
+  },
   { "tpope/vim-rhubarb" },
-  { "airblade/vim-gitgutter", config = function()
-    vim.cmd([[
+  {
+    "airblade/vim-gitgutter",
+    config = function()
+      vim.cmd([[
     let g:gitgutter_git_executable = substitute(system('which git'), '\n\+$', '', '')
     ]])
-  end },
-  { "rhysd/conflict-marker.vim", config = function()
-    vim.cmd([[
+    end,
+  },
+  {
+    "rhysd/conflict-marker.vim",
+    config = function()
+      vim.cmd([[
     let g:conflict_marker_enable_mappings = 0
     ]])
-  end },
+    end,
+  },
   { "tpope/vim-rails", ft = "ruby" },
   { "joker1007/vim-ruby-heredoc-syntax", ft = "ruby" },
   { "pocke/rbs.vim", ft = "ruby" },
-  { "maxmellon/vim-jsx-pretty", ft = { "javascript", "typescript", "javascriptreact", "typescriptreact" }, config = function()
-    vim.cmd([[
+  {
+    "maxmellon/vim-jsx-pretty",
+    ft = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
+    config = function()
+      vim.cmd([[
     let g:vim_jsx_pretty_colorful_config = 1
     let g:vim_jsx_pretty_highlight_close_tag = 1
     ]])
-  end },
+    end,
+  },
   { "rhysd/vim-crystal", ft = "crystal" },
   { "slim-template/vim-slim", ft = "slim" },
-  { "plasticboy/vim-markdown", ft = "markdown", config = function()
-    vim.cmd([[
+  {
+    "plasticboy/vim-markdown",
+    ft = "markdown",
+    config = function()
+      vim.cmd([[
     " markdwonの折りたたみ無効化
     set nofoldenable
     let g:vim_markdown_folding_disabled = 1
@@ -336,14 +457,19 @@ return {
     autocmd FileType markdown inoremap <S-Tab> <Esc><<A
     let g:vim_markdown_conceal = 0
     ]])
-  end },
-  { "mattn/emmet-vim", ft = "html", config = function()
-    vim.cmd([[
+    end,
+  },
+  {
+    "mattn/emmet-vim",
+    ft = "html",
+    config = function()
+      vim.cmd([[
     let g:user_emmet_leader_key='<C-Z>'
     " let g:user_emmet_install_global = 0
     " auletocmd FileType html,css,typescriptreact EmmetInstall
     ]])
-  end },
+    end,
+  },
   { "cespare/vim-toml", ft = "toml" },
   { "mechatroner/rainbow_csv", ft = "csv" },
   { "aklt/plantuml-syntax", ft = "plantuml" },
