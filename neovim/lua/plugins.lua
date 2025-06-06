@@ -223,6 +223,7 @@ return {
   },
   {
     "tyru/operator-camelize.vim",
+    dependencies = { "kana/vim-operator-user" },
     config = function()
       vim.api.nvim_set_keymap("v", "<Space>s", "<Plug>(operator-camelize-toggle)", {})
     end,
