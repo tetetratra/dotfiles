@@ -5,8 +5,8 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- シンボリックリンク先ではluaディレクトリに置かれるので `lua.` が必要
 require("lazy").setup("lua.plugins")
-
 require("lua.utils")
 require("lua.options")
 require("lua.keymap")
