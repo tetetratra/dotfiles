@@ -70,19 +70,15 @@ return {
   {
     'simeji/winresizer',
     config = function()
-      vim.cmd([[
-    let g:winresizer_vert_resize = 5
-    let g:winresizer_start_key = '<F1>'
-    ]])
+      vim.g.winresizer_vert_resize = 5
+      vim.api.nvim_set_keymap('n', '<F1>', ':WinResizerStartResize<CR>', { noremap = true, silent = true })
     end,
   },
   {
     'osyo-manga/vim-brightest',
     config = function()
-      vim.cmd([[
-        let g:brightest#highlight = { "group" : "BrightestUnderline" }
-        let g:brightest#pattern = '\\k\\+'
-      ]])
+      vim.g["brightest#highlight"] = { group = "BrightestUnderline" }
+      vim.g["brightest#pattern"] = [[\k\+]]
     end,
   },
   { 'nvim-treesitter/nvim-treesitter', build = 'TSUpdate' },
@@ -109,18 +105,14 @@ return {
   {
     'cohama/lexima.vim',
     config = function()
-      vim.cmd([[
-        " スペースを入れてくれる補完はめったに使わないので無効化
-        let g:lexima_enable_space_rules = 0
-      ]])
+      -- スペースを入れてくれる補完はめったに使わないので無効化
+      vim.g.lexima_enable_space_rules = 0
     end,
   },
   {
     'ntpeters/vim-better-whitespace',
     config = function()
-      vim.cmd([[
-        let g:better_whitespace_guicolor = 'DarkRed'
-      ]])
+      vim.g.better_whitespace_guicolor = 'DarkRed'
     end,
   },
 }

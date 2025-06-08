@@ -19,9 +19,7 @@ return {
   {
     'rhysd/conflict-marker.vim',
     config = function()
-      vim.cmd([[
-        let g:conflict_marker_enable_mappings = 0
-      ]])
+      vim.g.conflict_marker_enable_mappings = 0
     end,
   },
 }
