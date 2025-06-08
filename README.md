@@ -146,17 +146,13 @@ pip install pynvim
       - 2: iterm2
     - `ctrl shift alt [hjkl]`でwindow移動
   - Google Chrome
-    - `ctrl l`で`ctrl tab`, `ctrl h`で`ctrl shift tab`
-    - `ctrl [jknp]`で矢印キー
-      - リピートは0.03間隔,0.06遅延
+    - `ctrl l`で`ctrl tab`
+    - `ctrl h`で`ctrl shift tab`
     - `command d`を無効化
-    - `alt l`で`command l`を送る
   - iTerm
     - `ctrl 2`で`ctrl b ctrl b`を送る
-    - `ctrl l`で`ctrl b ctrl n`を送る
-    - `ctrl h`で`ctrl b ctrl p`を送る
-    - `cmd l`で`ctrl l`を送る
-      - 再帰的なトリガーを防ぐ、のチェックをつける
+    - `ctrl space`で`ctrl b ctrl n`を送る
+    - `ctrl shift space`で`ctrl b ctrl p`を送る
   - BTTが勝手に起動するバグに遭遇したときは `defaults write com.hegenberg.BetterTouchTool BTTDontShowPrefsOnReopen YES` の設定をすると直るかもしれない
     - https://qiita.com/take_3/items/08acebb07e313c89dea9
 - Karabiner-Elements で "my confing" にある設定のみをすべてenableにする

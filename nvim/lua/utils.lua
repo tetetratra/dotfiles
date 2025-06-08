@@ -150,18 +150,18 @@ function my_tab_line()
       end
       -- 現在のタブとそれ以外で色を分ける
       if i == vim.fn.tabpagenr() then
-        s = s .. "%" .. i .. "T%#TabLineSel# " .. i .. ": " .. bufpath .. " %#TabLine#"
+        s = s .. "%" .. i .. "T%#TabLineSel# " .. i .. " " .. bufpath .. " %#TabLine#"
       else
-        s = s .. "%" .. i .. "T%#TabLine# " .. i .. ": " .. bufpath .. " %#TabLine#"
+        s = s .. "%" .. i .. "T%#TabLine# " .. i .. " " .. bufpath .. " %#TabLine#"
       end
     else
-      s = s .. "%" .. i .. "T%#TabLine# " .. i .. ": [Invalid Buffer] %#TabLine#"
+      s = s .. "%" .. i .. "T%#TabLine# " .. i .. " [Invalid Buffer] %#TabLine#"
     end
   end
   return s
 end
-vim.cmd("highlight TabLineSel guifg=#cccccc guibg=#555555 gui=bold")
-vim.cmd("highlight TabLine guifg=#aaaaaa guibg=#222222")
+vim.cmd("highlight TabLineSel guifg=#cccccc guibg=#506070 gui=bold")
+vim.cmd("highlight TabLine guifg=#aaaaaa guibg=#303030")
 
 function tab_clone_with_cursor()
   -- tabnew % だとカーソル位置がリセットされてしまうので、カーソル位置を保存してからtabnewする
