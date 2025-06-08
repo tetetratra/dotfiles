@@ -80,9 +80,9 @@ return {
     'osyo-manga/vim-brightest',
     config = function()
       vim.cmd([[
-    let g:brightest#highlight = { "group" : "BrightestUnderline" }
-    let g:brightest#pattern = '\\k\\+'
-    ]])
+        let g:brightest#highlight = { "group" : "BrightestUnderline" }
+        let g:brightest#pattern = '\\k\\+'
+      ]])
     end,
   },
   { 'nvim-treesitter/nvim-treesitter', build = 'TSUpdate' },
@@ -110,17 +110,17 @@ return {
     'cohama/lexima.vim',
     config = function()
       vim.cmd([[
-    " スペースを入れてくれる補完はめったに使わないので無効化
-    let g:lexima_enable_space_rules = 0
-    ]])
+        " スペースを入れてくれる補完はめったに使わないので無効化
+        let g:lexima_enable_space_rules = 0
+      ]])
     end,
   },
   {
     'ntpeters/vim-better-whitespace',
     config = function()
       vim.cmd([[
-    let g:better_whitespace_guicolor = 'DarkRed'
-    ]])
+        let g:better_whitespace_guicolor = 'DarkRed'
+      ]])
     end,
   },
 }
