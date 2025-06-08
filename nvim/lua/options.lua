@@ -35,6 +35,9 @@ vim.o.expandtab = true
 vim.o.tabstop = 8
 -- インデント幅を2に設定する
 vim.o.shiftwidth = 2
+-- 最初に開くときはfoldさせない
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
 -- FileTypeがcのときにローカルな設定を適用する
 vim.cmd("autocmd FileType c setlocal sw=4 sts=4 ts=4 et")
 -- 検索時にインクリメンタル検索を有効にする
