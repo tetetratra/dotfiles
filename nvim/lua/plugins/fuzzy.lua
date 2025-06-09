@@ -2,7 +2,7 @@
 return {
   {
     'nvim-telescope/telescope.nvim',
-    dependencies = { 'nvim-lua/plenary.nvim', 'natecraddock/telescope-zf-native.nvim' },
+    dependencies = { 'nvim-lua/plenary.nvim' },
     config = function()
       vim.api.nvim_set_keymap('n', '<Space>f', ':lua require("telescope.builtin").find_files({ initial_mode = "normal" })<cr>', { noremap = true })
       vim.api.nvim_set_keymap('n', '<Space>?', ':lua require("telescope.builtin").help_tags({ initial_mode = "normal" })<cr>', { noremap = true })
@@ -26,10 +26,6 @@ return {
             treesitter = { enable = false },
           },
         },
-        ['zf-native'] = {
-          file = { enable = true, highlight_results = true, match_filename = false },
-          generic = { enable = true, highlight_results = true, match_filename = false },
-        },
       })
     end,
   },
@@ -39,12 +35,6 @@ return {
     config = function()
       require('telescope').load_extension('live_grep_args')
       vim.api.nvim_set_keymap('n', '<Space>g', ':lua require("telescope").extensions.live_grep_args.live_grep_args({ initial_mode = "normal" })<cr>', { noremap = true })
-    end,
-  },
-  {
-    'natecraddock/telescope-zf-native.nvim',
-    config = function()
-      require('telescope').load_extension('zf-native')
     end,
   },
 }
