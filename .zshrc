@@ -160,3 +160,4 @@ export DIRENV_LOG_FORMAT=""
 # ホームディレクトリのbinにパスを通す
 export PATH="$HOME/bin:$PATH"
 
+export PATH="/Users/kondo.daichi/.local/bin:$PATH"
