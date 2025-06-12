@@ -17,6 +17,7 @@ return {
       vim.api.nvim_set_keymap('n', '<Space>H', '<Plug>(quickhl-manual-reset)', { silent = true })
       vim.g.quickhl_manual_enable_at_startup = 1
       vim.g.quickhl_manual_keywords = { { pattern = pattern, regexp = 1 } }
+      vim.cmd("call quickhl#manual#enable()") -- 起動時にマークが効かないことがあるため強制的に有効化
     end,
   },
   {
