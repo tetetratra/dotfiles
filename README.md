@@ -153,8 +153,8 @@ pip install pynvim
     - `ctrl 2`で`ctrl b ctrl b`を送る
     - `ctrl space`で`ctrl b ctrl n`を送る
     - `ctrl shift space`で`ctrl b ctrl p`を送る
-    - `ctrl shift l`で`ctrl b ctrl n`を送る
-    - `ctrl shift h`で`ctrl b ctrl p`を送る
+    - `cmd shift l`(karabinarが効いているので`shift →`)で`ctrl b ctrl n`を送る
+    - `cmd shift h`(karabinarが効いているので`shift ←`)で`ctrl b ctrl p`を送る
   - BTTが勝手に起動するバグに遭遇したときは `defaults write com.hegenberg.BetterTouchTool BTTDontShowPrefsOnReopen YES` の設定をすると直るかもしれない
     - https://qiita.com/take_3/items/08acebb07e313c89dea9
 - Karabiner-Elements で "my confing" にある設定のみをすべてenableにする
