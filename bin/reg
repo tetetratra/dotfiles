@@ -1,5 +1,24 @@
 #! env ruby
+require 'optparse'
+
+filter = :select
+
+opt = OptionParser.new
+opt.on('-v') { filter = :reject }
+opt.parse!(ARGV)
 
 while line = STDIN.gets
-  puts line[Regexp.new(ARGV[0])]
+  m = line.match(Regexp.new(ARGV[0]))
+
+  case filter
+  when :select
+    next if m.nil?
+
+    puts(m[1] || m[0]) # () でキャプチャしている場合はその値を、そうでなければマッチした文字列全体を出力
+  when :reject
+    next if m
+
+    puts(line) # マッチしなかった行をそのまま出力
+  end
 end
+
