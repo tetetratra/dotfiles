@@ -7,6 +7,7 @@
 # 以下のコマンドを実行して、必要なツールをインストールする
 # ```
 # pip3 install guesslang-experimental tensorflow==2.13.0
+# gem install rubocop
 # npm install prettier
 # npm install -g sql-formatter
 # ```
@@ -46,7 +47,8 @@ class FormatterFactory
     def build(lang)
       {
         'Ruby' => method(:format_ruby),
-        'JavaScript' => method(:format_javascript)
+        'JavaScript' => method(:format_javascript),
+        'SQL' => method(:format_sql),
       }[lang]
     end
 
@@ -67,6 +69,17 @@ class FormatterFactory
 
     def format_javascript(src)
       Open3.popen3('npx prettier --stdin-filepath test.js') do |stdin, stdout, stderr, wait_thread|
+        stdin.puts(src)
+        stdin.close
+
+        stdout_result = stdout.read
+
+        stdout_result
+      end
+    end
+
+    def format_sql(src)
+      Open3.popen3('sql-formatter') do |stdin, stdout, stderr, wait_thread|
         stdin.puts(src)
         stdin.close
 
