@@ -1,64 +1,97 @@
 #! /usr/bin/env ruby
 
-# npm install prettier
+# [概要]
+# 標準入力から受け取った文字列のファイル形式を推測して、それに応じてformatしたものを返すコマンド
+#
+# [準備]
+# 以下のコマンドを実行して、必要なツールをインストールする
+# ```
 # pip3 install guesslang-experimental tensorflow==2.13.0
-# をする。
+# npm install prettier
+# npm install -g sql-formatter
+# ```
+#
+# [備考]
 # guesslang-experimental は、開発が止まった guesslang を誰かがforkして、新し目のtensorflowでも動くようにしたもの。
-# ただ、最新のtensorflow(2.16)だと動かなかったので、入れられる中で一番古いバージョンであるtensorflow 2.13.0を入れる。
-
-# - ファイルを推測
-# - それに応じてformat
+# ただし、最新のtensorflow(2.16)だと動かなかったので、入れられる中で一番古いバージョンであるtensorflow 2.13.0を入れる。
 
 require 'open3'
+
+class Guesser
+  FailedToGuessError = Class.new(StandardError)
+
+  def initialize(src)
+    @src = src
+  end
+
+  def call
+    Open3.popen3('guesslang') do |stdin, stdout, stderr, wait_thread|
+      stdin.puts(@src)
+      stdin.close
+
+      err = stderr.read
+      raise FailedToGuessError, err unless err.empty?
+
+      guessed = stdout.read.match(/Programming language: (.*)\n/)[1]
+      raise FailedToGuessError, 'no language guessed' if guessed.nil? || guessed.empty?
+      raise FailedToGuessError, stderr.read unless wait_thread.value.success?
+
+      guessed
+    end
+  end
+end
+
+class FormatterFactory
+  class << self
+    def build(lang)
+      {
+        'Ruby' => method(:format_ruby),
+        'JavaScript' => method(:format_javascript)
+      }[lang]
+    end
+
+    private
+
+    def format_ruby(src)
+      Open3.popen3('rubocop -A --stdin test.rb') do |stdin, stdout, stderr, wait_thread|
+        stdin.puts(src)
+        stdin.close
+        stdout_result = stdout.read
+
+        _, _, formatted = stdout_result.lines
+                            .chunk { |line| line.match?(/\A=======+\n.*/) }
+                            .map { |s| s.last.join }
+        formatted
+      end
+    end
+
+    def format_javascript(src)
+      Open3.popen3('npx prettier --stdin-filepath test.js') do |stdin, stdout, stderr, wait_thread|
+        stdin.puts(src)
+        stdin.close
+
+        stdout_result = stdout.read
+
+        stdout_result
+      end
+    end
+  end
+end
 
 def main
   src = STDIN.read
 
-  guessed_lang = guess(src)
-  case guessed_lang
-  when 'Ruby'
-    format_ruby(src)
-  when 'JavaScript'
-    format_javascript(src)
-  else
-    puts "No formatter found. (guessed: #{guessed_lang})"
+  guessed_lang = Guesser.new(src).call
+  STDERR.puts "guessed: #{guessed_lang}"
+
+  formatter = FormatterFactory.build(guessed_lang)
+  if formatter.nil?
+    STDERR.puts "No formatter found"
+    return
   end
+
+  formatted = formatter.call(src)
+  puts formatted
 end
 
-def guess(src)
-  Open3.popen3('guesslang') do |stdin, stdout, stderr, wait_thread|
-    stdin.puts(src)
-    stdin.close
-    raise err unless (err = stderr.read).empty?
-
-    guessed = stdout.read.match(/Programming language: (.*)\n/)[1]
-
-    puts stderr.read unless wait_thread.value.success?
-
-    guessed
-  end
-end
-
-def format_ruby(src)
-  Open3.popen3('rubocop -A --stdin test.rb') do |stdin, stdout, stderr, wait_thread|
-    stdin.puts(src)
-    stdin.close
-
-    puts stdout.read.lines.chunk { |line| line == "====================\n" }.to_a.last[1]
-
-    puts stderr.read unless wait_thread.value.success?
-  end
-end
-
-def format_javascript(src)
-  Open3.popen3('npx prettier --stdin-filepath test.js') do |stdin, stdout, stderr, wait_thread|
-    stdin.puts(src)
-    stdin.close
-
-    puts stdout.read
-
-    puts stderr.read unless wait_thread.value.success?
-  end
-end
-
-   main
+main
