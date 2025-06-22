@@ -55,6 +55,7 @@ cask "textsniper"
 mas "QuickShade", id: 931571202
 mas "RunCat", id: 1429033973
 mas "Relax Melodies: Sleep Sounds", id: 467103113
+mas "Kindle" id: 302584613
 tap "homebrew/bundle"
 tap "homebrew/cask"
 tap "homebrew/core"
