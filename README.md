@@ -148,7 +148,11 @@ pip install pynvim
     - `ctrl [1-9]`にアプリケーションを登録
       - 1: chrome
       - 2: iterm2
-    - `ctrl shift alt [hjkl]`でwindow移動
+      - 3: Slack
+    - `ctrl shift alt h, l`でwindowを左右分割
+    - `ctrl shift alt j`でwindowを全画面表示
+    - `ctrl shift alt k`でwindowを移動
+    - `ctrl shift alt n, p`でwindowを上下分割
   - Google Chrome
     - `ctrl l`で`ctrl tab`
     - `ctrl h`で`ctrl shift tab`
@@ -159,6 +163,8 @@ pip install pynvim
     - `ctrl shift space`で`ctrl b ctrl p`を送る
     - `cmd shift l`(karabinarが効いているので`shift →`)で`ctrl b ctrl n`を送る
     - `cmd shift h`(karabinarが効いているので`shift ←`)で`ctrl b ctrl p`を送る
+  - Slack
+    - `ctrl 3` で `cmd shift a` を送る
   - BTTが勝手に起動するバグに遭遇したときは `defaults write com.hegenberg.BetterTouchTool BTTDontShowPrefsOnReopen YES` の設定をすると直るかもしれない
     - https://qiita.com/take_3/items/08acebb07e313c89dea9
 - Karabiner-Elements で "my confing" にある設定のみをすべてenableにする
