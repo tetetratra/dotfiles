@@ -13,6 +13,13 @@ vim.cmd("syntax enable")
 vim.cmd("syntax on")
 -- ファイル保存時の確認を無効化
 vim.o.confirm = false
+-- 毎秒 checktime を呼ぶタイマーを起動し、外部からのファイルの変更を検知する
+local timer = vim.loop.new_timer()
+timer:start(1000, 1000, vim.schedule_wrap(function()
+  if vim.api.nvim_buf_get_option(0, "modified") == false then
+    vim.cmd("checktime")
+  end
+end))
 -- showcmdを有効にする
 vim.o.showcmd = true
 -- 行番号を表示する
