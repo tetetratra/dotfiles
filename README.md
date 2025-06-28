@@ -16,72 +16,121 @@
 ## macのクリーンインストール後に行うこと
 
 ```bash
+# メニューバーを自動的に隠す
 defaults write -globalDomain _HIHideMenuBar -bool true
 
+# トラックパッドのポインタ移動速度を速くする (0-3 の範囲)
 defaults write -g com.apple.trackpad.scaling -int 3
+# トラックパッドのスクロール速度を設定
 defaults write -g com.apple.trackpad.scrolling -int 1
+# マウスのポインタ移動速度を速くする
 defaults write -g com.apple.mouse.scaling 5
+# スクロールホイールのスクロール速度を速くする
 defaults write -g com.apple.scrollwheel.scaling 5
 
+# F1–F12 をデフォルトでファンクションキーとして使う
 defaults write com.apple.keyboard.fnState -boolean true
+# フルキーボードアクセスをすべての操作に拡張
 defaults write -g AppleKeyboardUIMode -int 3
 
+# 内蔵トラックパッドでタップでクリックを有効化
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
+# Bluetooth トラックパッドでタップでクリックを有効化
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+# Magic Mouse などでタップでクリックを有効化
 defaults -currentHost write -g com.apple.mouse.tapBehavior -bool true
 
+# Finder のデフォルト表示をカラムビューにする
 defaults write com.apple.finder FXPreferredViewStyle clmv
+# Finder で隠しファイルを表示
 defaults write com.apple.finder AppleShowAllFiles -boolean true
+# デスクトップ上のアイコンを非表示にする
 defaults write com.apple.finder CreateDesktop -boolean false
+# Finder タイトルバーにフルパスを表示
 defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
+# Finder のステータスバーを表示
 defaults write com.apple.finder ShowStatusBar -bool true
+# Finder のパスバーを表示
 defaults write com.apple.finder ShowPathbar -bool true
+# アプリが非アクティブになったら Quick Look パネルを閉じる
 defaults write com.apple.finder QLHidePanelOnDeactivate -bool true
+# Quick Look でテキスト選択を可能にする
 defaults write com.apple.finder QLEnableTextSelection -bool true
+# ウインドウリサイズのアニメーション時間を短縮
 defaults write -g NSWindowResizeTime 0.1
+# ユーザ Library フォルダを表示
 chflags nohidden ~/Library
+# Finder を再起動して設定を反映
 killall Finder
 
+# Dock から固定アプリをすべて削除
 defaults write com.apple.dock persistent-apps -array
+# Dock のアイコンサイズを 32px に設定
 defaults write com.apple.dock tilesize -int 32
+# Dock の拡大を有効化
 defaults write com.apple.dock magnification -bool yes
+# Dock 拡大時の最大サイズを 48px に設定
 defaults write com.apple.dock largesize -int 48
+# Dock 自動表示の遅延をゼロに
 defaults write com.apple.dock autohide-delay -float 0
+# Dock を自動的に隠す
 defaults write com.apple.dock autohide -bool true
+# Mission Control（Exposé）を無効化
 defaults write com.apple.dock mcx-expose-disabled -bool true
+# Dock に最近使ったアプリを表示しない
 defaults write com.apple.dock "show-recents" -bool "false"
+# スペースを最近の使用順に並べ替えない
 defaults write com.apple.dock "mru-spaces" -bool "false"
+# Dock を再起動して設定を反映
 killall Dock
 
+# フルキーボードアクセスをすべての操作に拡張（グローバル）
 defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
+# F1–F12 をデフォルトでファンクションキーとして使う（グローバル）
 defaults write NSGlobalDomain com.apple.keyboard.fnState -bool true
+# キーリピート速度を速く
 defaults write NSGlobalDomain KeyRepeat -int 2
+# キーリピート開始までの遅延を短く（15）
 defaults write NSGlobalDomain InitialKeyRepeat -int 15
+# すべてのファイル拡張子を表示
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+# 新規書類を iCloud ではなくローカルに保存
 defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+# ナチュラルスクロール方向を有効化
 defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true
+# 自動大文字化を無効化
 defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool "false"
+# 自動スペル補正を無効化
 defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool "false"
 
+# メニューバーにバッテリー残量（％）を表示
 defaults write com.apple.menuextra.battery ShowPercent -string "YES"
+# メニューバー時計の書式をカスタマイズ
 defaults write com.apple.menuextra.clock DateFormat -string "M\u6708d\u65e5(EEE)  H:mm:ss"
+# SystemUIServer を再起動して設定を反映
 killall SystemUIServer
 
+# スクリーンショットのサムネイルプレビューを無効化
 defaults write com.apple.screencapture "show-thumbnail" -bool "false"
+# スクリーンショットの保存形式を PNG に設定
 defaults write com.apple.screencapture "type" -string "png"
 
+# Dashboard を無効化
 defaults write com.apple.dashboard mcx-disabled -bool true
 
+# ネットワーク／USB ボリュームに .DS_Store を作らない
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool "true"
 defaults write com.apple.desktopservices DSDontWriteUSBStores -bool "true"
 
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
-
+# Terminal のデフォルト文字コードを UTF-8 に設定
 defaults write com.apple.terminal StringEncodings -array 4
 
+# Wi-Fi の DNS サーバーを Google Public DNS に設定 (IPv6 & IPv4)
 networksetup -setdnsservers Wi-Fi 2001:4860:4860::8844 2001:4860:4860::8888 8.8.4.4 8.8.8.8
 
-# macOS Sonomaのかな漢字変換で表示される吹き出しを消す https://techracho.bpsinc.jp/hachi8833/2023_11_17/135935
+# macOS Sonoma のかな漢字変換で表示される吹き出しを消す
+# UIKit のフラグを編集して redesigned_text_cursor を無効化している
+# ref: https://techracho.bpsinc.jp/hachi8833/2023_11_17/135935
 sudo mkdir -p /Library/Preferences/FeatureFlags/Domain
 sudo /usr/libexec/PlistBuddy -c "Add 'redesigned_text_cursor:Enabled' bool false" /Library/Preferences/FeatureFlags/Domain/UIKit.plist
 ```
@@ -90,36 +139,46 @@ sudo /usr/libexec/PlistBuddy -c "Add 'redesigned_text_cursor:Enabled' bool false
 - sshの設定をする
 
 ```bash
+# Xcode Command Line Tools をインストール（gccなどを含む）
 xcode-select --install
 
+# Homebrew をインストール（公式のインストールスクリプトを使用）
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 
-mkdir ~/p && cd p && git clone git@github.com:tetetratra/dotfiles.git && cd dotfiles
+mkdir -p ~/p
+mkdir -p ~/bin
 
-cd ~/p/dotfiles && brew bundle --file ./manual/Brewfile
+git clone git@github.com:tetetratra/dotfiles.git ~/p/dotfiles
 
-ln -sf $PWD/.tmux.conf ~/.tmux.conf
-ln -sf $PWD/.zshrc ~/.zshrc
-ln -sf $PWD/.gitignore ~/.gitignore
-ln -sf $PWD/.gitconfig ~/.gitconfig
+brew bundle --file ~/p/dotfiles/manual/Brewfile
 
-ln -sf $PWD/nvim/init.lua ~/.config/nvim/init.lua
-ln -sf $PWD/nvim/lua ~/.config/nvim/lua/
-ln -sf $PWD/nvim/coc-settings.json ~/.config/nvim/coc-settings.json
+ln -sf ~/p/dotfiles/.tmux.conf                     ~/.tmux.conf
+ln -sf ~/p/dotfiles/.zshrc                         ~/.zshrc
+ln -sf ~/p/dotfiles/.gitignore                     ~/.gitignore
+ln -sf ~/p/dotfiles/.gitconfig                     ~/.gitconfig
+ln -sf ~/p/dotfiles/.ctags                         ~/.ctags
+ln -sf ~/p/dotfiles/.solargraph.yml                ~/.solargraph.yml
+ln -sf ~/p/dotfiles/nvim/init.lua                  ~/.config/nvim/init.lua
+ln -sf ~/p/dotfiles/nvim/lua                       ~/.config/nvim/lua/
+ln -sf ~/p/dotfiles/nvim/coc-settings.json         ~/.config/nvim/coc-settings.json
+ln -sf ~/p/dotfiles/manual/karabiner-elements.json ~/.config/karabiner/assets/complex_modifications/karabiner-elements.json
+ln -sf ~/p/dotfiles/bin                            ~/bin
 
-ln -sf $PWD/.ctags ~/.ctags
-ln -sf $PWD/.solargraph.yml ~/.solargraph.yml
+# rbenv の最新安定版 Ruby をインストール
+latest_ruby=$(rbenv install -l | grep -E '^\s*[0-9]+\.[0-9]+\.[0-9]+$' | tail -1 | tr -d ' ')
+rbenv install -s "$latest_ruby"
+rbenv global "$latest_ruby"
 
-ln -sf $PWD/manual/karabiner-elements.json ~/.config/karabiner/assets/complex_modifications/karabiner-elements.json
-mkdir ~/bin && ln -sf $PWD/bin ~/bin
+# pyenv の最新安定版 Python をインストール
+latest_python=$(pyenv install -l | grep -E '^\s*3\.[0-9]+\.[0-9]+$' | tail -1 | tr -d ' ')
+pyenv install -s "$latest_python"
+pyenv global "$latest_python"
 
-rbenv install 3.1.0 # よしなに
-rbenv global 3.1.0
-gem install neovim
+gem install neovim rubocop solargraph
 
-pyenv install 3.10.3 # よしなに
-pyenv global 3.10.3
-pip install pynvim
+pip3 install pynvim guesslang-experimental tensorflow==2.13.0
+
+npm install -g prettier sql-formatter @google/gemini-cli
 ```
 
 - zshrcの拡張を手動でインストール

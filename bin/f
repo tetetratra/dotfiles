@@ -8,7 +8,7 @@
 # ```
 # pip3 install guesslang-experimental tensorflow==2.13.0
 # gem install rubocop
-# npm install prettier
+# npm install -g prettier
 # npm install -g sql-formatter
 # ```
 #
