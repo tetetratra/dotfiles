@@ -15,6 +15,9 @@
 # [備考]
 # guesslang-experimental は、開発が止まった guesslang を誰かがforkして、新し目のtensorflowでも動くようにしたもの。
 # ただし、最新のtensorflow(2.16)だと動かなかったので、入れられる中で一番古いバージョンであるtensorflow 2.13.0を入れる。
+#
+# [TODO]
+# - Dockerfile化
 
 require 'open3'
 
