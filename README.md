@@ -1,7 +1,3 @@
-## TODO
-- 各種プログラミング言語の実行環境を統一された方法で管理する
-  - asdf, mise とか
-
 ## 手動で更新するもの
 
 - `vimium-options.json`
@@ -14,6 +10,8 @@
   - 新しい設定はここに書いてからアプリ側でインポートする
 
 ## macのクリーンインストール後に行うこと
+
+<details> <summary> コマンドその1 </summary>
 
 ```bash
 # メニューバーを自動的に隠す
@@ -135,8 +133,13 @@ sudo mkdir -p /Library/Preferences/FeatureFlags/Domain
 sudo /usr/libexec/PlistBuddy -c "Add 'redesigned_text_cursor:Enabled' bool false" /Library/Preferences/FeatureFlags/Domain/UIKit.plist
 ```
 
+</details>
+
+
 - ここでmacを再起動
 - sshの設定をする
+
+<details> <summary> コマンドその2 </summary>
 
 ```bash
 # Xcode Command Line Tools をインストール（gccなどを含む）
@@ -176,6 +179,8 @@ pip3 install pynvim
 
 npm install -g prettier sql-formatter @google/gemini-cli
 ```
+
+</details>
 
 - `iterm.json`をインポート
   - preferences -> profiles -> other actions -> import
