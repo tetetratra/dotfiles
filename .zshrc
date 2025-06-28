@@ -71,25 +71,10 @@ export HISTSIZE=10000
 export SAVEHIST=100000
 # brewで入れた方をmac内蔵より優先度高く探す
 export PATH=/usr/local/bin:$PATH
-# 自動アップデートをdisable
+# homebrewの自動アップデートをdisable
 export HOMEBREW_NO_AUTO_UPDATE=1
 
 ### 言語 ###
-
-# rbenv
-if which rbenv > /dev/null; then
-  export PATH="$HOME/.rbenv/bin:$PATH"
-  eval "$(rbenv init -)"
-fi
-
-# pyenv
-if which pyenv > /dev/null; then
-  export PATH="$HOME/.pyenv/shims:$PATH"
-  eval "$(pyenv init -)"
-fi
-
-# npm https://qiita.com/PolarBear/items/62c0416492810b7ecf7c
-export PATH=$PATH:$HOME/.nodebrew/current/bin
 
 # go
 export GOPATH="$HOME/go"
@@ -99,13 +84,6 @@ export PATH="$HOME/go/bin:$PATH"
 if [ -e $HOME/.cargo/env ]; then
   source $HOME/.cargo/env
 fi
-
-# volta
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
-
-# homebrew
-export HOMEBREW_NO_AUTO_UPDATE=1
 
 ### key bind ###
 bindkey -v # vim like
@@ -161,3 +139,5 @@ export DIRENV_LOG_FORMAT=""
 export PATH="$HOME/bin:$PATH"
 
 export PATH="/Users/kondo.daichi/.local/bin:$PATH"
+
+eval "$(mise activate zsh)"

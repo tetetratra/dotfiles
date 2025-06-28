@@ -164,19 +164,11 @@ ln -sf ~/p/dotfiles/nvim/coc-settings.json         ~/.config/nvim/coc-settings.j
 ln -sf ~/p/dotfiles/manual/karabiner-elements.json ~/.config/karabiner/assets/complex_modifications/karabiner-elements.json
 ln -sf ~/p/dotfiles/bin                            ~/bin
 
-# rbenv の最新安定版 Ruby をインストール
-latest_ruby=$(rbenv install -l | grep -E '^\s*[0-9]+\.[0-9]+\.[0-9]+$' | tail -1 | tr -d ' ')
-rbenv install -s "$latest_ruby"
-rbenv global "$latest_ruby"
-
-# pyenv の最新安定版 Python をインストール
-latest_python=$(pyenv install -l | grep -E '^\s*3\.[0-9]+\.[0-9]+$' | tail -1 | tr -d ' ')
-pyenv install -s "$latest_python"
-pyenv global "$latest_python"
+mise install
 
 gem install neovim rubocop solargraph
 
-pip3 install pynvim guesslang-experimental tensorflow==2.13.0
+pip3 install pynvim
 
 npm install -g prettier sql-formatter @google/gemini-cli
 ```
