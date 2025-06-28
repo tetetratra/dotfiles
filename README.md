@@ -157,6 +157,7 @@ ln -sf ~/p/dotfiles/.zshrc                         ~/.zshrc
 ln -sf ~/p/dotfiles/.zshrc_aliases                 ~/.zshrc_aliases
 ln -sf ~/p/dotfiles/.zshrc_key_binds               ~/.zshrc_key_binds
 ln -sf ~/p/dotfiles/.zshrc_plugins                 ~/.zshrc_plugins
+ln -sf ~/p/dotfiles/.zshrc_configs                 ~/.zshrc_configs
 ln -sf ~/p/dotfiles/.gitignore                     ~/.gitignore
 ln -sf ~/p/dotfiles/.gitconfig                     ~/.gitconfig
 ln -sf ~/p/dotfiles/.ctags                         ~/.ctags
