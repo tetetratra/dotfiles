@@ -1,0 +1,23 @@
+# zinit (Zsh プラグインマネージャー) のインストール
+# https://github.com/zdharma-continuum/zinit#manual
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+[ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
+[ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+source "${ZINIT_HOME}/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+# zsh-syntax-highlighting
+zinit load zsh-users/zsh-syntax-highlighting
+
+# pure
+zinit load sindresorhus/pure
+fpath+=$HOME/.zsh/pure
+autoload -U promptinit; promptinit
+prompt pure
+
+# zsh-autosuggestions
+zinit light zsh-users/zsh-autosuggestions
+
+# zsh-fzf-history-search
+zinit light joshskidmore/zsh-fzf-history-search # light: 非同期でロードする

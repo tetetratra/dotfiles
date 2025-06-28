@@ -154,6 +154,9 @@ brew bundle --file ~/p/dotfiles/manual/Brewfile
 
 ln -sf ~/p/dotfiles/.tmux.conf                     ~/.tmux.conf
 ln -sf ~/p/dotfiles/.zshrc                         ~/.zshrc
+ln -sf ~/p/dotfiles/.zshrc_aliases                 ~/.zshrc_aliases
+ln -sf ~/p/dotfiles/.zshrc_key_binds               ~/.zshrc_key_binds
+ln -sf ~/p/dotfiles/.zshrc_plugins                 ~/.zshrc_plugins
 ln -sf ~/p/dotfiles/.gitignore                     ~/.gitignore
 ln -sf ~/p/dotfiles/.gitconfig                     ~/.gitconfig
 ln -sf ~/p/dotfiles/.ctags                         ~/.ctags
@@ -173,9 +176,6 @@ pip3 install pynvim
 npm install -g prettier sql-formatter @google/gemini-cli
 ```
 
-- zshrcの拡張を手動でインストール
-  - pure: https://github.com/sindresorhus/pure#manually
-  - zsh-autosuggestions: https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md#manual-git-clone
 - `iterm.json`をインポート
   - preferences -> profiles -> other actions -> import
 - iterm -> preference -> keys -> navigation shortcuts

@@ -1,39 +1,18 @@
-# utils
-alias l='ls -AlFGhv'
-alias ls='ls -AFGv'
-alias g='git'
-alias tree='tree -a'
-alias less='less -R'
-alias p='pbpaste'
-alias c='pbcopy'
-alias o='open'
-alias touch='(){ mkdir -p $(dirname $1) && touch $1 }'
-alias rm='trash'
-alias tree='tree --charset unicode'
-alias history='history -E 1'
-# chrome
-alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
-alias chrome-full='(){ chrome --app="$1" }' # 関数として呼び出さないと引数が展開されないため
-# rails
-alias be='bundle exec'
-alias lesstestlog='echo "--------------------" >> log/test.log; less +F log/test.log'
-alias lessdeveloplog='echo "--------------------" >> log/development.log; less +F log/development.log'
-# docker
-alias d='docker'
-alias dc='docker-compose'
-alias nvim='nvim -p'
-alias dcr=' (){ docker-compose run --rm $1 bash -c "$2" }'
-alias dcrb='(){ docker-compose run --rm $1 bash -c "bash --rcfile utils/.bashrc_local" }'
-alias dce=' (){ docker-compose exec     $1 bash -c "$2" }' # 使用例: `dc up -d` 後に `dce app 'bin/rails s'`
-alias dceb='(){ docker-compose exec     $1 bash -c "bash --rcfile utils/.bashrc_local" }'
-# tmux
-alias blue='tmux set-option -p -t : window-style bg=colour17' # 現在(-t :)のpane(-p)の背景色を変更
-alias red='tmux set-option -p -t : window-style bg=colour52'
-alias yellow='tmux set-option -p -t : window-style bg=colour58'
+if [ -f ~/.zshrc_aliases ]; then
+  source ~/.zshrc_aliases
+fi
 
-### ローカル独自の設定 ###
+if [ -f ~/.zshrc_key_binds ]; then
+  source ~/.zshrc_key_binds
+fi
+
+if [ -f ~/.zshrc_plugins ]; then
+  source ~/.zshrc_plugins
+fi
+
+# ローカル独自の設定
 if [ -f ~/.zshrc_local ]; then
-    source ~/.zshrc_local
+  source ~/.zshrc_local
 fi
 
 ### zsh ###
@@ -69,6 +48,8 @@ setopt share_history
 export HISTSIZE=10000
 # 履歴ファイルに保存される履歴の件数
 export SAVEHIST=100000
+
+
 # brewで入れた方をmac内蔵より優先度高く探す
 export PATH=/usr/local/bin:$PATH
 # homebrewの自動アップデートをdisable
@@ -84,51 +65,6 @@ export PATH="$HOME/go/bin:$PATH"
 if [ -e $HOME/.cargo/env ]; then
   source $HOME/.cargo/env
 fi
-
-### key bind ###
-bindkey -v # vim like
-bindkey -M viins '^A' beginning-of-line
-bindkey -M viins '^E' end-of-line
-bindkey -M viins '^N' down-line-or-history
-bindkey -M viins '^P' up-line-or-history
-bindkey -M viins '^R' history-incremental-pattern-search-backward
-bindkey -M viins 'jj' vi-cmd-mode
-bindkey -M viins "^[[3~" backward-delete-char
-
-# https://stackoverflow.com/questions/61466461/yank-in-visual-vim-mode-in-zsh-does-not-copy-to-clipboard-in-ordert-to-paste-w
-function vi-yank-xclip {
-  zle vi-yank
-  echo "$CUTBUFFER" | tr -d "\n" | pbcopy -i
-}
-zle -N vi-yank-xclip
-bindkey -M vicmd 'y' vi-yank-xclip
-
-### plugin ###
-
-# zinit (Zsh プラグインマネージャー) のインストール
-# https://github.com/zdharma-continuum/zinit#manual
-ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
-[ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
-[ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
-source "${ZINIT_HOME}/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
-
-# zsh-syntax-highlighting
-zinit load zsh-users/zsh-syntax-highlighting
-
-# pure
-zinit load sindresorhus/pure
-fpath+=$HOME/.zsh/pure
-autoload -U promptinit; promptinit
-prompt pure
-
-# zsh-autosuggestions
-zinit light zsh-users/zsh-autosuggestions
-
-# zsh-fzf-history-search
-zinit light joshskidmore/zsh-fzf-history-search # light: 非同期でロードする
-
 
 ### その他設定 ###
 # direnv
