@@ -1,62 +1,73 @@
+# 実行環境 (言語)
+brew "mise"
 brew "cmake"
-brew "git-delta"
-brew "bat"
+
+# 実行環境 (言語以外)
+brew "mysql"
+brew "zsh"
+
+# ターミナル
+brew "tmux"
+
+# エディタ
+brew "neovim"
+brew "universal-ctags/universal-ctags/universal-ctags", args: ["HEAD"]
+
+# git関連
 brew "git"
 brew "gh"
+brew "git-delta"
+
+# 便利ツール
+brew "bat"
 brew "jq"
 brew "yq"
-brew "mas"
-brew "mysql"
-brew "neovim"
-brew "volta"
 brew "pstree"
-brew "pyenv"
-brew "python@3.9"
-brew "rbenv"
-brew "node"
-brew "deno"
 brew "rename"
 brew "ripgrep"
 brew "fzy"
-brew "rustup-init"
-brew "tmux"
-brew "trash"
-brew "httpie"
 brew "tree"
-brew "universal-ctags/universal-ctags/universal-ctags", args: ["HEAD"]
 brew "wget"
-brew "zsh"
-brew "direnv"
-brew "poppler"
 brew "imagemagick"
+
+# 便利ツール (Mac特有)
 brew "fcanas/tap/mirror-displays"
 brew "MonitorControl"
-cask "bettertouchtool"
-cask "clipy"
-cask "discord"
+brew "trash"
+
+# その他
+brew "direnv"
+brew "mas"
+
+# caskツール
 cask "docker"
-cask "firefox"
-cask "google-chrome"
+cask "bettertouchtool"
 cask "google-japanese-ime"
-cask "iterm2"
-cask "sequel-ace"
-cask "skim"
-cask "slack"
-cask "visual-studio-code"
-cask "vlc"
-cask "zoom"
-cask "steam"
+cask "clipy"
 cask "karabiner-elements"
-cask "skitch"
 cask "alfred"
 cask "font-noto-nerd-font"
 cask "proxyman"
-cask "textsniper"
+
+# 一般アプリ
+cask "discord"
+cask "firefox"
+cask "google-chrome"
+cask "iterm2"
+cask "sequel-ace"
+cask "slack"
+cask "skim"
+cask "visual-studio-code"
+cask "zoom"
+cask "steam"
+
+# mas
 mas "QuickShade", id: 931571202
 mas "RunCat", id: 1429033973
 mas "Relax Melodies: Sleep Sounds", id: 467103113
 mas "Kindle" id: 302584613
-tap "homebrew/bundle"
+
+# tap
 tap "homebrew/cask"
 tap "homebrew/core"
 tap "universal-ctags/universal-ctags"
