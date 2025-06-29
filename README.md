@@ -150,11 +150,14 @@ xcode-select --install
 
 mkdir -p ~/p
 mkdir -p ~/bin
+mkdir -p ~/.config/mise
+mkdir ~/.config/nvim/lua
 
 git clone git@github.com:tetetratra/dotfiles.git ~/p/dotfiles
 
 brew bundle --file ~/p/dotfiles/manual/Brewfile
 
+ln -sf ~/p/dotfiles/.mise_config.toml              ~/.config/mise/config.toml
 ln -sf ~/p/dotfiles/.tmux.conf                     ~/.tmux.conf
 ln -sf ~/p/dotfiles/.zshrc                         ~/.zshrc
 ln -sf ~/p/dotfiles/.zshrc_aliases                 ~/.zshrc_aliases
@@ -172,12 +175,6 @@ ln -sf ~/p/dotfiles/manual/karabiner-elements.json ~/.config/karabiner/assets/co
 ln -sf ~/p/dotfiles/bin                            ~/bin
 
 mise install
-
-gem install neovim rubocop solargraph
-
-pip3 install pynvim
-
-npm install -g prettier sql-formatter @google/gemini-cli
 ```
 
 </details>
