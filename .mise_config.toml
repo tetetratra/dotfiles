@@ -2,15 +2,14 @@
 # 今入っている言語の一覧
 # mise list
 [tools]
-# インストールでエラーが出るものはコメントアウト中
-# ruby                     = 'latest'
-# "gem:neovim"             = "latest"
-# "gem:rubocop"            = "latest"
-# "gem:solargraph"         = "latest"
+# FIXME: 自宅のmacだとrubyのインストールでエラーが出る
+ruby                     = 'latest'
+"gem:rubocop"            = 'latest'
+"gem:solargraph"         = 'latest'
 nodejs                   = 'latest'
-"npm:prettier"           = "latest"
-"npm:sql-formatter"      = "latest"
-"npm:@google/gemini-cli" = "latest"
+"npm:prettier"           = 'latest'
+"npm:sql-formatter"      = 'latest'
+"npm:@google/gemini-cli" = 'latest'
 python                   = 'latest'
 rust                     = 'latest'
 go                       = 'latest'
@@ -19,3 +18,5 @@ go                       = 'latest'
 # configure how frequently (in minutes) to fetch updated plugin repository changes
 # this is updated whenever a new runtime is installed
 plugin_autoupdate_last_check_duration = '1 week' # set to 0 to disable updates
+# gemもmiseで管理するには現時点ではexperimentalをtrueにする必要がある
+experimental = true
