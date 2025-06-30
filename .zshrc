@@ -1,3 +1,6 @@
+# TODO
+# - ターミナル上でAIを使えるようにする
+
 if [ -f ~/.zshrc_configs ]; then
   source ~/.zshrc_configs
 fi
