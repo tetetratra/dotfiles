@@ -213,8 +213,6 @@ mise install
     - `command d`を無効化
   - iTerm
     - `ctrl 2`で`ctrl b ctrl b`を送る
-    - `ctrl space`で`ctrl b ctrl n`を送る
-    - `ctrl shift space`で`ctrl b ctrl p`を送る
     - `cmd shift l`(karabinarが効いているので`shift →`)で`ctrl b ctrl n`を送る
     - `cmd shift h`(karabinarが効いているので`shift ←`)で`ctrl b ctrl p`を送る
     - `cmd enter`で`ctrl b z`を送る
