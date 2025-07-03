@@ -13,7 +13,7 @@ alias tree='tree --charset unicode'
 alias history='history -E 1'
 # neovim
 alias nvim='nvim -p'
-alias n='nvim `echo "$(git ss) $(git ls)" | sort | uniq`'
+alias n='nvim $(git ls-ss)'
 # chrome
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 alias chrome-full='(){ chrome --app="$1" }' # 関数として呼び出さないと引数が展開されないため
