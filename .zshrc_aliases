@@ -32,3 +32,20 @@ alias dceb='(){ docker-compose exec     $1 bash -c "bash --rcfile utils/.bashrc_
 alias blue='tmux set-option -p -t : window-style bg=colour17' # 現在(-t :)のpane(-p)の背景色を変更
 alias red='tmux set-option -p -t : window-style bg=colour52'
 alias yellow='tmux set-option -p -t : window-style bg=colour58'
+alias x='
+  function layout_tmux_func() {
+    tmux split-window -v
+
+    tmux select-pane -U
+    tmux split-window -h
+
+    local width=$(tmux display -p "#{window_width}")
+    local height=$(tmux display -p "#{window_height}")
+    local ww=$((width * 70 / 100))
+    local hh=$((height * 70 / 100))
+
+    tmux resize-pane -x "$ww" -y "$hh"
+  }
+  layout_tmux_func
+'
+

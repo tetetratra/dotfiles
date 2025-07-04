@@ -215,7 +215,7 @@ mise install
     - `ctrl 2`で`ctrl b ctrl b`を送る
     - `cmd shift l`(karabinarが効いているので`shift →`)で`ctrl b ctrl n`を送る
     - `cmd shift h`(karabinarが効いているので`shift ←`)で`ctrl b ctrl p`を送る
-    - `cmd enter`で`ctrl b z`を送る
+    - `ctrl space`で`ctrl b z`を送る
   - Slack
     - `ctrl 3` で `cmd shift a` を送る
   - BTTが勝手に起動するバグに遭遇したときは `defaults write com.hegenberg.BetterTouchTool BTTDontShowPrefsOnReopen YES` の設定をすると直るかもしれない
