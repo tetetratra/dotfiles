@@ -1,4 +1,6 @@
 -- fuzzy finder
+-- TODO
+-- - fuzzy検索が壊れているのを直す
 return {
   {
     'nvim-telescope/telescope.nvim',

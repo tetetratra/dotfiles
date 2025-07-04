@@ -23,21 +23,6 @@ return {
       vim.api.nvim_set_keymap('v', '<Space>s', '<Plug>(operator-camelize-toggle)', {})
     end,
   },
-  {
-    'j-morano/buffer_manager.nvim',
-    dependencies = { 'nvim-lua/plenary.nvim' },
-    config = function()
-      require('buffer_manager').setup({
-        width = 100,
-        height = 30,
-        select_menu_item_commands = {
-          v = { key = '<C-v>', command = 'vsplit' },
-          h = { key = '<C-h>', command = 'split' },
-        },
-      })
-      vim.api.nvim_set_keymap('n', ';', ':lua require("buffer_manager.ui").toggle_quick_menu()<CR>', { noremap = true })
-    end,
-  },
   { 'nvim-tree/nvim-web-devicons' },
   {
     'nvim-lualine/lualine.nvim',
