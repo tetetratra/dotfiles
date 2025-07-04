@@ -20,7 +20,7 @@
   cp = cherry-pick
   prev = reset --mixed HEAD~1
   diffall = diff --no-prefix --unified=1000
-  default-branch = "! git remote show origin 2> /dev/null | grep 'HEAD branch' | awk '{print $NF}'" # https://qiita.com/ymm1x/items/b22bddc9fbc192ae1a70
+  default-branch = "! git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | awk -F/ '{print $NF}'"
   d = "! git diff $(git default-branch)..HEAD"
   oneline = log --name-only --oneline
   force-pull = "!git fetch && git reset --hard origin/$(git branch --show-current)" # https://qiita.com/Yinaura/items/30992f25b87f76af3ba2

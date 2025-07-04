@@ -7,20 +7,18 @@ return {
       local api = require("nvim-tree.api")
 
 
-      local function preload_untracked_files()
-        -- git status --porcelain で untracked を取得
-        local handle = io.popen("git status --porcelain")
+      local function preload_files_from_ls_ss()
+        -- git ls-ss の出力（ファイルパスのリスト）を取得
+        local handle = io.popen("git ls-ss")
         if not handle then return end
 
-        for line in handle:lines() do
-          if line:match("^%?%?") then
-            local filepath = line:sub(4)
-            -- 空白や特殊文字を含むパスにも対応
-            local abs_path = vim.fn.fnamemodify(filepath, ":p")
-            -- バッファに存在しなければ badd（silent に）
-            if vim.fn.bufnr(abs_path) == -1 then
-              vim.cmd("silent! badd " .. vim.fn.fnameescape(abs_path))
-            end
+        for filepath in handle:lines() do
+          -- 絶対パスに変換（Neovim APIは絶対パスでバッファ管理）
+          local abs_path = vim.fn.fnamemodify(filepath, ":p")
+
+          -- すでにバッファに載っていなければ badd で読み込む
+          if vim.fn.bufnr(abs_path) == -1 then
+            vim.cmd("silent! badd " .. vim.fn.fnameescape(abs_path))
           end
         end
 
@@ -57,7 +55,7 @@ return {
           },
         })
 
-        preload_untracked_files()
+        preload_files_from_ls_ss()
 
         api.tree.open()
         api.tree.toggle_no_buffer_filter()
