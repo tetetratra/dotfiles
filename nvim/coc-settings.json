@@ -43,6 +43,16 @@
       "linters": [],
       "experimentalFeaturesEnabled": false
     },
+
+    "_memo": "使うには terraform init する必要がある",
+    "terraform": {
+      "command": "terraform-ls",
+      "args": ["serve"],
+      "filetypes": ["terraform", "tf"],
+      "initializationOptions": {},
+      "settings": {}
+    },
+
     "eslint.autoFixOnSave": true,
     "eslint.filetypes": [
       "javascript",

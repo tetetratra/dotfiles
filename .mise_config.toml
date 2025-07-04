@@ -3,16 +3,18 @@
 # mise list
 [tools]
 # FIXME: 自宅のmacだとrubyのインストールでエラーが出る
-ruby                     = 'latest'
-"gem:rubocop"            = 'latest'
-"gem:solargraph"         = 'latest'
-nodejs                   = 'latest'
-"npm:prettier"           = 'latest'
-"npm:sql-formatter"      = 'latest'
-"npm:@google/gemini-cli" = 'latest'
-python                   = 'latest'
-rust                     = 'latest'
-go                       = 'latest'
+ruby                                   = 'latest'
+"gem:rubocop"                          = 'latest'
+"gem:solargraph"                       = 'latest'
+"gem:ruby-lsp"                         = 'latest'
+nodejs                                 = 'latest'
+"npm:prettier"                         = 'latest'
+"npm:sql-formatter"                    = 'latest'
+"npm:@google/gemini-cli"               = 'latest'
+python                                 = 'latest'
+rust                                   = 'latest'
+go                                     = 'latest'
+"go:github.com/hashicorp/terraform-ls" = "latest"
 
 [settings]
 # configure how frequently (in minutes) to fetch updated plugin repository changes
