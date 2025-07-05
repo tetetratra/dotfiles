@@ -193,6 +193,7 @@ mise install
       - スクリーンショット, spotlightはONにする
       - キーボード -> 次のウィンドウを操作対象とする [ctrl スペース]
     - 音声入力 -> ショートカットキーをOFFにする
+  - デスクトップとDock -> ウィンドウ -> タイル表示されたウィンドウを隙間を入れて配置 をOFFにする
 - google日本語入力を利用するようにする
   - 設定を変更
   - 辞書を登録
@@ -202,7 +203,7 @@ mise install
     - `ctrl [1-9]`にアプリケーションを登録
       - 1: chrome
       - 2: iterm2
-      - 3: Slack
+      - 3: Slackなど
     - `ctrl shift alt h, l`でwindowを左右分割
     - `ctrl shift alt j`でwindowを全画面表示
     - `ctrl shift alt k`でwindowを移動
