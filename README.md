@@ -175,6 +175,9 @@ ln -sf ~/p/dotfiles/manual/karabiner-elements.json ~/.config/karabiner/assets/co
 ln -sf ~/p/dotfiles/bin                            ~/bin
 
 mise install
+
+# tmuxのプラグインマネージャーをインストール
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
 </details>
