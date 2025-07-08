@@ -41,11 +41,13 @@ alias x='
 
     local width=$(tmux display -p "#{window_width}")
     local height=$(tmux display -p "#{window_height}")
-    local ww=$((width * 70 / 100))
+    local ww=$((width * 65 / 100))
     local hh=$((height * 70 / 100))
 
     tmux resize-pane -x "$ww" -y "$hh"
   }
   layout_tmux_func
 '
+alias tmux-colors='for i in {0..255}; do printf "\033[48;5;%sm %3s \033[0m" $i $i; (( i % 16 == 15 )) && echo; done'
+
 
