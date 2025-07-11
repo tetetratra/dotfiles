@@ -17,6 +17,7 @@ python                                 = 'latest'
 rust                                   = 'latest'
 go                                     = 'latest'
 "go:github.com/hashicorp/terraform-ls" = "latest"
+duckdb                                 = 'latest'
 
 [settings]
 # configure how frequently (in minutes) to fetch updated plugin repository changes
