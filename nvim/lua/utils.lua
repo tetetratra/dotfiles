@@ -134,34 +134,51 @@ function jump_gf_lsp_tag()
   print("No LSP definition or file or tag found.")
 end
 
+-- バッファ単位で Git ルートをキャッシュ
+local function get_git_root(bufnr)
+  if vim.b[bufnr].git_root_cached then return vim.b[bufnr].git_root_cached end
+
+  local path = vim.api.nvim_buf_get_name(bufnr)
+  if path == "" then return nil end             -- 未保存
+
+  local dir  = vim.fn.fnamemodify(path, ":p:h")
+  local git_dir = vim.fn.finddir(".git", dir .. ";")
+  if git_dir ~= "" then
+    local root = vim.fn.fnamemodify(git_dir, ":h")
+    vim.b[bufnr].git_root_cached = root
+    return root
+  end
+  vim.b[bufnr].git_root_cached = false  -- Git外
+  return nil
+end
+
 function my_tab_line()
   local s = ""
   for i = 1, vim.fn.tabpagenr("$") do
-    local buflist = vim.fn.tabpagebuflist(i) -- タブ内のバッファリストを取得
-    local win_index = vim.fn.tabpagewinnr(i) -- アクティブなウィンドウのインデックス
-    local bufnr = buflist[win_index] -- アクティブなバッファ番号
-    -- 無効なバッファ番号チェック
-    if bufnr and vim.api.nvim_buf_is_valid(bufnr) then
-      local bufname = vim.fn.bufname(bufnr)
-      local bufpath = bufname ~= "" and bufname or "[No Name]"
-      -- Git のルートディレクトリが存在する場合、相対パスを取得
-      if git_root and bufpath:find(git_root, 1, true) then
-        bufpath = bufpath:sub(#git_root + 2) -- Git ルートからの相対パスを取得
-      end
-      -- 現在のタブとそれ以外で色を分ける
-      if i == vim.fn.tabpagenr() then
-        s = s .. "%" .. i .. "T%#TabLineSel# " .. i .. " " .. bufpath .. " %#TabLine#"
-      else
-        s = s .. "%" .. i .. "T%#TabLine# " .. i .. " " .. bufpath .. " %#TabLine#"
-      end
-    else
-      s = s .. "%" .. i .. "T%#TabLine# " .. i .. " [Invalid Buffer] %#TabLine#"
+    local buflist   = vim.fn.tabpagebuflist(i)
+    local win_index = vim.fn.tabpagewinnr(i)
+    local bufnr     = buflist[win_index]
+
+    local bufname = (bufnr and vim.api.nvim_buf_is_valid(bufnr))
+                   and vim.fn.bufname(bufnr) or ""
+    local bufpath = bufname ~= "" and bufname or "[No Name]"
+
+    local root = bufnr and get_git_root(bufnr) or nil
+    if root and bufpath:sub(1,#root) == root then
+      bufpath = bufpath:sub(#root + 2)           -- 先頭 "/" を飛ばす
     end
+
+    local filename = vim.fn.fnamemodify(bufpath, ":t")
+
+    local highlight = (i == vim.fn.tabpagenr()) and "%#TabLineSel#" or "%#TabLine#"
+    -- s = s .. "%"..i.."T"..highlight.." "..i.." "..bufpath.." %#TabLine#"
+    s = s .. "%T"..highlight.." "..filename.." %#TabLineNone# %#TabLine#"
   end
-  return s
+  return s .. "%#TabLineNone#"
 end
 vim.cmd("highlight TabLineSel guifg=#cccccc guibg=#506070 gui=bold")
 vim.cmd("highlight TabLine guifg=#aaaaaa guibg=#303030")
+vim.cmd("highlight TabLineNone guifg=none guibg=#202020")
 
 function tab_clone_with_cursor()
   -- tabnew % だとカーソル位置がリセットされてしまうので、カーソル位置を保存してからtabnewする
