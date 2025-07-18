@@ -29,6 +29,7 @@ brew "fzy"
 brew "tree"
 brew "wget"
 brew "imagemagick"
+brew "aha" # stdoutなどをHTMLに変換するツール
 
 # 便利ツール (Mac特有)
 brew "fcanas/tap/mirror-displays"
