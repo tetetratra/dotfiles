@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "cleanupPeriodDays": 60,
+  "permissions": {
+    "allow": [
+      "Bash(git:*)",
+      "Bash(gh:*)",
+
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(rm: *)",
+      "Bash(mv: *)",
+      "Bash(pwd:*)",
+      "Bash(cd:*)",
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "Bash(rg:*)",
+      "Bash(jq:*)",
+      "Bash(echo:*)",
+
+      "Bash(which:*)",
+
+      "Bash(curl:*)",
+
+      "Bash(ruby:*)",
+      "Bash(node:*)",
+
+      "Bash(gem:*)",
+      "Bash(yarn:*)",
+      "Bash(npm:*)",
+
+      "Bash(docker compose exec:*)",
+      "Bash(docker compose run:*)",
+
+      "Read(~/m/**)",
+      "Edit(~/m/**)",
+      "Edit(~/p/**)",
+      "List(**)",
+
+      "WebFetch(domain:*)",
+      "WebSearch(domain:**)",
+      "WebFetch",
+      "WebSearch",
+      "Fetch(**)"
+    ],
+    "deny": [
+      "Bash(git:push:*)",
+      "Bash(sudo:*)"
+    ]
+  }
+}
