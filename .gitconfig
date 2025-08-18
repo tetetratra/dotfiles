@@ -3,10 +3,6 @@
   # 参考: https://stackoverflow.com/a/5188364
   b = "for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:red)%(objectname:short)%(color:reset) %(color:yellow)%(refname:short)%(color:reset) %(contents:subject) (%(color:green)%(committerdate:relative)%(color:reset))'"
   c = "commit -am 'update'"
-  w   = "!f() { git worktree add worktree/$1 $1;    }; f"
-  wb  = "!f() { git worktree add worktree/$1 -b $1; }; f"
-  wl  = "worktree list"
-  wrm = "worktree remove"
   s = status
   ss = "!f() { git status --short | awk '{ print $2 }'; }; f"
   l = log --pretty=fuller --graph --date=short --decorate=full --stat

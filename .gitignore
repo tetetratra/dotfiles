@@ -12,3 +12,4 @@ tmp/local_secret.txt
 # worktree用
 # `git worktree add worktree/タスク名 -b タスク名` のような風に使う
 /worktree/
+/wt/

@@ -51,4 +51,40 @@ alias x='
 '
 alias tmux-colors='for i in {0..255}; do printf "\033[48;5;%sm %3s \033[0m" $i $i; (( i % 16 == 15 )) && echo; done'
 
+wt() {
+  echo '[準備]'
+  echo '現在のworktree一覧'
+  git worktree list
+  echo ''
 
+  # ディレクトリ削除済みのworktreeを消しておく
+  echo 'ディレクトリ削除済みのworktreeを消します'
+  git worktree prune
+  echo ''
+
+  echo '[実行]'
+  if [ -z "$1" ]; then
+    echo "引数にブランチ名を渡してください: wt <branch-name>"
+    return 1
+  else
+    echo "worktreeを追加します"
+  fi
+
+  branch="$1"
+  dir="wt/$branch"
+
+  git worktree add "$dir" -b "$branch" || return 1
+  cd "$dir"
+
+  # 参照元は親リポジトリのルート
+  root="$(git rev-parse --show-toplevel)"
+
+  # カンマ区切りの環境変数 WT_LINK_TARGETS を展開し、シンボリックリンクを張る
+  IFS=',' read -r -A targets <<< "${WT_LINK_TARGETS}"
+  for target in "${targets[@]}"; do
+    if [ -n "$target" ] && [ -e "$root/$target" ] && [ ! -e "$target" ]; then
+      ln -s "$root/$target" "$target"
+      echo "Linked $target -> $root/$target"
+    fi
+  done
+}
