@@ -8,8 +8,8 @@
 
       "Bash(ls:*)",
       "Bash(cat:*)",
-      "Bash(rm: *)",
-      "Bash(mv: *)",
+      "Bash(rm:*)",
+      "Bash(mv:*)",
       "Bash(mkdir:*)",
       "Bash(pwd:*)",
       "Bash(cd:*)",
@@ -22,9 +22,6 @@
       "Bash(xargs:*)",
       "Bash(head:*)",
       "Bash(tail:*)",
-
-      "Bash(which:*)",
-
       "Bash(curl:*)",
 
       "Bash(ruby:*)",
@@ -42,14 +39,13 @@
       "Edit(~/p/**)",
       "List(**)",
 
-      "WebFetch(domain:*)",
-      "WebSearch(domain:**)",
       "WebFetch",
       "WebSearch",
-      "Fetch(**)"
+      "Fetch"
     ],
     "deny": [
       "Bash(sudo:*)"
-    ]
+    ],
+    "ask": []
   }
 }
