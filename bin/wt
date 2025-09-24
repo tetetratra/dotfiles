@@ -1,0 +1,33 @@
+#! /usr/bin/env ruby
+
+branch = ARGV[0]
+parent_dir = `pwd`.chomp
+
+puts `git fetch`
+
+puts '現在のworktree一覧'
+worktrees_str = `git worktree list`
+puts worktrees_str
+puts
+
+worktrees = worktrees_str.lines
+
+if worktrees.any? { |wt| wt.include?('prunable') }
+  puts "prunableなworktreeがあります。削除します"
+  puts `git worktree prune`
+end
+
+if branch.nil?
+  puts "branch名を指定してください"
+  exit 1
+end
+
+dir = branch.gsub('/','-')
+
+puts `git worktree add wt/#{dir} #{branch}`
+
+copy_targets = ENV['WT_COPY_TARGETS'].split(',')
+copy_targets.each do |lt|
+  `cp -r #{parent_dir}/#{lt} #{parent_dir}/wt/#{dir}/#{lt}`
+end
+
