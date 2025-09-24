@@ -1,3 +1,11 @@
+## TODO
+- ~/.claude にシンボリックリンクを置いても動かない (claude codeがシンボリックリンクに対応していない)
+  - https://github.com/anthropics/claude-code/issues/764
+  - https://github.com/anthropics/claude-code/issues/3575#issue-3233541973
+  - https://scrapbox.io/mrsekut-p/%E2%9C%85%EF%B8%8F2025%2F6%2F15_dotfiles%E3%81%ABAI_Rules%E3%82%92%E5%90%AB%E3%82%81%E3%82%8B#68b9ff8f0000000000d4c741
+  - 直るまでは各リポジトリのごとに手動でcpする
+    - 該当のリポジトリにいる状態で `cp ~/p/dotfiles/claude/settings.local.json .claude/settings.local.json` する
+
 ## 手動で更新するもの
 
 - `vimium-options.json`

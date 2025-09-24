@@ -10,6 +10,7 @@
       "Bash(cat:*)",
       "Bash(rm: *)",
       "Bash(mv: *)",
+      "Bash(mkdir:*)",
       "Bash(pwd:*)",
       "Bash(cd:*)",
       "Bash(find:*)",
@@ -17,6 +18,10 @@
       "Bash(rg:*)",
       "Bash(jq:*)",
       "Bash(echo:*)",
+      "Bash(sed:*)",
+      "Bash(xargs:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
 
       "Bash(which:*)",
 
@@ -44,7 +49,6 @@
       "Fetch(**)"
     ],
     "deny": [
-      "Bash(git:push:*)",
       "Bash(sudo:*)"
     ]
   }
