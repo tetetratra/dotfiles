@@ -41,7 +41,13 @@
 
       "WebFetch",
       "WebSearch",
-      "Fetch"
+      "Fetch",
+
+      "mcp__notion__notion-fetch",
+      "mcp__notion__notion-search",
+      "mcp__notion__get-comments",
+      "mcp__notion__create-comment",
+      "mcp__notion__notion-update-page"
     ],
     "deny": [
       "Bash(sudo:*)"
