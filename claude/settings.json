@@ -3,7 +3,6 @@
   "cleanupPeriodDays": 60,
   "permissions": {
     "allow": [
-      "Bash(echo テスト)",
       "Bash(git:*)",
       "Bash(gh:*)",
 
