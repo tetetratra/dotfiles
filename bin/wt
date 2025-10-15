@@ -34,7 +34,14 @@ dir = branch.gsub('/','-')
 puts `git worktree add wt/#{dir} #{branch}`
 
 copy_targets = ENV['WT_COPY_TARGETS'].split(',')
-copy_targets.each do |lt|
-  `cp -r #{parent_dir}/#{lt} #{parent_dir}/wt/#{dir}/#{lt}`
+copy_targets.each do |ct|
+  `cp -r #{parent_dir}/#{ct} #{parent_dir}/wt/#{dir}/#{ct}`
 end
+
+link_targets = ENV['WT_LINK_TARGETS'].split(',')
+link_targets.each do |lt|
+  `ln -sf #{parent_dir}/#{lt} #{parent_dir}/wt/#{dir}/#{lt}`
+end
+
+puts "\nwt/#{dir} に移動してください"
 
