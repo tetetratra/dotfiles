@@ -53,6 +53,11 @@
       "settings": {}
     },
 
+    "gopls": {
+      "command": "gopls",
+      "filetypes": ["go"]
+    },
+
     "eslint.autoFixOnSave": true,
     "eslint.filetypes": [
       "javascript",

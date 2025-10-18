@@ -18,6 +18,7 @@ python                                 = 'latest'
 rust                                   = 'latest'
 go                                     = 'latest'
 "go:github.com/hashicorp/terraform-ls" = "latest"
+"go:golang.org/x/tools/gopls"          = "latest"
 duckdb                                 = 'latest'
 
 [settings]
