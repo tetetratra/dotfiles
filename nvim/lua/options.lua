@@ -32,7 +32,7 @@ vim.o.smartindent = true
 vim.o.visualbell = true
 -- タブを特殊文字で表示する
 vim.o.list = true
-vim.o.listchars = "tab:>-"
+vim.o.listchars = "tab:>-,eol: " -- go言語で空行があるときに行頭に `>` が表示されてしまうが、`eol: ` を指定することで回避できる
 -- single: 「まるいち」のような記号が半角になってしまう
 -- double: 全角文字が現れたときに表示が崩れる (iterm + tmux + neovim)
 vim.o.ambiwidth = "double"
@@ -47,6 +47,8 @@ vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
 -- FileTypeがcのときにローカルな設定を適用する
 vim.cmd("autocmd FileType c setlocal sw=4 sts=4 ts=4 et")
+-- FileTypeがgoのときにローカルな設定を適用する
+vim.cmd("autocmd FileType go setlocal ts=4 sw=4 noet fo-=c fo-=r fo-=o")
 -- 検索時にインクリメンタル検索を有効にする
 vim.o.incsearch = true
 -- 検索結果をハイライト表示する
