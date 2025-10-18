@@ -186,9 +186,13 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 - `iterm.json`をインポート
   - preferences -> profiles -> other actions -> import
-- iterm -> preference -> keys -> navigation shortcuts
-  - すべて[No Shortcut]にする(tmuxのwindow切り替えのため)
-- iterm の Non-ASCII Font を nerd font にする
+- iTerm の設定
+  - preference -> keys -> navigation shortcuts
+    - すべて[No Shortcut]にする(tmuxのwindow切り替えのため)
+  - Non-ASCII Font を nerd font にする
+  - Keys -> Key Bindings で以下を追加
+    - `Shift + Return` -> Send Hex Code -> `0x0a` (改行コード)
+      - Claude Code や CodeX などで改行させるため
 - システム環境設定
   - アクセシビリティ -> トラックパッド -> ダブルタップで選択
   - キーボード
