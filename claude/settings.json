@@ -5,7 +5,6 @@
     "allow": [
       "Bash(git:*)",
       "Bash(gh:*)",
-
       "Bash(ls:*)",
       "Bash(cat:*)",
       "Bash(rm:*)",
@@ -23,26 +22,20 @@
       "Bash(head:*)",
       "Bash(tail:*)",
       "Bash(curl:*)",
-
       "Bash(ruby:*)",
       "Bash(node:*)",
-
       "Bash(gem:*)",
       "Bash(yarn:*)",
       "Bash(npm:*)",
-
       "Bash(docker compose exec:*)",
       "Bash(docker compose run:*)",
-
       "Read(~/m/**)",
       "Edit(~/m/**)",
       "Edit(~/p/**)",
       "List(**)",
-
       "WebFetch",
       "WebSearch",
       "Fetch",
-
       "mcp__notion__notion-fetch",
       "mcp__notion__notion-search",
       "mcp__notion__get-comments",
@@ -53,5 +46,6 @@
       "Bash(sudo:*)"
     ],
     "ask": []
-  }
+  },
+  "alwaysThinkingEnabled": false
 }
