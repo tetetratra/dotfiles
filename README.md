@@ -1,3 +1,5 @@
+- [ ] lazyvim https://www.lazyvim.org/ を導入する
+
 ## 手動で更新するもの
 
 - `vimium-options.json`
