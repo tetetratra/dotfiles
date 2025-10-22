@@ -22,6 +22,16 @@ if [ -f ~/.zshrc_local ]; then
   source ~/.zshrc_local
 fi
 
+# シェルを開いたタイミング & 移動したタイミングで、カレントディレクトリに.zshrc.localがあれば読み込む
+if [[ -f .zshrc.local ]]; then
+  source .zshrc.local
+fi
+chpwd() { # chpwd: zshが提供しているディレクトリ移動時に実行されるフック
+  if [[ -f .zshrc.local ]]; then
+    source .zshrc.local
+  fi
+}
+
 # go
 export GOPATH="$HOME/go"
 export PATH="$HOME/go/bin:$PATH"

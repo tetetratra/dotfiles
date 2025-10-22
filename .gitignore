@@ -5,6 +5,7 @@ tags
 .env
 line-notes.json
 tmp/local_secret.txt
+.zshrc.local
 
 .cursorrules
 .aider*
