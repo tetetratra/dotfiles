@@ -169,12 +169,12 @@ ln -sf ~/p/dotfiles/.gitconfig                     ~/.gitconfig
 ln -sf ~/p/dotfiles/.ctags                         ~/.ctags
 ln -sf ~/p/dotfiles/.solargraph.yml                ~/.solargraph.yml
 ln -sf ~/p/dotfiles/nvim/init.lua                  ~/.config/nvim/init.lua
-ln -sf ~/p/dotfiles/nvim/lua                       ~/.config/nvim/lua/
+ln -sf ~/p/dotfiles/nvim/lua                       ~/.config/nvim/
 ln -sf ~/p/dotfiles/nvim/coc-settings.json         ~/.config/nvim/coc-settings.json
 ln -sf ~/p/dotfiles/manual/karabiner-elements.json ~/.config/karabiner/assets/complex_modifications/karabiner-elements.json
 ln -sf ~/p/dotfiles/bin                            ~/bin
 ln -sf ~/p/dotfiles/claude/settings.json           ~/.claude/settings.json
-ln -sf ~/p/dotfiles/claude/commands                ~/.claude/commands
+ln -sf ~/p/dotfiles/claude/commands                ~/.claude/
 
 mise install
 
