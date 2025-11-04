@@ -16,6 +16,9 @@ nodejs                                 = 'latest'
 "npm:@openai/codex"                    = 'latest'
 "npm:ccusage"                          = 'latest'
 python                                 = 'latest'
+# uvのmise管理についての参考: https://rcmdnk.com/blog/2025/10/04/computer-ai/
+uv                                     = 'latest'
+"pipx:github/spec-kit"                 = 'latest'
 rust                                   = 'latest'
 go                                     = 'latest'
 "go:github.com/hashicorp/terraform-ls" = "latest"
