@@ -205,6 +205,8 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
       - キーボード -> 次のウィンドウを操作対象とする [ctrl スペース]
     - 音声入力 -> ショートカットキーをOFFにする
   - デスクトップとDock -> ウィンドウ -> タイル表示されたウィンドウを隙間を入れて配置 をOFFにする
+  - 壁紙 -> 「空撮をシャッフル: すべてをシャッフル」を選ぶ
+  - ロック画面 -> 「時計を大きく表示」「ユーザー名と写真を表示」をOFFにする
 - google日本語入力を利用するようにする
   - 設定を変更
   - 辞書を登録
@@ -240,6 +242,4 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
   name = tetetratra
   email = 44367208+tetetratra@users.noreply.github.com
   ```
-- 壁紙をランダムにする
-  - 設定->壁紙->「空撮をシャッフル: すべてをシャッフル」を選ぶ
 
