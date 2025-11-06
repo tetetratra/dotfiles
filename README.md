@@ -153,7 +153,8 @@ xcode-select --install
 mkdir -p ~/p
 mkdir -p ~/bin
 mkdir -p ~/.config/mise
-mkdir ~/.config/nvim/lua
+mkdir -p ~/.config/nvim/lua
+mkdir -p ~/.claude
 
 git clone git@github.com:tetetratra/dotfiles.git ~/p/dotfiles
 
@@ -178,6 +179,7 @@ ln -sf ~/p/dotfiles/bin                            ~/bin
 ln -sf ~/p/dotfiles/claude/settings.json           ~/.claude/settings.json
 ln -sf ~/p/dotfiles/claude/commands                ~/.claude/
 ln -sf ~/p/dotfiles/claude/CLAUDE.md               ~/.claude/CLAUDE.md
+ln -sf ~/p/dotfiles/claude/commands                ~/.codex/prompts
 
 mise install
 
