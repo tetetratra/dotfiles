@@ -18,7 +18,7 @@ brew "git"
 brew "gh"
 brew "git-delta"
 
-# 便利ツール
+# 便利ツール (開発)
 brew "bat"
 brew "jq"
 brew "yq"
@@ -49,6 +49,7 @@ cask "karabiner-elements"
 cask "alfred"
 cask "font-noto-nerd-font"
 cask "proxyman"
+cask "postman"
 
 # 一般アプリ
 cask "discord"
