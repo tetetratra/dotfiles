@@ -2,4 +2,4 @@
 
 message = ARGV[0]
 title = ARGV[1]
-`osascript -e 'display notification "#{message}" with title "#{title}"'`
+`osascript -e 'display notification "#{message}" with title "#{title}" sound name "Hero"'`
