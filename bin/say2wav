@@ -1,0 +1,60 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# 使い方: bin/say2wav "こんにちは__世界" > out.wav
+#        `_` は1個につき1秒の無音として扱われます
+
+require 'tmpdir'
+
+input_text = ARGV.join(' ')
+STDOUT.binmode
+
+segments =
+  input_text
+  .split(/(_+)/, -1)
+  .reject(&:empty?)
+  .map do |token|
+    if token.start_with?('_')
+      { type: :pause, length: token.length }
+    else
+      { type: :text, value: token }
+    end
+  end
+
+Dir.mktmpdir('say2wav-') do |dir|
+  chunk_paths = segments.each_with_index.map do |segment, idx|
+    wav_path = File.join(dir, format('segment_%02d.wav', idx))
+
+    case segment[:type]
+    when :text
+      m4a_path = File.join(dir, format('segment_%02d.m4a', idx))
+      say_cmd = ['say', segment[:value], '-o', m4a_path]
+      system(*say_cmd)
+
+      ffmpeg_cmd = ['ffmpeg', '-loglevel', 'error', '-y', '-i', m4a_path,
+                    '-ar', '16000', '-ac', '1', '-sample_fmt', 's16', wav_path]
+      system(*ffmpeg_cmd)
+    when :pause
+      ffmpeg_cmd = ['ffmpeg', '-loglevel', 'error', '-y', '-f', 'lavfi',
+                    '-i', 'anullsrc=r=16000:cl=mono', '-t', '1',
+                    '-sample_fmt', 's16', '-ac', '1', wav_path]
+      system(*ffmpeg_cmd)
+    else raise 'Unknown segment type'
+    end
+
+    wav_path
+  end
+
+  list_path = File.join(dir, 'concat.txt')
+  file_list = chunk_paths
+              .map { |path| "file '#{path.gsub("'", "\\\\'")}'" }
+              .join("\n") + "\n"
+  File.write(list_path, file_list)
+
+  output_path = File.join(dir, 'output.wav')
+  concat_cmd = ['ffmpeg', '-loglevel', 'error', '-y', '-f', 'concat',
+                '-safe', '0', '-i', list_path, '-c', 'copy', output_path]
+  system(*concat_cmd)
+
+  File.open(output_path, 'rb') { |f| IO.copy_stream(f, STDOUT) }
+end
