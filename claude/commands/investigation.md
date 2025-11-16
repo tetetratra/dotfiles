@@ -1,3 +1,5 @@
+$1
+
 ultrathink
 
 ## 作業手順
