@@ -35,6 +35,8 @@
   first-parent-sha = "!f () { git log --first-parent $1 --pretty='%H' -n 1;}; f"
   # 参考: https://suzuken.hatenablog.jp/entry/2018/12/05/155040
   logrep = "!f () { git log -p -S $1; }; f"
+  # 未コミットの各ファイルを個別にコミットする
+  commit-each-file = "!git-commit-each-file"
 
 [core]
   editor = nvim
