@@ -152,8 +152,17 @@ function my_tab_line()
     local bufpath = bufname ~= "" and bufname or "[No Name]"
 
     local root = bufnr and get_git_root(bufnr) or nil
-    if root and bufpath:sub(1,#root) == root then
-      bufpath = bufpath:sub(#root + 2)           -- 先頭 "/" を飛ばす
+    if root then
+      -- root の末尾に / をつけて、"root/" だけを削る
+      local prefix = root
+      if prefix:sub(-1) ~= "/" then
+        prefix = prefix .. "/"
+      end
+
+      if bufpath:sub(1, #prefix) == prefix then
+        -- prefix 部分（例: "/Users/you/" や "/"）だけを削る
+        bufpath = bufpath:sub(#prefix + 1)
+      end
     end
 
     local filename = vim.fn.fnamemodify(bufpath, ":t")
