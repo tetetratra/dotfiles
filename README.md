@@ -7,7 +7,7 @@
 - `Brewfile`
   - `brew bundle dump`でBrewfileをダンプする
 - `iterm.json`
-  - preferences -> profiles -> other actions -> export as json -> all
+  - preferences -> profiles -> other actions -> save profile as json -> all
 - `karabiner-elements.json`
   - 新しい設定はここに書いてからアプリ側でインポートする
 
@@ -162,6 +162,8 @@ brew bundle --file ~/p/dotfiles/manual/Brewfile
 
 ln -sf ~/p/dotfiles/.mise_config.toml              ~/.config/mise/config.toml
 ln -sf ~/p/dotfiles/.tmux.conf                     ~/.tmux.conf
+ln -sf ~/p/dotfiles/.tmux_dark_color.conf          ~/.tmux_dark_color.conf
+ln -sf ~/p/dotfiles/.tmux_light_color.conf         ~/.tmux_light_color.conf
 ln -sf ~/p/dotfiles/.zshrc                         ~/.zshrc
 ln -sf ~/p/dotfiles/.zshrc_aliases                 ~/.zshrc_aliases
 ln -sf ~/p/dotfiles/.zshrc_key_binds               ~/.zshrc_key_binds
@@ -224,6 +226,7 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     - `ctrl shift alt j`でwindowを全画面表示
     - `ctrl shift alt k`でwindowを移動
     - `ctrl shift alt n, p`でwindowを上下分割
+    - `cmd shift d` でダークモード切り替え
   - Google Chrome
     - `ctrl l`で`ctrl tab`
     - `ctrl h`で`ctrl shift tab`

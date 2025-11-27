@@ -8,6 +8,7 @@ brew "zsh"
 
 # ターミナル
 brew "tmux"
+brew "cormacrelf/tap/dark-notify" # ターミナルのテーマ変更を通知するツール (tmux-dark-notify で使用)
 
 # エディタ
 brew "neovim"

@@ -43,7 +43,6 @@ n("<Space>e", "<C-w>w")
 n("<Space>o", ":only<CR>")
 n("<Space>t", "<C-w>T") -- 現在のwindowをtabで開く
 n("<Space><F2>", ":lua toggle_virtual_edit()<CR>") -- "vimの矩形選択で文字が無くても右へ進める" を切り替える
-n("<Space><F3>", ":lua toggle_transparent()<CR>")
 n("<Space><F5>", ":set wrap!<CR>")
 
 i("jj", "<ESC>")

@@ -130,7 +130,11 @@ vim.cmd("command! UTF8 edit ++enc=utf-8")
 vim.cmd("set termguicolors")
 
 -- ターミナルの背景色を透明にする
-vim.api.nvim_set_hl(0, "Normal", { background = "NONE" })
+vim.api.nvim_create_autocmd("ColorScheme", {
+  callback = function()
+    vim.api.nvim_set_hl(0, "Normal", { background = "NONE" })
+  end
+})
 
 -- floating windows を半透明に表示する
 vim.o.winblend = 5

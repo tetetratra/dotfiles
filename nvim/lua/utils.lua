@@ -86,18 +86,6 @@ function toggle_virtual_edit()
   end
 end
 
-function toggle_transparent()
-  local bg = vim.api.nvim_get_hl_by_name("Normal", true).background
-  if bg then -- 退避 & 透明化
-    vim.g.saved_normal_guibg = bg
-    vim.api.nvim_set_hl(0, "Normal", { background = "NONE" })
-    print("background color disabled")
-  else -- 復元
-    vim.api.nvim_set_hl(0, "Normal", { background = vim.g.saved_normal_guibg })
-    print("background color enabled")
-  end
-end
-
 function jump_gf_lsp_tag()
   if vim.bo.filetype == "" then -- 空のバッファ等でfiletyepeが設定されていない場合は決め打ちでrubyにする
     vim.bo.filetype = "ruby"
