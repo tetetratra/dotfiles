@@ -51,4 +51,11 @@ alias x='
   clear
 '
 alias tmux-colors='for i in {0..255}; do printf "\033[48;5;%sm %3s \033[0m" $i $i; (( i % 16 == 15 )) && echo; done'
-
+# formatter
+alias f-sql='sql-formatter'
+alias f-json='jq .'
+alias f-rb='rubocop --auto-correct --stdin test.rb'
+alias f-js='prettier --stdin-filepath test.js'
+alias f-ts='prettier --stdin-filepath test.ts'
+alias f-jsx='prettier --stdin-filepath test.jsx'
+alias f-tsx='prettier --stdin-filepath test.tsx'
