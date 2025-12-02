@@ -100,6 +100,8 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 })
 -- マウスを有効にする
 vim.o.mouse = "a"
+-- スクロールイベント1つにつき1行だけスクロールする
+vim.opt.mousescroll = "ver:1,hor:1"
 
 if not vim.g.loaded_matchit then
   -- matchitを有効化
