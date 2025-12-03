@@ -33,9 +33,9 @@ vim.o.visualbell = true
 -- タブを特殊文字で表示する
 vim.o.list = true
 vim.o.listchars = "tab:>-,eol: " -- go言語で空行があるときに行頭に `>` が表示されてしまうが、`eol: ` を指定することで回避できる
--- single: 「まるいち」のような記号が半角になってしまう
--- double: 全角文字が現れたときに表示が崩れる (iterm + tmux + neovim)
-vim.o.ambiwidth = "double"
+-- single: ①のような記号が半角になってしまう (デフォルトはsingle)
+-- double: ①のような記号は正しく表示されるが、罫線記号等がずれる
+vim.o.ambiwidth = "single"
 -- タブをスペースに展開する
 vim.o.expandtab = true
 -- タブ幅を8に設定する

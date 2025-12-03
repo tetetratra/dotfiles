@@ -13,6 +13,9 @@ return {
           -- fzf の拡張検索ロジックを有効にするための最低限設定
           file_ignore_patterns = { "node_modules", ".git/" },
 
+          -- 起動時はノーマルモード開始
+          initial_mode = "normal",
+
           -- smart_case により大文字小文字無視
           -- fuzzy により snake/camel 無視 & subsequence マッチ
           vimgrep_arguments = {
@@ -87,6 +90,8 @@ return {
           end,
         })
       end, { silent = true })
+
+      vim.keymap.set("n", "<Space>r", builtin.resume, { silent = true }) -- 直近の検索を再開
     end,
   }
 }
