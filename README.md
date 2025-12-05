@@ -180,6 +180,7 @@ ln -sf ~/p/dotfiles/manual/karabiner-elements.json ~/.config/karabiner/assets/co
 ln -sf ~/p/dotfiles/bin                            ~/bin
 ln -sf ~/p/dotfiles/claude/settings.json           ~/.claude/settings.json
 ln -sf ~/p/dotfiles/claude/commands                ~/.claude/
+ln -sf ~/p/dotfiles/claude/skills                  ~/.claude/
 ln -sf ~/p/dotfiles/claude/CLAUDE.md               ~/.claude/CLAUDE.md
 ln -sf ~/p/dotfiles/claude/commands                ~/.codex/prompts
 

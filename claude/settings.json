@@ -3,6 +3,8 @@
   "cleanupPeriodDays": 60,
   "permissions": {
     "allow": [
+      "Task",
+      "Skill",
       "Bash(git:*)",
       "Bash(gh:*)",
       "Bash(ls:*)",
