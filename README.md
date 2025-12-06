@@ -208,7 +208,7 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
       - すべてOFFにする
       - スクリーンショット, spotlightはONにする
       - キーボード -> 次のウィンドウを操作対象とする [ctrl スペース]
-    - 音声入力 -> ショートカットキーをOFFにする
+    - 音声入力 -> ショートカットキーを `ctrl shift f12` (他と被らないであろうキー) にする
   - デスクトップとDock -> ウィンドウ -> タイル表示されたウィンドウを隙間を入れて配置 をOFFにする
   - 壁紙 -> 「空撮をシャッフル: すべてをシャッフル」を選ぶ
   - ロック画面 -> 「時計を大きく表示」「ユーザー名と写真を表示」をOFFにする
@@ -227,6 +227,7 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     - `ctrl shift alt k`でwindowを移動
     - `ctrl shift alt n, p`でwindowを上下分割
     - `cmd shift d` でダークモード切り替え
+    - `地球儀マーク(fnキー)` で `ctrl shift f12` (音声入力を設定したショートカット) を送る
   - Google Chrome
     - `ctrl l`で`ctrl tab`
     - `ctrl h`で`ctrl shift tab`
