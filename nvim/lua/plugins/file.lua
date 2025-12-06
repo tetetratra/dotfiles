@@ -80,7 +80,7 @@ return {
               enable = false,
             },
             side = "left",
-            width = 40,
+            width = 30,
             adaptive_size = false,
           },
         })
