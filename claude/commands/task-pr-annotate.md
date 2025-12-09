@@ -78,18 +78,27 @@ PR作成後、レビュワーがレビューしやすくするために、主要
 
 `gh pr comment` コマンドを使って、該当行にインラインコメントを追加します。
 
-**単一行へのコメント例**:
+**単一行へのコメント例（呼び出し元の説明）**:
 ```bash
 gh pr comment <PR番号> \
-  --body "このメソッドは UsersController#update から呼ばれます" \
+  --body "このメソッドは UsersController#update から呼ばれます。
+ユーザープロフィール更新時のバリデーションとメール送信を担当しています。
+API経由とWeb UI経由の両方で使用されるため、汎用的な設計にしています。
+管理画面からの更新は AdminUsersController 経由で別のフローを使用するため、このメソッドは通りません。" \
   --file app/services/user_updater.rb \
   --line 45
 ```
 
-**複数行にわたるコメント例**:
+**複数行にわたるコメント例（実装方式の選択理由）**:
 ```bash
 gh pr comment <PR番号> \
-  --body "当初は ActiveRecord の callbacks を検討しましたが、テスタビリティとロジックの明示性の観点から Service Object パターンを選択しました" \
+  --body "当初は ActiveRecord の callbacks を検討しましたが、以下の理由で Service Object パターンを選択しました。
+
+1. テスタビリティ: callbacks だと User モデルのテストが複雑になる
+2. ロジックの明示性: 更新処理の全体像が一箇所で把握できる
+3. 再利用性: API/Web UI で同じロジックを共通化できる
+
+callbacks だと副作用が暗黙的になり、デバッグも困難になると判断しました。" \
   --file app/services/user_updater.rb \
   --start-line 30 \
   --end-line 50
@@ -98,7 +107,12 @@ gh pr comment <PR番号> \
 **処理フローの補足例**:
 ```bash
 gh pr comment <PR番号> \
-  --body "処理フロー: UsersController#update → UserUpdater#call → User#save → UserMailer#notify" \
+  --body "処理フロー:
+UsersController#update → UserUpdater#call → User#save → UserMailer#notify
+
+この Service を経由する理由は、更新とメール送信をトランザクションで包みたいためです。
+User#save が失敗した場合、メール送信もロールバックされます。
+また、将来的に Slack 通知などの処理を追加する際も、この Service に集約できます。" \
   --file app/services/user_updater.rb \
   --line 10
 ```
@@ -106,13 +120,18 @@ gh pr comment <PR番号> \
 **変更範囲の妥当性の補足例**:
 ```bash
 gh pr comment <PR番号> \
-  --body "AdminUsersController は変更不要です。理由: 管理画面では別の更新フローを使用しており、このサービスを経由しないため" \
+  --body "AdminUsersController は変更不要です。理由は以下の通りです。
+
+管理画面では別の更新フロー（AdminUserUpdater）を使用しており、このサービスを経由しません。
+管理画面では承認ワークフローが必要なため、ユーザー向けとは異なる実装になっています。
+既存のテストでも AdminUsersController は UserUpdater に依存していないことを確認済みです。" \
   --file app/services/user_updater.rb \
   --line 5
 ```
 
 注意事項：
-- コメントは簡潔にし、レビュワーの負担を最小化する
+- コメントは5行以内を目安とし、レビュワーの負担を最小化する
+- 必要な情報を含めつつ簡潔に記述する
 - 必要に応じて複数のコメントを追加するが、過剰にならないよう注意
 - PR番号は `gh pr view` で確認できる
 
