@@ -102,8 +102,8 @@ $1
 - 実装の実行（task-implementation-executeスキル使用予定）
 - 動作確認の計画（task-verification-planningスキル使用予定）
 - 動作確認の実行（task-verification-executeスキル使用予定）
-- PR作成（write-prスキル使用予定）
-- PRフォローアップ（pr-followupスキル使用予定）
+- PR作成（task-write-prスキル使用予定）
+- PRフォローアップ（task-pr-followupスキル使用予定）
 ```
 
 ## チェックポイント
