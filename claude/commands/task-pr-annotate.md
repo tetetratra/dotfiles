@@ -76,9 +76,45 @@ PR作成後、レビュワーがレビューしやすくするために、主要
 
 ### 4. インラインコメントの追加
 
-- `gh pr comment` コマンドを使って、該当行にインラインコメントを追加
-- コメント形式: 具体的な行番号と説明を含める
-- 必要に応じて複数のコメントを追加
+`gh pr comment` コマンドを使って、該当行にインラインコメントを追加します。
+
+**単一行へのコメント例**:
+```bash
+gh pr comment <PR番号> \
+  --body "このメソッドは UsersController#update から呼ばれます" \
+  --file app/services/user_updater.rb \
+  --line 45
+```
+
+**複数行にわたるコメント例**:
+```bash
+gh pr comment <PR番号> \
+  --body "当初は ActiveRecord の callbacks を検討しましたが、テスタビリティとロジックの明示性の観点から Service Object パターンを選択しました" \
+  --file app/services/user_updater.rb \
+  --start-line 30 \
+  --end-line 50
+```
+
+**処理フローの補足例**:
+```bash
+gh pr comment <PR番号> \
+  --body "処理フロー: UsersController#update → UserUpdater#call → User#save → UserMailer#notify" \
+  --file app/services/user_updater.rb \
+  --line 10
+```
+
+**変更範囲の妥当性の補足例**:
+```bash
+gh pr comment <PR番号> \
+  --body "AdminUsersController は変更不要です。理由: 管理画面では別の更新フローを使用しており、このサービスを経由しないため" \
+  --file app/services/user_updater.rb \
+  --line 5
+```
+
+注意事項：
+- コメントは簡潔にし、レビュワーの負担を最小化する
+- 必要に応じて複数のコメントを追加するが、過剰にならないよう注意
+- PR番号は `gh pr view` で確認できる
 
 ## チェックポイント
 
