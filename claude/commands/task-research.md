@@ -108,271 +108,314 @@ $1
 
 ## 具体的な調査プロセスの例
 
-**タスク**: 「dependabot-bundler-conservativeをGitHub Actionsで導入したい」
+**タスク**: 「今はunicornを使っているけれど、pumaと比較した上でpitchforkの方がよければ乗り換えたい」
 
 ### 第1サイクル: 初期の疑問を広げる
 
 #### 連想ツリーを広げる（第1階層）
-- dependabot-bundler-conservativeとは？
-- GitHub Actionsとは？
-- どう導入するのか？
+- unicorn、puma、pitchforkとは何か？
+- それぞれの違いは？
+- なぜ乗り換えを検討するのか？
+- どのような基準で選ぶべきか？
 
 #### 答えを調査・整理する
-1. **dependabot-bundler-conservativeとは？**
-   - WebSearch調査 → 単一のツールではなく、以下の組み合わせを指す概念
-     - Dependabot: GitHubの依存関係自動更新ツール
-     - bundlerの`--conservative`フラグ: 最小限の依存関係のみ更新するオプション
-   - **重要な発見**: 公式Dependabotには`--conservative`オプションを使う設定が存在しない
-   - 実現方法: カスタムGitHub Actionsワークフローで`bundle update --conservative`を実行
-   - **新たな疑問**: bundler --conservativeの具体的な動作は？なぜ必要なのか？カスタムワークフローの具体的な作り方は？
+1. **unicorn、puma、pitchforkとは何か？**
+   - WebSearch調査 → いずれもRubyのアプリケーションサーバー
+   - Unicorn: マルチプロセスアーキテクチャ、スロークライアント対応にリバースプロキシが必要
+   - Puma: マルチスレッド + マルチプロセス、Rails 6以降のデフォルト
+   - Pitchfork: ShopifyがUnicornをベースに開発、Reforking機能が特徴
+   - **新たな疑問**: Reforking機能とは？アーキテクチャの違いによる影響は？
 
-2. **GitHub Actionsとは？**
-   - 既知と判断 → GitHubのCI/CDプラットフォーム
-   - **新たな疑問**: なし
+2. **それぞれの違いは？**
+   - アーキテクチャ: Unicorn（マルチプロセス）、Puma（マルチスレッド + マルチプロセス）、Pitchfork（マルチプロセス + Reforking）
+   - メモリ効率: Unicorn（CoW利用）、Puma（スレッドベース）、Pitchfork（Reforkingで約30%削減）
+   - **新たな疑問**: スレッドセーフとは？選択基準は？
 
-3. **どう導入するのか？**
-   - 公式ドキュメント調査 → カスタムワークフローファイルを作成
-   - **新たな疑問**: どこに作る？どんな内容を書く？
+3. **なぜ乗り換えを検討するのか？**
+   - 一般的な理由: メモリ削減、パフォーマンス改善、Rails新バージョン対応、スロークライアント対応
+   - **新たな疑問**: 具体的な効果は？デメリットは？
+
+4. **どのような基準で選ぶべきか？**
+   - 判断基準が不明確
+   - **新たな疑問**: それぞれを選ぶべきケースは？
 
 ### 第2サイクル: 新たな疑問を広げる
 
 #### 連想ツリーを広げる（第2階層）
-- bundler --conservativeとは？なぜ必要？
-- ワークフローファイルの具体的な内容は？
-- GITHUB_TOKENとは？なぜ必要？
-- GITHUB_TOKENの設定方法は？
-- 必要な権限は？
+- Reforkingの詳細な仕組みは？なぜメモリ効率が改善するのか？
+- マルチスレッドとマルチプロセスの違いによる影響は？
+- スレッドセーフとは？Pumaで注意すべきことは？
+- それぞれの選択基準は？
+- 具体的なメモリ削減・パフォーマンス改善の効果は？
+- 移行のデメリットや注意点は？
 
 #### 答えを調査・整理する
-1. **bundler --conservativeとは？なぜ必要？**
-   - Bundler 1.14で導入されたフラグ
-   - `bundle update --conservative GEM_NAME`の形式で使用
-   - 指定したgemのみを更新し、共有依存関係の更新を防ぐ
-   - なぜ必要？
-     - セキュリティ脆弱性対応などで特定のgemのみ更新したい場合に有用
-     - 意図しない大規模な依存関係更新を防ぐため
-     - リスクを最小化し、小さなステップで更新を進められるため
+1. **Reforkingの詳細な仕組みは？なぜメモリ効率が改善するのか？**
+   - 仕組み: 通常のpreforkingは初期化時にfork、Reforkingは一定リクエスト処理後に「温まった」ワーカーを新テンプレートとしてfork
+   - なぜメモリ効率が改善するのか（因果関係）:
+     - Rubyアプリケーションはリクエスト処理によってメモリを遅延ロード
+     - 初期化時のforkでは、まだロードされていないメモリが多い
+     - リクエスト処理後にメモリへの書き込みが発生すると、Copy-on-Writeが働き、メモリが各プロセスに複製される
+     - よって、初期化時のforkではCoW効率が時間とともに低下する
+     - Reforkingでは、既に「温まった」ワーカーからforkするため、共有メモリが増える
+     - 結果として、メモリ使用量が約30%削減される
    - **新たな疑問**: なし
 
-2. **ワークフローファイルの具体的な内容は？**
-   - 場所: `.github/workflows/`配下にYAMLファイルを作成
-   - 基本構成:
-     - トリガー設定（schedule、workflow_dispatchなど）
-     - permissions設定
-     - Ruby環境のセットアップ
-     - `bundle update --conservative`の実行
-     - PR作成
-   - **新たな疑問**: PR作成にはどのActionを使うのか？
-
-3. **GITHUB_TOKENとは？なぜ必要？**
-   - GitHub Actionsワークフロー内で自動生成される認証トークン
-   - `${{ secrets.GITHUB_TOKEN }}`で参照
-   - なぜ必要？（因果関係を明確にする）:
-     - カスタムワークフローはPRを自動作成する
-     - PRの作成はGitHub APIを呼び出す操作
-     - GitHub APIは認証が必要
-       - 理由: 不正アクセスを防止するため
-       - 理由: 誰が操作を行っているかを識別するため
-     - 認証にはトークンが使われる
-     - よって、API経由でPRを作成するにはGITHUB_TOKENが必要
+2. **マルチスレッドとマルチプロセスの違いによる影響は？**
+   - マルチプロセス: メモリ空間が独立、スレッドセーフ不要、GVL影響なし
+   - マルチスレッド: メモリ共有で効率的、スレッドセーフ必須、I/O待機時に他スレッド実行可能
    - **新たな疑問**: なし
 
-4. **GITHUB_TOKENの設定方法は？**
-   - 自動生成されるため手動作成は不要
-   - ワークフローファイルで`${{ secrets.GITHUB_TOKEN }}`と記述するだけ
-   - 権限設定は`permissions`キーで制御
+3. **スレッドセーフとは？Pumaで注意すべきことは？**
+   - スレッドセーフ: マルチスレッド処理で各スレッドが互いに影響し合わない性質
+   - Pumaで注意すべきこと: 全てのgemとアプリケーションコードがスレッドセーフである必要
+   - なぜ注意が必要か（因果関係）:
+     - Pumaはマルチスレッドで動作する
+     - 複数のスレッドが同じインスタンス変数にアクセスする可能性がある
+     - スレッドセーフでないコードは、予期しない動作やデータ破損を引き起こす
+     - よって、Pumaを使う場合はスレッドセーフな実装が必須
    - **新たな疑問**: なし
 
-5. **必要な権限は？**
-   - `contents: write`
-   - `pull-requests: write`
-   - **新たな疑問**: なぜこれらの権限が必要なのか？
+4. **それぞれの選択基準は？**
+   - Unicorn: スレッドセーフでないアプリケーション、内部向け
+   - Puma: Rails 5以降の新規、I/O待機が多い、メモリ限定環境
+   - Pitchfork: 大規模モノリス、メモリ劇的削減、週数回デプロイ、コンテナ環境
+   - **新たな疑問**: 移行のデメリットや具体的な注意点は？
+
+5. **具体的なメモリ削減・パフォーマンス改善の効果は？**
+   - Shopifyの事例（Pitchfork）: メモリ約30%削減、レイテンシー約9%改善
+   - Pumaへの移行事例: メモリ880MB→600MB、GitLab.comで40%削減
+   - **新たな疑問**: なし
+
+6. **移行のデメリットや注意点は？**
+   - Pumaへの移行: マルチスレッドの複雑性、全gemのスレッドセーフ検証、設定の複雑さ、メモリ増加の可能性
+   - Pitchforkへの移行: フォークセーフの複雑性、機能削減、Linux 3.4以上必要、依存関係の精査
+   - なぜこれらの注意が必要か:
+     - Pitchforkはプロセスが複数回forkされる
+     - 通常のpreforkingサーバーで動作するアプリケーションでも、Pitchforkでは問題が出る可能性
+     - よって、スタックを完全に理解し、依存関係を精査できる必要がある
+   - **新たな疑問**: 具体的な移行手順は？
 
 ### 第3サイクル: さらに掘り下げる
 
 #### 連想ツリーを広げる（第3階層）
-- PR作成にはどのActionを使うのか？
-- contents: writeとは？なぜ必要？
-- pull-requests: writeとは？なぜ必要？
+- 具体的な移行手順は？（Unicorn→Puma、Unicorn→Pitchfork）
+- 移行時の設定ファイルの変更は？
+- 移行後の動作確認方法は？
 
 #### 答えを調査・整理する
-1. **PR作成にはどのActionを使うのか？**
-   - `peter-evans/create-pull-request`が広く使われている
-   - 代替: `gh` CLI（GitHub公式コマンドラインツール）も使用可能
-   - 機能:
-     - 変更を新しいブランチにコミット
-     - PRを自動作成または更新
-     - PRのタイトル、本文、ラベル、レビュアーを設定可能
+1. **具体的な移行手順は？**
+   - Unicorn→Pumaの移行: Gemfile変更、config/puma.rb作成、設定対応付け、スレッドセーフ確認、段階的ロールアウト
+   - Unicorn→Pitchforkの移行: Gemfile変更、設定ファイル変更、Reforking設定追加、フォークセーフ確認、開発環境テスト、段階的ロールアウト
    - **新たな疑問**: なし
 
-2. **contents: writeとは？なぜ必要？**
-   - リポジトリの内容に対する書き込み権限
-   - ファイルの作成、更新、削除が可能になる
-   - なぜ必要？（因果関係を明確にする）:
-     - `bundle update --conservative`は`Gemfile.lock`を更新する
-     - `Gemfile.lock`の更新はリポジトリ内のファイルの変更
-     - GitHub APIでリポジトリ内のファイルを変更するには`contents: write`権限が必要
-     - よって、依存関係ファイルを更新してコミットするために`contents: write`が必要
+2. **移行時の設定ファイルの変更は？**
+   - Unicorn→Pumaの設定対応: `worker_processes` → `workers`、`preload_app true` → `preload_app!`、`after_fork` → `on_worker_boot`
+   - Pitchforkの設定例: `worker_processes`、`timeout`、`before_fork`、`after_mold_fork`（Refork時）
    - **新たな疑問**: なし
 
-3. **pull-requests: writeとは？なぜ必要？**
-   - PRの作成、更新、削除ができる権限
-   - PRへのコメント追加、レビュアー指定なども可能
-   - なぜ必要？（因果関係を明確にする）:
-     - ワークフローはPRを作成する
-     - PRの作成はGitHub APIの`/pulls`エンドポイントを呼び出す操作
-     - GitHub APIでPRを作成・更新するには`pull-requests: write`権限が必要
-     - よって、自動的にPRを作成するために`pull-requests: write`が必要
-   - **新たな疑問**: リポジトリ設定で追加の設定は必要か？
-
-### 第4サイクル: 実装の具体的手順
-
-#### 連想ツリーを広げる（第4階層）
-- リポジトリ設定で追加の設定は必要か？
-- 実際のワークフローファイルの完全な例は？
-
-#### 答えを調査・整理する
-1. **リポジトリ設定で追加の設定は必要か？**
-   - リポジトリ設定で「Allow GitHub Actions to create and approve pull requests」を有効にする必要がある
-   - デフォルトでは、新しいリポジトリではこの設定が無効になっている
-   - 場所: Settings > Actions > General > Workflow permissions
-   - なぜ必要？:
-     - セキュリティのため、デフォルトではActionsによるPR作成が制限されている
-     - 明示的に許可することで、自動化されたPR作成が可能になる
-   - **新たな疑問**: なし
-
-2. **実際のワークフローファイルの完全な例は？**
-   - 収集した情報を統合した完全なYAML例を作成
+3. **移行後の動作確認方法は？**
+   - メモリ使用量の監視、レイテンシーの計測、エラーログの確認、スレッドセーフ問題の検出、段階的なトラフィック移行
    - **新たな疑問**: なし
 
 ### 終了判定
 ✅ すべての疑問に因果関係を持った答えが得られた
 ✅ 実装に必要な情報が揃った
-✅ 4階層まで掘り下げた
+✅ 3階層まで掘り下げた
 → 整理して出力
 
 ## 成果物例
 
+(コードブロック内のコードブロックはバッククォート2個で囲っています)
+
 ```
 ## 前提知識・関連知識
 
-- dependabot-bundler-conservativeとは？
-  - 単一のツールではない
-  - 以下の組み合わせを指す概念
-    - Dependabot：GitHubの依存関係自動更新ツール
-    - bundlerの`--conservative`フラグ：最小限の依存関係のみ更新するオプション
-  - 重要な発見：公式Dependabotには`--conservative`オプションを使う設定が存在しない（参考：https://github.com/dependabot/dependabot-core/issues/5926）
-  - 実現方法：カスタムGitHub Actionsワークフローで`bundle update --conservative`を実行
+- unicorn、puma、pitchforkとは？
+  - いずれもRubyのアプリケーションサーバー（Rackアプリケーション用のHTTPサーバー）
 
-  - bundler --conservativeとは？
-    - Bundler 1.14で導入されたフラグ（参考：https://depfu.com/blog/2017/04/25/bundlers-new-update-options）
-    - `bundle update --conservative GEM_NAME`の形式で使用
-    - 指定したgemのみを更新し、共有依存関係の更新を防ぐ
-    - なぜ必要？
-      - セキュリティ脆弱性対応などで特定のgemのみ更新したい場合に有用
-      - 意図しない大規模な依存関係更新を防ぐため
-      - リスクを最小化し、小さなステップで更新を進められるため
+  - **Unicorn**
+    - マルチプロセスアーキテクチャ
+    - スロークライアント対応にNginxなどのリバースプロキシが必要
+    - 古くから使われている実績のあるサーバー
 
-- GitHub Actionsでの導入方法
-  - ワークフローファイルを作成
-    - どこに作る？
-      - `.github/workflows/`配下にYAMLファイルを作成
-    - どんな内容を書く？
-      - トリガー設定（schedule、workflow_dispatchなど）
-      - permissions設定
-      - ジョブ定義
-        - Ruby環境のセットアップ
-        - `bundle update --conservative`の実行
-        - PR作成
+  - **Puma**
+    - マルチスレッド + マルチプロセス（クラスタリング）対応
+    - Rails 6以降のデフォルトアプリケーションサーバー（参考：https://scoutapm.com/blog/which-ruby-app-server-is-right-for-you-ja）
+    - スロークライアント対応が組み込まれている
 
-  - GITHUB_TOKENが必要（参考：https://docs.github.com/en/actions/security-for-github-actions/security-guides/automatic-token-authentication）
-    - なぜ必要？
-      - カスタムワークフローはPRを自動作成する
-      - PRの作成はGitHub APIを呼び出す操作
-      - GitHub APIは認証が必要
-        - 理由：不正アクセスを防止するため
-        - 理由：誰が操作を行っているかを識別するため
-      - 認証にはトークンが使われる
-      - よって、API経由でPRを作成するにはGITHUB_TOKENが必要
+  - **Pitchfork**
+    - ShopifyがUnicorn 6.1.0をベースに開発（参考：https://github.com/Shopify/pitchfork）
+    - マルチプロセスアーキテクチャ
+    - Reforking機能が最大の特徴
 
-    - どうやって設定する？
-      - 自動生成されるため手動作成は不要
-      - ワークフローファイルで`${{ secrets.GITHUB_TOKEN }}`と記述するだけ
+- アーキテクチャの違いとその影響
+  - **Unicorn**：マルチプロセスのみ
+    - プロセス間はメモリ空間が独立
+    - スレッドセーフを気にする必要がない
+    - Copy-on-Writeを利用するが、時間経過でメモリ共有が減少
 
-    - 必要な権限は？
-      - `contents: write`
-        - なぜ必要？
-          - `bundle update --conservative`は`Gemfile.lock`を更新する
-          - `Gemfile.lock`の更新はリポジトリ内のファイルの変更
-          - GitHub APIでリポジトリ内のファイルを変更するには`contents: write`権限が必要
-          - よって、依存関係ファイルを更新してコミットするために必要
+  - **Puma**：マルチスレッド + マルチプロセス
+    - プロセス内でメモリを共有
+    - スレッドベースのため、プロセスあたりのメモリは少ない
+    - なぜスレッドセーフが必要か？
+      - Pumaはマルチスレッドで動作する
+      - 複数のスレッドが同じインスタンス変数にアクセスする可能性がある
+      - スレッドセーフでないコードは、予期しない動作やデータ破損を引き起こす
+      - よって、Pumaを使う場合は全てのgemとアプリケーションコードがスレッドセーフである必要
+    - RubyのGVL（Global VM Lock）により、同時に実行されるスレッドは常に1つ
+    - I/O待機時に他のスレッドが実行できるため、I/O boundなアプリケーションで有利
 
-      - `pull-requests: write`
-        - なぜ必要？
-          - ワークフローはPRを作成する
-          - PRの作成はGitHub APIの`/pulls`エンドポイントを呼び出す操作
-          - GitHub APIでPRを作成・更新するには`pull-requests: write`権限が必要
-          - よって、自動的にPRを作成するために必要
+  - **Pitchfork**：マルチプロセス + Reforking
+    - Reforking機能により継続的に高いCopy-on-Write効率を維持
+    - スレッドセーフを気にする必要がない
 
-  - PR作成方法
-    - `peter-evans/create-pull-request` Actionを使用
-      - 変更を新しいブランチにコミット
-      - PRを自動作成または更新
-      - PRのタイトル、本文、ラベル、レビュアーを設定可能
-    - 代替：`gh` CLI（GitHub公式コマンドラインツール）も使用可能
+- Pitchforkの Reforking 機能とは？
+  - **通常のpreforking**：初期化時に親プロセスから子プロセスをfork
+  - **Reforking**：一定のリクエスト処理後、最も最適化されたワーカーを新しいテンプレートとして昇格させ、そこから新しいワーカーをfork
 
-  - リポジトリ設定
-    - 「Allow GitHub Actions to create and approve pull requests」を有効化
-    - 場所：Settings > Actions > General > Workflow permissions
-    - なぜ必要？
-      - セキュリティのため、デフォルトではActionsによるPR作成が制限されている
-      - 明示的に許可することで、自動化されたPR作成が可能になる
+  - なぜメモリ効率が改善するのか？（因果関係）
+    - Rubyアプリケーションはリクエスト処理によってメモリを遅延ロード（lazy load）する
+    - 初期化時のforkでは、まだロードされていないメモリが多い
+    - リクエスト処理後にメモリへの書き込みが発生すると、Copy-on-Writeが働き、メモリが各プロセスに複製される
+    - よって、初期化時のforkではCoW効率が時間とともに低下する
+    - Reforkingでは、既に「温まった」ワーカーからforkするため、共有メモリが増える
+    - 結果として、メモリ使用量が約30%削減される（参考：https://railsatscale.com/2023-10-23-pitchfork-impact-on-shopify-monolith/）
 
-- ワークフローファイルの完全な例
-  ```yaml
-  name: Conservative Bundle Update
-  on:
-    schedule:
-      - cron: '0 0 * * 0'  # 毎週日曜日
-    workflow_dispatch:  # 手動実行も可能
+- 具体的なパフォーマンス・メモリ改善効果
+  - **Shopifyの事例（Pitchfork）**：（参考：https://railsatscale.com/2023-10-23-pitchfork-impact-on-shopify-monolith/）
+    - メモリ使用量：約30%削減（デプロイが少ない週末は10-12%）
+    - レイテンシー：約9%改善（週末は14%）
+    - 36ワーカー構成で128MiBのメモリ割り当てが4.6GiBから最小限の増加に削減
 
-  permissions:
-    contents: write
-    pull-requests: write
+  - **Pumaへの移行事例**：
+    - メモリ使用量：880MB→600MB程度に削減
+    - GitLab.comでは40%のメモリ削減（参考：https://scoutapm.com/blog/which-ruby-app-server-is-right-for-you-ja）
 
-  jobs:
-    bundle-update:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v4
+- 選択基準
+  - **Unicornを選ぶべきケース**：
+    - スレッドセーフでないアプリケーション
+    - 低速なクライアントの影響を受けず、かつ内部向けのアプリケーション（リバースプロキシ前提）
 
-        - uses: ruby/setup-ruby@v1
-          with:
-            ruby-version: '3.2'
-            bundler-cache: false
+  - **Pumaを選ぶべきケース**：
+    - Rails 5以降の新規アプリケーション（デフォルト）
+    - I/O待機が多いアプリケーション
+      - なぜ？
+        - PumaはマルチスレッドでI/O wait時に別スレッドの処理を進められる
+        - よって、I/O boundなアプリケーションで効率が良い
+    - メモリリソースが限られている環境
+    - スロークライアントへの対応が必要
 
-        - name: Run conservative bundle update
-          run: bundle update --conservative
+  - **Pitchforkを選ぶべきケース**：
+    - 大規模なRailsモノリス
+    - メモリ使用量を劇的に削減したい
+    - デプロイ頻度が週に数回程度（効果が最大化される）
+    - フォークセーフな実装を確保できる
+    - コンテナ化された環境（デーモン化不要）
 
-        - name: Create Pull Request
-          uses: peter-evans/create-pull-request@v5
-          with:
-            token: ${{ secrets.GITHUB_TOKEN }}
-            commit-message: 'Update gems conservatively'
-            title: 'Conservative bundle update'
-            body: |
-              This PR updates gems using the `--conservative` flag.
-              Only necessary dependencies are updated.
-            branch: bundle-update-conservative
-  ```
+- 移行のデメリットと注意点
+  - **Pumaへの移行**：
+    - マルチスレッドの複雑性：想定外の動作が発生する可能性
+    - 全てのgemがスレッドセーフである必要がある
+      - なぜ？
+        - Pumaはマルチスレッドで動作する
+        - スレッドセーフでないgemは競合状態やデータ破損を引き起こす
+        - よって、全ての依存gemの検証が必要
+    - 設定の複雑さ：bind、pidfile、state_pathの適切な設定が必要
+    - メモリ増加の可能性：デフォルト16スレッドではUnicornより多くなる場合も
+    - PumaWorkerKillerなどでワーカーの定期再起動が必要な場合がある
+
+  - **Pitchforkへの移行**：
+    - フォークセーフの複雑性：間違いが重大なバグをもたらす可能性
+      - なぜ？
+        - Pitchforkはプロセスが複数回forkされる
+        - コネクション継承やバックグラウンドスレッドが問題を引き起こす可能性
+        - よって、依存関係の精査とフォークセーフの確保が必須
+    - 機能削減：デーモン化、pidファイル管理、ホットリロードが削除されている
+      - なぜ削除された？
+        - コンテナ化された環境を前提としているため
+        - シンプルな設計を重視するため
+    - Linux 3.4以上が必要（PR_SET_CHILD_SUBREAPER機能）
+    - 段階的な導入が推奨：まず開発環境で十分にテスト
+
+- 移行手順
+  - **Unicorn→Pumaの移行**：
+    1. Gemfileの変更：`gem 'unicorn'`を`gem 'puma'`に変更
+    2. 設定ファイルの作成：`config/puma.rb`を作成
+    3. 設定の対応付け：
+       ``
+       # Unicorn (config/unicorn.rb)
+       worker_processes 3
+       preload_app true
+       after_fork do |server, worker|
+         ActiveRecord::Base.establish_connection
+       end
+
+       # Puma (config/puma.rb)
+       workers 3
+       preload_app!
+       on_worker_boot do
+         ActiveRecord::Base.establish_connection
+       end
+       ``
+    4. スレッドセーフの確認：全てのgemとアプリケーションコードを検証
+    5. 段階的なロールアウト
+
+  - **Unicorn→Pitchforkの移行**：
+    1. Gemfileの変更：`gem 'unicorn'`を`gem 'pitchfork'`に変更
+    2. 設定ファイルの変更：`config/unicorn.rb`を`config/pitchfork.rb`に
+    3. Unicornと互換性が高いため、多くの設定はそのまま使用可能
+    4. Reforking設定の追加（オプション）：
+       ``
+       # config/pitchfork.rb
+       worker_processes ENV.fetch("WEBSERVER_WORKERS", 2).to_i
+       timeout 10
+       before_fork do |server|
+         # データベース接続を切断
+       end
+       after_mold_fork do |server, mold|
+         # Refork時の処理
+       end
+       ``
+    5. フォークセーフの確認：依存関係の精査が重要
+    6. 開発環境で十分にテスト
+    7. 段階的な本番環境へのロールアウト
+
+- 判断のためのチェックリスト
+  - 現在のアプリケーションの問題は？
+    - メモリ不足？ → Pitchforkを検討
+    - レスポンスの遅延？ → Pumaを検討（I/O boundの場合）
+    - 特に問題なし？ → 移行不要
+
+  - アプリケーションの特性は？
+    - スレッドセーフか？
+      - Yes → Pumaの選択肢あり
+      - No → Unicorn/Pitchfork
+    - I/O待機が多いか？
+      - Yes → Pumaが有利
+      - No → Unicorn/Pitchfork
+
+  - 運用環境は？
+    - コンテナ化されているか？ → Pitchfork向き
+    - デプロイ頻度は？
+      - 週に数回 → Pitchforkの効果大
+      - 1日に複数回 → Pitchforkの効果小
+
+  - リソースと体制は？
+    - 全ての依存gemを精査できるか？ → 精査できればPuma/Pitchforkの選択肢
+    - 段階的なテストとロールアウトが可能か？ → 可能であれば移行推奨
 
 ## 参考情報
 - 公式ドキュメント：
-  - Bundler update options: https://depfu.com/blog/2017/04/25/bundlers-new-update-options
-  - GitHub Actions permissions: https://docs.github.com/en/actions/how-tos/writing-workflows/choosing-what-your-workflow-does/controlling-permissions-for-github_token
-  - Automatic token authentication: https://docs.github.com/en/actions/security-for-github-actions/security-guides/automatic-token-authentication
-- Dependabotの制限に関するissue: https://github.com/dependabot/dependabot-core/issues/5926
-- peter-evans/create-pull-request: https://github.com/peter-evans/create-pull-request
+  - Pitchfork GitHub: https://github.com/Shopify/pitchfork
+  - Shopify Pitchfork impact: https://railsatscale.com/2023-10-23-pitchfork-impact-on-shopify-monolith/
+  - Rails threading guide: https://railsguides.jp/threading_and_code_execution.html
+- 比較記事：
+  - Unicorn vs Puma vs Passenger: https://scoutapm.com/blog/which-ruby-app-server-is-right-for-you-ja
+  - Puma/Unicorn/Passenger最適化設定: https://techracho.bpsinc.jp/hachi8833/2022_06_14/47696
+- 移行事例：
+  - UnicornからPumaへの移行: https://parrot.hatenadiary.jp/entry/2018/07/27/162939
+  - STORESのPitchfork導入: https://product.st.inc/entry/introduce-pitchfork
 ```
 
 ## チェックポイント
