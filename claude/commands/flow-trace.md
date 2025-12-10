@@ -87,12 +87,9 @@ $1
 ## 出力例
 
 ```
-## 調査概要
+## 調査内容
 
-調査対象：xxx管理画面でyyの画像を更新したとき、それがどの経路で永続化されどの経路で画面上に出ているのか
-調査目的：画像更新機能の不具合調査のため
-調査環境：開発環境（localhost:3000）
-調査日時：2025-12-08
+xxx管理画面でyyの画像を更新したとき、それがどの経路で永続化されどの経路で画面上に出ているのか
 
 ## エントリーポイント
 
@@ -156,46 +153,6 @@ $1
 - `config/storage.yml` - S3設定
 - `config/sidekiq.yml` - バックグラウンドジョブ設定
 
-## データ構造
-
-入力（FormData）：
-``
-{
-  image: File (Content-Type: image/jpeg),
-  user_id: "123"
-}
-``
-
-中間データ（リサイズ後）：
-``
-{
-  large: File (800x800),
-  medium: File (400x400),
-  small: File (100x100)
-}
-``
-
-永続化（DBカラム `users.profile_image_urls`）：
-``json
-{
-  "large": "https://s3.amazonaws.com/app-images-prod/users/123/profile/large_20251208.jpg",
-  "medium": "https://s3.amazonaws.com/app-images-prod/users/123/profile/medium_20251208.jpg",
-  "small": "https://s3.amazonaws.com/app-images-prod/users/123/profile/small_20251208.jpg"
-}
-``
-
-出力（API レスポンス）：
-``json
-{
-  "success": true,
-  "image_urls": {
-    "large": "https://cdn.example.com/users/123/profile/large_20251208.jpg",
-    "medium": "https://cdn.example.com/users/123/profile/medium_20251208.jpg",
-    "small": "https://cdn.example.com/users/123/profile/small_20251208.jpg"
-  }
-}
-``
-
 ## 重要な発見
 
 - 画像は3サイズ同時に作成され、S3に保存される
@@ -204,31 +161,6 @@ $1
 - ロールバック用に直前の画像URLが保持されている
 - 画像アップロード中にエラーが発生した場合、トランザクションでロールバックされる
 - ファイルサイズ制限: 5MB（`UserImageService` でバリデーション）
-
-## 図解
-
-（必要に応じてシーケンス図やフロー図を記載）
-
-``mermaid
-sequenceDiagram
-    participant U as User
-    participant C as Controller
-    participant S as Service
-    participant P as Processor
-    participant S3 as S3
-    participant DB as Database
-
-    U->>C: POST /api/admin/users/:id/profile_image
-    C->>S: UserImageService.update
-    S->>P: ImageProcessor.resize
-    P-->>S: リサイズ済み画像
-    S->>S3: S3Uploader.upload_multiple
-    S3-->>S: アップロード完了URL
-    S->>DB: User.update (profile_image_urls)
-    DB-->>S: 更新完了
-    S-->>C: 成功レスポンス
-    C-->>U: { success: true, image_urls: {...} }
-``
 
 ## 参考情報
 
@@ -245,6 +177,5 @@ sequenceDiagram
 - [ ] 各ステップにファイルパスと行番号が含まれているか
 - [ ] データの変換や状態変化が明示されているか
 - [ ] 関連コンポーネントが漏れなくリストアップされているか
-- [ ] データ構造が各段階で記録されているか
 - [ ] 重要な発見や注意点が記載されているか
 - [ ] 他のメンバーが読んで理解できる内容か
