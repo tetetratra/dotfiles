@@ -37,58 +37,61 @@ $1
 
 ## 標準的な作業順序について
 
-タスクの性質に応じて、標準的な実行順序が異なります。すべて必須ではなく、状況に応じて入れ替え・省略可能です。
+下記に、作業種別ごとの標準的な作業順序について例を示します。
 
-基本的には提供されているスキルと1対1で対応するように作業を分割してください。
+タスクの性質に応じて実行順序が異なります。
+すべて必須ではなく、状況に応じて入れ替え・省略可能を検討してください。
+
+基本的には task-xxx という名前で提供されているスキルと1対1で対応するように作業を分割してください。
 
 ### 1. 新機能開発タスク
 
-- 背景調査（タスクの背景と目的を整理）
-- 前提知識の収集・整理（関連技術やシステムの理解）
-- 条件の明確化（前提条件・制約・達成条件の整理）
-- 分析の観点の明確化（タスク固有の評価軸を抽出）
-- 解決方針の検討（複数案の比較と推奨案の決定）
-- 技術設計（技術的な設計の詳細化）
-- 実装計画（実装を作業単位に分解）
-- 実装実行（実際のコード実装）
-- 検証計画（動作確認項目の洗い出し）
-- 検証実行（実際の動作確認）
-- PR作成（PRの説明文を作成）
-- PR補足情報追加（レビュワー向けのインラインコメント追加、任意）
-- PRフォローアップ（CI失敗、レビュー指摘、コンフリクトへの対応）
+- 背景調査（task-background）
+- 前提知識の収集・整理（task-research）
+- 条件の明確化（task-conditions）
+- 分析の観点の明確化（task-viewpoints）
+- 解決方針の検討（task-solution）
+- 技術設計（task-architecture）
+- 実装計画（task-implementation-planning）
+- 実装実行（task-implementation-execute）
+- 検証計画（task-verification-planning）
+- 検証実行（task-verification-execute）
+- PR作成（task-write-pr）
+- PR補足情報追加（task-pr-annotate、任意）
+- PRフォローアップ（task-pr-followup）
 
 ### 2. 軽微な修正タスク
 
-- 実装実行
-- 検証計画
-- 検証実行
-- PR作成
-- PRフォローアップ
+- 実装実行（task-implementation-execute）
+- 検証計画（task-verification-planning）
+- 検証実行（task-verification-execute）
+- PR作成（task-write-pr）
+- PRフォローアップ（task-pr-followup）
 
 ### 3. 既存コードの理解・調査タスク
 
-- 前提知識の収集・整理 または 機能の全体像把握 または 特定処理のフロー追跡
+- 前提知識の収集・整理（task-research） または 機能の全体像把握（investigation） または 特定処理のフロー追跡（flow-trace）
 
 ### 4. バグ修正・エラー調査タスク
 
-- 背景調査
-- エラー再現・原因特定
-- 解決方針の検討
-- 実装実行
-- 検証実行
-- PR作成
-- PRフォローアップ
+- 背景調査（task-background）
+- エラー再現・原因特定（flow-traceなど）
+- 解決方針の検討（task-solution）
+- 実装実行（task-implementation-execute）
+- 検証実行（task-verification-execute）
+- PR作成（task-write-pr）
+- PRフォローアップ（task-pr-followup）
 
 ### 5. リファクタリングタスク
 
-- 背景調査
-- 技術設計（大規模な場合のみ）
+- 背景調査（task-background）
+- 技術設計（task-architecture、大規模な場合のみ）
 - 既存テストの確認
-- 実装実行
-- 検証実行
-- PR作成
-- PR補足情報追加（任意）
-- PRフォローアップ
+- 実装実行（task-implementation-execute）
+- 検証実行（task-verification-execute）
+- PR作成（task-write-pr）
+- PR補足情報追加（task-pr-annotate、任意）
+- PRフォローアップ（task-pr-followup）
 
 ## 手順
 
