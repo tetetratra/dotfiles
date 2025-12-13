@@ -11,6 +11,9 @@ alias touch='(){ mkdir -p $(dirname $1) && touch $1 }'
 alias rm='trash'
 alias tree='tree --charset unicode'
 alias history='history -E 1'
+rederr() { # rederr some_command のように使うと、標準エラー出力を赤色で表示する
+  "$@" 2> >(sed $'s/.*/\033[31m&\033[0m/' >&2)
+}
 # neovim
 alias nvim='nvim -p'
 alias n='nvim $(git ls-ss)'
