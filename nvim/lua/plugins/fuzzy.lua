@@ -27,6 +27,20 @@ return {
             "--column",
             "--smart-case",
           },
+          -- Telescope 起動中に上下キーで入力履歴をたどれるようにする
+          mappings = {
+            n = {
+              ['<esc>'] = require('telescope.actions').close,
+              ['<C-d>'] = require('telescope.actions').close,
+              ['q']     = require('telescope.actions').close,
+            },
+            i = {
+              ['<esc>']  = require('telescope.actions').close,
+              ['<Down>'] = require('telescope.actions').cycle_history_next,
+              ['<Up>']   = require('telescope.actions').cycle_history_prev,
+            },
+          },
+          preview = { treesitter = { enable = false } },
         },
         pickers = {
           find_files = {
@@ -44,19 +58,6 @@ return {
             case_mode = "smart_case",
           },
         },
-        mappings = {
-          n = {
-            ['<esc>'] = require('telescope.actions').close,
-            ['<C-d>'] = require('telescope.actions').close,
-            ['q']     = require('telescope.actions').close,
-          },
-          i = {
-            ['<esc>']  = require('telescope.actions').close,
-            ['<Down>'] = require('telescope.actions').cycle_history_next,
-            ['<Up>']   = require('telescope.actions').cycle_history_prev,
-          },
-        },
-        preview = { treesitter = { enable = false } },
       })
       telescope.load_extension("fzf")
 
