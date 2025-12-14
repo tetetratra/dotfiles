@@ -178,11 +178,14 @@ ln -sf ~/p/dotfiles/nvim/lua                       ~/.config/nvim/
 ln -sf ~/p/dotfiles/nvim/coc-settings.json         ~/.config/nvim/coc-settings.json
 ln -sf ~/p/dotfiles/manual/karabiner-elements.json ~/.config/karabiner/assets/complex_modifications/karabiner-elements.json
 ln -sf ~/p/dotfiles/bin                            ~/bin
+
 ln -sf ~/p/dotfiles/claude/settings.json           ~/.claude/settings.json
 ln -sf ~/p/dotfiles/claude/commands                ~/.claude/
 ln -sf ~/p/dotfiles/claude/skills                  ~/.claude/
 ln -sf ~/p/dotfiles/claude/CLAUDE.md               ~/.claude/CLAUDE.md
+
 ln -sf ~/p/dotfiles/claude/commands                ~/.codex/prompts
+ln -sf ~/p/dotfiles/claude/skills                  ~/.codex/
 
 mise install
 
