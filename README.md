@@ -186,6 +186,7 @@ ln -sf ~/p/dotfiles/claude/CLAUDE.md               ~/.claude/CLAUDE.md
 
 ln -sf ~/p/dotfiles/claude/commands                ~/.codex/prompts
 ln -sf ~/p/dotfiles/claude/skills                  ~/.codex/
+ln -sf ~/p/dotfiles/codex/AGENTS.md                ~/.codex/
 
 mise install
 
