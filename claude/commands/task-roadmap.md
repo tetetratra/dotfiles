@@ -48,6 +48,9 @@ $1
 
 - 背景調査（task-background）
 - 関連知識の収集・整理（task-research）
+  - ユーザーがタスクに関する技術知識やドメイン知識を持っていない場合に実施
+- 既存システムの理解・調査（task-survey）
+  - ユーザーが既存システムの理解が不十分な場合に実施
 - 条件の明確化（task-conditions）
 - 分析の観点の明確化（task-viewpoints）
 - 解決方針の検討（task-solution）
@@ -57,7 +60,7 @@ $1
 - 検証計画（task-verification-planning）
 - 検証実行（task-verification-execute）
 - PR作成（task-write-pr）
-- PR補足情報追加（task-pr-annotate、任意）
+- PR補足情報追加（task-pr-annotate）
 - PRフォローアップ（task-pr-followup）
 
 ### 2. 軽微な修正タスク
@@ -68,11 +71,7 @@ $1
 - PR作成（task-write-pr）
 - PRフォローアップ（task-pr-followup）
 
-### 3. 既存コードの理解・調査タスク
-
-- 関連知識の収集・整理（task-research） または 機能の全体像把握（investigation） または 特定処理のフロー追跡（flow-trace）
-
-### 4. バグ修正・エラー調査タスク
+### 3. バグ修正・エラー調査タスク
 
 - 背景調査（task-background）
 - エラー再現・原因特定（flow-traceなど）
@@ -82,7 +81,7 @@ $1
 - PR作成（task-write-pr）
 - PRフォローアップ（task-pr-followup）
 
-### 5. リファクタリングタスク
+### 4. リファクタリングタスク
 
 - 背景調査（task-background）
 - 技術設計（task-architecture、大規模な場合のみ）
