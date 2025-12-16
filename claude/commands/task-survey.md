@@ -4,6 +4,7 @@ $1
 
 注意：このコマンドは既存コードの動作を理解するためのものです。
 新しい機能の設計や実装計画を立てるものではありません。
+仕様書や要件定義書の作成も目的としていません。
 
 ## 目的
 
@@ -216,18 +217,18 @@ $1
   - 「技術スタック: Sidekiq（非同期処理）、SendGrid（メール送信）、Liquid（テンプレートエンジン）」
   - 「処理フロー（コールスタック風）:」
     ```
-    1. OrdersController#create (app/controllers/orders_controller.rb:45)
+    - OrdersController#create (app/controllers/orders_controller.rb:45)
        - 注文データを受け取り、Orderモデルを作成
-       2. Order#after_create_commit (app/models/order.rb:23)
+       - Order#after_create_commit (app/models/order.rb:23)
           - 注文作成後のコールバック
-          3. OrderMailer.confirmation_email(order.id).deliver_later (app/mailers/order_mailer.rb:12)
+          - OrderMailer.confirmation_email(order.id).deliver_later (app/mailers/order_mailer.rb:12)
              - メール送信ジョブをSidekiqキューに登録
-             4. [非同期] OrderMailerJob#perform (app/jobs/order_mailer_job.rb:8)
+             - [非同期] OrderMailerJob#perform (app/jobs/order_mailer_job.rb:8)
                 - Sidekiqワーカーがジョブを実行
-                5. EmailTemplate#render (app/models/email_template.rb:34)
+                - EmailTemplate#render (app/models/email_template.rb:34)
                    - Liquidテンプレートをレンダリング
                    - 注文データを埋め込む
-                6. SendGridService.send_email (app/services/sendgrid_service.rb:19)
+                - SendGridService.send_email (app/services/sendgrid_service.rb:19)
                    - SendGrid APIを呼び出してメール送信
                    - 送信ログをemail_logsテーブルに記録
     ```
@@ -235,12 +236,12 @@ $1
     ```
     orders (注文)
       ├─ id
-      ├─ user_id ───→ users (顧客)
+      ├─ user_id → users (顧客)
       └─ status
 
     email_logs (送信ログ)
       ├─ id
-      ├─ order_id ───→ orders
+      ├─ order_id → orders
       ├─ email_type
       └─ sent_at
 
@@ -273,7 +274,7 @@ $1
 - セクション間に遷移文を入れる
   ```
   ここまでで○○が分かりました。
-  ...
+  (まとめの1〜2文)
   次は△△を見ていきます。
   ```
 - 📌マーカーで要約ボックスを配置
@@ -412,7 +413,7 @@ $1
 （処理の流れを1-2文で説明）
 
 **詳細フロー:**
-```
+``
 1. （処理） (ファイルパス:行番号)
    - （処理内容）
    2. （処理） (ファイルパス:行番号)
@@ -421,7 +422,7 @@ $1
          - （処理内容）
    4. [非同期] （処理） (ファイルパス:行番号)
       - （処理内容）
-```
+``
 
 **つまりどういうこと？**
 （処理フローを平易な言葉で言い換え）
@@ -432,12 +433,12 @@ $1
 
 （関連するテーブルが複数ある場合）
 
-```
+``
 table_name (説明)
   ├─ column1
   ├─ column2 ───→ related_table (関連)
   └─ column3
-```
+``
 
 （その他の技術詳細）
 
