@@ -71,17 +71,7 @@ $1
 - PR作成（task-write-pr）
 - PRフォローアップ（task-pr-followup）
 
-### 3. バグ修正・エラー調査タスク
-
-- 背景調査（task-background）
-- エラー再現・原因特定（flow-traceなど）
-- 解決方針の検討（task-solution）
-- 実装実行（task-implementation-execute）
-- 検証実行（task-verification-execute）
-- PR作成（task-write-pr）
-- PRフォローアップ（task-pr-followup）
-
-### 4. リファクタリングタスク
+### 3. リファクタリングタスク
 
 - 背景調査（task-background）
 - 技術設計（task-architecture、大規模な場合のみ）
@@ -91,6 +81,10 @@ $1
 - PR作成（task-write-pr）
 - PR補足情報追加（task-pr-annotate、任意）
 - PRフォローアップ（task-pr-followup）
+
+### 4. バグ修正・エラー調査タスク
+
+TODO
 
 ## 手順
 
