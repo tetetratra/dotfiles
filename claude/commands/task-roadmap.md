@@ -47,7 +47,7 @@ $1
 ### 1. 重厚・曖昧な開発タスク
 
 - 背景調査（task-background）
-- 前提知識の収集・整理（task-research）
+- 関連知識の収集・整理（task-research）
 - 条件の明確化（task-conditions）
 - 分析の観点の明確化（task-viewpoints）
 - 解決方針の検討（task-solution）
@@ -70,7 +70,7 @@ $1
 
 ### 3. 既存コードの理解・調査タスク
 
-- 前提知識の収集・整理（task-research） または 機能の全体像把握（investigation） または 特定処理のフロー追跡（flow-trace）
+- 関連知識の収集・整理（task-research） または 機能の全体像把握（investigation） または 特定処理のフロー追跡（flow-trace）
 
 ### 4. バグ修正・エラー調査タスク
 
