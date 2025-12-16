@@ -206,14 +206,17 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     - `Shift + Return` -> Send Hex Code -> `0x0a` (改行コード)
       - Claude Code や CodeX などで改行させるため
 - システム環境設定
-  - アクセシビリティ -> トラックパッド -> ダブルタップで選択
+  - アクセシビリティ
+    - -> トラックパッド -> ダブルタップで選択
+    - 選択項目を読み上げる をONにする
+      - (i) ツールチップを押し、`ctrl f12`を割り当て、[コントローラーを表示: しない]にする
   - キーボード
     - キーボード -> 装飾キー -> capslockを[アクションなし]にする
     - ショートカット
       - すべてOFFにする
       - スクリーンショット, spotlightはONにする
       - キーボード -> 次のウィンドウを操作対象とする [ctrl スペース]
-    - 音声入力 -> ショートカットキーを `ctrl shift f12` (他と被らないであろうキー) にする
+    - 音声入力 -> ショートカットキーを `ctrl f5` にする
   - デスクトップとDock -> ウィンドウ -> タイル表示されたウィンドウを隙間を入れて配置 をOFFにする
   - 壁紙 -> 「空撮をシャッフル: すべてをシャッフル」を選ぶ
   - ロック画面 -> 「時計を大きく表示」「ユーザー名と写真を表示」をOFFにする
@@ -232,7 +235,6 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     - `ctrl shift alt k`でwindowを移動
     - `ctrl shift alt n, p`でwindowを上下分割
     - `cmd shift d` でダークモード切り替え
-    - `地球儀マーク(fnキー)` で `ctrl shift f12` (音声入力を設定したショートカット) を送る
   - Google Chrome
     - `ctrl l`で`ctrl tab`
     - `ctrl h`で`ctrl shift tab`
