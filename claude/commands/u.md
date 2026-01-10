@@ -1,1 +1,1 @@
-ultrathink よく考えて対応してください $1
+ultrathink よく考えて対応してください $ARGUMENTS
