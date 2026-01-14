@@ -10,6 +10,8 @@
   - preferences -> profiles -> other actions -> save profile as json -> all
 - `karabiner-elements.json`
   - 新しい設定はここに書いてからアプリ側でインポートする
+- `chrome-extensions.txt`
+  - 利用しているブラウザの拡張機能をテキストファイルとして手動で列挙する
 
 ## macのクリーンインストール後に行うこと
 

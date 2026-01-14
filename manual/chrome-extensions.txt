@@ -1,0 +1,8 @@
+- Vimium
+  - vimium-options.json をインポートする
+- Markdown Viewer
+  - オプションで一通りONにする
+- Dark Reader
+  - システムのテーマに合わせるように設定する
+- Super Simple Highlighter
+- Tab Pinner (Keyboard Shortcuts)
