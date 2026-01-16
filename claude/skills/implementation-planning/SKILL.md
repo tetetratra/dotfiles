@@ -1,4 +1,7 @@
-$ARGUMENTS
+---
+name: implementation-planning
+description: タスクの実装を作業ステップに分解し、順序と粒度を計画する。
+---
 
 ## 目的
 

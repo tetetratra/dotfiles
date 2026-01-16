@@ -1,4 +1,7 @@
-$ARGUMENTS
+---
+name: study-feature
+description: 未知のシステムや機能について、理解しやすい文書にまとめて理解を促す。
+---
 
 ## 目的
 
