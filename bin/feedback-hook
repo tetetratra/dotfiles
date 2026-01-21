@@ -56,6 +56,10 @@ log_message(log_file, "Executing command: #{command}")
 
 pid = Process.spawn({
   'CLAUDE_FEEDBACK_HOOK_RUNNING' => 'true'
-}, command)
+}, command,
+  in: :close,      # 標準入力を閉じる
+  out: :close,     # 標準出力を閉じる
+  err: :close      # 標準エラー出力を閉じる
+)
 Process.detach(pid)
-log_message(log_file, "Process spawned with PID: #{pid}, detached and returning immediately")
+log_message(log_file, "Process spawned with PID: #{pid}, I/O closed, detached and returning immediately")
