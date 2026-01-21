@@ -86,6 +86,26 @@
           }
         ]
       }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "feedback-hook"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "feedback-hook"
+          }
+        ]
+      }
     ]
   },
   "alwaysThinkingEnabled": true
