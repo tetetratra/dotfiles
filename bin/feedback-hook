@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+# feedback-hook
+#
+# Claude CodeのHookスクリプト。
+# セッション終了時（SessionEnd/PreCompactイベント）に自動実行され、
+# AIが自身の作業を振り返ってリポジトリ固有のスキルを自動更新する。
+#
+# 動作概要：
+# 1. 標準入力からHook JSON（session_id, cwd等）を受け取る
+# 2. 環境変数CLAUDE_FEEDBACK_HOOK_RUNNINGをチェック（無限ループ防止）
+# 3. 別プロセスでClaude Codeを起動し、self-reflectionスキルを実行
+
+require 'json'
+
+# 標準入力からJSON読み込み
+input = STDIN.read
+hook_data = JSON.parse(input)
+
+# 必要な情報を取得
+session_id = hook_data['session_id']
+cwd = hook_data['cwd']
+
+# 無限ループ防止：環境変数がtrueの場合は何もせず終了
+exit 0 if ENV['CLAUDE_FEEDBACK_HOOK_RUNNING'] == 'true'
+
+# 初期プロンプト
+prompt = "self-reflectionスキルを使って、先ほどの作業セッションの振り返りを行ってください。"
+
+# Claude Codeを起動（環境変数設定、cwd移動、セッション継続）
+exec({
+  'CLAUDE_FEEDBACK_HOOK_RUNNING' => 'true'
+}, "cd #{cwd} && echo '#{prompt}' | claude --resume #{session_id}")
