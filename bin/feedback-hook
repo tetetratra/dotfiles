@@ -50,9 +50,12 @@ prompt = "self-reflectionスキルを使って、先ほどの作業セッショ�
 log_message(log_file, "prompt: #{prompt}")
 
 # Claude Codeを起動（環境変数設定、cwd移動、セッション継続）
+# 非同期でバックグラウンド実行し、すぐに終了
 command = "cd #{cwd} && echo '#{prompt}' | claude --resume #{session_id}"
 log_message(log_file, "Executing command: #{command}")
 
-exec({
+pid = Process.spawn({
   'CLAUDE_FEEDBACK_HOOK_RUNNING' => 'true'
 }, command)
+Process.detach(pid)
+log_message(log_file, "Process spawned with PID: #{pid}, detached and returning immediately")
