@@ -11,22 +11,48 @@
 # 3. 別プロセスでClaude Codeを起動し、self-reflectionスキルを実行
 
 require 'json'
+require 'fileutils'
+
+# ログファイルのパス
+log_file = File.join(Dir.pwd, 'tmp', 'feedback-hook-log.log')
+FileUtils.mkdir_p(File.dirname(log_file))
+
+def log_message(log_file, message)
+  File.open(log_file, 'a') do |f|
+    f.puts "[#{Time.now}] #{message}"
+  end
+end
+
+log_message(log_file, "=== feedback-hook started ===")
 
 # 標準入力からJSON読み込み
 input = STDIN.read
+log_message(log_file, "Input received: #{input}")
+
 hook_data = JSON.parse(input)
+log_message(log_file, "JSON parsed successfully")
 
 # 必要な情報を取得
 session_id = hook_data['session_id']
 cwd = hook_data['cwd']
+log_message(log_file, "session_id: #{session_id}")
+log_message(log_file, "cwd: #{cwd}")
 
 # 無限ループ防止：環境変数がtrueの場合は何もせず終了
-exit 0 if ENV['CLAUDE_FEEDBACK_HOOK_RUNNING'] == 'true'
+if ENV['CLAUDE_FEEDBACK_HOOK_RUNNING'] == 'true'
+  log_message(log_file, "CLAUDE_FEEDBACK_HOOK_RUNNING is true, exiting")
+  exit 0
+end
+log_message(log_file, "CLAUDE_FEEDBACK_HOOK_RUNNING is not set, proceeding")
 
 # 初期プロンプト
 prompt = "self-reflectionスキルを使って、先ほどの作業セッションの振り返りを行ってください。"
+log_message(log_file, "prompt: #{prompt}")
 
 # Claude Codeを起動（環境変数設定、cwd移動、セッション継続）
+command = "cd #{cwd} && echo '#{prompt}' | claude --resume #{session_id}"
+log_message(log_file, "Executing command: #{command}")
+
 exec({
   'CLAUDE_FEEDBACK_HOOK_RUNNING' => 'true'
-}, "cd #{cwd} && echo '#{prompt}' | claude --resume #{session_id}")
+}, command)
