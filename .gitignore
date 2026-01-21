@@ -4,7 +4,7 @@ tags
 /.quicknote/
 .env
 line-notes.json
-tmp/local_secret.txt
+tmp/
 .zshrc.local
 
 .cursorrules
