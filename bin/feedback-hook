@@ -46,7 +46,7 @@ end
 log_message(log_file, "CLAUDE_FEEDBACK_HOOK_RUNNING is not set, proceeding")
 
 # 初期プロンプト
-prompt = "self-reflectionスキルを使って、先ほどの作業セッションの振り返りを行ってください。"
+prompt = "self-skill-reflectionスキルを使って、先ほどの作業セッションの振り返りを行ってください。"
 log_message(log_file, "prompt: #{prompt}")
 
 # Claude Codeを起動（環境変数設定、cwd移動、セッション継続）
