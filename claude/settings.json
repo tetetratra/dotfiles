@@ -92,7 +92,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "feedback-hook"
+            "command": "claude-feedback-hook"
           }
         ]
       }
@@ -102,7 +102,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "feedback-hook"
+            "command": "claude-feedback-hook"
           }
         ]
       }

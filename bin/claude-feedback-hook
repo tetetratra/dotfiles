@@ -8,7 +8,7 @@
 # 動作概要：
 # 1. 標準入力からHook JSON（session_id, cwd等）を受け取る
 # 2. 環境変数CLAUDE_FEEDBACK_HOOK_RUNNINGをチェック（無限ループ防止）
-# 3. 別プロセスでClaude Codeを起動し、self-reflectionスキルを実行
+# 3. 別プロセスでClaude Codeを起動し、skill-reflectionスキルを実行
 
 require 'json'
 require 'fileutils'
@@ -46,7 +46,13 @@ end
 log_message(log_file, "CLAUDE_FEEDBACK_HOOK_RUNNING is not set, proceeding")
 
 # 初期プロンプト
-prompt = "self-skill-reflectionスキルを使って、先ほどの作業セッションの振り返りを行ってください。"
+prompt = <<~PROMPT
+  （これはClaude Codeのhookシステムから発火された、定型文の指示です）
+  今回のこれまでの会話において `/task` カスタムコマンドが呼び出され、それに従ってタスクを進めましたか？
+  進めていた場合は、`skill-reflection`スキルを使い、これまでの作業の振り返りをしてください。
+  `/task` カスタムコマンドが使われていない場合は、特に何もする必要はありません。
+PROMPT
+
 log_message(log_file, "prompt: #{prompt}")
 
 # Claude Codeを起動（環境変数設定、cwd移動、セッション継続）
@@ -57,9 +63,11 @@ log_message(log_file, "Executing command: #{command}")
 pid = Process.spawn({
   'CLAUDE_FEEDBACK_HOOK_RUNNING' => 'true'
 }, command,
-  in: :close,      # 標準入力を閉じる
-  out: :close,     # 標準出力を閉じる
-  err: :close      # 標準エラー出力を閉じる
+  # 標準入力・標準出力・標準エラー出力を閉じることで、
+  # 親プロセス(このスクリプトが動くプロセス)が子プロセス(claude -pコマンドのプロセス)の終了を待たずに終了できるようにしている
+  in: :close,
+  out: :close,
+  err: :close
 )
 Process.detach(pid)
 log_message(log_file, "Process spawned with PID: #{pid}, I/O closed, detached and returning immediately")
