@@ -86,26 +86,6 @@
           }
         ]
       }
-    ],
-    "SessionEnd": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "claude-feedback-hook"
-          }
-        ]
-      }
-    ],
-    "PreCompact": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "claude-feedback-hook"
-          }
-        ]
-      }
     ]
   },
   "alwaysThinkingEnabled": false
