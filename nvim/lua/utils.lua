@@ -86,6 +86,14 @@ function toggle_virtual_edit()
   end
 end
 
+-- メッセージを表示して指定時間後に自動的にクリアする
+local function print_with_timeout(msg, timeout_ms)
+  print(msg)
+  vim.defer_fn(function()
+    vim.cmd('echon ""')
+  end, timeout_ms or 1000)
+end
+
 function jump_gf_lsp_tag()
   if vim.bo.filetype == "" then -- 空のバッファ等でfiletyepeが設定されていない場合は決め打ちでrubyにする
     vim.bo.filetype = "ruby"
@@ -97,7 +105,7 @@ function jump_gf_lsp_tag()
     jump_success = vim.fn.CocAction("jumpDefinition")
   end)
   if ok and jump_success then
-    print("[lsp]")
+    print_with_timeout("[lsp]")
     return
   end
 
@@ -106,7 +114,7 @@ function jump_gf_lsp_tag()
     vim.cmd("normal gf")
   end)
   if ok then
-    print("[vim-rails]")
+    print_with_timeout("[vim-rails]")
     return
   end
 
@@ -115,11 +123,11 @@ function jump_gf_lsp_tag()
     vim.cmd("tag " .. vim.fn.expand("<cword>"))
   end)
   if ok then
-    print("[tag]")
+    print_with_timeout("[tag]")
     return
   end
 
-  print("No LSP definition or file or tag found.")
+  print_with_timeout("No LSP definition or file or tag found.")
 end
 
 -- バッファ単位で Git ルートをキャッシュ
