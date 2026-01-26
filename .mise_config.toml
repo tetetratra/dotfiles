@@ -5,7 +5,6 @@
 # FIXME: 自宅のmacだとrubyのインストールでエラーが出る
 ruby                                   = 'latest'
 "gem:rubocop"                          = 'latest'
-"gem:solargraph"                       = 'latest'
 "gem:ruby-lsp"                         = 'latest'
 "gem:dip"                              = 'latest'
 nodejs                                 = 'latest'
