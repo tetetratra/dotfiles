@@ -259,3 +259,17 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
   email = 44367208+tetetratra@users.noreply.github.com
   ```
 
+## 各リポジトリをcloneしたディレクトリごとの作業
+
+`.zshrc.local` を作り、そのリポジトリでのみ利用する便利コマンドを書いておく
+
+例
+```
+alias d-rails_s="(){ dc up -d && dce app 'bin/rails s' }"
+alias d-bundle="(){ dcr app 'bundle install' }"
+alias d-migrate="(){ dc up -d && dce app 'bin/rails db:migrate' }"
+alias d-sidekiq="(){ dc up -d && dce app 'bundle exec sidekiq' }"
+alias d-yarn_dev="(){ dc up -d && dce app 'yarn dev' }"
+alias s='(){ dcr app "bundle exec rspec $1 $(git ss | grep .rb | t)" }'
+alias u='(){ dcr app "bundle exec rubocop -A $1 $(git ss | grep .rb | t)" }'
+```
