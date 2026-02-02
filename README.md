@@ -252,12 +252,19 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     - https://qiita.com/take_3/items/08acebb07e313c89dea9
 - Karabiner-Elements で "my confing" にある設定のみをすべてenableにする
 - .gitconfig_local を作る
-  ```.gitconfig_local
-  # 例
-  [user]
-  name = tetetratra
-  email = 44367208+tetetratra@users.noreply.github.com
-  ```
+
+例
+```
+[user]
+name = tetetratra
+email = 44367208+tetetratra@users.noreply.github.com
+
+# ディレクトリごとに設定を変えたい場合はincludeIfを利用して分ける
+[includeIf "gitdir:~/p/"]
+  path = ~/.gitconfig_p
+[includeIf "gitdir:~/xxx/"]
+  path = ~/.gitconfig_xxx
+```
 
 ## 各リポジトリをcloneしたディレクトリごとの作業
 
