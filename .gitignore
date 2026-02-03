@@ -11,9 +11,8 @@ tmp/
 .aider*
 .claude/settings.local.json
 # worktree用
-# `git worktree add worktree/タスク名 -b タスク名` のような風に使う
-/worktree/
-/wt/
+# `git worktree add worktree/ディレクトリ名 -b ブランチ名` のような風に使う
+/.worktree/
 
 # codex用
 claude/skills/.system/
