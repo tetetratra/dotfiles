@@ -29,9 +29,9 @@ alias d='docker'
 alias dc='docker compose'
 # docker compose に -f オプション等を付与したい場合は、各ディレクトリの .zshrc.local で dc を再定義する
 alias dcr=' (){ dc run --rm $1 bash -c "$2" }'
-alias dcrb='(){ dc run --rm $1 bash -c "bash --rcfile utils/.bashrc_local" }'
+alias dcrb='(){ dc run --rm $1 bash -c "bash --rcfile tmp/.bashrc_local" }'
 alias dce=' (){ dc exec     $1 bash -c "$2" }' # 使用例: `dc up -d` 後に `dce app 'bin/rails s'`
-alias dceb='(){ dc exec     $1 bash -c "bash --rcfile utils/.bashrc_local" }'
+alias dceb='(){ dc exec     $1 bash -c "bash --rcfile tmp/.bashrc_local" }'
 # tmux
 alias blue='tmux set-option -p -t : window-active-style bg=colour17' # 現在(-t :)のpane(-p)の背景色を変更
 alias red='tmux set-option -p -t : window-active-style bg=colour52'
