@@ -1,4 +1,7 @@
 - [ ] lazyvim https://www.lazyvim.org/ を導入する
+- [ ] worktree を活用する
+  - AIの会話を引き継げるようにする
+  - ignoreしているファイルもコピー or シンボリックリンクで参照できるようにする
 
 ## 手動で更新するもの
 
