@@ -11,7 +11,7 @@ tmp/
 .aider*
 .claude/settings.local.json
 # worktree用
-# `git worktree add worktree/ディレクトリ名 -b ブランチ名` のような風に使う
+# `git worktree add .worktree/ディレクトリ名 -b ブランチ名` のような風に使う
 /.worktree/
 
 # codex用
