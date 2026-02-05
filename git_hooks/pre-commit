@@ -1,0 +1,11 @@
+#!/bin/sh
+# グローバルな pre-commit hook
+# GIT_PRE_COMMIT 環境変数が定義されていれば実行する
+# 各リポジトリの .zshrc.local 等で定義することを想定
+#
+# 例:
+# export GIT_PRE_COMMIT='git staged-files | grep "\.rb$" | xargs -r docker compose exec -T app bundle exec rubocop -A
+
+if [ -n "$GIT_PRE_COMMIT" ]; then
+  eval "$GIT_PRE_COMMIT"
+fi

@@ -37,12 +37,15 @@
   logrep = "!f () { git log -p -S $1; }; f"
   # 未コミットの各ファイルを個別にコミットする
   commit-each-file = "!git-commit-each-file"
+  # ステージされたファイルの一覧を取得
+  staged-files = "!git diff --cached --name-only --diff-filter=ACM"
 
 [core]
   editor = nvim
   quotepath = false  # git 日本語ファイル名をエスケープせずに表示
   excludesfile = ~/.gitignore
   pager = delta
+  hooksPath = ~/.git_hooks
 [status] # git status 追跡されていないファイルはすべて表示
   showUntrackedFiles = all
 [interactive]

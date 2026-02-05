@@ -176,6 +176,7 @@ ln -sf ~/p/dotfiles/.zshrc_plugins                 ~/.zshrc_plugins
 ln -sf ~/p/dotfiles/.zshrc_configs                 ~/.zshrc_configs
 ln -sf ~/p/dotfiles/.gitignore                     ~/.gitignore
 ln -sf ~/p/dotfiles/.gitconfig                     ~/.gitconfig
+ln -sf ~/p/dotfiles/git_hooks                      ~/.git_hooks
 ln -sf ~/p/dotfiles/.ctags                         ~/.ctags
 ln -sf ~/p/dotfiles/.solargraph.yml                ~/.solargraph.yml
 ln -sf ~/p/dotfiles/nvim/init.lua                  ~/.config/nvim/init.lua
@@ -282,4 +283,8 @@ alias d-sidekiq="(){ dc up -d && dce app 'bundle exec sidekiq' }"
 alias d-yarn_dev="(){ dc up -d && dce app 'yarn dev' }"
 alias s='(){ dcr app "bundle exec rspec $1 $(git ss | grep .rb | t)" }'
 alias u='(){ dcr app "bundle exec rubocop -A $1 $(git ss | grep .rb | t)" }'
+
+# git pre-commit で実行するコマンドを定義
+# git staged-files エイリアスを使ってステージされたファイルを取得できる
+export GIT_PRE_COMMIT='git staged-files .rb | xargs -r bundle exec rubocop'
 ```
