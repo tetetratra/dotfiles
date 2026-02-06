@@ -51,6 +51,7 @@ cask "alfred"
 cask "font-noto-nerd-font"
 cask "proxyman"
 cask "postman"
+cask "qlmarkdown" # Quick LookでMarkdownをプレビューするツール
 
 # 一般アプリ
 cask "discord"
