@@ -2,9 +2,6 @@
 
 # 使い方
 # worktree <branch名>
-#
-# 環境変数
-# WT_EXCLUDE: カンマ区切りで除外するパターンを追加指定
 
 branch = ARGV[0]
 
@@ -17,9 +14,8 @@ end
 parent_dir = `pwd`.chomp
 
 # デフォルトの除外パターン
-default_excludes = ['.DS_Store', 'tags', '*.log', '.ruby-lsp']
-user_excludes = ENV['WT_EXCLUDE']&.split(',')&.map(&:strip) || []
-excludes = default_excludes + user_excludes
+DEFAULT_EXCLUDES = ['.DS_Store', 'tags', '*.log', '.ruby-lsp', '.worktree']
+excludes = DEFAULT_EXCLUDES
 
 # デフォルトブランチを取得
 default_branch = `git default-branch`.chomp
@@ -46,55 +42,40 @@ unless result
 end
 puts
 
-# gitignoreされているファイル・ディレクトリを取得
-puts "=== Gitignoreされているファイル・ディレクトリを取得 ==="
-ignored_items = `git ls-files --others --ignored --exclude-standard`.lines.map(&:chomp)
+# gitignoreされているパスを取得（最小化済み）
+puts "=== Gitignoreされているパスを取得 ==="
+ignored_paths = `git-ignored-paths`.lines.map(&:chomp)
 
 # 除外パターンに該当するものをフィルタリング
-filtered_items = ignored_items.reject do |item|
+filtered_paths = ignored_paths.reject do |path|
   excludes.any? do |pattern|
     if pattern.include?('*')
       # ワイルドカードパターンの場合
-      File.fnmatch(pattern, item) || File.fnmatch(pattern, File.basename(item))
+      File.fnmatch(pattern, path) || File.fnmatch(pattern, File.basename(path))
     else
       # 通常のパターンの場合
-      item == pattern || item.start_with?(pattern) || File.basename(item) == pattern
+      path == pattern || path.start_with?("#{pattern}/") || File.basename(path) == pattern
     end
   end
 end
 
-puts "対象: #{filtered_items.size}個"
-puts
-
 # ディレクトリとファイルを分類
-# 同じディレクトリ配下に複数ファイルがある場合、ディレクトリ全体にシンボリックリンクを張る
 dirs = []
 files = []
 
-# 親ディレクトリごとにファイルをグループ化
-dir_groups = filtered_items.group_by do |item|
-  item.include?('/') ? item.split('/')[0..-2].join('/') : nil
-end
-
-# 親ディレクトリに複数ファイルがある場合、ディレクトリにシンボリックリンクを張る
-dir_groups.each do |parent, items|
-  if parent.nil?
-    # ルートレベルのファイル
-    files.concat(items)
-  elsif items.size > 1 && File.directory?("#{parent_dir}/#{parent}")
-    # 同じディレクトリに複数ファイル → ディレクトリ全体にリンク
-    dirs << parent unless dirs.include?(parent)
+filtered_paths.each do |path|
+  full_path = "#{parent_dir}/#{path}"
+  if File.directory?(full_path)
+    dirs << path
+  elsif File.exist?(full_path)
+    files << path
   else
-    # 単独ファイル
-    items.each do |item|
-      if File.directory?("#{parent_dir}/#{item}")
-        dirs << item unless dirs.include?(item)
-      else
-        files << item
-      end
-    end
+    puts "警告: #{path} が存在しません"
   end
 end
+
+puts "対象 - ディレクトリ: #{dirs.size}個、ファイル: #{files.size}個"
+puts
 
 # ネストしたディレクトリの重複を除去
 dirs = dirs.sort.reject do |dir|
@@ -147,25 +128,6 @@ files.each do |file|
   # シンボリックリンクを作成
   system("ln -s #{source} #{target}")
   puts "リンク作成: #{file}"
-end
-
-# シンボリックリンクしたディレクトリをworktreeの.git/info/excludeに追加
-unless dirs.empty?
-  # worktreeの実際のgitディレクトリを取得
-  git_dir = `cd #{worktree_path} && git rev-parse --git-dir`.chomp
-  exclude_file = "#{git_dir}/info/exclude"
-
-  # info ディレクトリが存在しない場合は作成
-  info_dir = File.dirname(exclude_file)
-  system("mkdir -p #{info_dir}") unless File.exist?(info_dir)
-
-  File.open(exclude_file, 'a') do |f|
-    f.puts "\n# worktreeスクリプトで追加されたシンボリックリンクディレクトリ"
-    dirs.each do |dir|
-      f.puts "#{dir}/"
-    end
-  end
-  puts "\n.git/info/excludeに#{dirs.size}個のディレクトリを追加しました"
 end
 
 puts

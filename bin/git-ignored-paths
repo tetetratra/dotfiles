@@ -1,0 +1,48 @@
+#!/usr/bin/env ruby
+
+# gitignoreされているファイル・ディレクトリを最小のパスで表現する
+# 例: tmp/file1, tmp/file2 → tmp
+
+def minimize_recursive(items, depth = 0)
+  return [] if items.empty?
+
+  # 現在の深さでプレフィックスごとにグループ化
+  groups = items.group_by do |item|
+    parts = item.split('/')
+    parts[depth] if parts.size > depth
+  end
+
+  result = []
+
+  groups.each do |prefix, group_items|
+    if prefix.nil?
+      # これ以上深さがない
+      result.concat(group_items)
+    elsif group_items.size >= 2
+      # 2つ以上 → このレベルでまとめる
+      # プレフィックスまでのパスを構築
+      parts = group_items.first.split('/')
+      result << parts[0..depth].join('/')
+    else
+      # 1つのみ → さらに深く探索
+      result.concat(minimize_recursive(group_items, depth + 1))
+    end
+  end
+
+  result
+end
+
+# gitignoreされているファイル一覧を取得
+ignored_items = `git ls-files --others --ignored --exclude-standard`.lines.map(&:chomp)
+
+if ignored_items.empty?
+  exit 0
+end
+
+# トップダウンで最小化
+result = minimize_recursive(ignored_items)
+
+# 結果を出力
+result.sort.each do |path|
+  puts path
+end

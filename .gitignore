@@ -1,11 +1,10 @@
 \.DS_Store
 tags
-/.quicknote/
 .env
-line-notes.json
-tmp/
+tmp
 .zshrc.local
 .worktree/
+.ruby-lsp
 
 .cursorrules
 .aider*
