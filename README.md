@@ -249,6 +249,8 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     - `ctrl 2`で`ctrl b ctrl b`を送る
     - `cmd shift l`(karabinarが効いているので`shift →`)で`ctrl b ctrl n`を送る
     - `cmd shift h`(karabinarが効いているので`shift ←`)で`ctrl b ctrl p`を送る
+    - `cmd shift k`(karabinarが効いているので`shift ↑`)で`ctrl b ctrl (`を送る
+    - `cmd shift j`(karabinarが効いているので`shift ↓`)で`ctrl b ctrl )`を送る
     - `ctrl space`で`ctrl b z`を送る
   - Slack
     - `ctrl 3` で `cmd shift a` を送る
