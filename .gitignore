@@ -5,6 +5,7 @@ tags
 line-notes.json
 tmp/
 .zshrc.local
+.worktree/
 
 .cursorrules
 .aider*
@@ -12,3 +13,4 @@ tmp/
 
 # codex用
 claude/skills/.system/
+
