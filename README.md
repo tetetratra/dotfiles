@@ -274,7 +274,7 @@ email = 44367208+tetetratra@users.noreply.github.com
 
 ## 各リポジトリをcloneしたディレクトリごとの作業
 
-`.zshrc.local` を作り、そのリポジトリでのみ利用する便利コマンドを書いておく
+`.zshrc.local` を作り、そのリポジトリでのみ利用する便利コマンドなどを書いておく
 
 例
 ```
@@ -287,6 +287,5 @@ alias s='(){ dcr app "bundle exec rspec $1 $(git ss | grep .rb | t)" }'
 alias u='(){ dcr app "bundle exec rubocop -A $1 $(git ss | grep .rb | t)" }'
 
 # git pre-commit で実行するコマンドを定義
-# git staged-files エイリアスを使ってステージされたファイルを取得できる
-export GIT_PRE_COMMIT='git staged-files .rb | xargs -r bundle exec rubocop'
+export GIT_PRE_COMMIT='git staged-files | grep "\.rb$" | xargs -r docker compose run -T --rm app bundle exec rubocop -A'
 ```
