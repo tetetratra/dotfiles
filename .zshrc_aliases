@@ -24,6 +24,7 @@ alias chrome-full='(){ chrome --app="$1" }' # 関数として呼び出さない�
 alias be='bundle exec'
 alias lesstestlog='echo "--------------------" >> log/test.log; less +F log/test.log'
 alias lessdeveloplog='echo "--------------------" >> log/development.log; less +F log/development.log'
+alias rspec-structure="grep -E '(describe|context|it) '"
 # docker
 alias d='docker'
 alias dc='docker compose'
