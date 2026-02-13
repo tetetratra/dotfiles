@@ -42,6 +42,7 @@
       "mcp__notion__notion-search",
       "mcp__notion__get-comments",
       "mcp__notion__create-comment",
+      "mcp__notion-query-data-sources",
       "mcp__notion__notion-update-page",
       "mcp__playwright__browser_close",
       "mcp__playwright__browser_resize",
