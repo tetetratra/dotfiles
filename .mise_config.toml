@@ -2,11 +2,11 @@
 # 今入っている言語の一覧
 # mise list
 [tools]
-# FIXME: 自宅のmacだとrubyのインストールでエラーが出る
 ruby                                   = 'latest'
 "gem:rubocop"                          = 'latest'
 "gem:ruby-lsp"                         = 'latest'
 "gem:dip"                              = 'latest'
+
 nodejs                                 = 'latest'
 "npm:prettier"                         = 'latest'
 "npm:sql-formatter"                    = 'latest'
@@ -16,14 +16,19 @@ nodejs                                 = 'latest'
 "npm:ccusage"                          = 'latest'
 "npm:playwright"                       = 'latest'
 "npm:@playwright/mcp"                  = 'latest'
+
 python                                 = 'latest'
 # uvのmise管理についての参考: https://rcmdnk.com/blog/2025/10/04/computer-ai/
 uv                                     = 'latest'
 "pipx:github/spec-kit"                 = 'latest'
+"pipx:awsume"                          = 'latest'
+
 rust                                   = 'latest'
+
 go                                     = 'latest'
 "go:github.com/hashicorp/terraform-ls" = "latest"
 "go:golang.org/x/tools/gopls"          = "latest"
+
 duckdb                                 = 'latest'
 
 [settings]
