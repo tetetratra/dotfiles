@@ -122,11 +122,18 @@ QA環境で以下を確認します
 
 ### 補足情報の提示有無の判断基準
 
-以下のような箇所には補足情報を追加する：
+#### 呼び出し経路に関する補足の判断基準
 
-- コードの呼び出し元・利用箇所が自明でない箇所
-  - どこから使われているのか
-  - どのような経路で呼ばれるのか
+PRのdiffを確認し、呼び出し経路の補足コメントが必要かどうかを以下の基準で判断してください。
+
+- **補足が必要な場合**: 追加・修正した処理の呼び出し元がPRのdiffに含まれていない場合
+  - レビュワーが呼び出し経路を理解できないため
+  - どの導線でどのようなメソッドを経由して呼ばれるのかを補足すること
+
+- **補足が不要な場合**: 追加・修正した処理の呼び出し元がPRのdiffで網羅されている場合
+  - diffを見るだけで呼び出し経路が理解できるため
+
+#### その他の補足が必要な箇所
 
 - 実装方式の選択理由が不明瞭な箇所
   - なぜ他の実装方式ではなくこの実装方式を選んだか（why not）
@@ -138,20 +145,52 @@ QA環境で以下を確認します
   - なぜ他の関連箇所を変更しなくても問題ないのか
   - 過不足がないと言える理由
 
-逆に、以下のような箇所には補足情報を追加しない：
+#### 補足が不要な箇所
 
 - コードを読めば自明な変更
 - 単純なリファクタリング
 - 明らかなバグ修正
 - PR説明文で十分に説明されている内容
+- 呼び出し元がPRのdiffに含まれている場合
 
 ### 補足情報の書き方
 
 各補足箇所について、以下を簡潔に記載：
 
 - **呼び出し元・利用箇所の補足**
-  - 「このメソッドは XX から呼ばれます」
-  - 「処理フロー: A → B → このメソッド → C」
+  - `<details><summary>呼び出し経路</summary>...</details>` で囲んで記載する（折りたたみ可能にする）
+  - 呼び出しフローは `- ` を使った階層構造で記載する
+  - 呼び出し階層の起点は、システム外部の操作やイベントなど、最も外側から始めること
+    - その後、Controller層などの、システム内でそれらの受け口となる部分に続けること
+  - 各行に呼び出しのステップを記載し、ネストが深くなるごとに `- ` でインデントを増やす
+  - `OrdersController#create` のような形式で関数呼び出しを記載し、次の行にその関数のGitHubパーマリンクを貼ること
+  - メソッド呼び出しは可能な限りGitHubパーマリンクとして記載する
+    - リンク形式: `https://github.com/{owner}/{repo}/blob/{develop-sha}/{path}#L{start}-L{end}`
+    - `{develop-sha}` は `git rev-parse develop` で取得（PRのrebaseで壊れないように）
+    - `#L{start}-L{end}` で **関数の開始行から終了行まで** の範囲を指定（GitHubがリッチなUIで表示してくれるため）
+    - `[title](url)` 形式ではなく、URLそのもの(`url`)を貼ること
+
+例：
+```
+{メソッドの役割や用途の説明
+ 例: ユーザーが商品を購入し、注文確定処理の最後に、購入確認メールを送信する際に呼び出されます}
+{なにか補足情報があれば更に追記}
+
+<details>
+<summary>呼び出し経路</summary>
+
+- ユーザーが商品を購入 (Webhook: POST /api/orders)
+  - OrdersController#create
+    https://github.com/org/repo/blob/abc123.../app/controllers/orders_controller.rb#L10-L25
+    - Service: OrderService#process_order
+      https://github.com/org/repo/blob/abc123.../app/services/order_service.rb#L30-L45
+      - Service: PaymentProcessor#process_payment
+        https://github.com/org/repo/blob/abc123.../app/services/payment_processor.rb#L15-L28
+        - Mailer: NotificationMailer#send_purchase_confirmation
+          https://github.com/org/repo/blob/abc123.../app/mailers/notification_mailer.rb#L42-L58
+
+</details>
+```
 
 - **実装方式の選択理由**
   - 「当初 XX を検討しましたが、YY の理由で ZZ を選択しました」
