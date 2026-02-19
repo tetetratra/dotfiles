@@ -1,5 +1,6 @@
 ---
 description: タスクの要求定義または要件定義を行う。
+name: dev-step--clarify-requirements
 ---
 
 ## 目的

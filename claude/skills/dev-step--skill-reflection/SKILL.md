@@ -1,5 +1,6 @@
 ---
 description: 現在リポジトリに配置されているスキルを改善するためのスキル。明示的に使用指示があった場合のみ使ってください。
+name: dev-step--skill-reflection
 ---
 
 ## 目的

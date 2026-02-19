@@ -1,5 +1,6 @@
 ---
 description: タスクのビジネス的背景・目的を体系的に定義する
+name: dev-step--clarify-background
 ---
 
 ## 目的

@@ -1,5 +1,6 @@
 ---
 description: 導入・実装する技術や概念の前提知識と関連知識を収集・整理する。
+name: dev-step--explain-technology
 ---
 
 ## 目的

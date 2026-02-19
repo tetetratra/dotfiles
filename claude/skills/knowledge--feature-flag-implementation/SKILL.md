@@ -1,5 +1,6 @@
 ---
 description: Feature flag導入時の実装・テストパターンのベストプラクティス
+name: knowledge--feature-flag-implementation
 ---
 
 Feature flagを使った機能の段階的リリースを行う際の実装パターンを説明します。

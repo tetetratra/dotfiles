@@ -1,5 +1,6 @@
 ---
 description: 未知のシステムや機能について、理解しやすい文書にまとめて理解を促す。
+name: dev-step--explain-feature
 ---
 
 ## 目的
