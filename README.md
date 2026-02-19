@@ -169,8 +169,6 @@ ln -sf ~/p/dotfiles/.mise_config.toml              ~/.config/mise/config.toml
 ln -sf ~/p/dotfiles/.tmux.conf                     ~/.tmux.conf
 ln -sf ~/p/dotfiles/.tmux_dark_color.conf          ~/.tmux_dark_color.conf
 ln -sf ~/p/dotfiles/.tmux_light_color.conf         ~/.tmux_light_color.conf
-mkdir -p ~/.tmux
-ln -sf ~/p/dotfiles/.tmux/scripts                  ~/.tmux/scripts
 ln -sf ~/p/dotfiles/.zshrc                         ~/.zshrc
 ln -sf ~/p/dotfiles/.zshrc_aliases                 ~/.zshrc_aliases
 ln -sf ~/p/dotfiles/.zshrc_key_binds               ~/.zshrc_key_binds
@@ -255,8 +253,6 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     - `cmd shift k`(karabinarが効いているので`shift ↑`)で`ctrl b ctrl (`を送る
     - `cmd shift j`(karabinarが効いているので`shift ↓`)で`ctrl b ctrl )`を送る
     - `ctrl space`で`ctrl b z`を送る
-    - `cmd 1〜9` で `ctrl b 1〜9` を送る
-      - .tmux.conf 側で、これらのキーを押したときに対応するセッションに移動するように設定している
   - Slack
     - `ctrl 3` で `cmd shift a` を送る
   - BTTが勝手に起動するバグに遭遇したときは `defaults write com.hegenberg.BetterTouchTool BTTDontShowPrefsOnReopen YES` の設定をすると直るかもしれない
