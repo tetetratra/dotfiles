@@ -20,6 +20,7 @@
       "Bash(jq:*)",
       "Bash(echo:*)",
       "Bash(sed:*)",
+      "Bash(awk:*)",
       "Bash(xargs:*)",
       "Bash(head:*)",
       "Bash(tail:*)",
