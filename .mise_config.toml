@@ -16,6 +16,7 @@ nodejs                                 = 'latest'
 "npm:ccusage"                          = 'latest'
 "npm:playwright"                       = 'latest'
 "npm:@playwright/mcp"                  = 'latest'
+"npm:@marp-team/marp-cli"              = 'latest'
 
 python                                 = 'latest'
 # uvのmise管理についての参考: https://rcmdnk.com/blog/2025/10/04/computer-ai/
