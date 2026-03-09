@@ -79,12 +79,42 @@
     "ask": []
   },
   "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/p/dotfiles/bin/claude-tmux-rename"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/p/dotfiles/bin/claude-tmux-rename"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/p/dotfiles/bin/claude-tmux-rename"
+          }
+        ]
+      }
+    ],
     "Notification": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "notification \"$(basename $PWD)\n$(git branch --show-current)\" ClaudeCode"
+            "command": "~/p/dotfiles/bin/claude-tmux-rename"
           }
         ]
       }

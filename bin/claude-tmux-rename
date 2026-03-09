@@ -1,0 +1,45 @@
+#!/usr/bin/env ruby
+# 参考: https://qiita.com/miya10kei/items/d9dd12e8fde42fb222e2
+# claude-tmux-rename
+#
+# Claude CodeのHookスクリプト。
+# AIの処理状態をtmuxセッション名の先頭絵文字で表現する。
+#
+# イベント対応:
+#   UserPromptSubmit / PostToolUse  -> 🟡（処理中）
+#   Notification (permission_prompt) -> 🔴（権限要求）
+#   Stop                             -> 🟢（完了）
+
+require 'json'
+
+EMOJI_MAP = {
+  'UserPromptSubmit' => '🟡',
+  'PostToolUse'      => '🟡',
+  'Stop'             => '🟢',
+}.freeze
+
+input = JSON.parse($stdin.read)
+hook_event = input['hook_event_name'] || ''
+
+emoji = if hook_event == 'Notification'
+          input['notification_type'] == 'permission_prompt' ? '🔴' : nil
+        else
+          EMOJI_MAP[hook_event]
+        end
+
+exit 0 unless emoji
+
+tmux_pane = ENV['TMUX_PANE']
+exit 0 if tmux_pane.nil? || tmux_pane.empty?
+
+current_name = `tmux display-message -p -t #{tmux_pane} '#S'`.chomp
+exit 0 if current_name.empty?
+
+# 末尾の絵文字サフィックス（前回付与分）を除去してベース名を取得
+base_name = current_name.sub(/[🟡🟢🔴]\z/, '')
+new_name = "#{base_name}#{emoji}"
+
+# 名前が変わらない場合はスキップ
+exit 0 if current_name == new_name
+
+system("tmux rename-session -t '#{current_name}' '#{new_name}'")
