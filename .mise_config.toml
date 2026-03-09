@@ -7,7 +7,7 @@ ruby                                   = 'latest'
 "gem:ruby-lsp"                         = 'latest'
 "gem:dip"                              = 'latest'
 
-nodejs                                 = 'latest'
+nodejs                                 = '22'
 "npm:prettier"                         = 'latest'
 "npm:sql-formatter"                    = 'latest'
 "npm:@google/gemini-cli"               = 'latest'
