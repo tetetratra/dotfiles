@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+# claude-tmux-clear
+#
+# tmuxのclient-attachedフックから呼ばれ、
+# セッション名末尾のClaude Code状態絵文字を取り除く。
+#
+# 引数: セッション名
+
+session_name = ARGV[0]
+exit 0 if session_name.nil? || session_name.empty?
+
+base_name = session_name.sub(/[🟡🟢🔴]\z/, '')
+exit 0 if session_name == base_name
+
+system("tmux rename-session -t '#{session_name}' '#{base_name}'")
