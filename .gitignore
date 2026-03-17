@@ -13,3 +13,4 @@ tmp
 # codex用
 claude/skills/.system/
 
+.playwright-mcp
