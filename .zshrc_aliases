@@ -37,17 +37,16 @@ alias dceb='(){ dc exec     $1 bash -c "bash --rcfile tmp/.bashrc_local" }'
 alias blue='if is_dark; then tmux set-option -p -t : window-active-style bg=colour17; else tmux set-option -p -t : window-active-style bg=colour153; fi' # 現在(-t :)のpane(-p)の背景色を変更
 alias red='if is_dark; then tmux set-option -p -t : window-active-style bg=colour52; else tmux set-option -p -t : window-active-style bg=colour217; fi'
 alias yellow='if is_dark; then tmux set-option -p -t : window-active-style bg=colour58; else tmux set-option -p -t : window-active-style bg=colour229; fi'
+
 alias x='
   function layout_tmux_func() {
-    tmux split-window -v
-
-    tmux select-pane -U
     tmux split-window -h
+    tmux split-window -v
 
     local width=$(tmux display -p "#{window_width}")
     local height=$(tmux display -p "#{window_height}")
     local ww=$((width * 60 / 100))
-    local hh=$((height * 70 / 100))
+    local hh=$((height * 30 / 100))
 
     tmux resize-pane -x "$ww" -y "$hh"
   }
