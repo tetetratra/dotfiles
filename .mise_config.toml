@@ -1,6 +1,8 @@
 # ref: https://mise.jdx.dev/configuration.html, https://mise.jdx.dev/dev-tools/backends/
 # 今入っている言語の一覧
 # mise list
+# 最新バージョンに更新 (bumpを付けないとインストール時のlatestバージョンのままになってしまう)
+# mise update --bump
 [tools]
 ruby                                   = 'latest'
 "gem:rubocop"                          = 'latest'
