@@ -1,8 +1,14 @@
 # ref: https://mise.jdx.dev/configuration.html, https://mise.jdx.dev/dev-tools/backends/
-# 今入っている言語の一覧
-# mise list
+
+# mise自体の更新
+# brew update && brew upgrade mise
+
 # 最新バージョンに更新 (bumpを付けないとインストール時のlatestバージョンのままになってしまう)
 # mise update --bump
+
+# 今入っている言語の一覧
+# mise list
+
 [tools]
 ruby                                   = 'latest'
 "gem:rubocop"                          = 'latest'
@@ -23,7 +29,6 @@ nodejs                                 = '22'
 python                                 = 'latest'
 # uvのmise管理についての参考: https://rcmdnk.com/blog/2025/10/04/computer-ai/
 uv                                     = 'latest'
-"pipx:github/spec-kit"                 = 'latest'
 "pipx:awsume"                          = 'latest'
 
 rust                                   = 'latest'
@@ -33,6 +38,7 @@ go                                     = 'latest'
 "go:golang.org/x/tools/gopls"          = "latest"
 
 duckdb                                 = 'latest'
+node = "25"
 
 [settings]
 # configure how frequently (in minutes) to fetch updated plugin repository changes
