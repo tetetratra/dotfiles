@@ -121,11 +121,6 @@
       }
     ]
   },
-  "enabledPlugins": {
-    "slack@claude-plugins-official": true,
-    "code-review@claude-plugins-official": true,
-    "frontend-design@claude-plugins-official": true
-  },
   "language": "日本語",
   "autoMemoryEnabled": true,
   "theme": "light",
