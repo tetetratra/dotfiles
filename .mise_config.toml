@@ -3,7 +3,7 @@
 # mise自体の更新
 # brew update && brew upgrade mise
 
-# 最新バージョンに更新 (bumpを付けないとインストール時のlatestバージョンのままになってしまう)
+# 最新バージョンに更新
 # mise upgrade
 
 # 今入っている言語の一覧
