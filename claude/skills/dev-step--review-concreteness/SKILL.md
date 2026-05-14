@@ -1,5 +1,5 @@
 ---
-description: 資料の「地に足ついていない」箇所を分析し、具体的な改善提案を行う
+description: 与えられた資料の「地に足ついていない（= 抽象的・実行不能・根拠不足な記述）」箇所を分析し、具体的な改善提案を行う
 name: dev-step--review-concreteness
 ---
 
