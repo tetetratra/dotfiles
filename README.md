@@ -187,6 +187,7 @@ ln -sf ~/p/dotfiles/claude/settings.json           ~/.claude/settings.json
 
 ln -sf ~/p/dotfiles/AGENTS.md                      ~/.claude/CLAUDE.md
 ln -sf ~/p/dotfiles/AGENTS.md                      ~/.codex/AGENTS.md
+ln -sf ~/p/dotfiles/AGENTS.md                      ~/.gemini/GEMINI.md
 
 mise install
 
