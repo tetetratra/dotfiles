@@ -3,9 +3,9 @@ a() {
   local cmd
   local -a ai_command_cli
 
-  # 例: `export AI_COMMAND_CLI='codex exec --ephemeral'`
+  # 例: export AI_COMMAND_CLI='codex exec --ephemeral --skip-git-repo-check'
   if [[ -z "${AI_COMMAND_CLI:-}" ]]; then
-    echo 'AI_COMMAND_CLI が未設定です' >&2
+    echo 'AI_COMMAND_CLI が未設定です'
     return 1
   fi
 
