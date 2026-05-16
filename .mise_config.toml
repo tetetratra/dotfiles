@@ -19,6 +19,7 @@ nodejs                                 = '22'
 "npm:prettier"                         = 'latest'
 "npm:sql-formatter"                    = 'latest'
 "npm:@google/gemini-cli"               = 'latest'
+"npm:@github/copilot"                  = 'latest'
 "npm:@anthropic-ai/claude-code"        = 'latest' # `claude update` で手動更新できる
 "npm:@openai/codex"                    = 'latest'
 "npm:ccusage"                          = 'latest'
