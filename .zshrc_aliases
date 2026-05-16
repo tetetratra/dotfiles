@@ -1,3 +1,19 @@
+# ai
+a() {
+  local cmd
+  local -a ai_command_cli
+
+  # 例: `export AI_COMMAND_CLI='codex exec --ephemeral'`
+  if [[ -z "${AI_COMMAND_CLI:-}" ]]; then
+    echo 'AI_COMMAND_CLI が未設定です' >&2
+    return 1
+  fi
+
+  ai_command_cli=(${(z)AI_COMMAND_CLI})
+  cmd=$("${ai_command_cli[@]}" "次の依頼を満たす zsh コマンドを1行だけ返してください。説明等は不要です。依頼: $*" 2>/dev/null) || return
+  print -z -- "$cmd" # cmd の中身を「次のコマンドライン編集バッファ」に積む
+}
+
 # utils
 alias l='ls -AlFGhv'
 alias ls='ls -AFGv'
