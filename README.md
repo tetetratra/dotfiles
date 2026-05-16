@@ -188,9 +188,6 @@ ln -sf ~/p/dotfiles/bin                            ~/bin
 
 ln -sf ~/p/dotfiles/claude/settings.json           ~/.claude/settings.json
 
-ln -sf ~/p/dotfiles/claude/skills                  ~/.claude/
-ln -sf ~/p/dotfiles/claude/skills                  ~/.codex/
-
 ln -sf ~/p/dotfiles/AGENTS.md                      ~/.claude/CLAUDE.md
 ln -sf ~/p/dotfiles/AGENTS.md                      ~/.codex/AGENTS.md
 
