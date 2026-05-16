@@ -1,8 +1,5 @@
 ## TODO
 - nvim上から範囲選択したコードに対してAIに指示を出せるようにする
-- worktree を活用する
-  - AIの会話を引き継げるようにする
-- lazyvim https://www.lazyvim.org/ を導入する
 
 ## 手動で更新するもの
 
