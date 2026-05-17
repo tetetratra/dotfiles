@@ -3,7 +3,16 @@ return {
   {
     'kyazdani42/nvim-tree.lua',
     config = function()
-      require('nvim-tree').setup()
+      require('nvim-tree').setup({
+        actions = {
+          open_file = {
+            resize_window = false,
+          },
+        },
+        view = {
+          preserve_window_proportions = true,
+        },
+      })
       local api = require("nvim-tree.api")
 
 
@@ -33,6 +42,11 @@ return {
         end
 
         require("nvim-tree").setup({
+          actions = {
+            open_file = {
+              resize_window = false,
+            },
+          },
           view = {
             float = {
               enable = true,
@@ -52,6 +66,7 @@ return {
               end,
             },
             adaptive_size = false,
+            preserve_window_proportions = true,
           },
         })
 
@@ -75,6 +90,11 @@ return {
         end
 
         require("nvim-tree").setup({
+          actions = {
+            open_file = {
+              resize_window = false,
+            },
+          },
           view = {
             float = {
               enable = false,
@@ -82,6 +102,7 @@ return {
             side = "left",
             width = 30,
             adaptive_size = false,
+            preserve_window_proportions = true,
           },
         })
 
