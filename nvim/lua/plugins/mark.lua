@@ -9,15 +9,23 @@ return {
     end,
   },
   {
-    't9md/vim-quickhl',
+    'inkarkat/vim-mark',
+    dependencies = { 'inkarkat/vim-ingo-library' },
+    init = function()
+      -- デフォルトのキーバインド(*, #, <Leader>m等)を無効化する
+      vim.g.mw_no_mappings = 1
+      -- ハイライトの優先度を上げて、カーソル行(cursorline)よりも前面に表示されるようにする
+      vim.g.mwMaxMatchPriority = 10
+      -- カーソル位置に関わらず常にハイライトを表示する
+      vim.g.mwExclCursor = 0
+    end,
     config = function()
       local pattern = ('binding.pry,binding.irb,NOTE:,MEMO:,<<<<<<<,>>>>>>>,======='):gsub(',', '\\|')
-      vim.api.nvim_set_keymap('n', '<Space>h', '<Plug>(quickhl-manual-this-whole-word)', { silent = true })
-      vim.api.nvim_set_keymap('x', '<Space>h', '<Plug>(quickhl-manual-this)', { silent = true })
-      vim.api.nvim_set_keymap('n', '<Space>H', '<Plug>(quickhl-manual-reset)', { silent = true })
-      vim.g.quickhl_manual_enable_at_startup = 1
-      vim.g.quickhl_manual_keywords = { { pattern = pattern, regexp = 1 } }
-      vim.cmd("call quickhl#manual#enable()") -- 起動時にマークが効かないことがあるため強制的に有効化
+      vim.api.nvim_set_keymap('n', '<Space>h', '<Plug>MarkSet', { silent = true })
+      vim.api.nvim_set_keymap('x', '<Space>h', '<Plug>MarkSet', { silent = true })
+      vim.api.nvim_set_keymap('n', '<Space>H', '<Plug>MarkAllClear', { silent = true })
+      -- 起動時にデフォルトのパターンをハイライト
+      vim.cmd('Mark /' .. pattern .. '/')
     end,
   },
   {
