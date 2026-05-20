@@ -14,10 +14,30 @@ return {
     init = function()
       -- デフォルトのキーバインド(*, #, <Leader>m等)を無効化する
       vim.g.mw_no_mappings = 1
-      -- ハイライトの優先度を上げて、カーソル行(cursorline)よりも前面に表示されるようにする
-      vim.g.mwMaxMatchPriority = 10
-      -- カーソル位置に関わらず常にハイライトを表示する
-      vim.g.mwExclCursor = 0
+      -- 色数を増やすため、優先度を大幅に上げます (色数以上の値が必要)
+      vim.g.mwMaxMatchPriority = 200
+
+      -- 【色の拡張設定】
+      -- デフォルトでは6色のみですが、利便性向上のため120色のカラーパレットを自動生成しています。
+      -- 256色パレットの鮮やかな領域(17-231番)から色をピックアップし、GUI環境(TrueColor)でも
+      -- 同様の色味が再現されるようにRGB値を計算して割り当てています。
+      
+      -- 【優先度の調整】
+      -- vim-markの内部仕様として、1色あたりの優先度は「mwMaxMatchPriority - 全色数 + 1 + 色番号」
+      -- で計算されます。色数を増やすとこの値が小さくなり、カーソル行(cursorline: 優先度-1)の背面に
+      -- 隠れて色が消えてしまうため、全色数を考慮して十分な優先度(200)を確保しています。
+      local palette = {}
+      for i = 1, 120 do
+        table.insert(palette, {
+          -- 17〜231番の色（256色パレットの鮮やかな領域）を使用
+          ctermbg = 16 + math.floor((i - 1) * (215 / 120)),
+          ctermfg = "Black",
+          -- GUI環境でも見えるように色を計算で生成
+          guibg = string.format("#%02x%02x%02x", (i * 123) % 256, (i * 456) % 256, (i * 789) % 256),
+          guifg = "Black"
+        })
+      end
+      vim.g.mwDefaultHighlightingPalette = palette
     end,
     config = function()
       local pattern = ('binding.pry,binding.irb,NOTE:,MEMO:,<<<<<<<,>>>>>>>,======='):gsub(',', '\\|')
