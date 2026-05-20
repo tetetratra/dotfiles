@@ -1,10 +1,7 @@
 # ref: https://mise.jdx.dev/configuration.html, https://mise.jdx.dev/dev-tools/backends/
 
-# mise自体の更新
-# brew update && brew upgrade mise
-
-# 最新バージョンに更新
-# mise upgrade
+# mise自体の更新 & 最新バージョンに更新
+# brew update && brew upgrade mise && mise upgrade
 
 # 今入っている言語の一覧
 # mise list
