@@ -1,5 +1,4 @@
-# ai
-a() {
+ai() {
   local cmd
   local -a ai_command_cli
 
