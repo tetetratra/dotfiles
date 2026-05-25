@@ -158,6 +158,8 @@ mkdir -p ~/bin
 mkdir -p ~/.config/mise
 mkdir -p ~/.config/nvim/lua
 mkdir -p ~/.claude
+mkdir -p ~/.codex
+mkdir -p ~/.gemini
 
 git clone git@github.com:tetetratra/dotfiles.git ~/p/dotfiles
 
@@ -188,6 +190,13 @@ ln -sf ~/p/dotfiles/claude/settings.json           ~/.claude/settings.json
 ln -sf ~/p/dotfiles/AGENTS.md                      ~/.claude/CLAUDE.md
 ln -sf ~/p/dotfiles/AGENTS.md                      ~/.codex/AGENTS.md
 ln -sf ~/p/dotfiles/AGENTS.md                      ~/.gemini/GEMINI.md
+
+cd ~/p/dotfiles
+git submodule update --init --recursive
+
+ln -sfn ~/p/dotfiles/skills/skills                 ~/.claude/skills
+ln -sfn ~/p/dotfiles/skills/skills                 ~/.codex/skills
+ln -sfn ~/p/dotfiles/skills/skills                 ~/.gemini/skills
 
 mise install
 
