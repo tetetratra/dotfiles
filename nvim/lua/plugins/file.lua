@@ -10,6 +10,7 @@ return {
           },
         },
         view = {
+          width = 40,
           preserve_window_proportions = true,
         },
       })
@@ -100,7 +101,7 @@ return {
               enable = false,
             },
             side = "left",
-            width = 30,
+            width = 40,
             adaptive_size = false,
             preserve_window_proportions = true,
           },
