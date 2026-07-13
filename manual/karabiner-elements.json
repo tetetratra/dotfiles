@@ -2,7 +2,7 @@
   "title": "my confing",
   "rules": [
     {
-      "description": "Change Left Command + h/j/k/l/n/p to Arrows (from 'Change Command + h/j/k/l to Arrows')",
+      "description": "Change Left Command + h/j/k/l to Arrows and n/p to Scroll (from 'Change Command + h/j/k/l to Arrows')",
       "manipulators": [
         {
           "type": "basic",
@@ -95,7 +95,9 @@
           },
           "to": [
             {
-              "key_code": "up_arrow"
+              "mouse_key": {
+                "vertical_wheel": -100
+              }
             }
           ]
         },
@@ -114,7 +116,9 @@
           },
           "to": [
             {
-              "key_code": "down_arrow"
+              "mouse_key": {
+                "vertical_wheel": 100
+              }
             }
           ]
         }
