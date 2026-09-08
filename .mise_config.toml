@@ -12,6 +12,8 @@ ruby                                   = 'latest'
 "gem:ruby-lsp"                         = 'latest'
 "gem:dip"                              = 'latest'
 
+
+node = "25"
 nodejs                                 = '22'
 "npm:prettier"                         = 'latest'
 "npm:sql-formatter"                    = 'latest'
@@ -36,7 +38,7 @@ go                                     = 'latest'
 "go:golang.org/x/tools/gopls"          = "latest"
 
 duckdb                                 = 'latest'
-node = "25"
+hunk                                   = "latest"
 
 [settings]
 # configure how frequently (in minutes) to fetch updated plugin repository changes
