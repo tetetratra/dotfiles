@@ -134,7 +134,7 @@ vim.cmd("set termguicolors")
 -- ターミナルの背景色を透明にする
 vim.api.nvim_create_autocmd("ColorScheme", {
   callback = function()
-    vim.api.nvim_set_hl(0, "Normal", { background = "NONE" })
+    vim.cmd("highlight Normal guibg=NONE ctermbg=NONE")
   end
 })
 
