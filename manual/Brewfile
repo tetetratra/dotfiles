@@ -1,3 +1,6 @@
+# インストール方法
+# brew bundle --file ~/p/dotfiles/manual/Brewfile
+
 # 実行環境 (言語)
 brew "mise"
 brew "cmake"
@@ -9,6 +12,7 @@ brew "zsh"
 # ターミナル
 brew "tmux"
 brew "cormacrelf/tap/dark-notify" # ターミナルのテーマ変更を通知するツール (tmux-dark-notify で使用)
+brew "herdr"
 
 # エディタ
 brew "neovim"
@@ -26,13 +30,11 @@ brew "yq"
 brew "pstree"
 brew "rename"
 brew "ripgrep"
-brew "fzy"
 brew "tree"
 brew "wget"
 brew "imagemagick"
-brew "aha" # stdoutなどをHTMLに変換するツール
 
-# 便利ツール (Mac特有)
+# 便利ツール
 brew "fcanas/tap/mirror-displays"
 brew "MonitorControl"
 brew "trash"
@@ -41,34 +43,24 @@ brew "trash"
 brew "direnv"
 brew "mas"
 
-# caskツール
+# cask
 cask "docker"
-cask "bettertouchtool"
 cask "google-japanese-ime"
 cask "clipy"
 cask "karabiner-elements"
-cask "alfred"
 cask "font-noto-nerd-font"
-cask "proxyman"
-cask "postman"
 cask "qlmarkdown" # Quick LookでMarkdownをプレビューするツール
 
 # 一般アプリ
-cask "discord"
-cask "firefox"
 cask "google-chrome"
 cask "iterm2"
 cask "sequel-ace"
 cask "slack"
 cask "skim"
 cask "visual-studio-code"
-cask "zoom"
-cask "steam"
 
 # mas
 mas "QuickShade", id: 931571202
-mas "RunCat", id: 1429033973
-mas "Relax Melodies: Sleep Sounds", id: 467103113
 mas "Kindle", id: 302584613
 mas "BookFusion", id: 1141834096
 
