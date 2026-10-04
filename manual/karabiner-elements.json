@@ -175,7 +175,7 @@
       ]
     },
     {
-      "description": "iTerm2 内で Ctrl+2 を Ctrl+B → Ctrl+B、Ctrl+Space を Ctrl+B → Z に変換する",
+      "description": "iTerm2 内で Ctrl+2 を Ctrl+B → Ctrl+B、Ctrl+Enter を Ctrl+B → Z、Ctrl+Shift+H/L を Ctrl+B → P/N に変換する",
       "manipulators": [
         {
           "type": "basic",
@@ -218,7 +218,7 @@
         {
           "type": "basic",
           "from": {
-            "key_code": "spacebar",
+            "key_code": "return_or_enter",
             "modifiers": {
               "mandatory": [
                 "control"
@@ -238,6 +238,78 @@
             },
             {
               "key_code": "z",
+              "repeat": false
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^com\\.googlecode\\.iterm2$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "h",
+            "modifiers": {
+              "mandatory": [
+                "control",
+                "shift"
+              ],
+              "optional": [
+                "caps_lock"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "b",
+              "modifiers": [
+                "control"
+              ],
+              "repeat": false
+            },
+            {
+              "key_code": "p",
+              "repeat": false
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^com\\.googlecode\\.iterm2$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "l",
+            "modifiers": {
+              "mandatory": [
+                "control",
+                "shift"
+              ],
+              "optional": [
+                "caps_lock"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "b",
+              "modifiers": [
+                "control"
+              ],
+              "repeat": false
+            },
+            {
+              "key_code": "n",
               "repeat": false
             }
           ],
