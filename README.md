@@ -178,7 +178,6 @@ ln -sf ~/p/dotfiles/.gitignore                     ~/.gitignore
 ln -sf ~/p/dotfiles/.gitconfig                     ~/.gitconfig
 ln -sf ~/p/dotfiles/git_hooks                      ~/.git_hooks
 ln -sf ~/p/dotfiles/.ctags                         ~/.ctags
-ln -sf ~/p/dotfiles/.solargraph.yml                ~/.solargraph.yml
 ln -sf ~/p/dotfiles/nvim/init.lua                  ~/.config/nvim/init.lua
 ln -sf ~/p/dotfiles/nvim/lua                       ~/.config/nvim/
 ln -sf ~/p/dotfiles/nvim/coc-settings.json         ~/.config/nvim/coc-settings.json
