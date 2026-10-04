@@ -68,7 +68,8 @@ return {
       vim.g["brightest#pattern"] = [[\k\+]]
     end,
   },
-  { 'nvim-treesitter/nvim-treesitter', build = 'TSUpdate' },
+  -- 旧 master は Neovim 0.12 と互換性がないため main を使い、新版は遅延読み込み非対応のため無効にする
+  { 'nvim-treesitter/nvim-treesitter', branch = 'main', lazy = false, build = ':TSUpdate' },
   { 'nvim-treesitter/nvim-treesitter-context', dependencies = { 'nvim-treesitter' } },
   {
     'm-demare/hlargs.nvim',
