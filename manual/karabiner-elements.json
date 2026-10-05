@@ -175,7 +175,7 @@
       ]
     },
     {
-      "description": "iTerm2 内で Ctrl+2 を Ctrl+B → Ctrl+B、Ctrl+Enter を Ctrl+B → Z、Ctrl+Shift+H/L を Ctrl+B → P/N に変換する",
+      "description": "iTerm2 内で Ctrl+2 を Ctrl+B → Ctrl+B、Ctrl+Enter を Ctrl+B → Z、Shift+Enter を Ctrl+J、Ctrl+Shift+H/L を Ctrl+B → P/N に変換する",
       "manipulators": [
         {
           "type": "basic",
@@ -239,6 +239,36 @@
             {
               "key_code": "z",
               "repeat": false
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^com\\.googlecode\\.iterm2$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "return_or_enter",
+            "modifiers": {
+              "mandatory": [
+                "shift"
+              ],
+              "optional": [
+                "caps_lock"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "j",
+              "modifiers": [
+                "control"
+              ]
             }
           ],
           "conditions": [
