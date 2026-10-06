@@ -53,6 +53,21 @@
       "settings": {}
     },
 
+    "_memo": "参考: https://docs.basedpyright.com/latest/installation/command-line-and-language-server/",
+    "basedpyright": {
+      "command": "basedpyright-langserver",
+      "args": ["--stdio"],
+      "filetypes": ["python"],
+      "rootPatterns": ["pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", "pyrightconfig.json", ".git"],
+      "settings": {
+        "basedpyright": {
+          "analysis": {
+            "typeCheckingMode": "standard"
+          }
+        }
+      }
+    },
+
     "gopls": {
       "command": "gopls",
       "filetypes": ["go"]
