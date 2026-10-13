@@ -63,14 +63,15 @@ return {
 
       -- キーマッピング
       vim.keymap.set("n", "<Space>f", function()
-        require("telescope.builtin").find_files({ hidden = true }) -- 隠しファイルも表示
+        require("telescope.builtin").find_files({ hidden = true, follow = true }) -- 隠しファイルとシンボリックリンク先も表示
       end, { silent = true })
 
       vim.keymap.set("n", "<Space>F", function() -- ディレクトリ指定して find_files
         local dir = vim.fn.input("Find files in dir: ", "", "dir")
         require("telescope.builtin").find_files({
           cwd = dir ~= "" and dir or nil,
-          hidden = true
+          hidden = true,
+          follow = true,
         })
       end, { silent = true })
 
@@ -78,7 +79,7 @@ return {
         require("telescope.builtin").live_grep({
           additional_args = function(_)
             -- hidden を含めるが、.git 配下は除外。シンボリックリンク先のディレクトリ配下も検索する
-            return { "--hidden", "--follow", "--glob", "!.git/*" }
+            return { "--hidden", "--follow", "--glob", "!**/.git/*" }
           end,
         })
       end, { silent = true })
@@ -89,7 +90,7 @@ return {
           cwd = dir ~= "" and dir or nil,
           additional_args = function(_)
             -- hidden を含めるが、.git 配下は除外。シンボリックリンク先のディレクトリ配下も検索する
-            return { "--hidden", "--follow", "--glob", "!.git/*" }
+            return { "--hidden", "--follow", "--glob", "!**/.git/*" }
           end,
         })
       end, { silent = true })
