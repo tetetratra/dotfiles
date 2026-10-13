@@ -77,7 +77,8 @@ return {
       vim.keymap.set("n", "<Space>g", function()
         require("telescope.builtin").live_grep({
           additional_args = function(_)
-            return { "--hidden", "--glob", "!.git/*" } -- hidden を含めるが、.git 配下は除外
+            -- hidden を含めるが、.git 配下は除外。シンボリックリンク先のディレクトリ配下も検索する
+            return { "--hidden", "--follow", "--glob", "!.git/*" }
           end,
         })
       end, { silent = true })
@@ -87,7 +88,8 @@ return {
         require("telescope.builtin").live_grep({
           cwd = dir ~= "" and dir or nil,
           additional_args = function(_)
-            return { "--hidden", "--glob", "!.git/*" } -- hidden を含めるが、.git 配下は除外
+            -- hidden を含めるが、.git 配下は除外。シンボリックリンク先のディレクトリ配下も検索する
+            return { "--hidden", "--follow", "--glob", "!.git/*" }
           end,
         })
       end, { silent = true })
