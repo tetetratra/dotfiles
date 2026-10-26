@@ -4,7 +4,12 @@
 
     "ruby-lsp": {
       "command": "ruby-lsp",
+      "_memo": "rootPatterns と indexing.includedPatterns の背景: Ruby プロジェクトをシンボリックリンクで置いた親ディレクトリ(.git あり・Gemfile なし)で nvim を開くと、coc はそこをワークスペースにする。Ruby の glob の ** はシンボリックリンク先をたどらないため、ruby-lsp が1ファイルもインデックスできず定義ジャンプが失敗する。そこで Gemfile のあるディレクトリをワークスペースにする。ただし ruby-lsp は起動時のカレントディレクトリ(= nvim の cwd)の直下ディレクトリ名からインデックス対象パターンを作るため、ワークスペースだけ変えても対象外になる。includedPatterns に **/*.rb を足してワークスペース全体を対象にする。なお cwd をワークスペースに変えると、ruby-lsp がプロジェクトの Gemfile で bundle install しようとし、Ruby のバージョン違いや gem のビルド失敗で起動できないことがあるため変えていない",
+      "rootPatterns": ["Gemfile"],
       "initializationOptions": {
+        "indexing": {
+          "includedPatterns": ["**/*.rb"]
+        },
         "enabledFeatures": {
           "codeActions": true,
           "codeLens": true,
