@@ -9,7 +9,8 @@
   lp = log --pretty=fuller --date=short --decorate=full --stat -p
   lg = log --pretty=fuller --graph --date=short --decorate=full --stat -p
   # 現在のブランチを切った元のブランチのsha
-  base-sha = "!f () { git merge-base $(git branch --show-current) $(git default-branch); }; f"
+  # ローカルのデフォルトブランチは古いことがあるため、origin 側と比べる
+  base-sha = "!f () { git merge-base HEAD origin/$(git default-branch); }; f"
   # 現在のブランチを切った元のブランチから変更があったファイル一覧
   ls = "! git log --pretty=format: --name-only $(git base-sha)..HEAD | grep -v '^$' | uniq"
   ls-ss = "!f () { (git ls; git ss) | sort | uniq; }; f"
@@ -20,8 +21,10 @@
   cp = cherry-pick
   prev = reset --mixed HEAD~1
   diffall = diff --no-prefix --unified=1000
-  default-branch = "! git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | awk -F/ '{print $NF}'"
-  d = "! git diff $(git default-branch)..HEAD"
+  # origin のデフォルトブランチ名（origin/ を除いたもの。release/main のように / を含む名前にも対応）
+  default-branch = "! git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null | sed 's|^origin/||'"
+  # 現在のブランチを切った元のブランチからの差分（... で分岐元と比べるため、origin 側の新しいコミットは含まない）
+  d = "! git diff origin/$(git default-branch)...HEAD"
   oneline = log --name-only --oneline
   force-pull = "!git fetch && git reset --hard origin/$(git branch --show-current)" # https://qiita.com/Yinaura/items/30992f25b87f76af3ba2
   # developからHEADまでに更新したファイル一覧
