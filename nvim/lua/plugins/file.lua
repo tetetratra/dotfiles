@@ -19,25 +19,67 @@ return {
       })
       local api = require("nvim-tree.api")
 
-
-      local function preload_files_from_ls_ss()
-        -- git ls-ss の出力（ファイルパスのリスト）を取得
-        local handle = io.popen("git ls-ss")
-        if not handle then return end
-
-        for filepath in handle:lines() do
-          -- 絶対パスに変換（Neovim APIは絶対パスでバッファ管理）
-          local abs_path = vim.fn.fnamemodify(filepath, ":p")
-
-          -- すでにバッファに載っていなければ badd で読み込む
-          if vim.fn.bufnr(abs_path) == -1 then
-            vim.cmd("silent! badd " .. vim.fn.fnameescape(abs_path))
+      -- root 配下（深さ3まで）にあるディレクトリへのシンボリックリンクを、{ path = リンクのパス, real = 実パス } のリストで返す
+      local function find_dir_links(root)
+        local links = {}
+        local skip_dirs = { [".git"] = true, ["node_modules"] = true }
+        for name, type in vim.fs.dir(root, {
+          depth = 3,
+          skip = function(dir) return not skip_dirs[vim.fs.basename(dir)] end,
+        }) do
+          if type == "link" then
+            local link_path = root .. "/" .. name
+            local real = vim.uv.fs_realpath(link_path)
+            if real and vim.fn.isdirectory(real) == 1 then
+              table.insert(links, { path = link_path, real = real })
+            end
           end
         end
-
-        handle:close()
+        return links
       end
 
+      -- ルート外の実パス（telescope から開いた場合など）を、ルート配下のシンボリックリンク経由のパスに読み替える。
+      -- 該当するリンクが見つからなければ path をそのまま返す
+      local function to_link_path(path, root, links)
+        if vim.startswith(path, root .. "/") then return path end
+        local real_path = vim.uv.fs_realpath(path) or path
+        for _, link in ipairs(links) do
+          if vim.startswith(real_path, link.real .. "/") then
+            return link.path .. real_path:sub(#link.real + 1)
+          end
+        end
+        return path
+      end
+
+      -- dir と、その配下のシンボリックリンク先のそれぞれで git ls-ss を並列に実行し、出力されたパスを絶対パスで返す。
+      -- リンク先は別リポジトリのことが多く、dir での git ls-ss には現れないため
+      local function git_ls_ss_paths(dir, links)
+        local jobs = {}
+        for _, d in ipairs(vim.list_extend({ dir }, vim.tbl_map(function(link) return link.path end, links))) do
+          table.insert(jobs, { dir = d, job = vim.system({ "git", "ls-ss" }, { cwd = d, text = true }) })
+        end
+
+        local paths = {}
+        for _, j in ipairs(jobs) do
+          for line in (j.job:wait().stdout or ""):gmatch("[^\n]+") do
+            table.insert(paths, j.dir .. "/" .. (line:gsub("/$", "")))
+          end
+        end
+        return paths
+      end
+
+      -- ; で開くツリーに残すパスの集合。open_nvim_tree_floating を呼ぶたびに作り直す
+      local floating_targets = {}
+
+      -- floating_targets のどれとも一致せず、どれの祖先ディレクトリでもないパスを隠す。
+      -- nvim-tree はリンクのディレクトリ自体をリンク経由のパスで、その配下を実パスで判定するため、
+      -- floating_targets には両方の形のパスを入れておく（組み込みの no_buffer フィルタはこれに対応していない）
+      local function hide_non_floating_target(path)
+        for target in pairs(floating_targets) do
+          if target == path or vim.startswith(target, path .. "/") then return false end
+        end
+        return true
+      end
 
       function open_nvim_tree_floating()
         if api.tree.is_visible() then
@@ -53,6 +95,7 @@ return {
           },
           filters = {
             git_ignored = false, -- .gitignore されたファイルも最初から表示する（I で切り替え）
+            custom = hide_non_floating_target, -- 変更ファイルと開いているファイルだけを表示する（U で切り替え）
           },
           view = {
             float = {
@@ -77,10 +120,27 @@ return {
           },
         })
 
-        preload_files_from_ls_ss()
+        local root = vim.fn.getcwd()
+        local links = find_dir_links(root)
+
+        -- 変更のあったファイルもバッファに読み込んでおく
+        for _, path in ipairs(git_ls_ss_paths(root, links)) do
+          if vim.fn.bufnr(path) == -1 then
+            vim.cmd("silent! badd " .. vim.fn.fnameescape(path))
+          end
+        end
+
+        floating_targets = {}
+        for _, buf in ipairs(vim.fn.getbufinfo({ buflisted = 1 })) do
+          if buf.name ~= "" then
+            local real = vim.uv.fs_realpath(buf.name) or buf.name
+            floating_targets[buf.name] = true
+            floating_targets[real] = true
+            floating_targets[to_link_path(real, root, links)] = true
+          end
+        end
 
         api.tree.open()
-        api.tree.toggle_no_buffer_filter()
         api.tree.expand_all()
 
         -- Escで閉じるための一時マップを作る
@@ -99,34 +159,13 @@ return {
         return vim.fs.normalize(vim.fs.joinpath(vim.fn.getcwd(), name))
       end
 
-      -- ルート外の実パス（telescope から開いた場合など）を、ルート配下のシンボリックリンク経由のパスに読み替える。
-      -- 該当するリンクが見つからなければ path をそのまま返す
-      local function to_link_path(path, root)
-        if vim.startswith(path, root .. "/") then return path end
-        local real_path = vim.uv.fs_realpath(path) or path
-        local skip_dirs = { [".git"] = true, ["node_modules"] = true }
-        for name, type in vim.fs.dir(root, {
-          depth = 3,
-          skip = function(dir) return not skip_dirs[vim.fs.basename(dir)] end,
-        }) do
-          if type == "link" then
-            local link_path = root .. "/" .. name
-            local link_to = vim.uv.fs_realpath(link_path)
-            if link_to and vim.startswith(real_path, link_to .. "/") then
-              return link_path .. real_path:sub(#link_to + 1)
-            end
-          end
-        end
-        return path
-      end
-
       -- ツリーのルートから path の親ディレクトリまでを順に展開する。
       -- シンボリックリンクのディレクトリまで展開すれば、その先は find_file が link_to をたどって探せる
       local function expand_parents_by_link_path(path)
         local explorer = require("nvim-tree.core").get_explorer()
         if path == "" or not explorer then return end
         local root = explorer.absolute_path
-        path = to_link_path(path, root)
+        path = to_link_path(path, root, find_dir_links(root))
         if not vim.startswith(path, root .. "/") then return end
 
         local dir = root
