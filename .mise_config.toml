@@ -37,8 +37,5 @@ go                                     = 'latest'
 "go:golang.org/x/tools/gopls"          = "latest"
 
 [settings]
-# configure how frequently (in minutes) to fetch updated plugin repository changes
-# this is updated whenever a new runtime is installed
-plugin_autoupdate_last_check_duration = '1 week' # set to 0 to disable updates
 # gemもmiseで管理するには現時点ではexperimentalをtrueにする必要がある
 experimental = true
