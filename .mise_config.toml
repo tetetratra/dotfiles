@@ -3,6 +3,9 @@
 # mise自体の更新 & 最新バージョンに更新
 # brew update && brew upgrade mise && mise upgrade
 
+# .mise_config.toml から消したソフトを反映(= 定義済みのソフトのみ残す)
+# mise prune
+
 # 今入っている言語の一覧
 # mise list
 
@@ -18,7 +21,6 @@ nodejs                                 = '22'
 "npm:sql-formatter"                    = 'latest'
 "npm:@google/gemini-cli"               = 'latest'
 "npm:@github/copilot"                  = 'latest'
-"npm:@anthropic-ai/claude-code"        = 'latest' # `claude update` で手動更新できる
 "npm:@openai/codex"                    = 'latest'
 "npm:ccusage"                          = 'latest'
 "npm:playwright"                       = 'latest'
