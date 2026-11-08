@@ -1,44 +1,95 @@
 #!/usr/bin/env bash
 # install-skills
 #
-# 使用するAIエージェントのスキルを、npx skills (https://github.com/vercel-labs/skills) で
-# ユーザー全体（グローバル）にインストールする。Gemfileのように「使うスキル」をここで宣言する。
+# スキル定義ファイルに列挙したAIエージェントのスキルを、
+# npx skills (https://github.com/vercel-labs/skills) でユーザー全体（グローバル）にインストールする。
 #
 # - スキルの実体は ~/.agents/skills/ に置かれ、Codex はここを直接読む
 # - Claude Code 用には ~/.claude/skills/ から各スキルへのシンボリックリンクが作られる
+# - インストール先は Claude Code と Codex のうち、コマンドがインストール済みのもの
 # - 何度実行してもよい（既存のスキルは上書きされる）
 #
 # 使い方:
-#   install-skills
+#   install-skills [スキル定義ファイル]
 #
-# 非公開スキル:
-#   外部公開できない自作スキルは GitHub に置かず、ローカルのディレクトリから入れる。
-#   置き場所は環境変数 PRIVATE_SKILLS_DIR で変更できる（既定: ~/p/skills-private）。
-#   ディレクトリが無ければスキップする。
+# スキル定義ファイルの既定値は、このスクリプトがあるリポジトリ直下の skills.txt。
+# 書式は skills.txt 冒頭のコメントを参照。
 
 set -euo pipefail
 
 # npx skills のバージョン（挙動が変わらないよう固定する）
 SKILLS_CLI="skills@1.7.6"
 
-# インストール先のエージェント
-AGENTS=(-a claude-code -a codex)
+# インストール先のエージェント（npx skills のエージェント名:判定に使うコマンド名）
+# コマンドが見つからないエージェントはスキップし、1つも無ければエラーにする
+AGENT_CANDIDATES=(claude-code:claude codex:codex)
 
-PRIVATE_SKILLS_DIR="${PRIVATE_SKILLS_DIR:-$HOME/p/skills-private}"
+AGENTS=()
+for candidate in "${AGENT_CANDIDATES[@]}"; do
+  agent="${candidate%%:*}"
+  command_name="${candidate#*:}"
+  if command -v "$command_name" > /dev/null 2>&1; then
+    AGENTS+=(-a "$agent")
+  else
+    echo "$command_name コマンドが無いため $agent へのインストールをスキップします"
+  fi
+done
 
-skills_add() {
-  npx -y "$SKILLS_CLI" add "$@" -g "${AGENTS[@]}" -y
-}
-
-# 自作の公開スキル
-skills_add tetetratra/skills --skill '*'
-
-# 外部のスキル
-skills_add nanaism/yomiyasu --skill yomiyasu
-
-# 自作の非公開スキル
-if [ -d "$PRIVATE_SKILLS_DIR" ]; then
-  skills_add "$PRIVATE_SKILLS_DIR" --skill '*'
-else
-  echo "非公開スキルのディレクトリが無いためスキップします: $PRIVATE_SKILLS_DIR"
+if [ "${#AGENTS[@]}" -eq 0 ]; then
+  echo "インストール先のエージェントが見つかりません（候補: ${AGENT_CANDIDATES[*]}）" >&2
+  exit 1
 fi
+
+# ~/bin がシンボリックリンクでも、リンク先のリポジトリを基準にする
+REPO_DIR="$(cd -P "$(dirname "$0")/.." && pwd)"
+SKILLS_FILE="${1:-$REPO_DIR/skills.txt}"
+
+if [ ! -f "$SKILLS_FILE" ]; then
+  echo "スキル定義ファイルが見つかりません: $SKILLS_FILE" >&2
+  exit 1
+fi
+
+while read -r line; do
+  # コメントと空行を除く
+  line="${line%%#*}"
+  read -r -a fields <<< "$line"
+  [ "${#fields[@]}" -eq 0 ] && continue
+
+  source="${fields[0]}"
+  skills=()
+  if [ "${#fields[@]}" -gt 1 ]; then
+    skills=("${fields[@]:1}")
+  fi
+
+  # 先頭の ~ をホームディレクトリに展開する
+  case "$source" in
+    "~"|"~/"*) source="$HOME${source:1}" ;;
+  esac
+
+  # ローカルのディレクトリ指定で、存在しないものはスキップする
+  case "$source" in
+    /*|./*|../*)
+      if [ ! -d "$source" ]; then
+        echo "ディレクトリが無いためスキップします: $source"
+        continue
+      fi
+      ;;
+  esac
+
+  skill_args=()
+  if [ "${#skills[@]}" -eq 0 ]; then
+    skill_args=(--skill '*')
+  else
+    for skill in "${skills[@]}"; do
+      skill_args+=(--skill "$skill")
+    done
+  fi
+
+  if [ "${#skills[@]}" -eq 0 ]; then
+    echo "インストール: $source（全スキル）"
+  else
+    echo "インストール: $source ${skills[*]}"
+  fi
+  # npx が標準入力（スキル定義ファイル）を読み進めないよう /dev/null をつなぐ
+  npx -y "$SKILLS_CLI" add "$source" "${skill_args[@]}" -g "${AGENTS[@]}" -y < /dev/null
+done < "$SKILLS_FILE"

@@ -1,0 +1,17 @@
+# 使用するAIエージェントのスキル一覧（bin/install-skills が読み込む）
+#
+# 書式: <ソース> [スキル名...]
+#   - ソース: GitHub の owner/repo、git の URL、ローカルのディレクトリ（~ 始まり可）など
+#           npx skills add に渡せるもの（https://github.com/vercel-labs/skills）
+#   - スキル名: 空白区切りで複数指定可。省略するとソース内の全スキルを入れる
+#   - ローカルのディレクトリが存在しない場合はスキップする
+#   - # 以降はコメント
+
+# 自作の公開スキル
+tetetratra/skills
+
+# 外部のスキル
+nanaism/yomiyasu yomiyasu
+
+# 自作の非公開スキル（GitHub に置かずローカルから入れる）
+~/p/skills-private
