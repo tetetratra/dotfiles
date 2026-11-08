@@ -1,107 +1,23 @@
 #!/usr/bin/env ruby
-# install-skills
+# skills.yml に列挙したスキルを npx skills (https://github.com/vercel-labs/skills) でグローバルにインストールする
+# インストール先は Claude Code と Codex のうち、コマンドがあるもの
 #
-# スキル定義ファイル（YAML）に列挙したAIエージェントのスキルを、
-# npx skills (https://github.com/vercel-labs/skills) でユーザー全体（グローバル）にインストールする。
-#
-# - スキルの実体は ~/.agents/skills/ に置かれ、Codex はここを直接読む
-# - Claude Code 用には ~/.claude/skills/ から各スキルへのシンボリックリンクが作られる
-# - インストール先は Claude Code と Codex のうち、コマンドがインストール済みのもの
-# - 何度実行してもよい（既存のスキルは上書きされる）
-#
-# 使い方:
-#   install-skills [スキル定義ファイル]
-#
-# スキル定義ファイルの既定値は、このスクリプトがあるリポジトリ直下の skills.yml。
-# 書式は skills.yml 冒頭のコメントを参照。
+# 使い方: install-skills [スキル定義ファイル（既定: リポジトリ直下の skills.yml）]
 
 require 'yaml'
 
-# npx の出力やエラーメッセージと順番が前後しないようにする
-$stdout.sync = true
+file = ARGV[0] || File.expand_path('../skills.yml', File.dirname(File.realpath(__FILE__)))
+config = YAML.safe_load(File.read(file))
 
-# npx skills のバージョン（挙動が変わらないよう固定する）
-SKILLS_CLI = 'skills@1.7.6'
+agents = { 'claude-code' => 'claude', 'codex' => 'codex' }
+  .select { |_, command| system("command -v #{command} > /dev/null") }.keys
+abort 'インストール先のエージェント（claude / codex）が見つかりません' if agents.empty?
 
-# インストール先のエージェント（npx skills のエージェント名 => 判定に使うコマンド名）
-# コマンドが見つからないエージェントはスキップし、1つも無ければエラーにする
-AGENT_CANDIDATES = {
-  'claude-code' => 'claude',
-  'codex' => 'codex',
-}.freeze
-
-# 種別ごとの、ソースを表すキー
-SOURCE_KEYS = {
-  'remote' => 'source',
-  'local' => 'path',
-}.freeze
-
-def abort_with(message)
-  warn message
-  exit 1
-end
-
-def command_exists?(name)
-  ENV.fetch('PATH', '').split(File::PATH_SEPARATOR).any? do |dir|
-    path = File.join(dir, name)
-    File.file?(path) && File.executable?(path)
-  end
-end
-
-# 定義ファイルを読み、[ソース, スキル名の配列] のリストにする。不正な書き方はエラーにする
-def load_entries(file)
-  definition = YAML.safe_load(File.read(file)) || {}
-  abort_with("#{file}: トップレベルはハッシュで書いてください") unless definition.is_a?(Hash)
-
-  unknown_types = definition.keys - SOURCE_KEYS.keys
-  abort_with("#{file}: 不明な種別です: #{unknown_types.join(', ')}（使えるのは #{SOURCE_KEYS.keys.join(', ')}）") unless unknown_types.empty?
-
-  SOURCE_KEYS.flat_map do |type, source_key|
-    items = definition[type] || []
-    abort_with("#{file}: #{type} は配列で書いてください") unless items.is_a?(Array)
-
-    items.map do |item|
-      abort_with("#{file}: #{type} の要素はハッシュで書いてください: #{item.inspect}") unless item.is_a?(Hash)
-
-      unknown_keys = item.keys - [source_key, 'skills']
-      abort_with("#{file}: #{type} に不明なキーがあります: #{unknown_keys.join(', ')}") unless unknown_keys.empty?
-
-      source = item[source_key]
-      abort_with("#{file}: #{type} の要素には #{source_key} が必要です: #{item.inspect}") unless source.is_a?(String) && !source.empty?
-
-      skills = item['skills'] || []
-      unless skills.is_a?(Array) && skills.all? { |skill| skill.is_a?(String) && !skill.empty? }
-        abort_with("#{file}: skills はスキル名の配列で書いてください: #{item.inspect}")
-      end
-
-      if type == 'local'
-        source = File.expand_path(source)
-        abort_with("#{file}: ディレクトリが見つかりません: #{source}") unless File.directory?(source)
-      end
-
-      [source, skills]
-    end
-  end
-end
-
-repo_dir = File.expand_path('..', File.dirname(File.realpath(__FILE__)))
-skills_file = ARGV[0] || File.join(repo_dir, 'skills.yml')
-abort_with("スキル定義ファイルが見つかりません: #{skills_file}") unless File.file?(skills_file)
-
-entries = load_entries(skills_file)
-
-agents = AGENT_CANDIDATES.select do |agent, command|
-  command_exists?(command).tap do |exists|
-    puts "#{command} コマンドが無いため #{agent} へのインストールをスキップします" unless exists
-  end
-end.keys
-abort_with("インストール先のエージェントが見つかりません（候補: #{AGENT_CANDIDATES.keys.join(', ')}）") if agents.empty?
-
-agent_args = agents.flat_map { |agent| ['-a', agent] }
+entries = (config['remote'] || []).map { |e| [e['source'], e['skills']] } +
+          (config['local'] || []).map { |e| [File.expand_path(e['path']), e['skills']] }
 
 entries.each do |source, skills|
-  puts "インストール: #{source}#{skills.empty? ? '（全スキル）' : " #{skills.join(' ')}"}"
-  skill_args = skills.empty? ? ['--skill', '*'] : skills.flat_map { |skill| ['--skill', skill] }
-  command = ['npx', '-y', SKILLS_CLI, 'add', source, *skill_args, '-g', *agent_args, '-y']
-  system(*command, in: File::NULL) || abort_with("インストールに失敗しました: #{source}")
+  skill_args = (skills || ['*']).flat_map { |skill| ['--skill', skill] }
+  agent_args = agents.flat_map { |agent| ['-a', agent] }
+  system('npx', '-y', 'skills@1.7.6', 'add', source, *skill_args, '-g', *agent_args, '-y') || abort("失敗: #{source}")
 end
