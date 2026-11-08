@@ -123,8 +123,10 @@
   },
   "language": "日本語",
   "autoMemoryEnabled": true,
-  "theme": "light",
+  "theme": "auto",
   "autoCompactEnabled": true,
+  "inputNeededNotifEnabled": true,
+  "agentPushNotifEnabled": true,
   "skipAutoPermissionPrompt": true,
   "voiceEnabled": true
 }
