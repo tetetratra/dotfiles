@@ -12,6 +12,7 @@
 
 remote:
   - source: tetetratra/skills
+  - source: tetetratra/knowledge
   - source: nanaism/yomiyasu
     skills:
       - yomiyasu
