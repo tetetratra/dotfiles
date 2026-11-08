@@ -26,9 +26,9 @@ entries.each do |source, skills|
   system(*npx, 'add', source, *skill_args, '-g', *agent_args, '-y') || abort("追加に失敗: #{source}")
 end
 
-# skills.yml に無いスキルを削除（インストール済みのスキルは npx skills の lock ファイルから調べる）
-lock = JSON.parse(File.read(File.expand_path('~/.agents/.skill-lock.json')))
-unwanted = lock['skills'].reject do |name, info|
-  entries.any? { |source, skills| info['source'] == source && (skills.nil? || skills.include?(name)) }
-end.keys
+# skills.yml に無いスキルを削除（npx skills で入れたもの = tracked だけが対象。手で置いたスキルは残す）
+installed = JSON.parse(IO.popen([*npx, 'list', '-g', '--json'], &:read)).select { |s| s['status'] == 'tracked' }
+unwanted = installed.reject do |s|
+  entries.any? { |source, skills| s['source'] == source && (skills.nil? || skills.include?(s['name'])) }
+end.map { |s| s['name'] }
 system(*npx, 'remove', *unwanted, '-g', '-y') || abort('削除に失敗') unless unwanted.empty?
