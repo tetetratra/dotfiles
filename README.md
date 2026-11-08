@@ -263,11 +263,10 @@ export GIT_PRE_COMMIT='git staged-files | grep "\.rb$" | xargs -r docker compose
 ## AIエージェントのスキル管理
 
 スキルは [npx skills](https://github.com/vercel-labs/skills) で管理する。
-使うスキルは [`skills.txt`](skills.txt) に列挙し（Gemfile の代わり）、[`bin/install-skills`](bin/install-skills) でまとめてインストールする。
-スキルを追加するときは `skills.txt` に `<ソース> [スキル名...]` の行を足して `~/bin/install-skills` を実行する。
+使うスキルは [`skills.yml`](skills.yml) に列挙し（Gemfile の代わり）、[`bin/install-skills`](bin/install-skills) でまとめてインストールする。
+スキルを追加するときは `skills.yml` に追記して `~/bin/install-skills` を実行する。
 
-- 自作の公開スキル: [tetetratra/skills](https://github.com/tetetratra/skills) に `skills/<name>/SKILL.md` の形で置く
-- 自作の非公開スキル: GitHub に置かず `~/p/skills-private/skills/<name>/SKILL.md` に置き、`skills.txt` にはローカルパスで書く
+自作のスキルは [tetetratra/skills](https://github.com/tetetratra/skills) に `skills/<name>/SKILL.md` の形で置く。
 
 スキルの実体は `~/.agents/skills/` に置かれる。Codex はここを直接読み、Claude Code は `~/.claude/skills/` のシンボリックリンク経由で読む。
 インストール先は Claude Code と Codex のうち、コマンド（`claude` / `codex`）がインストール済みのものだけ。どちらも無ければエラーになる。
@@ -275,16 +274,12 @@ export GIT_PRE_COMMIT='git staged-files | grep "\.rb$" | xargs -r docker compose
 ### スキルを更新する
 
 ```bash
-# GitHub から入れたスキル（自作の公開スキル・外部のスキル）を更新
 npx skills update -g
-
-# 非公開スキルはローカルからコピーされるため update の対象外。編集したら入れ直す
-~/bin/install-skills
 ```
 
 ### スキルを使わなくなったとき
 
-`skills.txt` から消しても、インストール済みのスキルは消えないため、別途削除する。
+`skills.yml` から消しても、インストール済みのスキルは消えないため、別途削除する。
 
 ```bash
 npx skills remove -g <name>

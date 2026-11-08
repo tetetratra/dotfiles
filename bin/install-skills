@@ -1,7 +1,7 @@
-#!/usr/bin/env bash
+#!/usr/bin/env ruby
 # install-skills
 #
-# スキル定義ファイルに列挙したAIエージェントのスキルを、
+# スキル定義ファイル（YAML）に列挙したAIエージェントのスキルを、
 # npx skills (https://github.com/vercel-labs/skills) でユーザー全体（グローバル）にインストールする。
 #
 # - スキルの実体は ~/.agents/skills/ に置かれ、Codex はここを直接読む
@@ -12,84 +12,96 @@
 # 使い方:
 #   install-skills [スキル定義ファイル]
 #
-# スキル定義ファイルの既定値は、このスクリプトがあるリポジトリ直下の skills.txt。
-# 書式は skills.txt 冒頭のコメントを参照。
+# スキル定義ファイルの既定値は、このスクリプトがあるリポジトリ直下の skills.yml。
+# 書式は skills.yml 冒頭のコメントを参照。
 
-set -euo pipefail
+require 'yaml'
+
+# npx の出力やエラーメッセージと順番が前後しないようにする
+$stdout.sync = true
 
 # npx skills のバージョン（挙動が変わらないよう固定する）
-SKILLS_CLI="skills@1.7.6"
+SKILLS_CLI = 'skills@1.7.6'
 
-# インストール先のエージェント（npx skills のエージェント名:判定に使うコマンド名）
+# インストール先のエージェント（npx skills のエージェント名 => 判定に使うコマンド名）
 # コマンドが見つからないエージェントはスキップし、1つも無ければエラーにする
-AGENT_CANDIDATES=(claude-code:claude codex:codex)
+AGENT_CANDIDATES = {
+  'claude-code' => 'claude',
+  'codex' => 'codex',
+}.freeze
 
-AGENTS=()
-for candidate in "${AGENT_CANDIDATES[@]}"; do
-  agent="${candidate%%:*}"
-  command_name="${candidate#*:}"
-  if command -v "$command_name" > /dev/null 2>&1; then
-    AGENTS+=(-a "$agent")
-  else
-    echo "$command_name コマンドが無いため $agent へのインストールをスキップします"
-  fi
-done
+# 種別ごとの、ソースを表すキー
+SOURCE_KEYS = {
+  'remote' => 'source',
+  'local' => 'path',
+}.freeze
 
-if [ "${#AGENTS[@]}" -eq 0 ]; then
-  echo "インストール先のエージェントが見つかりません（候補: ${AGENT_CANDIDATES[*]}）" >&2
+def abort_with(message)
+  warn message
   exit 1
-fi
+end
 
-# ~/bin がシンボリックリンクでも、リンク先のリポジトリを基準にする
-REPO_DIR="$(cd -P "$(dirname "$0")/.." && pwd)"
-SKILLS_FILE="${1:-$REPO_DIR/skills.txt}"
+def command_exists?(name)
+  ENV.fetch('PATH', '').split(File::PATH_SEPARATOR).any? do |dir|
+    path = File.join(dir, name)
+    File.file?(path) && File.executable?(path)
+  end
+end
 
-if [ ! -f "$SKILLS_FILE" ]; then
-  echo "スキル定義ファイルが見つかりません: $SKILLS_FILE" >&2
-  exit 1
-fi
+# 定義ファイルを読み、[ソース, スキル名の配列] のリストにする。不正な書き方はエラーにする
+def load_entries(file)
+  definition = YAML.safe_load(File.read(file)) || {}
+  abort_with("#{file}: トップレベルはハッシュで書いてください") unless definition.is_a?(Hash)
 
-while read -r line; do
-  # コメントと空行を除く
-  line="${line%%#*}"
-  read -r -a fields <<< "$line"
-  [ "${#fields[@]}" -eq 0 ] && continue
+  unknown_types = definition.keys - SOURCE_KEYS.keys
+  abort_with("#{file}: 不明な種別です: #{unknown_types.join(', ')}（使えるのは #{SOURCE_KEYS.keys.join(', ')}）") unless unknown_types.empty?
 
-  source="${fields[0]}"
-  skills=()
-  if [ "${#fields[@]}" -gt 1 ]; then
-    skills=("${fields[@]:1}")
-  fi
+  SOURCE_KEYS.flat_map do |type, source_key|
+    items = definition[type] || []
+    abort_with("#{file}: #{type} は配列で書いてください") unless items.is_a?(Array)
 
-  # 先頭の ~ をホームディレクトリに展開する
-  case "$source" in
-    "~"|"~/"*) source="$HOME${source:1}" ;;
-  esac
+    items.map do |item|
+      abort_with("#{file}: #{type} の要素はハッシュで書いてください: #{item.inspect}") unless item.is_a?(Hash)
 
-  # ローカルのディレクトリ指定で、存在しないものはスキップする
-  case "$source" in
-    /*|./*|../*)
-      if [ ! -d "$source" ]; then
-        echo "ディレクトリが無いためスキップします: $source"
-        continue
-      fi
-      ;;
-  esac
+      unknown_keys = item.keys - [source_key, 'skills']
+      abort_with("#{file}: #{type} に不明なキーがあります: #{unknown_keys.join(', ')}") unless unknown_keys.empty?
 
-  skill_args=()
-  if [ "${#skills[@]}" -eq 0 ]; then
-    skill_args=(--skill '*')
-  else
-    for skill in "${skills[@]}"; do
-      skill_args+=(--skill "$skill")
-    done
-  fi
+      source = item[source_key]
+      abort_with("#{file}: #{type} の要素には #{source_key} が必要です: #{item.inspect}") unless source.is_a?(String) && !source.empty?
 
-  if [ "${#skills[@]}" -eq 0 ]; then
-    echo "インストール: $source（全スキル）"
-  else
-    echo "インストール: $source ${skills[*]}"
-  fi
-  # npx が標準入力（スキル定義ファイル）を読み進めないよう /dev/null をつなぐ
-  npx -y "$SKILLS_CLI" add "$source" "${skill_args[@]}" -g "${AGENTS[@]}" -y < /dev/null
-done < "$SKILLS_FILE"
+      skills = item['skills'] || []
+      unless skills.is_a?(Array) && skills.all? { |skill| skill.is_a?(String) && !skill.empty? }
+        abort_with("#{file}: skills はスキル名の配列で書いてください: #{item.inspect}")
+      end
+
+      if type == 'local'
+        source = File.expand_path(source)
+        abort_with("#{file}: ディレクトリが見つかりません: #{source}") unless File.directory?(source)
+      end
+
+      [source, skills]
+    end
+  end
+end
+
+repo_dir = File.expand_path('..', File.dirname(File.realpath(__FILE__)))
+skills_file = ARGV[0] || File.join(repo_dir, 'skills.yml')
+abort_with("スキル定義ファイルが見つかりません: #{skills_file}") unless File.file?(skills_file)
+
+entries = load_entries(skills_file)
+
+agents = AGENT_CANDIDATES.select do |agent, command|
+  command_exists?(command).tap do |exists|
+    puts "#{command} コマンドが無いため #{agent} へのインストールをスキップします" unless exists
+  end
+end.keys
+abort_with("インストール先のエージェントが見つかりません（候補: #{AGENT_CANDIDATES.keys.join(', ')}）") if agents.empty?
+
+agent_args = agents.flat_map { |agent| ['-a', agent] }
+
+entries.each do |source, skills|
+  puts "インストール: #{source}#{skills.empty? ? '（全スキル）' : " #{skills.join(' ')}"}"
+  skill_args = skills.empty? ? ['--skill', '*'] : skills.flat_map { |skill| ['--skill', skill] }
+  command = ['npx', '-y', SKILLS_CLI, 'add', source, *skill_args, '-g', *agent_args, '-y']
+  system(*command, in: File::NULL) || abort_with("インストールに失敗しました: #{source}")
+end
