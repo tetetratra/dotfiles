@@ -262,35 +262,16 @@ export GIT_PRE_COMMIT='git staged-files | grep "\.rb$" | xargs -r docker compose
 
 ## AIエージェントのスキル管理
 
-スキルは [npx skills](https://github.com/vercel-labs/skills) で管理する。
-使うスキルは [`skills.yml`](skills.yml) に列挙し（Gemfile の代わり）、[`bin/install-skills`](bin/install-skills) でまとめてインストールする。
-スキルを追加するときは `skills.yml` に追記して `~/bin/install-skills` を実行する。
-
-自作のスキルは [tetetratra/skills](https://github.com/tetetratra/skills) に `skills/<name>/SKILL.md` の形で置く。
-
-スキルの実体は `~/.agents/skills/` に置かれる。Codex はここを直接読み、Claude Code は `~/.claude/skills/` のシンボリックリンク経由で読む。
-インストール先は Claude Code と Codex のうち、コマンド（`claude` / `codex`）がインストール済みのものだけ。どちらも無ければエラーになる。
-
-### スキルを更新する
+[npx skills](https://github.com/vercel-labs/skills) で管理する。使うスキルは [`skills.yml`](skills.yml) に書く。
+自作のスキルは [tetetratra/skills](https://github.com/tetetratra/skills) に置く。
 
 ```bash
-npx skills update -g
-```
-
-### スキルを使わなくなったとき
-
-`skills.yml` から消しても、インストール済みのスキルは消えないため、別途削除する。
-
-```bash
-npx skills remove -g <name>
-```
-
-### submodule とシンボリックリンクでの運用からの移行手順
-
-以前は skills リポジトリを submodule にし、`~/.claude/skills` などをシンボリックリンクにしていた。
-シンボリックリンクのまま `install-skills` を実行すると submodule の中に書き込まれるため、先にリンクを外す。
-
-```bash
-rm -f ~/.claude/skills ~/.codex/skills  # 末尾に / を付けないので、リンク先ではなくシンボリックリンク自体が消える
+# スキルを追加したとき（skills.yml に追記してから）
 ~/bin/install-skills
+
+# スキルを更新したいとき
+npx skills update -g
+
+# スキルを使わなくなったとき（skills.yml から消すだけでは消えない）
+npx skills remove -g <name>
 ```
