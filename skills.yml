@@ -1,8 +1,9 @@
 # 使用するAIエージェントのスキル一覧（bin/sync-skills が読み込む）
 #
 # remote: GitHub などに公開されているスキル
-#   - source: npx skills add に渡すソース（owner/repo や git の URL）
+#   - source: npx skills add に渡すソース（owner/repo、git の URL、SKILL.md への直接 URL）
 #     skills: 入れるスキル名の配列（省略するとソース内の全スキル）
+#   SKILL.md への直接 URL で入れたものは npx skills の管理外になるため、ここから消しても自動では削除されない
 #
 # local: ローカルのディレクトリ配下にあるスキル
 #   - path:   スキルを置いたディレクトリ（~ 始まり可）
@@ -14,3 +15,8 @@ remote:
   - source: nanaism/yomiyasu
     skills:
       - yomiyasu
+  - source: mattpocock/skills
+    skills:
+      - grill-me
+      - grilling # grill-me の委譲先
+  - source: https://gist.githubusercontent.com/k16shikano/fd287c3133457c4fd8f5601d34aa817d/raw/5ed08e4475365fd233aa0d3ab71c19b87e1a5732/SKILL.md # japanese-tech-writing
