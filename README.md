@@ -187,14 +187,10 @@ ln -sf ~/p/dotfiles/AGENTS.md                      ~/.claude/CLAUDE.md
 ln -sf ~/p/dotfiles/AGENTS.md                      ~/.codex/AGENTS.md
 ln -sf ~/p/dotfiles/AGENTS.md                      ~/.gemini/GEMINI.md
 
-cd ~/p/dotfiles
-git submodule update --init --recursive
-
-ln -sfn ~/p/dotfiles/skills/skills                 ~/.claude/skills
-ln -sfn ~/p/dotfiles/skills/skills                 ~/.codex/skills
-ln -sfn ~/p/dotfiles/skills/skills                 ~/.gemini/skills
-
 mise install
+
+# AIエージェントのスキルをインストール（詳細は「AIエージェントのスキル管理」を参照）
+sync-skills
 
 # tmuxのプラグインマネージャーをインストール
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
@@ -262,4 +258,15 @@ alias u='(){ dcr app "bundle exec rubocop -A $1 $(git ss | grep .rb | t)" }'
 
 # git pre-commit で実行するコマンドを定義
 export GIT_PRE_COMMIT='git staged-files | grep "\.rb$" | xargs -r docker compose run -T --rm app bundle exec rubocop -A'
+```
+
+## AIエージェントのスキル管理
+
+[npx skills](https://github.com/vercel-labs/skills) で管理する。使うスキルは [`skills.yml`](skills.yml) に書く。
+
+スキルを追加・削除したいとき（`skills.yml` を書き換えてから）や、スキルを最新にしたいときは、以下を実行する。
+`skills.yml` に書いた通りに追加・更新・削除される。
+
+```bash
+sync-skills
 ```
