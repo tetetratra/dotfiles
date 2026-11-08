@@ -190,7 +190,7 @@ ln -sf ~/p/dotfiles/AGENTS.md                      ~/.gemini/GEMINI.md
 mise install
 
 # AIエージェントのスキルをインストール（詳細は「AIエージェントのスキル管理」を参照）
-~/bin/install-skills
+sync-skills
 
 # tmuxのプラグインマネージャーをインストール
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
@@ -263,15 +263,10 @@ export GIT_PRE_COMMIT='git staged-files | grep "\.rb$" | xargs -r docker compose
 ## AIエージェントのスキル管理
 
 [npx skills](https://github.com/vercel-labs/skills) で管理する。使うスキルは [`skills.yml`](skills.yml) に書く。
-自作のスキルは [tetetratra/skills](https://github.com/tetetratra/skills) に置く。
+
+スキルを追加・削除したいとき（`skills.yml` を書き換えてから）や、スキルを最新にしたいときは、以下を実行する。
+`skills.yml` に書いた通りに追加・更新・削除される。
 
 ```bash
-# スキルを追加したとき（skills.yml に追記してから）
-~/bin/install-skills
-
-# スキルを更新したいとき
-npx skills update -g
-
-# スキルを使わなくなったとき（skills.yml から消すだけでは消えない）
-npx skills remove -g <name>
+sync-skills
 ```

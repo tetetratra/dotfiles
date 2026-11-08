@@ -1,4 +1,4 @@
-# 使用するAIエージェントのスキル一覧（bin/install-skills が読み込む）
+# 使用するAIエージェントのスキル一覧（bin/sync-skills が読み込む）
 #
 # remote: GitHub などに公開されているスキル
 #   - source: npx skills add に渡すソース（owner/repo や git の URL）
@@ -7,7 +7,7 @@
 # local: ローカルのディレクトリ配下にあるスキル
 #   - path:   スキルを置いたディレクトリ（~ 始まり可）
 #     skills: 入れるスキル名の配列（省略するとディレクトリ内の全スキル）
-#   コピーで入るため npx skills update の対象外。編集したら install-skills を再実行する
+#   コピーで入るため、編集したら sync-skills を再実行する
 
 remote:
   - source: tetetratra/skills

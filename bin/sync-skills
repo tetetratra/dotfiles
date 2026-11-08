@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+# skills.yml に書いた通りにスキルをそろえる
+# npx skills (https://github.com/vercel-labs/skills) でグローバルに追加・更新し、書いていないスキルは削除する
+# 対象は Claude Code と Codex のうち、コマンドがあるもの
+#
+# 使い方: sync-skills [スキル定義ファイル（既定: リポジトリ直下の skills.yml）]
+
+require 'yaml'
+require 'json'
+
+file = ARGV[0] || File.expand_path('../skills.yml', File.dirname(File.realpath(__FILE__)))
+config = YAML.safe_load(File.read(file))
+npx = ['npx', '-y', 'skills@1.7.6']
+
+agents = { 'claude-code' => 'claude', 'codex' => 'codex' }
+  .select { |_, command| system("command -v #{command} > /dev/null") }.keys
+abort 'インストール先のエージェント（claude / codex）が見つかりません' if agents.empty?
+
+entries = (config['remote'] || []).map { |e| [e['source'], e['skills']] } +
+          (config['local'] || []).map { |e| [File.expand_path(e['path']), e['skills']] }
+
+# 追加・更新（入れ直すと最新になる）
+entries.each do |source, skills|
+  skill_args = (skills || ['*']).flat_map { |skill| ['--skill', skill] }
+  agent_args = agents.flat_map { |agent| ['-a', agent] }
+  system(*npx, 'add', source, *skill_args, '-g', *agent_args, '-y') || abort("追加に失敗: #{source}")
+end
+
+# skills.yml に無いスキルを削除（インストール済みのスキルは npx skills の lock ファイルから調べる）
+lock = JSON.parse(File.read(File.expand_path('~/.agents/.skill-lock.json')))
+unwanted = lock['skills'].reject do |name, info|
+  entries.any? { |source, skills| info['source'] == source && (skills.nil? || skills.include?(name)) }
+end.keys
+system(*npx, 'remove', *unwanted, '-g', '-y') || abort('削除に失敗') unless unwanted.empty?
