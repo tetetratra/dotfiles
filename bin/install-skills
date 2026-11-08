@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# install-skills
+#
+# 使用するAIエージェントのスキルを、npx skills (https://github.com/vercel-labs/skills) で
+# ユーザー全体（グローバル）にインストールする。Gemfileのように「使うスキル」をここで宣言する。
+#
+# - スキルの実体は ~/.agents/skills/ に置かれ、Codex はここを直接読む
+# - Claude Code 用には ~/.claude/skills/ から各スキルへのシンボリックリンクが作られる
+# - 何度実行してもよい（既存のスキルは上書きされる）
+#
+# 使い方:
+#   install-skills
+#
+# 非公開スキル:
+#   外部公開できない自作スキルは GitHub に置かず、ローカルのディレクトリから入れる。
+#   置き場所は環境変数 PRIVATE_SKILLS_DIR で変更できる（既定: ~/p/skills-private）。
+#   ディレクトリが無ければスキップする。
+
+set -euo pipefail
+
+# npx skills のバージョン（挙動が変わらないよう固定する）
+SKILLS_CLI="skills@1.7.6"
+
+# インストール先のエージェント
+AGENTS=(-a claude-code -a codex)
+
+PRIVATE_SKILLS_DIR="${PRIVATE_SKILLS_DIR:-$HOME/p/skills-private}"
+
+skills_add() {
+  npx -y "$SKILLS_CLI" add "$@" -g "${AGENTS[@]}" -y
+}
+
+# 自作の公開スキル
+skills_add tetetratra/skills --skill '*'
+
+# 外部のスキル
+skills_add nanaism/yomiyasu --skill yomiyasu
+
+# 自作の非公開スキル
+if [ -d "$PRIVATE_SKILLS_DIR" ]; then
+  skills_add "$PRIVATE_SKILLS_DIR" --skill '*'
+else
+  echo "非公開スキルのディレクトリが無いためスキップします: $PRIVATE_SKILLS_DIR"
+fi

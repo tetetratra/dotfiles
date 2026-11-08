@@ -187,14 +187,10 @@ ln -sf ~/p/dotfiles/AGENTS.md                      ~/.claude/CLAUDE.md
 ln -sf ~/p/dotfiles/AGENTS.md                      ~/.codex/AGENTS.md
 ln -sf ~/p/dotfiles/AGENTS.md                      ~/.gemini/GEMINI.md
 
-cd ~/p/dotfiles
-git submodule update --init --recursive
-
-ln -sfn ~/p/dotfiles/skills/skills                 ~/.claude/skills
-ln -sfn ~/p/dotfiles/skills/skills                 ~/.codex/skills
-ln -sfn ~/p/dotfiles/skills/skills                 ~/.gemini/skills
-
 mise install
+
+# AIエージェントのスキルをインストール（詳細は「AIエージェントのスキル管理」を参照）
+~/bin/install-skills
 
 # tmuxのプラグインマネージャーをインストール
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
@@ -262,4 +258,43 @@ alias u='(){ dcr app "bundle exec rubocop -A $1 $(git ss | grep .rb | t)" }'
 
 # git pre-commit で実行するコマンドを定義
 export GIT_PRE_COMMIT='git staged-files | grep "\.rb$" | xargs -r docker compose run -T --rm app bundle exec rubocop -A'
+```
+
+## AIエージェントのスキル管理
+
+スキルは [npx skills](https://github.com/vercel-labs/skills) で管理する。
+使うスキルは [`bin/install-skills`](bin/install-skills) に列挙している（Gemfile の代わり）。
+
+- 自作の公開スキル: [tetetratra/skills](https://github.com/tetetratra/skills) に `skills/<name>/SKILL.md` の形で置く
+- 自作の非公開スキル: GitHub に置かず `~/p/skills-private/skills/<name>/SKILL.md` に置く（`PRIVATE_SKILLS_DIR` で変更可）
+- 外部のスキル: `bin/install-skills` に `skills_add <owner/repo> --skill <name>` を追記する
+
+スキルの実体は `~/.agents/skills/` に置かれる。Codex はここを直接読み、Claude Code は `~/.claude/skills/` のシンボリックリンク経由で読む。
+
+### スキルを更新する
+
+```bash
+# GitHub から入れたスキル（自作の公開スキル・外部のスキル）を更新
+npx skills update -g
+
+# 非公開スキルはローカルからコピーされるため update の対象外。編集したら入れ直す
+~/bin/install-skills
+```
+
+### スキルを使わなくなったとき
+
+`bin/install-skills` から消しても、インストール済みのスキルは消えないため、別途削除する。
+
+```bash
+npx skills remove -g <name>
+```
+
+### submodule とシンボリックリンクでの運用からの移行手順
+
+以前は skills リポジトリを submodule にし、`~/.claude/skills` などをシンボリックリンクにしていた。
+シンボリックリンクのまま `install-skills` を実行すると submodule の中に書き込まれるため、先にリンクを外す。
+
+```bash
+rm -f ~/.claude/skills ~/.codex/skills  # 末尾に / を付けないので、リンク先ではなくシンボリックリンク自体が消える
+~/bin/install-skills
 ```
