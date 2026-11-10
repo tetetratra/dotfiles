@@ -1,9 +1,5 @@
-# cd後にlsとgit statusする https://qiita.com/puriketu99/items/e3c85fbe0fc4b939d0e2
+# ディレクトリ名だけ入力したら cd する
 setopt auto_cd
-function chpwd() {
-  ls
-  git status --short 2> /dev/null
-}
 
 # manをnvimのfiletype=manかつ読み込みモードで開く
 # タグジャンプとかが使えて便利
@@ -13,8 +9,7 @@ function chpwd() {
 export MANPAGER="col -b -x | nvim -c 'set filetype=man nomodified' -"
 # 大文字小文字に関わらず, 候補が見つからない時のみ文字種を無視した補完をする
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}'
-# 補完機能を有効にする
-autoload -U compinit; compinit
+# 補完機能の有効化(compinit)は、fpath がすべてそろう .zshrc の末尾で1回だけ行う
 export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=01;34:su=41;30:sg=46;30:tw=42;30:ow=01;36'
 zstyle ':completion:*' list-colors "${LS_COLORS}" # 補完候補のカラー表示
 # コマンド提案

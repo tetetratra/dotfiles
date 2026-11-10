@@ -48,3 +48,9 @@ export DIRENV_LOG_FORMAT=""
 
 # mise
 eval "$(mise activate zsh)"
+
+# 補完機能を有効にする
+# fpath への追加(プラグインや ~/.zshrc_local の Docker 補完など)がすべて済んだあとに1回だけ実行する。
+# 複数回実行したり、実行ごとに fpath が異なったりすると、毎回 ~/.zcompdump が作り直されて起動が遅くなる。
+autoload -Uz compinit
+compinit
