@@ -175,6 +175,54 @@
       ]
     },
     {
+      "description": "Chrome 内で Ctrl+T を押すと、マウスカーソルの位置で右クリックし、メニューの下から3番目の「日本語に翻訳」を選ぶ",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "t",
+            "modifiers": {
+              "mandatory": [
+                "control"
+              ],
+              "optional": [
+                "caps_lock"
+              ]
+            }
+          },
+          "to": [
+            {
+              "pointing_button": "button2"
+            },
+            {
+              "key_code": "vk_none",
+              "hold_down_milliseconds": 200
+            },
+            {
+              "key_code": "up_arrow"
+            },
+            {
+              "key_code": "up_arrow"
+            },
+            {
+              "key_code": "up_arrow"
+            },
+            {
+              "key_code": "return_or_enter"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^com\\.google\\.Chrome$"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "description": "iTerm2 内で Ctrl+2 を Ctrl+B → Ctrl+B、Ctrl+Enter を Ctrl+B → Z、Shift+Enter を Ctrl+J、Ctrl+Shift+H/L を Ctrl+B → P/N に変換する",
       "manipulators": [
         {
