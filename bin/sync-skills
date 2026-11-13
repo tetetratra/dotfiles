@@ -1,12 +1,13 @@
 #!/usr/bin/env ruby
 # skills.yml に書いた通りにスキルをそろえる
-# npx skills (https://github.com/vercel-labs/skills) でグローバルに追加・更新し、書いていないスキルは削除する
+# npx skills (https://github.com/vercel-labs/skills) でグローバルに追加・更新し、書いていないスキルは確認のうえ削除する
 # 対象は Claude Code と Codex のうち、コマンドがあるもの
 #
 # 使い方: sync-skills [スキル定義ファイル（既定: リポジトリ直下の skills.yml）]
 
 require 'yaml'
 require 'json'
+require 'open3'
 
 file = ARGV[0] || File.expand_path('../skills.yml', File.dirname(File.realpath(__FILE__)))
 config = YAML.safe_load(File.read(file))
@@ -19,16 +20,52 @@ abort 'インストール先のエージェント（claude / codex）が見つ�
 entries = (config['remote'] || []).map { |e| [e['source'], e['skills']] } +
           (config['local'] || []).map { |e| [File.expand_path(e['path']), e['skills']] }
 
+# npx skills の出力は多いので取り込んで捨て、失敗したときだけ表示して止める
+run = lambda do |*args, error_message|
+  output, status = Open3.capture2e(*npx, *args)
+  next output if status.success?
+
+  warn output
+  abort error_message
+end
+
+installed = -> { JSON.parse(run.call('list', '-g', '--json', '一覧の取得に失敗')) }
+
 # 追加・更新（入れ直すと最新になる）
+names_before = installed.call.map { |s| s['name'] }
 entries.each do |source, skills|
   skill_args = (skills || ['*']).flat_map { |skill| ['--skill', skill] }
   agent_args = agents.flat_map { |agent| ['-a', agent] }
-  system(*npx, 'add', source, *skill_args, '-g', *agent_args, '-y') || abort("追加に失敗: #{source}")
+  run.call('add', source, *skill_args, '-g', *agent_args, '-y', "追加に失敗: #{source}")
 end
 
+# 更新の有無は npx skills の公開された情報からは分からないため、新しく入ったスキルだけを表示する
+after = installed.call
+added = after.map { |s| s['name'] } - names_before
+puts added.empty? ? '新しく追加したスキルはありません' : "追加: #{added.join(', ')}"
+
 # skills.yml に無いスキルを削除（npx skills で入れたもの = tracked だけが対象。手で置いたスキルは残す）
-installed = JSON.parse(IO.popen([*npx, 'list', '-g', '--json'], &:read)).select { |s| s['status'] == 'tracked' }
-unwanted = installed.reject do |s|
+unwanted = after.select { |s| s['status'] == 'tracked' }.reject do |s|
   entries.any? { |source, skills| s['source'] == source && (skills.nil? || skills.include?(s['name'])) }
-end.map { |s| s['name'] }
-system(*npx, 'remove', *unwanted, '-g', '-y') || abort('削除に失敗') unless unwanted.empty?
+end
+exit if unwanted.empty?
+
+puts
+puts 'skills.yml にないスキル:'
+unwanted.each { |s| puts "  - #{s['name']} (#{s['source']})" }
+
+# 端末から実行していないときは確認できないので、消さずに終える
+unless $stdin.tty?
+  puts '端末から実行していないため、削除しませんでした'
+  exit
+end
+
+print '削除しますか？ [y/N] '
+unless %w[y yes].include?($stdin.gets.to_s.strip.downcase)
+  puts '削除しませんでした'
+  exit
+end
+
+names = unwanted.map { |s| s['name'] }
+run.call('remove', *names, '-g', '-y', '削除に失敗')
+puts "削除: #{names.join(', ')}"
