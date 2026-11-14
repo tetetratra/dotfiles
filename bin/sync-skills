@@ -8,6 +8,10 @@
 require 'yaml'
 require 'json'
 require 'open3'
+require 'shellwords'
+require 'digest'
+
+$stdout.sync = true
 
 file = ARGV[0] || File.expand_path('../skills.yml', File.dirname(File.realpath(__FILE__)))
 config = YAML.safe_load(File.read(file))
@@ -22,6 +26,7 @@ entries = (config['remote'] || []).map { |e| [e['source'], e['skills']] } +
 
 # npx skills の出力は多いので取り込んで捨て、失敗したときだけ表示して止める
 run = lambda do |*args, error_message|
+  puts "$ #{Shellwords.join([*npx, *args])}"
   output, status = Open3.capture2e(*npx, *args)
   next output if status.success?
 
@@ -31,18 +36,42 @@ end
 
 installed = -> { JSON.parse(run.call('list', '-g', '--json', '一覧の取得に失敗')) }
 
+# 配置された全ファイルの相対パスと内容を比較する（更新日時は含めない）。
+# list に出ない直接 URL 由来のスキルも、実体から追加・更新を検出する。
+fingerprints = lambda do
+  root = File.expand_path('~/.agents/skills')
+  next {} unless Dir.exist?(root)
+
+  Dir.children(root).sort.each_with_object({}) do |name, result|
+    directory = File.join(root, name)
+    next unless File.directory?(directory)
+
+    digest = Digest::SHA256.new
+    Dir.glob('**/*', File::FNM_DOTMATCH, base: directory).sort.each do |relative|
+      path = File.join(directory, relative)
+      next unless File.file?(path)
+
+      digest << relative << "\0" << Digest::SHA256.file(path).hexdigest << "\0"
+    end
+    result[name] = digest.hexdigest
+  end
+end
+
 # 追加・更新（入れ直すと最新になる）
-names_before = installed.call.map { |s| s['name'] }
 entries.each do |source, skills|
+  before = fingerprints.call
   skill_args = (skills || ['*']).flat_map { |skill| ['--skill', skill] }
   agent_args = agents.flat_map { |agent| ['-a', agent] }
   run.call('add', source, *skill_args, '-g', *agent_args, '-y', "追加に失敗: #{source}")
+  after = fingerprints.call
+  added = after.keys - before.keys
+  updated = (after.keys & before.keys).select { |name| after[name] != before[name] }
+  added.each { |name| puts "追加: #{name}" }
+  updated.each { |name| puts "更新: #{name}" }
+  puts '追加・更新はありません' if added.empty? && updated.empty?
 end
 
-# 更新の有無は npx skills の公開された情報からは分からないため、新しく入ったスキルだけを表示する
 after = installed.call
-added = after.map { |s| s['name'] } - names_before
-puts added.empty? ? '新しく追加したスキルはありません' : "追加: #{added.join(', ')}"
 
 # skills.yml に無いスキルを削除（npx skills で入れたもの = tracked だけが対象。手で置いたスキルは残す）
 unwanted = after.select { |s| s['status'] == 'tracked' }.reject do |s|
