@@ -65,6 +65,9 @@ return {
         },
         -- stageした変更の表示はgitgutterに任せる
         signs_staged_enable = false,
+        -- 同じ行のサインは優先度の高い順に左から並ぶため、gitgutter（既定10）より高くして左に置く
+        -- 線（▎）が左端にそろい、+ ~ - がその右に出るほうが見やすいため
+        sign_priority = 11,
         -- `:e` などでアタッチし直すと比較対象がindexに戻るため、反映済みの記録を消して反映し直させる
         -- （バッファ変数は `:e` でも残るため、消さないと反映済みと判断されてしまう）
         on_attach = function(bufnr)
